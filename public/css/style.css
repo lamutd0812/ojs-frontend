@@ -68,8 +68,8 @@ img {
 .mt-15 {
   margin-top: 15px !important; }
 
-.mt-30 {
-  margin-top: 30px !important; }
+.mt-20 {
+  margin-top: 20px !important; }
 
 .mt-50 {
   margin-top: 50px !important; }
@@ -2213,7 +2213,7 @@ blockquote {
   display: block;
 	color: #FF0000;
 	margin-bottom: 13px;
-	font-style: italic;
+  font-style: italic;
 }
 
 select.form-control {
