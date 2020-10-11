@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 
 class Navigation extends Component {
@@ -21,7 +22,7 @@ class Navigation extends Component {
                                         <div className="cross-wrap"><span className="top"></span><span className="bottom"></span></div>
                                     </div>
                                     <div className="classynav">
-                                        <ul>                                      
+                                        <ul>
                                             <li className="active"><Link to="/home" >Home</Link></li>
                                             <li><a href="archive.html">Archive</a></li>
                                             <li><a href="index.html">Pages</a>
@@ -89,16 +90,26 @@ class Navigation extends Component {
                                             <button type="submit" className="btn"><i className="fa fa-search" aria-hidden="true"></i></button>
                                         </form>
                                     </div>
-                                    <a href="login.html" className="login-btn">
-                                        <i className="fa fa-user" aria-hidden="true"></i>
-                                    </a>
+                                    {!this.props.isAuth ? (
+                                        <NavLink to="/login" className="login-btn">
+                                            <i className="fa fa-user" aria-hidden="true"></i> Đăng nhập
+                                        </NavLink>
+                                    ) : (
+                                        <div className="login-btn">
+                                            Hello {this.props.firstname} | {" "}
+                                            <NavLink className="logout-btn" to="/logout">
+                                                <i className="fa fa-sign-out"></i>Đăng xuất
+                                            </NavLink>
+                                        </div>
+                                    )}
+
                                     <a href="submit-video.html" className="submit-video"><span><i className="fa fa-cloud-upload"></i></span> <span className="video-text">Submit Video</span></a>
                                 </div>
                             </div>
                         </nav>
                     </div>
                 </div>
-            </header>
+            </header >
         );
 
         return (
@@ -109,4 +120,12 @@ class Navigation extends Component {
     }
 }
 
-export default Navigation;
+const mapStateToProps = state => {
+    return {
+        isAuth: state.auth.token != null,
+        userId: state.auth.userId,
+        firstname: state.auth.firstname
+    };
+};
+
+export default connect(mapStateToProps, null)(Navigation);

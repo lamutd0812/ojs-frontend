@@ -19,7 +19,7 @@ const MainPosts = () => {
                     autoplay
                     autoplayTimeout={4000}
                     smartSpeed={1000}
-                    navText={['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>']}
+                    navText={['<i class="ti-angle-left"></i>', '<i class="ti-angle-right"></i>']}
                 >
                     <div className="single-trending-post">
                         <img src="img/bg-img/19.jpg" alt="" />

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../Auxiliary/Auxiliary';
 import Navigation from '../../components/Navigation/Navigation';
-// import Footer from '../../components/Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 
 class Layout extends Component {
     render() {
@@ -12,7 +12,7 @@ class Layout extends Component {
                     <main>
                         {this.props.children}
                     </main>
-                    {/* <Footer /> */}
+                    <Footer />
                 </Aux>
             </div>
         );
