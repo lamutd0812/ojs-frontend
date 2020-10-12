@@ -5,6 +5,7 @@ import Home from './containers/Home/Home';
 import Login from './containers/Auth/Login';
 import Register from './containers/Auth/Register';
 import Logout from './containers/Auth/Logout';
+import Admin from './containers/Dashboard/Admin';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import { connect } from 'react-redux';
@@ -22,6 +23,7 @@ class App extends Component {
             <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
+                <Route path="/dashboard" component={Admin} />
                 <Route path="/" exact component={Home} />
                 <Redirect to="/login" />
             </Switch>

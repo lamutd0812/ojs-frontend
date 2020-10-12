@@ -4,8 +4,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400;500;600;700&display=swap");
 /* :: 2.0 Import All CSS */
 @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");
+@import url(./adminlte.min.css);
 @import url(./classy-nav.css);
 @import url(./themify-icons.css);
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");
 @import url(./font-awesome.min.css);
 /* :: 3.0 Base CSS */
 * {
