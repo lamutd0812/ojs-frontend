@@ -27,58 +27,6 @@ class Navigation extends Component {
                                             <li><a href="archive.html">Archive</a></li>
                                             <li><NavLink to="/dashboard">Dashboard</NavLink></li>
                                             <li><a href="contact.html">Contact</a></li>
-                                            <li><a href="index.html">Pages</a>
-                                                <ul className="dropdown">
-                                                    <li><a href="index.html">Home</a></li>
-                                                    <li><a href="archive.html">Archive</a></li>
-                                                    <li><a href="video-post.html">Single Video Post</a></li>
-                                                    <li><a href="single-post.html">Single Post</a></li>
-                                                    <li><a href="about.html">About Us</a></li>
-                                                    <li><a href="contact.html">Contact</a></li>
-                                                    <li><a href="submit-video.html">Submit Video</a></li>
-                                                    <li><a href="login.html">Login</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="index.html">Mega</a>
-                                                <div className="megamenu">
-                                                    <ul className="single-mega cn-col-4">
-                                                        <li><a href="index.html">Home</a></li>
-                                                        <li><a href="archive.html">Archive</a></li>
-                                                        <li><a href="video-post.html">Single Video Post</a></li>
-                                                        <li><a href="single-post.html">Single Post</a></li>
-                                                        <li><a href="about.html">About Us</a></li>
-                                                        <li><a href="contact.html">Contact</a></li>
-                                                        <li><a href="login.html">Login</a></li>
-                                                    </ul>
-                                                    <ul className="single-mega cn-col-4">
-                                                        <li><a href="index.html">Home</a></li>
-                                                        <li><a href="archive.html">Archive</a></li>
-                                                        <li><a href="video-post.html">Single Video Post</a></li>
-                                                        <li><a href="single-post.html">Single Post</a></li>
-                                                        <li><a href="about.html">About Us</a></li>
-                                                        <li><a href="contact.html">Contact</a></li>
-                                                        <li><a href="login.html">Login</a></li>
-                                                    </ul>
-                                                    <ul className="single-mega cn-col-4">
-                                                        <li><a href="index.html">Home</a></li>
-                                                        <li><a href="archive.html">Archive</a></li>
-                                                        <li><a href="video-post.html">Single Video Post</a></li>
-                                                        <li><a href="single-post.html">Single Post</a></li>
-                                                        <li><a href="about.html">About Us</a></li>
-                                                        <li><a href="contact.html">Contact</a></li>
-                                                        <li><a href="login.html">Login</a></li>
-                                                    </ul>
-                                                    <ul className="single-mega cn-col-4">
-                                                        <li><a href="index.html">Home</a></li>
-                                                        <li><a href="archive.html">Archive</a></li>
-                                                        <li><a href="video-post.html">Single Video Post</a></li>
-                                                        <li><a href="single-post.html">Single Post</a></li>
-                                                        <li><a href="about.html">About Us</a></li>
-                                                        <li><a href="contact.html">Contact</a></li>
-                                                        <li><a href="login.html">Login</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -99,7 +47,7 @@ class Navigation extends Component {
                                                 Hello {this.props.firstname} | {" "}
                                                 <NavLink className="logout-btn" to="/logout">
                                                     <i className="fa fa-sign-out"></i>Đăng xuất
-                                            </NavLink>
+                                                </NavLink>
                                             </div>
                                         )}
 

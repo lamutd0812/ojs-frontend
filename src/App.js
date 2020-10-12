@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import Layout from './hoc/Layout/Layout';
-import Home from './containers/Home/Home';
+import Dashboard from './hoc/Dashboard/Dashboard';
 import Login from './containers/Auth/Login';
 import Register from './containers/Auth/Register';
 import Logout from './containers/Auth/Logout';
-import Admin from './containers/Dashboard/Admin';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import { connect } from 'react-redux';
@@ -23,8 +22,7 @@ class App extends Component {
             <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <Route path="/dashboard" component={Admin} />
-                <Route path="/" exact component={Home} />
+                <Route path="/" exact component={Layout} />
                 <Redirect to="/login" />
             </Switch>
         );
@@ -33,7 +31,8 @@ class App extends Component {
             routes = (
                 <Switch>
                     <Route path="/logout" component={Logout} />
-                    <Route path="/" exact component={Home} />
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/" exact component={Layout} />
                     <Redirect to="/" />
                 </Switch>
             );
@@ -41,9 +40,7 @@ class App extends Component {
 
         return (
             <div>
-                <Layout>
-                    {routes}
-                </Layout>
+                {routes}
             </div>
         );
     }
