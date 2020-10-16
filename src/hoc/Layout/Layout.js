@@ -8,18 +8,16 @@ import Home from '../../containers/Home/Home';
 class Layout extends Component {
     render() {
         return (
-            <div>
-                <Aux>
-                    <Navigation />
-                    <main>
-                        <Switch>
-                            <Route exact path="/" component={Home} />
-                        </Switch>
-                        {this.props.children}
-                    </main>
-                    <Footer />
-                </Aux>
-            </div>
+            <Aux>
+                <Navigation />
+                <main>
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                    </Switch>
+                    {this.props.children}
+                </main>
+                <Footer />
+            </Aux>
         );
     }
 }

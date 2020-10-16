@@ -44,8 +44,8 @@ class Navigation extends Component {
                                         </NavLink>
                                     ) : (
                                             <div className="login-btn">
-                                                Hello {this.props.firstname} | {" "}
-                                                <NavLink className="logout-btn" to="/logout">
+                                                Xin chào {this.props.firstname} | {" "}
+                                                <NavLink className="logout-btn" to="/logout" style={{ fontSize: '16px' }}>
                                                     <i className="fa fa-sign-out"></i>Đăng xuất
                                                 </NavLink>
                                             </div>
