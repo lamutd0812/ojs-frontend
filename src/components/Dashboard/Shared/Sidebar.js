@@ -16,7 +16,7 @@ class Sidebar extends Component {
                     <div className="sidebar">
                         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                             <div className="image">
-                                <img src="https://ui-avatars.com/api/?rounded=true&bold=true&size=128&name=L%C3%A2m%20Nguy%E1%BB%85n&background=ff781f&color=c02026" className="img-circle elevation-2" alt="UserImage" />
+                                <img src="https://ojs-files.s3.ap-southeast-1.amazonaws.com/1602990119701-36064023_1216609595141217_2130795840334200832_n.jpg" className="img-circle elevation-2" alt="UserImage" />
                             </div>
                             <div className="info">
                                 <a href="index.html" className="d-block">Alexander Pierce</a>
