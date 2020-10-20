@@ -7,12 +7,14 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import authReducers from './store/reducers/authReducers';
+import submissionReducers from './store/reducers/submisisonReducers';
 
 //setup redux devtools;
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducer = combineReducers({
-  auth: authReducers
+  auth: authReducers,
+  submission: submissionReducers
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));

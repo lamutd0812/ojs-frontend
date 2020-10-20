@@ -43,7 +43,7 @@ class Sidebar extends Component {
                                         <li className="nav-item">
                                             <NavLink to="/dashboard/new-submission" className="nav-link">
                                                 <i className="nav-icon fas fa-edit"></i>
-                                                <p>Submit Article</p>
+                                                <p>Submit bài bào</p>
                                             </NavLink>
                                         </li>
                                     </ul>

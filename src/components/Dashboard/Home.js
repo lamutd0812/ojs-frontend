@@ -4,18 +4,18 @@ import React, { Component } from 'react';
 class Home extends Component {
     render() {
         return (
-            <div class="content-wrapper">
+            <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
-                <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1>Blank Page</h1>
+                <section className="content-header">
+                    <div className="container-fluid">
+                        <div className="row mb-2">
+                            <div className="col-sm-6">
+                                <h1>Bài báo của bạn</h1>
                             </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="a">Home</a></li>
-                                    <li class="breadcrumb-item active">Blank Page</li>
+                            <div className="col-sm-6">
+                                <ol className="breadcrumb float-sm-right">
+                                    <li className="breadcrumb-item"><a href="a">Home</a></li>
+                                    <li className="breadcrumb-item active">Blank Page</li>
                                 </ol>
                             </div>
                         </div>
@@ -23,26 +23,26 @@ class Home extends Component {
                 </section>
 
                 {/* <!-- Main content --> */}
-                <section class="content">
+                <section className="content">
                     {/* <!-- Default box --> */}
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Assignment</h3>
+                    <div className="card">
+                        <div className="card-header">
+                            <h3 className="card-title">Assignment</h3>
 
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                    <i class="fas fa-minus"></i>
+                            <div className="card-tools">
+                                <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                    <i className="fas fa-minus"></i>
                                 </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                    <i class="fas fa-times"></i>
+                                <button type="button" className="btn btn-tool" data-card-widget="remove" title="Remove">
+                                    <i className="fas fa-times"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div className="card-body">
                             Start creating your amazing application!
                             </div>
                         {/* <!-- /.card-body --> */}
-                        <div class="card-footer">
+                        <div className="card-footer">
                             Footer
                             </div>
                         {/* <!-- /.card-footer--> */}

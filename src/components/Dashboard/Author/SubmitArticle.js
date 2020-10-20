@@ -1,23 +1,115 @@
 import React, { Component } from 'react';
-import { updateObject } from '../../../utils/utility';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
+import Modal from '../../../components/UI/Modal/Modal';
+import { connect } from 'react-redux';
+import { updateObject, checkValidity } from '../../../utils/utility';
+import { getCategories, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submisisonActions';
 
 class SubmitArticle extends Component {
 
     state = {
-        category: '',
-        title: '',
-        abstraction: '',
-        coverImage: 'Chọn File',
-        filename: 'Chọn File',
         step1Active: true,
-        step2Active: false
+        step2Active: false,
+        controls: {
+            categoryId: {
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Chọn thể loại'
+                },
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false
+            },
+            title: {
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Nhập tiêu đề'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5
+                },
+                valid: false,
+                touched: false
+            },
+            abstract: {
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Nhập mô tả'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5
+                },
+                valid: false,
+                touched: false
+            },
+            attachment: {
+                elementConfig: {
+                    type: 'file',
+                    placeholder: 'Chọn File'
+                },
+                filename: 'Chọn File',
+                file: null,
+                validation: {
+                    required: true,
+                    minLength: 5
+                },
+                valid: false,
+                touched: false
+            }
+        },
+        formIsValid: false
     }
 
-    fileSelectedHandler = (event) => {
-        console.log(event.target.files[0].name);
-        let newState = updateObject(this.state, { attachmentfile: event.target.files[0].name });
-        this.setState(newState);
+    componentDidMount() {
+        this.props.getCategories();
     }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.isSubmissionCreated) {
+            this.setState(updateObject(this.state, { isModalOpen: true }));
+        }
+    }
+
+    inputChangeHandler = (event) => {
+        let controlName = event.target.name;
+        let updatedControls = null;
+        if (controlName === 'attachment') {
+            updatedControls = updateObject(this.state.controls, {
+                [controlName]: updateObject(this.state.controls[controlName], {
+                    filename: event.target.files[0].name,
+                    file: event.target.files[0],
+                    valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
+                    touched: true
+                })
+            });
+        } else {
+            updatedControls = updateObject(this.state.controls, {
+                [controlName]: updateObject(this.state.controls[controlName], {
+                    value: event.target.value,
+                    valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
+                    touched: true
+                })
+            });
+        }
+
+        let formIsValid = true;
+        for (let controlName in updatedControls) {
+            formIsValid = updatedControls[controlName].valid && formIsValid;
+        }
+
+        this.setState({
+            controls: updatedControls,
+            formIsValid: formIsValid
+        });
+        console.log(this.state);
+    };
 
     step1ActiveHandler = () => {
         let newState = updateObject(this.state, {
@@ -35,12 +127,32 @@ class SubmitArticle extends Component {
         this.setState(newState);
     }
 
-    formSubmitHandler = () => {
+    formSubmitHandler = (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('title', this.state.controls.title.value);
+        formData.append('abstract', this.state.controls.abstract.value);
+        formData.append('attachment', this.state.controls.attachment.file);
+        formData.append('categoryId', this.state.controls.categoryId.value);
+        this.props.createSubmission(formData);
+    }
 
+    closeModalHandler = () => {
+        this.setState(updateObject(this.state, { isModalOpen: false }));
+        this.props.resetCreateSubmissionState();
+        this.props.history.push('/dashboard');
     }
 
     render() {
-        return (
+
+        let errorMessage = null;
+        if (this.props.error) {
+            errorMessage = (
+                <p style={{ fontStyle: 'italic', color: 'red' }}>{this.props.error}</p>
+            );
+        }
+
+        const submitArticle = (
             <div className="content-wrapper">
                 <section className="content-header">
                     <div className="container-fluid">
@@ -88,24 +200,58 @@ class SubmitArticle extends Component {
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
                                             <form onSubmit={this.formSubmitHandler}>
                                                 <div className="card-body">
+                                                    {this.props.categories ? (
+                                                        <div className="form-group">
+                                                            <label>Thể loại*</label>
+                                                            <select
+                                                                name="categoryId"
+                                                                className="custom-select form-control"
+                                                                onChange={this.inputChangeHandler}
+                                                            >
+                                                                {this.props.categories.map(category => (
+                                                                    <option key={category._id} value={category._id}>
+                                                                        {category.name}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
+                                                    ) : null}
                                                     <div className="form-group">
-                                                        <label>Thể loại*</label>
-                                                        <input type="text" className="form-control" placeholder="Nhập thể loại" />
+                                                        <label>Tiêu để*</label>
+                                                        <input
+                                                            type="text"
+                                                            name="title"
+                                                            className={!this.state.controls.title.valid && this.state.controls.title.touched ? "form-control-error" : "form-control"}
+                                                            placeholder={this.state.controls.title.elementConfig.placeholder}
+                                                            defaultValue={this.state.controls.title.value}
+                                                            onChange={this.inputChangeHandler} />
+                                                        {!this.state.controls.title.valid && this.state.controls.title.touched ?
+                                                            <p className="form-control-error-msg">Tiêu đề không hợp lệ!</p> : null}
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="exampleInputEmail2">Tiêu để*</label>
-                                                        <input type="text" className="form-control" placeholder="Nhập tiêu đề" />
+                                                        <label>Mô tả*</label>
+                                                        <textarea
+                                                            type="text"
+                                                            name="abstract"
+                                                            className={!this.state.controls.abstract.valid && this.state.controls.abstract.touched ? "form-control-error" : "form-control"}
+                                                            placeholder={this.state.controls.abstract.elementConfig.placeholder}
+                                                            defaultValue={this.state.controls.abstract.value}
+                                                            onChange={this.inputChangeHandler} />
+                                                        {!this.state.controls.abstract.valid && this.state.controls.abstract.touched ?
+                                                            <p className="form-control-error-msg">Mô tả không hợp lệ!</p> : null}
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="exampleInputEmail3">Mô tả*</label>
-                                                        <textarea className="form-control" placeholder="Nhập mô tả" />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label htmlFor="image">File bài báo</label>
+                                                        <label>File đính kèm*</label>
                                                         <div className="input-group">
                                                             <div className="custom-file">
-                                                                <input type="file" className="custom-file-input" onChange={this.fileSelectedHandler} />
-                                                                <label className="custom-file-label" htmlFor="coverImage">{this.state.attachmentfile}</label>
+                                                                <input
+                                                                    type="file"
+                                                                    name="attachment"
+                                                                    className="custom-file-input"
+                                                                    onChange={this.inputChangeHandler} />
+                                                                {!this.state.controls.attachment.valid && this.state.controls.attachment.touched ?
+                                                                    <p className="form-control-error-msg">File tải lên không hợp lệ!</p> : null}
+                                                                <label className="custom-file-label" htmlFor="coverImage">{this.state.controls.attachment.filename}</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -113,10 +259,16 @@ class SubmitArticle extends Component {
                                                         <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                                                         <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                                                     </div> */}
+                                                    <div className="form-group">
+                                                        {errorMessage}
+                                                    </div>
                                                 </div>
 
                                                 <div className="card-footer">
-                                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                                    <button
+                                                        type="submit"
+                                                        className="btn btn-primary"
+                                                        disabled={!this.state.formIsValid}>Submit</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -126,10 +278,34 @@ class SubmitArticle extends Component {
                         </div>
                     </div>
                 </section>
-
             </div>
+        );
+
+        return (
+            <Aux>
+                {submitArticle}
+                <Modal
+                    show={this.state.isModalOpen}
+                    message="Submit bài báo thành công!"
+                    modalClosed={this.closeModalHandler}>
+                </Modal>
+            </Aux>
         );
     }
 }
 
-export default SubmitArticle;
+const mapStateToProps = (state) => {
+    return {
+        categories: state.submission.categories,
+        error: state.submission.error,
+        isSubmissionCreated: state.submission.isSubmissionCreated
+    };
+};
+
+const mapDispatchToProps = {
+    getCategories,
+    createSubmission,
+    resetCreateSubmissionState
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubmitArticle);

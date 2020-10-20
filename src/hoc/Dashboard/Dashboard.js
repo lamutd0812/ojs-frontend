@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Aux from '../Auxiliary/Auxiliary';
 import Home from '../../components/Dashboard/Home';
 import Navigation from '../../components/Dashboard/Shared/Navigation';
 import Sidebar from '../../components/Dashboard/Shared/Sidebar';
@@ -9,7 +8,7 @@ import { Route, Switch } from 'react-router-dom';
 class Dashboard extends Component {
     render() {
         return (
-            <Aux>
+            <div className="hold-transition sidebar-mini layout-fixed">
                 <Navigation />
                 <main>
                     <Switch>
@@ -19,7 +18,7 @@ class Dashboard extends Component {
                     {this.props.children}
                 </main>
                 <Sidebar />
-            </Aux>
+            </div>
         );
     }
 }

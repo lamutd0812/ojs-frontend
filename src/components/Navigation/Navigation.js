@@ -52,7 +52,7 @@ class Navigation extends Component {
                                         )}
 
                                     <NavLink to="/dashboard" className="submit-video">
-                                        <span><i className="fa fa-cloud-upload"></i></span> <span className="video-text">Xuất bản</span>
+                                        <span><i className="fa fa-cloud-upload"></i></span> <span className="video-text">Dashboard</span>
                                     </NavLink>
                                 </div>
                             </div>
