@@ -15,6 +15,20 @@ const getCategoriesFailed = (error) => {
     }
 };
 
+const getSubmissionsByAuthorSuccess = (submissions) => {
+    return {
+        type: actionTypes.GET_SUBMISSIONS_BY_AUTHOR_SUCCESS,
+        submissions: submissions
+    }
+};
+
+const getSubmissionsByAuthorFailed = (error) => {
+    return {
+        type: actionTypes.GET_SUBMISSIONS_BY_AUTHOR_FAILED,
+        error: error
+    }
+};
+
 const createSubmissionSuccess = (submission) => {
     return {
         type: actionTypes.CREATE_SUBMISSION_SUCCESS,
@@ -38,6 +52,19 @@ export const getCategories = () => (dispatch) => {
             dispatch(getCategoriesFailed(err));
         });
 };
+
+export const getSubmissionsByAuthor = (authorId) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.get('/submissions/author/' + authorId, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getSubmissionsByAuthorSuccess(res.data.submissions));
+    }).catch(err => {
+        dispatch(getSubmissionsByAuthorFailed(err.response.data.error));
+    });
+}
 
 export const createSubmission = (formData) => (dispatch, getState) => {
     const token = getState().auth.token;

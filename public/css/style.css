@@ -2176,7 +2176,7 @@ blockquote {
   height: 48px;
   width: 100%;
   background-color: #ffffff;
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 15px;
   border: 2px solid #ebebeb;
   padding: 10px 30px;
@@ -2196,7 +2196,7 @@ blockquote {
   height: 48px;
   width: 100%;
   background-color: #ffffff;
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 15px;
   border: 2px solid #ebebeb;
   padding: 10px 30px;
@@ -2246,4 +2246,10 @@ textarea.form-control {
 /* .nav-link p {
   color:#98fb98;
 } */
+
+.badge-dark {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 20px;
+}
 

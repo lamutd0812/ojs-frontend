@@ -20,7 +20,7 @@ class SubmitArticle extends Component {
                 validation: {
                     required: true
                 },
-                valid: false,
+                valid: true,
                 touched: false
             },
             title: {
@@ -205,6 +205,7 @@ class SubmitArticle extends Component {
                                                             <label>Thể loại*</label>
                                                             <select
                                                                 name="categoryId"
+                                                                value={this.value}
                                                                 className="custom-select form-control"
                                                                 onChange={this.inputChangeHandler}
                                                             >

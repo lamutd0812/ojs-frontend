@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { register, resetRegisterState } from '../../store/actions/authActions';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
+import Navigation from '../../components/Navigation/Navigation';
+import Footer from '../../components/Footer/Footer';
 import Breadcumb from '../../components/Breadcrumb/Breadcrumb';
 import Modal from '../../components/UI/Modal/Modal';
 import { updateObject, checkValidity } from '../../utils/utility';
@@ -179,6 +181,7 @@ class Register extends Component {
 
         return (
             <Aux>
+                <Navigation />
                 <Breadcumb
                     title="Đăng ký tài khoản"
                     imageUrl={`url(${require("../../resources/imgs/40.jpg")})`} />
@@ -299,6 +302,7 @@ class Register extends Component {
                         </div>
                     </div>
                 </div>
+                <Footer />
                 <Modal
                     show={this.state.isModalOpen}
                     message="Đăng ký tài khoản thành công!"

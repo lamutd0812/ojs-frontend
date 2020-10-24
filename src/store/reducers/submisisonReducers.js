@@ -22,6 +22,19 @@ const getCategoriesFailed = (state, action) => {
     });
 };
 
+const getSubmissionsByAuthorSuccess = (state, action) => {
+    return updateObject(state, {
+        submissions: action.submissions,
+        error: null
+    });
+};
+
+const getSubmissionsByAuthorFailed = (state, action) => {
+    return updateObject(state, {
+        error: action.error
+    });
+};
+
 const createSubmissionSuccess = (state, action) => {
     return updateObject(state, {
         submission: action.submission,
@@ -47,6 +60,8 @@ const submissionReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.GET_CATEGORIES_SUCCESS: return getCategoriesSuccess(state, action);
         case actionTypes.GET_CATEGORIES_FAILED: return getCategoriesFailed(state, action);
+        case actionTypes.GET_SUBMISSIONS_BY_AUTHOR_SUCCESS: return getSubmissionsByAuthorSuccess(state, action);
+        case actionTypes.GET_SUBMISSIONS_BY_AUTHOR_FAILED: return getSubmissionsByAuthorFailed(state, action);
         case actionTypes.CREATE_SUBMISSION_SUCCESS: return createSubmissionSuccess(state, action);
         case actionTypes.CREATE_SUBMISSION_FAILED: return createSubmissionFailed(state, action);
         case actionTypes.RESET_CREATE_SUBMISSION_STATE: return resetCreateSubmissionState(state);
