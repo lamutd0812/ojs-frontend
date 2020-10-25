@@ -63,19 +63,19 @@ class Home extends Component {
                                         <tr>
                                             <th style={{ width: '1%' }}>
                                                 #
-                                        </th>
+                                            </th>
                                             <th style={{ width: '30%' }}>
                                                 Bài Báo
-                                         </th>
+                                            </th>
                                             <th style={{ width: '20%' }} className="text-center">
                                                 Pha
-                                        </th>
+                                            </th>
                                             <th style={{ width: '20%' }} className="text-center">
                                                 Trạng thái
-                                        </th>
+                                            </th>
                                             <th style={{ width: '30%' }} className="text-center">
                                                 Action
-                                        </th>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -94,15 +94,15 @@ class Home extends Component {
                                                     <span>{submission.submissionStatus.status}</span>
                                                 </td>
                                                 <td className="project-actions text-right">
-                                                    <a className="btn btn-primary btn-sm" href="a">
+                                                    <Link to="/dashboard/submission-detail" className="btn btn-primary btn-sm mr-1">
                                                         <i className="fas fa-eye"></i> Xem
-                                                    </a>
-                                                    <a className="btn btn-info btn-sm" href="a">
+                                                    </Link>
+                                                    <Link to="#" className="btn btn-info btn-sm mr-1">
                                                         <i className="fas fa-pencil-alt"></i> Sửa
-                                                    </a>
-                                                    <a className="btn btn-danger btn-sm" href="a">
+                                                    </Link>
+                                                    <Link to="#" className="btn btn-danger btn-sm">
                                                         <i className="fas fa-trash"></i> Xóa
-                                                    </a>
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         ))}
