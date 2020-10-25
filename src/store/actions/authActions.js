@@ -55,7 +55,7 @@ export const auth = (username, password) => (dispatch) => {
     };
     axios.post('/auth/signin', authData)
         .then(res => {
-            const expirationDate = new Date(new Date().getTime() + 60 * 60 * 1000); // 1h
+            const expirationDate = new Date(new Date().getTime() + 60 * 60 * 12 * 1000); // 12h
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userId', res.data.userId);
             localStorage.setItem('firstname', res.data.firstname);

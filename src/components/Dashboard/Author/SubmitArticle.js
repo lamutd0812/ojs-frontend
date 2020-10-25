@@ -4,12 +4,14 @@ import Modal from '../../../components/UI/Modal/Modal';
 import { connect } from 'react-redux';
 import { updateObject, checkValidity } from '../../../utils/utility';
 import { getCategories, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submissionActions';
+import { Link } from 'react-router-dom';
 
 class SubmitArticle extends Component {
 
     state = {
         step1Active: true,
         step2Active: false,
+        step3Active: false,
         controls: {
             categoryId: {
                 elementConfig: {
@@ -114,7 +116,8 @@ class SubmitArticle extends Component {
     step1ActiveHandler = () => {
         let newState = updateObject(this.state, {
             step1Active: true,
-            step2Active: false
+            step2Active: false,
+            step3Active: false
         });
         this.setState(newState);
     }
@@ -122,10 +125,20 @@ class SubmitArticle extends Component {
     step2ActiveHandler = () => {
         let newState = updateObject(this.state, {
             step1Active: false,
-            step2Active: true
+            step2Active: true,
+            step3Active: false
         });
         this.setState(newState);
     }
+
+    // step3ActiveHandler = () => {
+    //     let newState = updateObject(this.state, {
+    //         step1Active: false,
+    //         step2Active: false,
+    //         step3Active: true
+    //     });
+    //     this.setState(newState);
+    // }
 
     formSubmitHandler = (event) => {
         event.preventDefault();
@@ -138,9 +151,13 @@ class SubmitArticle extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState(updateObject(this.state, { isModalOpen: false }));
+        this.setState(updateObject(this.state, {
+            isModalOpen: false,
+            step1Active: false,
+            step2Active: false,
+            step3Active: true
+        }));
         this.props.resetCreateSubmissionState();
-        this.props.history.push('/dashboard');
     }
 
     render() {
@@ -179,14 +196,23 @@ class SubmitArticle extends Component {
                                     <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                         <li className="nav-item">
                                             <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}
-                                                onClick={this.step1ActiveHandler}>
+                                            // onClick={this.step1ActiveHandler}
+                                            >
                                                 1. Điều khoản
                                             </div>
                                         </li>
                                         <li className="nav-item">
                                             <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
-                                                onClick={this.step2ActiveHandler}>
+                                            // onClick={this.step2ActiveHandler}
+                                            >
                                                 2. Đăng bài
+                                            </div>
+                                        </li>
+                                        <li className="nav-item">
+                                            <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
+                                                // onClick={this.step3ActiveHandler}
+                                            >
+                                                3. Hoàn thành
                                             </div>
                                         </li>
                                     </ul>
@@ -256,10 +282,6 @@ class SubmitArticle extends Component {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    {/* <div className="form-check">
-                                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                                        <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                                                    </div> */}
                                                     <div className="form-group">
                                                         {errorMessage}
                                                     </div>
@@ -270,8 +292,36 @@ class SubmitArticle extends Component {
                                                         type="submit"
                                                         className="btn btn-primary"
                                                         disabled={!this.state.formIsValid}>Submit</button>
+                                                    <button
+                                                        type="submit"
+                                                        className="btn btn-primary ml-2"
+                                                        onClick={this.step1ActiveHandler}>Quay lại</button>
                                                 </div>
                                             </form>
+                                        </div>
+                                        <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>
+                                            <h4>Submit bài báo lên hệ thống thành công.</h4>
+                                            <div className="ml-2">Cảm ơn bạn đã đăng tải bài báo lên hệ thống. Chúng tôi đã
+                                            tiếp nhận và sẽ tiến hành thẩm định bài báo của bạn trước khi quyết định đăng tải.</div>
+                                            <div className="ml-2 mt-2">Trong quá trình thẩm định, bạn vui lòng kiểm tra email và thông
+                                            báo trên hệ thống thường xuyên để thuận tiện trong việc trao đổi với ban biên tập các vấn đề liên quan.</div>
+                                            <h4 className="mt-3">Bây giờ, bạn có thể:</h4>
+                                            {this.props.submission ? (
+                                                <div className="ml-2">
+                                                    <i class="fa fa-eye"></i>
+                                                    {" "}<Link to={`/dashboard/submission/${this.props.submission._id}`} className="text-primary">
+                                                        Xem chi tiết bài báo.
+                                                    </Link>.
+                                                </div>
+                                            ) : null}
+                                            <div className="ml-2">
+                                                <i class="fa fa-edit"></i>
+                                                {" "}<Link to="#" className="text-primary">Chỉnh sửa bài báo</Link> (Trước khi bước vào pha Thẩm định).
+                                            </div>
+                                            <div className="ml-2">
+                                                <i class="fa fa-home"></i>
+                                                {" "} <Link to="/dashboard" className="text-primary">Trở về trang chủ.</Link>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -299,7 +349,8 @@ const mapStateToProps = (state) => {
     return {
         categories: state.submission.categories,
         error: state.submission.error,
-        isSubmissionCreated: state.submission.isSubmissionCreated
+        isSubmissionCreated: state.submission.isSubmissionCreated,
+        submission: state.submission.submission
     };
 };
 
