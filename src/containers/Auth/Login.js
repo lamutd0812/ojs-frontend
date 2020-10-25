@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
+import Navigation from '../../components/Navigation/Navigation';
+import Footer from '../../components/Footer/Footer';
+import Breadcumb from '../../components/Breadcrumb/Breadcrumb';
 import { auth } from '../../store/actions/authActions';
 import { updateObject, checkValidity } from '../../utils/utility';
 
@@ -11,7 +14,7 @@ class Login extends Component {
             username: {
                 elementConfig: {
                     type: 'username',
-                    placeholder: 'Tên đăng nhập'
+                    placeholder: 'Tên đăng nhập*'
                 },
                 value: '',
                 validation: {
@@ -24,7 +27,7 @@ class Login extends Component {
             password: {
                 elementConfig: {
                     type: 'password',
-                    placeholder: 'Mật khẩu'
+                    placeholder: 'Mật khẩu*'
                 },
                 value: '',
                 validation: {
@@ -81,18 +84,10 @@ class Login extends Component {
         return (
             <Aux>
                 {authRedirect}
-                <section className="breadcrumb-area bg-img bg-overlay"
-                    style={{ backgroundImage: `url(${require("../../resources/imgs/40.jpg")})` }}>
-                    <div className="container h-100">
-                        <div className="row h-100 align-items-center">
-                            <div className="col-12">
-                                <div className="breadcrumb-content">
-                                    <h2>Trang Đăng Nhập</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <Navigation />
+                <Breadcumb
+                    title="Trang Đăng Nhập"
+                    imageUrl={`url(${require("../../resources/imgs/40.jpg")})`} />
                 <div className="mag-login-area py-5">
                     <div className="container">
                         <div className="row justify-content-center">
@@ -125,25 +120,25 @@ class Login extends Component {
                                                 <p className="form-control-error-msg">Mật khẩu không hợp lệ!</p> : null}
                                         </div>
                                         <div className="form-group">
-                                            <div className="custom-control custom-checkbox mr-sm-2">
-                                                <input type="checkbox" className="custom-control-input" id="customControlAutosizing" />
-                                                <label className="custom-control-label" htmlFor="customControlAutosizing">Nhớ mật khẩu</label>
-                                            </div>
+                                            <div>Quên mật khẩu?</div>
+                                        </div>
+                                        <div className="form-group">
+                                            {errorMessage}
                                         </div>
                                         <button
                                             type="submit"
-                                            className="btn mag-btn mt-30"
+                                            className="btn mag-btn mt-10"
                                             disabled={!this.state.formIsValid}>Đăng nhập</button>
                                     </form>
-                                    <div>
-                                        {errorMessage}
-                                        <Link to="/register">Hoặc tạo tài khoản mới tại đây.</Link>
+                                    <div className="mt-20">
+                                        Hoặc tạo tài khoản mới <Link to="/register"> tại đây.</Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <Footer />
             </Aux>
         );
     }

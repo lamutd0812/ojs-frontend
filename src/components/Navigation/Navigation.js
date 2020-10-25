@@ -23,61 +23,9 @@ class Navigation extends Component {
                                     </div>
                                     <div className="classynav">
                                         <ul>
-                                            <li className="active"><Link to="/home" >Home</Link></li>
+                                            <li className="active"><Link to="/" >Home</Link></li>
                                             <li><a href="archive.html">Archive</a></li>
-                                            <li><a href="index.html">Pages</a>
-                                                <ul className="dropdown">
-                                                    <li><a href="index.html">Home</a></li>
-                                                    <li><a href="archive.html">Archive</a></li>
-                                                    <li><a href="video-post.html">Single Video Post</a></li>
-                                                    <li><a href="single-post.html">Single Post</a></li>
-                                                    <li><a href="about.html">About Us</a></li>
-                                                    <li><a href="contact.html">Contact</a></li>
-                                                    <li><a href="submit-video.html">Submit Video</a></li>
-                                                    <li><a href="login.html">Login</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="index.html">Mega</a>
-                                                <div className="megamenu">
-                                                    <ul className="single-mega cn-col-4">
-                                                        <li><a href="index.html">Home</a></li>
-                                                        <li><a href="archive.html">Archive</a></li>
-                                                        <li><a href="video-post.html">Single Video Post</a></li>
-                                                        <li><a href="single-post.html">Single Post</a></li>
-                                                        <li><a href="about.html">About Us</a></li>
-                                                        <li><a href="contact.html">Contact</a></li>
-                                                        <li><a href="login.html">Login</a></li>
-                                                    </ul>
-                                                    <ul className="single-mega cn-col-4">
-                                                        <li><a href="index.html">Home</a></li>
-                                                        <li><a href="archive.html">Archive</a></li>
-                                                        <li><a href="video-post.html">Single Video Post</a></li>
-                                                        <li><a href="single-post.html">Single Post</a></li>
-                                                        <li><a href="about.html">About Us</a></li>
-                                                        <li><a href="contact.html">Contact</a></li>
-                                                        <li><a href="login.html">Login</a></li>
-                                                    </ul>
-                                                    <ul className="single-mega cn-col-4">
-                                                        <li><a href="index.html">Home</a></li>
-                                                        <li><a href="archive.html">Archive</a></li>
-                                                        <li><a href="video-post.html">Single Video Post</a></li>
-                                                        <li><a href="single-post.html">Single Post</a></li>
-                                                        <li><a href="about.html">About Us</a></li>
-                                                        <li><a href="contact.html">Contact</a></li>
-                                                        <li><a href="login.html">Login</a></li>
-                                                    </ul>
-                                                    <ul className="single-mega cn-col-4">
-                                                        <li><a href="index.html">Home</a></li>
-                                                        <li><a href="archive.html">Archive</a></li>
-                                                        <li><a href="video-post.html">Single Video Post</a></li>
-                                                        <li><a href="single-post.html">Single Post</a></li>
-                                                        <li><a href="about.html">About Us</a></li>
-                                                        <li><a href="contact.html">Contact</a></li>
-                                                        <li><a href="login.html">Login</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li><a href="about.html">About</a></li>
+                                            <li><NavLink to="/dashboard">Dashboard</NavLink></li>
                                             <li><a href="contact.html">Contact</a></li>
                                         </ul>
                                     </div>
@@ -95,15 +43,17 @@ class Navigation extends Component {
                                             <i className="fa fa-user" aria-hidden="true"></i> Đăng nhập
                                         </NavLink>
                                     ) : (
-                                        <div className="login-btn">
-                                            Hello {this.props.firstname} | {" "}
-                                            <NavLink className="logout-btn" to="/logout">
-                                                <i className="fa fa-sign-out"></i>Đăng xuất
-                                            </NavLink>
-                                        </div>
-                                    )}
+                                            <div className="login-btn">
+                                                Xin chào {this.props.firstname} | {" "}
+                                                <NavLink className="logout-btn" to="/logout" style={{ fontSize: '16px' }}>
+                                                    <i className="fa fa-sign-out"></i>Đăng xuất
+                                                </NavLink>
+                                            </div>
+                                        )}
 
-                                    <a href="submit-video.html" className="submit-video"><span><i className="fa fa-cloud-upload"></i></span> <span className="video-text">Submit Video</span></a>
+                                    <NavLink to="/dashboard" className="submit-video">
+                                        <span><i className="fa fa-cloud-upload"></i></span> <span className="video-text">Dashboard</span>
+                                    </NavLink>
                                 </div>
                             </div>
                         </nav>

@@ -4,8 +4,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400;500;600;700&display=swap");
 /* :: 2.0 Import All CSS */
 @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");
+@import url(./adminlte.min.css);
 @import url(./classy-nav.css);
 @import url(./themify-icons.css);
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css");
 @import url(./font-awesome.min.css);
 /* :: 3.0 Base CSS */
 * {
@@ -68,8 +70,8 @@ img {
 .mt-15 {
   margin-top: 15px !important; }
 
-.mt-30 {
-  margin-top: 30px !important; }
+.mt-20 {
+  margin-top: 20px !important; }
 
 .mt-50 {
   margin-top: 50px !important; }
@@ -2174,7 +2176,7 @@ blockquote {
   height: 48px;
   width: 100%;
   background-color: #ffffff;
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 15px;
   border: 2px solid #ebebeb;
   padding: 10px 30px;
@@ -2194,7 +2196,7 @@ blockquote {
   height: 48px;
   width: 100%;
   background-color: #ffffff;
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 15px;
   border: 2px solid #ebebeb;
   padding: 10px 30px;
@@ -2213,7 +2215,7 @@ blockquote {
   display: block;
 	color: #FF0000;
 	margin-bottom: 13px;
-	font-style: italic;
+  font-style: italic;
 }
 
 select.form-control {
@@ -2239,3 +2241,15 @@ textarea.form-control {
 /* ====== The End ====== */
 
 /*# sourceMappingURL=style.css.map */
+
+/* custom style */
+/* .nav-link p {
+  color:#98fb98;
+} */
+
+.badge-dark {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 20px;
+}
+
