@@ -3,7 +3,7 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Modal from '../../../components/UI/Modal/Modal';
 import { connect } from 'react-redux';
 import { updateObject, checkValidity } from '../../../utils/utility';
-import { getCategories, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submisisonActions';
+import { getCategories, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submissionActions';
 
 class SubmitArticle extends Component {
 

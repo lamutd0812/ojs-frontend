@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import authReducers from './store/reducers/authReducers';
-import submissionReducers from './store/reducers/submisisonReducers';
+import submissionReducers from './store/reducers/submissionReducers';
 
 //setup redux devtools;
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;

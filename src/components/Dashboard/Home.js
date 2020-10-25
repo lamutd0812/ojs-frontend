@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getSubmissionsByAuthor } from '../../store/actions/submisisonActions';
+import { getSubmissionsByAuthor } from '../../store/actions/submissionActions';
 import { getFormattedDate } from '../../utils/utility';
 
 class Home extends Component {
@@ -80,10 +80,10 @@ class Home extends Component {
                                     </thead>
                                     <tbody>
                                         {this.props.submissions.map(submission => (
-                                            <tr>
+                                            <tr key={submission._id}>
                                                 <td>#</td>
                                                 <td>
-                                                    <a href="a">{submission.title}</a>
+                                                    <Link to={`/dashboard/submission/${submission._id}`}>{submission.title}</Link>
                                                     <br />
                                                     <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
                                                 </td>
@@ -94,7 +94,7 @@ class Home extends Component {
                                                     <span>{submission.submissionStatus.status}</span>
                                                 </td>
                                                 <td className="project-actions text-right">
-                                                    <Link to="/dashboard/submission-detail" className="btn btn-primary btn-sm mr-1">
+                                                    <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-primary btn-sm mr-1">
                                                         <i className="fas fa-eye"></i> Xem
                                                     </Link>
                                                     <Link to="#" className="btn btn-info btn-sm mr-1">
@@ -108,7 +108,7 @@ class Home extends Component {
                                         ))}
                                     </tbody>
                                 </table>
-                            ) : (<div className="card-text ml-4">Bạn chưa có bài báo nào được đăng tải lên hệ thống. Click vào<Link classNameName="shop-now" to="/dashboard/new-submission"> đây</Link> để tiến hành đăng bài.</div>)}
+                            ) : (<div className="card-text ml-4">Bạn chưa có bài báo nào được đăng tải lên hệ thống. Click vào<Link className="shop-now" to="/dashboard/new-submission"> đây</Link> để tiến hành đăng bài.</div>)}
                         </div>
                     </div>
                 </section>
