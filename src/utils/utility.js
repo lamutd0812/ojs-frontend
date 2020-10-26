@@ -26,6 +26,21 @@ export const checkValidity = (value, rules) => {
     return isValid;
 };
 
+export const getStageBadgeClassname = (value) => {
+    switch (value) {
+        case 1:
+            return "badge-dark";
+        case 2:
+            return "badge-warning";
+        case 3:
+            return "badge-primary";
+        case 4:
+            return "badge-success";
+        default:
+            return "badge-dark";
+    }
+}
+
 export const getFormattedDate = (dateStr) => {
     let date = new Date(dateStr);
 
@@ -41,6 +56,6 @@ export const getFormattedDate = (dateStr) => {
     min = (min < 10 ? "0" : "") + min;
     sec = (sec < 10 ? "0" : "") + sec;
 
-    const formattedDate = day + "-" + month + "-" + date.getFullYear() + " " +  hour + ":" + min + ":" + sec;
+    const formattedDate = day + "-" + month + "-" + date.getFullYear() + " " + hour + ":" + min + ":" + sec;
     return formattedDate;
 }

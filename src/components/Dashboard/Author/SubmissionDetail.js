@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getFormattedDate } from '../../../utils/utility';
+import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 
 class SubmissionDetail extends Component {
@@ -120,7 +120,7 @@ class SubmissionDetail extends Component {
                                         </div>
                                         <div className="form-group">
                                             <label>Pha</label><br />
-                                            <div className="badge badge-dark ml-3">
+                                            <div className={"badge " + getStageBadgeClassname(this.props.submission.submissionStatus.stageId.value ) + " ml-3"}>
                                                 {this.props.submission.submissionStatus.stageId.name}
                                             </div>
                                         </div>

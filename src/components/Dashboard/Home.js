@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getSubmissionsByAuthor } from '../../store/actions/submissionActions';
-import { getFormattedDate } from '../../utils/utility';
+import { getFormattedDate, getStageBadgeClassname } from '../../utils/utility';
 
 class Home extends Component {
 
@@ -88,7 +88,7 @@ class Home extends Component {
                                                     <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
                                                 </td>
                                                 <td className="project-state">
-                                                    <span className="badge-dark">{submission.submissionStatus.stageId.name}</span>
+                                                    <span className={getStageBadgeClassname(submission.submissionStatus.stageId.value)}>{submission.submissionStatus.stageId.name}</span>
                                                 </td>
                                                 <td className="text-center">
                                                     <span>{submission.submissionStatus.status}</span>
