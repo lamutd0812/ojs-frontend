@@ -38,17 +38,19 @@ class Navigation extends Component {
                                             <button type="submit" className="btn"><i className="fa fa-search" aria-hidden="true"></i></button>
                                         </form>
                                     </div>
+                                    {this.props.avatar ? (
+                                        <div className="top-avatar">
+                                            <img src={this.props.avatar} alt="avatar" />
+                                        </div>
+                                    ) : null}
                                     {!this.props.isAuth ? (
                                         <NavLink to="/login" className="login-btn">
                                             <i className="fa fa-user" aria-hidden="true"></i> Đăng nhập
                                         </NavLink>
                                     ) : (
-                                            <div className="login-btn">
-                                                Xin chào {this.props.firstname} | {" "}
-                                                <NavLink className="logout-btn" to="/logout" style={{ fontSize: '16px' }}>
-                                                    <i className="fa fa-sign-out"></i>Đăng xuất
-                                                </NavLink>
-                                            </div>
+                                            <NavLink to="/logout" className="login-btn mr-2">
+                                                <i className="fa fa-sign-out"></i>Đăng xuất
+                                            </NavLink>
                                         )}
 
                                     <NavLink to="/dashboard" className="submit-video">
@@ -74,7 +76,7 @@ const mapStateToProps = state => {
     return {
         isAuth: state.auth.token != null,
         userId: state.auth.userId,
-        firstname: state.auth.firstname
+        avatar: state.auth.avatar
     };
 };
 

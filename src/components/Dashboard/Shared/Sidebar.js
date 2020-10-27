@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 class Sidebar extends Component {
@@ -16,10 +17,10 @@ class Sidebar extends Component {
                     <div className="sidebar">
                         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                             <div className="image">
-                                <img src="https://ojs-files.s3.ap-southeast-1.amazonaws.com/1602990119701-36064023_1216609595141217_2130795840334200832_n.jpg" className="img-circle elevation-2" alt="UserImage" />
+                                <img src={this.props.avatar} alt="UserImage" />
                             </div>
                             <div className="info">
-                                <a href="index.html" className="d-block">Alexander Pierce</a>
+                                <a href="index.html" className="d-block">{this.props.fullname}</a>
                             </div>
                         </div>
 
@@ -59,4 +60,13 @@ class Sidebar extends Component {
     }
 }
 
-export default Sidebar;
+const mapStateToProps = state => {
+    return {
+        isAuth: state.auth.token != null,
+        userId: state.auth.userId,
+        fullname: state.auth.fullname,
+        avatar: state.auth.avatar
+    };
+};
+
+export default connect(mapStateToProps, null)(Sidebar);

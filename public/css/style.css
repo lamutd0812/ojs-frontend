@@ -462,6 +462,14 @@ input:focus {
       font-size: 16px;
       border-left: 1px solid #ebebeb;
       text-align: center; }
+    .header-area .mag-main-menu .top-avatar {
+      position: relative;
+      border-left: 1px solid #ebebeb;
+      text-align: center;
+      }
+    .header-area .mag-main-menu .top-avatar img{
+      width: 35%;
+    }
       @media only screen and (min-width: 992px) and (max-width: 1199px) {
         .header-area .mag-main-menu .login-btn {
           padding: 0 25px; } }
@@ -2247,9 +2255,22 @@ textarea.form-control {
   color:#98fb98;
 } */
 
-.badge-dark {
-  padding: 8px;
+.badge-dark,
+.badge-warning,
+.badge-primary {
+  padding: 5%;
   font-size: 14px;
   border-radius: 20px;
+}
+
+.badge-success {
+  padding: 4.5% 17% 4.5% 17%;
+  font-size: 14px;
+  border-radius: 20px;
+}
+
+.avatar {
+  width: 10%;
+  margin-right: 20px;
 }
 

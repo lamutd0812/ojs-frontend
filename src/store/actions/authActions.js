@@ -7,12 +7,14 @@ const authStart = () => {
     };
 };
 
-const authSuccess = (token, userId, firstname) => {
+const authSuccess = (token, userId, fullname, avatar, role) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
         token: token,
         userId: userId,
-        firstname: firstname
+        fullname: fullname,
+        avatar: avatar,
+        role: role
     };
 };
 
@@ -34,7 +36,9 @@ export const logout = () => {
     // clear local storage
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
-    localStorage.removeItem('firstname');
+    localStorage.removeItem('fullname');
+    localStorage.removeItem('avatar');
+    localStorage.removeItem('role');
     localStorage.removeItem('expirationDate');
     return {
         type: actionTypes.AUTH_LOGOUT
@@ -58,9 +62,11 @@ export const auth = (username, password) => (dispatch) => {
             const expirationDate = new Date(new Date().getTime() + 60 * 60 * 12 * 1000); // 12h
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userId', res.data.userId);
-            localStorage.setItem('firstname', res.data.firstname);
+            localStorage.setItem('fullname', res.data.fullname);
+            localStorage.setItem('avatar', res.data.avatar);
+            localStorage.setItem('role', JSON.stringify(res.data.role));
             localStorage.setItem('expirationDate', expirationDate);
-            dispatch(authSuccess(res.data.token, res.data.userId, res.data.firstname));
+            dispatch(authSuccess(res.data.token, res.data.userId, res.data.fullname, res.data.avatar, res.data.role));
             dispatch(checkAuthTimeout(60 * 60));
         })
         .catch(error => {
@@ -69,7 +75,7 @@ export const auth = (username, password) => (dispatch) => {
 };
 
 export const register = (username, email, password, firstname,
-    lastname, affiliation, biography) => (dispatch) => {
+    lastname, affiliation, biography, toBeReviewer) => (dispatch) => {
         dispatch(authStart());
         const registerData = {
             username: username,
@@ -78,7 +84,8 @@ export const register = (username, email, password, firstname,
             firstname: firstname,
             lastname: lastname,
             affiliation: affiliation,
-            biography: biography
+            biography: biography,
+            toBeReviewer: toBeReviewer
         };
         axios.put('/auth/signup', registerData)
             .then(res => {
@@ -106,8 +113,10 @@ export const keepAuthState = () => (dispatch) => {
             dispatch(logout());
         } else {
             const userId = localStorage.getItem('userId');
-            const firstname = localStorage.getItem('firstname');
-            dispatch(authSuccess(token, userId, firstname));
+            const fullname = localStorage.getItem('fullname');
+            const avatar = localStorage.getItem('avatar');
+            const role = JSON.parse(localStorage.getItem('role'));
+            dispatch(authSuccess(token, userId, fullname, avatar, role));
             dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
         }
     }

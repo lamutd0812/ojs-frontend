@@ -110,7 +110,6 @@ class SubmitArticle extends Component {
             controls: updatedControls,
             formIsValid: formIsValid
         });
-        console.log(this.state);
     };
 
     step1ActiveHandler = () => {
@@ -308,18 +307,18 @@ class SubmitArticle extends Component {
                                             <h4 className="mt-3">Bây giờ, bạn có thể:</h4>
                                             {this.props.submission ? (
                                                 <div className="ml-2">
-                                                    <i class="fa fa-eye"></i>
+                                                    <i className="fa fa-eye"></i>
                                                     {" "}<Link to={`/dashboard/submission/${this.props.submission._id}`} className="text-primary">
                                                         Xem chi tiết bài báo.
                                                     </Link>.
                                                 </div>
                                             ) : null}
                                             <div className="ml-2">
-                                                <i class="fa fa-edit"></i>
+                                                <i className="fa fa-edit"></i>
                                                 {" "}<Link to="#" className="text-primary">Chỉnh sửa bài báo</Link> (Trước khi bước vào pha Thẩm định).
                                             </div>
                                             <div className="ml-2">
-                                                <i class="fa fa-home"></i>
+                                                <i className="fa fa-home"></i>
                                                 {" "} <Link to="/dashboard" className="text-primary">Trở về trang chủ.</Link>
                                             </div>
                                         </div>

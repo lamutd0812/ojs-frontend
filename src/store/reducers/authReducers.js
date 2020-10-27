@@ -4,7 +4,9 @@ import { updateObject } from '../../utils/utility';
 const initialState = {
     token: localStorage.getItem('token') ? localStorage.getItem('token') : null,
     userId: localStorage.getItem('userId') ? localStorage.getItem('userId') : null,
-    firstname: localStorage.getItem('firstname') ? localStorage.getItem('firstname') : null,
+    fullname: localStorage.getItem('fullname') ? localStorage.getItem('fullname') : null,
+    avatar: localStorage.getItem('avatar') ? localStorage.getItem('avatar') : null,
+    role: localStorage.getItem('role') ? localStorage.getItem('role') : null,
     error: null,
     loading: false,
     isSignedUp: false
@@ -21,7 +23,9 @@ const authSuccess = (state, action) => {
     return updateObject(state, {
         token: action.token,
         userId: action.userId,
-        firstname: action.firstname,
+        fullname: action.fullname,
+        avatar: action.avatar,
+        role: action.role,
         error: null,
         loading: false
     });
@@ -54,7 +58,8 @@ const authLogout = (state) => {
     return updateObject(state, {
         token: null,
         userId: null,
-        firstname: null
+        fullname: null,
+        avatar: null
     });
 };
 
