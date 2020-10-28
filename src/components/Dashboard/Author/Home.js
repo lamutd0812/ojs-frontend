@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getSubmissionsByAuthor } from '../../store/actions/submissionActions';
-import { getFormattedDate, getStageBadgeClassname } from '../../utils/utility';
-import Spinner from '../UI/Spinner/Spinner';
+import { getSubmissionsByAuthor } from '../../../store/actions/submissionActions';
+import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
+import Spinner from '../../UI/Spinner/Spinner';
 
 class Home extends Component {
 
@@ -11,11 +11,11 @@ class Home extends Component {
         this.props.getSubmissionsByAuthor(this.props.userId);
     }
 
-    componentDidUpdate() {
-        if (this.props.submissions.length < 1) {
-            this.props.getSubmissionsByAuthor(this.props.userId);
-        }
-    }
+    // componentDidUpdate() {
+    //     if (this.props.submissions.length < 1) {
+    //         this.props.getSubmissionsByAuthor(this.props.userId);
+    //     }
+    // }
 
     btnNewSubmissonClickHandler = () => {
         this.props.history.push("/dashboard/new-submission");
@@ -63,21 +63,11 @@ class Home extends Component {
                                     <table className="table table-striped projects">
                                         <thead>
                                             <tr>
-                                                <th style={{ width: '1%' }}>
-                                                    #
-                                            </th>
-                                                <th style={{ width: '30%' }}>
-                                                    Bài Báo
-                                            </th>
-                                                <th style={{ width: '20%' }} className="text-center">
-                                                    Pha
-                                            </th>
-                                                <th style={{ width: '20%' }} className="text-center">
-                                                    Trạng thái
-                                            </th>
-                                                <th style={{ width: '30%' }} className="text-center">
-                                                    Action
-                                            </th>
+                                                <th style={{ width: '1%' }}> #</th>
+                                                <th style={{ width: '30%' }}> Bài Báo</th>
+                                                <th style={{ width: '20%' }} className="text-center"> Pha</th>
+                                                <th style={{ width: '20%' }} className="text-center"> Trạng thái</th>
+                                                <th style={{ width: '30%' }} className="text-center"> Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>

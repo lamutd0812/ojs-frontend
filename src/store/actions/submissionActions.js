@@ -57,6 +57,21 @@ const createSubmissionFailed = (error) => {
     }
 };
 
+// Chief Editor
+const getAllSubmissionsSuccess = (submissions) => {
+    return {
+        type: actionTypes.GET_ALL_SUBMISSIONS_SUCCESS,
+        submissions: submissions
+    }
+};
+
+const getAllSubmissionsFailed = (error) => {
+    return {
+        type: actionTypes.GET_ALL_SUBMISSIONS_FAILED,
+        error: error
+    }
+};
+
 export const getCategories = () => (dispatch) => {
     axios.get('/categories')
         .then(res => {
@@ -78,7 +93,7 @@ export const getSubmissionsByAuthor = (authorId) => (dispatch, getState) => {
     }).catch(err => {
         dispatch(getSubmissionsByAuthorFailed(err.response.data.error));
     });
-}
+};
 
 export const getSubmissionDetail = (submissionId) => (dispatch, getState) => {
     const token = getState().auth.token;
@@ -91,7 +106,7 @@ export const getSubmissionDetail = (submissionId) => (dispatch, getState) => {
     }).catch(err => {
         dispatch(getSubmissionDetailFailed(err.response.data.error));
     });
-}
+};
 
 export const createSubmission = (formData) => (dispatch, getState) => {
     const token = getState().auth.token;
@@ -111,4 +126,18 @@ export const resetCreateSubmissionState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_CREATE_SUBMISSION_STATE
     })
+};
+
+// Chief Editor
+export const getAllSubmissions = () => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.get('/submissions', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getAllSubmissionsSuccess(res.data.submissions));
+    }).catch(err => {
+        dispatch(getAllSubmissionsFailed(err.response.data.error));
+    });
 };

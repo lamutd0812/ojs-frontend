@@ -72,6 +72,21 @@ const resetCreateSubmissionState = (state) => {
     })
 };
 
+// Chief Editor
+const getAllSubmissionsSuccess = (state, action) => {
+    return updateObject(state, {
+        submissions: action.submissions,
+        loading: false,
+        error: null
+    });
+};
+
+const getAllSubmissionsFailed = (state, action) => {
+    return updateObject(state, {
+        error: action.error
+    });
+};
+
 const submissionReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.GET_CATEGORIES_SUCCESS: return getCategoriesSuccess(state, action);
@@ -83,6 +98,8 @@ const submissionReducer = (state = initialState, action) => {
         case actionTypes.CREATE_SUBMISSION_SUCCESS: return createSubmissionSuccess(state, action);
         case actionTypes.CREATE_SUBMISSION_FAILED: return createSubmissionFailed(state, action);
         case actionTypes.RESET_CREATE_SUBMISSION_STATE: return resetCreateSubmissionState(state);
+        case actionTypes.GET_ALL_SUBMISSIONS_SUCCESS: return getAllSubmissionsSuccess(state,action);
+        case actionTypes.GET_ALL_SUBMISSIONS_FAILED: return getAllSubmissionsFailed(state,action);
         default: return state;
     }
 };
