@@ -55,7 +55,7 @@ class Register extends Component {
             confirm_password: {
                 elementConfig: {
                     type: 'password',
-                    placeholder: 'Nhập lại mật khẩu*'
+                    placeholder: 'Xác nhận mật khẩu*'
                 },
                 value: '',
                 validation: {
@@ -118,6 +118,7 @@ class Register extends Component {
                 touched: false
             }
         },
+        toBeReviewer: false,
         formIsValid: false
     }
 
@@ -129,6 +130,13 @@ class Register extends Component {
         if (nextProps.isSignedUp) {
             this.setState(updateObject(this.state, { isModalOpen: true }));
         }
+    }
+
+    checkboxChangeHandler = (event) => {
+        const updatedState = updateObject(this.state, {
+            toBeReviewer: event.target.checked
+        });
+        this.setState(updatedState);
     }
 
     inputChangeHandler = (event) => {
@@ -162,7 +170,8 @@ class Register extends Component {
         this.props.onRegister(this.state.controls.username.value,
             this.state.controls.email.value, this.state.controls.password.value,
             this.state.controls.firstname.value, this.state.controls.lastname.value,
-            this.state.controls.affiliation.value, this.state.controls.biography.value);
+            this.state.controls.affiliation.value, this.state.controls.biography.value,
+            this.state.toBeReviewer);
     };
 
     closeModalHandler = () => {
@@ -284,6 +293,19 @@ class Register extends Component {
                                                 onChange={this.inputChangeHandler} />
                                             {!this.state.controls.biography.valid && this.state.controls.biography.touched ?
                                                 <p className="form-control-error-msg">Giới thiệu bản thân tối đa 10000 ký tự!</p> : null}
+                                        </div>
+                                        <div className="form-group">
+                                            <div className="custom-control custom-checkbox mr-sm-2">
+                                                <input
+                                                    type="checkbox"
+                                                    className="custom-control-input"
+                                                    id="customControlAutosizing"
+                                                    checked={this.state.toBeReviewer}
+                                                    name="toBeReviewer"
+                                                    onChange={this.checkboxChangeHandler}
+                                                />
+                                                <label className="custom-control-label" htmlFor="customControlAutosizing"></label> Tôi muốn trở thành nhà thẩm định (Reviewer)
+                                            </div>
                                         </div>
 
                                         <div className="form-group">

@@ -1,5 +1,5 @@
 import axios from '../../utils/axios';
-import * as actionTypes from '../actions/actionTypes';
+import * as actionTypes from './actionTypes';
 
 const getCategoriesSuccess = (categories) => {
     return {
@@ -25,6 +25,20 @@ const getSubmissionsByAuthorSuccess = (submissions) => {
 const getSubmissionsByAuthorFailed = (error) => {
     return {
         type: actionTypes.GET_SUBMISSIONS_BY_AUTHOR_FAILED,
+        error: error
+    }
+};
+
+const getSubmissionDetailSuccess = (submission) => {
+    return {
+        type: actionTypes.GET_SUBMISSIONS_DETAIL_SUCCESS,
+        submission: submission
+    }
+};
+
+const getSubmissionDetailFailed = (error) => {
+    return {
+        type: actionTypes.GET_SUBMISSIONS_DETAIL_FAILED,
         error: error
     }
 };
@@ -63,6 +77,19 @@ export const getSubmissionsByAuthor = (authorId) => (dispatch, getState) => {
         dispatch(getSubmissionsByAuthorSuccess(res.data.submissions));
     }).catch(err => {
         dispatch(getSubmissionsByAuthorFailed(err.response.data.error));
+    });
+}
+
+export const getSubmissionDetail = (submissionId) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.get('/submissions/' + submissionId, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getSubmissionDetailSuccess(res.data.submission));
+    }).catch(err => {
+        dispatch(getSubmissionDetailFailed(err.response.data.error));
     });
 }
 

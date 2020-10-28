@@ -14,10 +14,10 @@ class Navigation extends Component {
                             <a className="nav-link" data-widget="pushmenu" href="idndex.html" role="button"><i className="fas fa-bars"></i></a>
                         </li>
                         <li className="nav-item d-none d-sm-inline-block">
-                            <a href="index3.html" className="nav-link">Home</a>
+                            <NavLink to="/dashboard" className="nav-link">Home</NavLink>
                         </li>
                         <li className="nav-item d-none d-sm-inline-block">
-                            <a href="idndex.html" className="nav-link">Contact</a>
+                            <NavLink to="/dashboard" className="nav-link">Contact</NavLink>
                         </li>
                     </ul>
 

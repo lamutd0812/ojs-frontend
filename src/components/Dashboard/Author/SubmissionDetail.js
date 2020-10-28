@@ -1,128 +1,171 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
+import { getSubmissionDetail } from '../../../store/actions/submissionActions';
+import Spinner from '../../UI/Spinner/Spinner';
 
 class SubmissionDetail extends Component {
+
+    componentDidMount() {
+        if (this.props.match.params.submissionId) {
+            this.props.getSubmissionDetail(this.props.match.params.submissionId);
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.match.params.submissionId) {
+            if (!this.props.submission || (this.props.submission && this.props.submission._id !== this.props.match.params.submissionId)) {
+                this.props.getSubmissionDetail(this.props.match.params.submissionId);
+            }
+        }
+    }
+
     render() {
         return (
-            <div class="content-wrapper">
-                <section class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
+            <div className="content-wrapper">
+                <section className="content-header">
+                    <div className="container-fluid">
+                        <div className="row mb-2">
+                            <div className="col-sm-6">
                                 <h1>Thông tin chi tiết bài báo</h1>
                             </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="a">Dashboard</a></li>
-                                    <li class="breadcrumb-item">Submissions</li>
-                                    <li class="breadcrumb-item active">Submission Detail</li>
+                            <div className="col-sm-6">
+                                <ol className="breadcrumb float-sm-right">
+                                    <li className="breadcrumb-item"><Link to="/dashboard">Dashboard</Link></li>
+                                    <li className="breadcrumb-item">Submissions</li>
+                                    <li className="breadcrumb-item active">Submission Detail</li>
                                 </ol>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="content">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Chi tiết bài báo</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
+                <section className="content">
+                    {!this.props.loading ? (
+                        <div className="card">
+                            <div className="card-header">
+                                {this.props.submission ? <h3 className="card-title">{this.props.submission.title}</h3> : null}
+                                <div className="card-tools">
+                                    <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i className="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" className="btn btn-tool" data-card-widget="remove" title="Remove">
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
+                            {this.props.submission ? (
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="p-2 col-lg-12 border rounded mb-3">
+                                            <div className="row">
+                                                <div className="col-lg-4">
+                                                    <div className="form-group mr-2">
+                                                        <label>Tác giả</label>
+                                                        <p className="ml-4">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-4">
+                                                    <div className="form-group mr-2">
+                                                        <label>Biên tập viên (Editor)</label>
+                                                        <p className="ml-4">Chưa có</p>
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-4">
+                                                    <div className="form-group mr-2">
+                                                        <label>Nhà thẩm định (Reviewers)</label>
+                                                        <p className="ml-4">Chưa có</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="p-2 col-lg-8 border rounded">
+                                            <div className="form-group mr-2">
+                                                <label>Thể loại</label>
+                                                <p className="ml-4">{this.props.submission.categoryId.name}</p>
+                                            </div>
+                                            <div className="form-group mr-2">
+                                                <label>Tiêu để</label>
+                                                <p className="ml-4">{this.props.submission.title}</p>
+                                            </div>
+                                            <div className="form-group mr-2">
+                                                <label>Mô tả</label>
+                                                <p className="ml-4">
+                                                    {this.props.submission.abstract}
+                                                </p>
+                                            </div>
+                                            <div className="form-group mr-2">
+                                                <label>File đính kèm</label>
+                                                <p className="ml-4">
+                                                    <i className="fa fa-paperclip fa-lg"></i>
+                                                    <a href={this.props.submission.attachmentUrl} className="text-primary" target="_blank" rel="noopener noreferrer">
+                                                        {" "}{this.props.submission.attachmentFile}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="p-2 col-lg-4 border rounded">
+                                            <div className="form-group">
+                                                <label>Ngày đăng</label>
+                                                <p className="ml-4">
+                                                    {getFormattedDate(this.props.submission.createdAt)}
+                                                </p>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Chỉnh sửa lần cuối</label>
+                                                <p className="ml-4">
+                                                    {getFormattedDate(this.props.submission.updatedAt)}
+                                                </p>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Pha</label><br />
+                                                <div className={"badge " + getStageBadgeClassname(this.props.submission.submissionStatus.stageId.value) + " ml-3"}>
+                                                    {this.props.submission.submissionStatus.stageId.name}
+                                                </div>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Trạng thái</label><br />
+                                                <p className="ml-3">
+                                                    {this.props.submission.submissionStatus.status}
+                                                </p>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Nhật ký hoạt động</label><br />
+                                                <Link to="#" className="ml-3 text-primary">Xem chi tiết.</Link>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Chỉnh sửa</label><br />
+                                                <Link to="#" className="btn btn-info btn-sm mr-1">
+                                                    <i className="fas fa-pencil-alt"></i> Sửa
+                                                </Link>
+                                                <Link to="#" className="btn btn-danger btn-sm">
+                                                    <i className="fas fa-trash"></i> Xóa
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : <Spinner />}
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="p-2 col-lg-12 border rounded mb-3">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="form-group mr-2">
-                                                <label>Tác giả</label>
-                                                <p class="ml-4">Testtttttttttttttttttttttttttttttttt</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="form-group mr-2">
-                                                <label>Biên tập viên</label>
-                                                <p class="ml-4">Chưa có</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="form-group mr-2">
-                                                <label>Danh sách nhà thẩm định</label>
-                                                <p class="ml-4">Chưa có</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="p-2 col-lg-8 border rounded">
-                                    <div class="form-group mr-2">
-                                        <label>Thể loại</label>
-                                        <p class="ml-4">Machime Learning</p>
-                                    </div>
-                                    <div class="form-group mr-2">
-                                        <label>Tiêu để</label>
-                                        <p class="ml-4">Unsupervised real-time anomaly detection for streaming data</p>
-                                    </div>
-                                    <div class="form-group mr-2">
-                                        <label>Mô tả</label>
-                                        <p class="ml-4">
-                                            Streaming data inherently exhibits concept drift, favoring algorithms that learn continuously. Furthermore, the massive number of independent streams in practice requires that anomaly detectors be fully automated. In this paper we propose a novel anomaly detection algorithm that meets these constraints. The technique is based on an online sequence memory algorithm called Hierarchical Temporal Memory (HTM). We also present results using the Numenta Anomaly Benchmark (NAB), a benchmark containing real-world data streams with labeled anomalies. The benchmark, the first of its kind, provides a controlled open-source environment for testing anomaly detection algorithms on streaming data.
-                                        </p>
-                                    </div>
-                                    <div class="form-group mr-2">
-                                        <label>File đính kèm</label>
-                                        <p class="ml-4">
-                                            <i class="fa fa-paperclip fa-lg"></i>
-                                             Testtttttttttttttttttttttttttttttttt
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="p-2 col-lg-4 border rounded">
-                                    <div class="form-group">
-                                        <label>Ngày đăng</label>
-                                        <p class="ml-4">26/10/2020</p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Chỉnh sửa lần cuối</label>
-                                        <p class="ml-4">26/10/2020</p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Pha</label><br />
-                                        <div class="badge badge-dark ml-3">Chờ thẩm định</div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Trạng thái</label><br />
-                                        <p class="ml-3">Submit bài báo lên hệ thống thành công.</p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nhật ký hoạt động</label><br />
-                                        <p class="ml-3">Xem chi tiết.</p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Chỉnh sửa</label><br />
-                                        <Link to="#" className="btn btn-info btn-sm mr-1">
-                                            <i className="fas fa-pencil-alt"></i> Sửa
-                                        </Link>
-                                        <Link to="#" className="btn btn-danger btn-sm">
-                                            <i className="fas fa-trash"></i> Xóa
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    ) : null}
                 </section>
             </div>
         );
     }
 }
 
-export default SubmissionDetail;
+const mapStateToProps = (state) => {
+    return {
+        submission: state.submission.submission,
+        loading: state.submission.loading
+    }
+};
+
+const mapDispatchToProps = {
+    getSubmissionDetail
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubmissionDetail);

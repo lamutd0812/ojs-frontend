@@ -14,7 +14,7 @@ class Dashboard extends Component {
                 <main>
                     <Switch>
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
-                        <Route path="/dashboard/submission-detail" component={SubmissionDetail} />
+                        <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
                         <Route exact path="/dashboard" component={Home} />
                     </Switch>
                     {this.props.children}
