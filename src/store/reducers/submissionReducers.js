@@ -6,6 +6,7 @@ const initialState = {
     submissions: [],
     submission: null,
     isSubmissionCreated: false,
+    loading: true,
     error: null
 };
 
@@ -25,6 +26,7 @@ const getCategoriesFailed = (state, action) => {
 const getSubmissionsByAuthorSuccess = (state, action) => {
     return updateObject(state, {
         submissions: action.submissions,
+        loading: false,
         error: null
     });
 };
@@ -38,6 +40,7 @@ const getSubmissionsByAuthorFailed = (state, action) => {
 const getSubmissionDetailSuccess = (state, action) => {
     return updateObject(state, {
         submission: action.submission,
+        loading: false,
         error: null
     });
 };

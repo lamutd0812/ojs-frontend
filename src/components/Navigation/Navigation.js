@@ -12,9 +12,9 @@ class Navigation extends Component {
                             <NavLink to="/" className="nav-brand">
                                 <img src="img/core-img/logo.png" alt="" />
                             </NavLink>
-                            <div className="classy-navbar-toggler">
+                            {/* <div className="classy-navbar-toggler">
                                 <span className="navbarToggler"><span></span><span></span><span></span></span>
-                            </div>
+                            </div> */}
 
                             <div className="nav-content d-flex align-items-center">
                                 <div className="classy-menu">
@@ -24,9 +24,9 @@ class Navigation extends Component {
                                     <div className="classynav">
                                         <ul>
                                             <li className="active"><Link to="/" >Home</Link></li>
-                                            <li><a href="archive.html">Archive</a></li>
+                                            <li><NavLink to="#">Archive</NavLink></li>
                                             <li><NavLink to="/dashboard">Dashboard</NavLink></li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><NavLink to="#">Contact</NavLink></li>
                                         </ul>
                                     </div>
                                 </div>
