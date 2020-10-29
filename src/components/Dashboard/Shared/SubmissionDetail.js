@@ -6,6 +6,7 @@ import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import { USER_ROLES } from '../../../utils/constant';
+import AssignEditor from '../ChiefEditor/AssignEditor';
 
 class SubmissionDetail extends Component {
 
@@ -37,14 +38,6 @@ class SubmissionDetail extends Component {
                         <div className="card">
                             <div className="card-header">
                                 {this.props.submission ? <h3 className="card-title">{this.props.submission.title}</h3> : null}
-                                <div className="card-tools">
-                                    <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                        <i className="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" className="btn btn-tool" data-card-widget="remove" title="Remove">
-                                        <i className="fas fa-times"></i>
-                                    </button>
-                                </div>
                             </div>
                             {this.props.submission ? (
                                 <div className="card-body">
@@ -102,7 +95,11 @@ class SubmissionDetail extends Component {
                                             {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel
                                                 && !this.props.submission.editorId ? (
                                                     <div className="form-group">
-                                                        <button className="btn btn-primary btn-block">Thêm biên tập viên</button>
+                                                        <button className="btn btn-primary btn-block"
+                                                            data-toggle="modal"
+                                                            data-target="#modalAssignEditor">
+                                                            Thêm biên tập viên
+                                                        </button>
                                                     </div>
                                                 ) : null}
                                             {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel ? (
@@ -161,6 +158,9 @@ class SubmissionDetail extends Component {
                         </div>
                     ) : <Spinner />}
                 </section>
+                {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel && (
+                    <AssignEditor />
+                )}
             </div>
         );
     }
