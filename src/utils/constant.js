@@ -20,3 +20,22 @@ exports.USER_ROLES = {
         permissionLevel: 1
     }
 };
+
+exports.STAGE = {
+    SUBMISSION: {
+        name: 'Chờ thẩm định',
+        value: 1
+    },
+    REVIEW: {
+        name: 'Thẩm định',
+        value: 2
+    },
+    PRE_PUBLISHING: {
+        name: 'Tiền xuất bản',
+        value: 3
+    },
+    PUBLISHED: {
+        name: 'Xuất bản',
+        value: 4
+    }
+};

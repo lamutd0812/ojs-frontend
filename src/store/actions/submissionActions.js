@@ -1,17 +1,16 @@
 import axios from '../../utils/axios';
 import * as actionTypes from './actionTypes';
 
+const submissionStart = () => {
+    return {
+        type: actionTypes.SUBMISSIONS_START
+    }
+}
+
 const getCategoriesSuccess = (categories) => {
     return {
         type: actionTypes.GET_CATEGORIES_SUCCESS,
         categories: categories
-    }
-};
-
-const getCategoriesFailed = (error) => {
-    return {
-        type: actionTypes.GET_CATEGORIES_FAILED,
-        error: error
     }
 };
 
@@ -22,24 +21,10 @@ const getSubmissionsByAuthorSuccess = (submissions) => {
     }
 };
 
-const getSubmissionsByAuthorFailed = (error) => {
-    return {
-        type: actionTypes.GET_SUBMISSIONS_BY_AUTHOR_FAILED,
-        error: error
-    }
-};
-
 const getSubmissionDetailSuccess = (submission) => {
     return {
         type: actionTypes.GET_SUBMISSIONS_DETAIL_SUCCESS,
         submission: submission
-    }
-};
-
-const getSubmissionDetailFailed = (error) => {
-    return {
-        type: actionTypes.GET_SUBMISSIONS_DETAIL_FAILED,
-        error: error
     }
 };
 
@@ -50,9 +35,9 @@ const createSubmissionSuccess = (submission) => {
     }
 };
 
-const createSubmissionFailed = (error) => {
+const submissionErrors = (error) => {
     return {
-        type: actionTypes.CREATE_SUBMISSION_FAILED,
+        type: actionTypes.SUBMISSIONS_ERROR,
         error: error
     }
 };
@@ -65,25 +50,19 @@ const getAllSubmissionsSuccess = (submissions) => {
     }
 };
 
-const getAllSubmissionsFailed = (error) => {
-    return {
-        type: actionTypes.GET_ALL_SUBMISSIONS_FAILED,
-        error: error
-    }
-};
-
 export const getCategories = () => (dispatch) => {
     axios.get('/categories')
         .then(res => {
             dispatch(getCategoriesSuccess(res.data.categories));
         })
         .catch(err => {
-            dispatch(getCategoriesFailed(err));
+            dispatch(submissionErrors(err.message));
         });
 };
 
 export const getSubmissionsByAuthor = (authorId) => (dispatch, getState) => {
     const token = getState().auth.token;
+    dispatch(submissionStart());
     axios.get('/submissions/author/' + authorId, {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -91,12 +70,13 @@ export const getSubmissionsByAuthor = (authorId) => (dispatch, getState) => {
     }).then(res => {
         dispatch(getSubmissionsByAuthorSuccess(res.data.submissions));
     }).catch(err => {
-        dispatch(getSubmissionsByAuthorFailed(err.response.data.error));
+        dispatch(submissionErrors(err.message));
     });
 };
 
 export const getSubmissionDetail = (submissionId) => (dispatch, getState) => {
     const token = getState().auth.token;
+    dispatch(submissionStart());
     axios.get('/submissions/' + submissionId, {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -104,7 +84,7 @@ export const getSubmissionDetail = (submissionId) => (dispatch, getState) => {
     }).then(res => {
         dispatch(getSubmissionDetailSuccess(res.data.submission));
     }).catch(err => {
-        dispatch(getSubmissionDetailFailed(err.response.data.error));
+        dispatch(submissionErrors(err.message));
     });
 };
 
@@ -118,7 +98,7 @@ export const createSubmission = (formData) => (dispatch, getState) => {
     }).then(res => {
         dispatch(createSubmissionSuccess(res.data.submission));
     }).catch(err => {
-        dispatch(createSubmissionFailed(err.response.data.error));
+        dispatch(submissionErrors(err.response.data.error));
     });
 };
 
@@ -131,6 +111,7 @@ export const resetCreateSubmissionState = () => (dispatch) => {
 // Chief Editor
 export const getAllSubmissions = () => (dispatch, getState) => {
     const token = getState().auth.token;
+    dispatch(submissionStart());
     axios.get('/submissions', {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -138,6 +119,6 @@ export const getAllSubmissions = () => (dispatch, getState) => {
     }).then(res => {
         dispatch(getAllSubmissionsSuccess(res.data.submissions));
     }).catch(err => {
-        dispatch(getAllSubmissionsFailed(err.response.data.error));
+        dispatch(submissionErrors(err.message));
     });
 };

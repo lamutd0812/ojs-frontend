@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getAllSubmissions } from '../../../store/actions/submissionActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import Spinner from '../../UI/Spinner/Spinner';
+import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 
 class Home extends Component {
 
@@ -16,19 +17,7 @@ class Home extends Component {
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
                 <section className="content-header">
-                    <div className="container-fluid">
-                        <div className="row mb-2">
-                            <div className="col-sm-6">
-                                <h1>Chief Editor Home Page</h1>
-                            </div>
-                            <div className="col-sm-6">
-                                <ol className="breadcrumb float-sm-right">
-                                    <li className="breadcrumb-item"><a href="a">Dashboard</a></li>
-                                    <li className="breadcrumb-item active">Submissions</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
+                    <ContentHeader />
                 </section>
 
                 {/* <!-- Main content --> */}
@@ -57,7 +46,7 @@ class Home extends Component {
                                                 <th style={{ width: '10%' }} className="text-center"> Tác giả</th>
                                                 <th style={{ width: '20%' }} className="text-center"> Pha</th>
                                                 <th style={{ width: '15%' }} className="text-center"> Trạng thái</th>
-                                                <th style={{ width: '20%' }} className="text-center"> Action</th>
+                                                <th style={{ width: '25%' }} className="text-center"> Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>

@@ -10,7 +10,7 @@ class Sidebar extends Component {
                 {/* <!-- Main Sidebar Container --> */}
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
                     <div className="brand-link">
-                        <NavLink to="/dashboard">
+                        <NavLink to="/">
                             <img src="https://w7.pngwing.com/pngs/791/922/png-transparent-react-javascript-library-redux-user-interface-tesseract-logo-symmetry-nodejs.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ 'opacity': .8 }} />
                             <div style={{ fontSize: '18px', color: 'white' }}>HL Open Journal</div>
                         </NavLink>

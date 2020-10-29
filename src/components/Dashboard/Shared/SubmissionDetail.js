@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import Spinner from '../../UI/Spinner/Spinner';
+import ContentHeader from '../../Dashboard/Shared/ContentHeader';
+import { USER_ROLES } from '../../../utils/constant';
 
 class SubmissionDetail extends Component {
 
@@ -13,32 +15,21 @@ class SubmissionDetail extends Component {
         }
     }
 
-    componentDidUpdate() {
-        if (this.props.match.params.submissionId) {
-            if (!this.props.submission || (this.props.submission && this.props.submission._id !== this.props.match.params.submissionId)) {
-                this.props.getSubmissionDetail(this.props.match.params.submissionId);
-            }
-        }
-    }
+    // componentDidUpdate() {
+    //     if (this.props.match.params.submissionId) {
+    //         if (!this.props.submission || (this.props.submission && this.props.submission._id !== this.props.match.params.submissionId)) {
+    //             this.props.getSubmissionDetail(this.props.match.params.submissionId);
+    //         }
+    //     }
+    // }
 
     render() {
         return (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <div className="container-fluid">
-                        <div className="row mb-2">
-                            <div className="col-sm-6">
-                                <h1>Thông tin chi tiết bài báo</h1>
-                            </div>
-                            <div className="col-sm-6">
-                                <ol className="breadcrumb float-sm-right">
-                                    <li className="breadcrumb-item"><Link to="/dashboard">Dashboard</Link></li>
-                                    <li className="breadcrumb-item">Submissions</li>
-                                    <li className="breadcrumb-item active">Submission Detail</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
+                    <ContentHeader>
+                        <li className="breadcrumb-item active">Submission Detail</li>
+                    </ContentHeader>
                 </section>
 
                 <section className="content">
@@ -82,7 +73,7 @@ class SubmissionDetail extends Component {
                                         </div>
                                     </div>
                                     <div className="row">
-                                        <div className="p-2 col-lg-8 border rounded">
+                                        <div className="p-2 col-lg-9 border rounded">
                                             <div className="form-group mr-2">
                                                 <label>Thể loại</label>
                                                 <p className="ml-4">{this.props.submission.categoryId.name}</p>
@@ -107,9 +98,25 @@ class SubmissionDetail extends Component {
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="p-2 col-lg-4 border rounded">
+                                        <div className="p-2 col-lg-3 border rounded">
+                                            {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel
+                                                && !this.props.submission.editorId ? (
+                                                    <div className="form-group">
+                                                        <button className="btn btn-primary btn-block">Thêm biên tập viên</button>
+                                                    </div>
+                                                ) : null}
+                                            {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel ? (
+                                                <div>
+                                                    <div className="form-group">
+                                                        <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <button className="btn btn-danger btn-block">Từ chối bài báo</button>
+                                                    </div>
+                                                </div>
+                                            ) : null}
                                             <div className="form-group">
-                                                <label>Ngày đăng</label>
+                                                <label>Ngày đăng:</label>
                                                 <p className="ml-4">
                                                     {getFormattedDate(this.props.submission.createdAt)}
                                                 </p>
@@ -136,21 +143,23 @@ class SubmissionDetail extends Component {
                                                 <label>Nhật ký hoạt động</label><br />
                                                 <Link to="#" className="ml-3 text-primary">Xem chi tiết.</Link>
                                             </div>
-                                            <div className="form-group">
-                                                <label>Chỉnh sửa</label><br />
-                                                <Link to="#" className="btn btn-info btn-sm mr-1">
-                                                    <i className="fas fa-pencil-alt"></i> Sửa
-                                                </Link>
-                                                <Link to="#" className="btn btn-danger btn-sm">
-                                                    <i className="fas fa-trash"></i> Xóa
-                                                </Link>
-                                            </div>
+                                            {this.props.permissionLevel === USER_ROLES.AUTHOR.permissionLevel ? (
+                                                <div className="form-group">
+                                                    <label>Chỉnh sửa</label><br />
+                                                    <Link to="#" className="btn btn-info btn-sm mr-1">
+                                                        <i className="fas fa-pencil-alt"></i> Sửa
+                                                    </Link>
+                                                    <Link to="#" className="btn btn-danger btn-sm">
+                                                        <i className="fas fa-trash"></i> Xóa
+                                                    </Link>
+                                                </div>
+                                            ) : null}
                                         </div>
                                     </div>
                                 </div>
-                            ) : <Spinner />}
+                            ) : null}
                         </div>
-                    ) : null}
+                    ) : <Spinner />}
                 </section>
             </div>
         );
@@ -160,7 +169,8 @@ class SubmissionDetail extends Component {
 const mapStateToProps = (state) => {
     return {
         submission: state.submission.submission,
-        loading: state.submission.loading
+        loading: state.submission.loading,
+        permissionLevel: state.auth.role.permissionLevel
     }
 };
 

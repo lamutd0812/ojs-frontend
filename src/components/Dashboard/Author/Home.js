@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getSubmissionsByAuthor } from '../../../store/actions/submissionActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import Spinner from '../../UI/Spinner/Spinner';
+import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 
 class Home extends Component {
 
@@ -26,19 +27,7 @@ class Home extends Component {
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
                 <section className="content-header">
-                    <div className="container-fluid">
-                        <div className="row mb-2">
-                            <div className="col-sm-6">
-                                <h1>Bài báo của bạn</h1>
-                            </div>
-                            <div className="col-sm-6">
-                                <ol className="breadcrumb float-sm-right">
-                                    <li className="breadcrumb-item"><a href="a">Dashboard</a></li>
-                                    <li className="breadcrumb-item active">Submissions</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
+                    <ContentHeader />
                     <button onClick={this.btnNewSubmissonClickHandler} className="btn btn-primary">Submit bài báo </button>
                 </section>
 
