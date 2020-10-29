@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
-import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import Spinner from '../../UI/Spinner/Spinner';
+import AssignEditor from '../ChiefEditor/AssignEditor';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import { USER_ROLES } from '../../../utils/constant';
-import AssignEditor from '../ChiefEditor/AssignEditor';
+import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
+import { getSubmissionDetail } from '../../../store/actions/submissionActions';
+import { getAllEditors } from '../../../store/actions/reviewActions';
 
 class SubmissionDetail extends Component {
 
@@ -16,13 +17,20 @@ class SubmissionDetail extends Component {
         }
     }
 
-    // componentDidUpdate() {
+    // componentDidUpdate(prevProps) {
     //     if (this.props.match.params.submissionId) {
     //         if (!this.props.submission || (this.props.submission && this.props.submission._id !== this.props.match.params.submissionId)) {
     //             this.props.getSubmissionDetail(this.props.match.params.submissionId);
     //         }
     //     }
     // }
+
+    // Chief Editor Get All Editor to Assign
+    getEditors = () => {
+        if (this.props.editors.length < 1) {
+            this.props.getAllEditors();
+        }
+    }
 
     render() {
         return (
@@ -47,13 +55,19 @@ class SubmissionDetail extends Component {
                                                 <div className="col-lg-4">
                                                     <div className="form-group mr-2">
                                                         <label>Tác giả</label>
-                                                        <p className="ml-4">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}</p>
+                                                        <Link to="#">
+                                                            <p className="text-primary ml-4">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}</p>
+                                                        </Link>
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-4">
                                                     <div className="form-group mr-2">
                                                         <label>Biên tập viên (Editor)</label>
-                                                        <p className="ml-4">Chưa có</p>
+                                                        {this.props.submission.editorId ? (
+                                                            <Link to="#">
+                                                                <p className="text-primary ml-4">{this.props.submission.editorId.firstname} {this.props.submission.editorId.lastname}</p>
+                                                            </Link>
+                                                        ) : <p className="ml-4">Chưa được chỉ định</p>}
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-4">
@@ -97,11 +111,18 @@ class SubmissionDetail extends Component {
                                                     <div className="form-group">
                                                         <button className="btn btn-primary btn-block"
                                                             data-toggle="modal"
-                                                            data-target="#modalAssignEditor">
-                                                            Thêm biên tập viên
+                                                            data-target="#modalAssignEditor"
+                                                            onClick={this.getEditors}>
+                                                            Chỉ định biên tập viên
                                                         </button>
                                                     </div>
-                                                ) : null}
+                                                ) : (
+                                                    <div className="form-group">
+                                                        <button className="btn btn-primary btn-block" disabled>
+                                                            Chỉ định biên tập viên
+                                                        </button>
+                                                    </div>
+                                                )}
                                             {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel ? (
                                                 <div>
                                                     <div className="form-group">
@@ -170,12 +191,14 @@ const mapStateToProps = (state) => {
     return {
         submission: state.submission.submission,
         loading: state.submission.loading,
-        permissionLevel: state.auth.role.permissionLevel
+        permissionLevel: state.auth.role.permissionLevel,
+        editors: state.review.editors
     }
 };
 
 const mapDispatchToProps = {
-    getSubmissionDetail
+    getSubmissionDetail,
+    getAllEditors
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionDetail);

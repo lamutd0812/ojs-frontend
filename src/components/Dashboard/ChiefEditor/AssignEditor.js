@@ -1,149 +1,150 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Modal from '../../UI/Modal/Modal';
+import Spinner from '../../UI/Spinner/Spinner';
+import { updateObject } from '../../../utils/utility';
+import { connect } from 'react-redux';
+import { assignEditor, resetEditorAssignmentState } from '../../../store/actions/reviewActions';
+import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 
-const AssignEditor = () => {
-    return (
-        <div>
-            <div class="modal fade" id="modalAssignEditor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header text-center">
-                            <h4 class="modal-title w-100 font-weight-bold">Giao bài báo cho Biên tập viên</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body mx-3">
-                            <div class="md-form mb-5">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title"><b>Danh sách Biên tập viên</b></h3>
-                                        <div class="card-tools">
-                                            <div class="input-group input-group-sm" style={{ width: '150px' }}>
-                                                <input type="text" class="form-control float-right" placeholder="Tìm kiếm" />
-                                                <div class="input-group-append">
-                                                    <button type="submit" class="btn btn-default">
-                                                        <i class="fas fa-search"></i>
-                                                    </button>
+
+class AssignEditor extends Component {
+
+    state = {
+        selectedEditorId: '',
+        isModalOpen: false
+    };
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.isEditorAssigned) {
+            this.setState(updateObject(this.state, { isModalOpen: true }));
+        }
+    }
+
+    editorSelectedHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedEditorId: event.target.value }));
+    }
+
+    assignEditorHandler = () => {
+        this.props.assignEditor(this.props.submission._id, this.state.selectedEditorId);
+    }
+
+    closeModalHandler = () => {
+        this.setState(updateObject(this.state, { isModalOpen: false }));
+        this.props.resetEditorAssignmentState();
+        this.props.getSubmissionDetail(this.props.submission._id);
+    }
+
+    render() {
+        return (
+            <div>
+                <div className="modal fade" id="modalAssignEditor" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header text-center">
+                                <h4 className="modal-title w-100 font-weight-bold text-danger">Chỉ định biên tập viên</h4>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body mx-3">
+                                <div className="md-form mb-5">
+                                    <div className="card">
+                                        <div className="card-header">
+                                            <h3 className="card-title text-danger"><b>1. Lựa chọn biên tập viên</b></h3>
+                                            <div className="card-tools">
+                                                <div className="input-group input-group-sm" style={{ width: '150px' }}>
+                                                    <input type="text" className="form-control float-right" placeholder="Tìm kiếm" />
+                                                    <div className="input-group-append">
+                                                        <button type="submit" className="btn btn-default">
+                                                            <i className="fas fa-search"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card-body table-responsive p-0" style={{ height: '300px' }}>
-                                        <table class="table table-head-fixed text-nowrap">
-                                            <thead>
-                                                <tr>
-                                                    <th>Chọn</th>
-                                                    <th>User</th>
-                                                    <th>Date</th>
-                                                    <th>Status</th>
-                                                    <th>Reason</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="radio">
-                                                            <label><input type="radio" id='regular' name="optradio" /></label>
-                                                        </div>
-                                                    </td>
-                                                    <td>John Doe</td>
-                                                    <td>11-7-2014</td>
-                                                    <td><span class="tag tag-success">Approved</span></td>
-                                                    <td>Bacon ipsum dolor .</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="radio">
-                                                            <label><input type="radio" id='regular' name="optradio" /></label>
-                                                        </div>
-                                                    </td>
-                                                    <td>Alexander Pierce</td>
-                                                    <td>11-7-2014</td>
-                                                    <td><span class="tag tag-warning">Pending</span></td>
-                                                    <td>Bacon ipsum dolor </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="radio">
-                                                            <label><input type="radio" id='regular' name="optradio" /></label>
-                                                        </div>
-                                                    </td>
-                                                    <td>Bob Doe</td>
-                                                    <td>11-7-2014</td>
-                                                    <td><span class="tag tag-primary">Approved</span></td>
-                                                    <td>Bacon ipsum dolor </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="radio">
-                                                            <label><input type="radio" id='regular' name="optradio" /></label>
-                                                        </div>
-                                                    </td>
-                                                    <td>Mike Doe</td>
-                                                    <td>11-7-2014</td>
-                                                    <td><span class="tag tag-danger">Denied</span></td>
-                                                    <td>Bacon ipsum dolor</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="radio">
-                                                            <label><input type="radio" id='regular' name="optradio" /></label>
-                                                        </div>
-                                                    </td>
-                                                    <td>Jim Doe</td>
-                                                    <td>11-7-2014</td>
-                                                    <td><span class="tag tag-success">Approved</span></td>
-                                                    <td>Bacon ipsum dolor </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="radio">
-                                                            <label><input type="radio" id='regular' name="optradio" /></label>
-                                                        </div>
-                                                    </td>
-                                                    <td>Victoria Doe</td>
-                                                    <td>11-7-2014</td>
-                                                    <td><span class="tag tag-warning">Pending</span></td>
-                                                    <td>Bacon ipsum dolor </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="radio">
-                                                            <label><input type="radio" id='regular' name="optradio" /></label>
-                                                        </div>
-                                                    </td>
-                                                    <td>Michael Doe</td>
-                                                    <td>11-7-2014</td>
-                                                    <td><span class="tag tag-primary">Approved</span></td>
-                                                    <td>Bacon ipsum dolor</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="radio">
-                                                            <label><input type="radio" id='regular' name="optradio" /></label>
-                                                        </div>
-                                                    </td>
-                                                    <td>Rocky Doe</td>
-                                                    <td>11-7-2014</td>
-                                                    <td><span class="tag tag-danger">Denied</span></td>
-                                                    <td>Bacon ipsum dolor </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        {this.props.editors.length > 0 ? (
+                                            <div className="card-body table-responsive p-0" style={{ height: '300px' }}>
+                                                <table className="table table-head-fixed text-nowrap">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Chọn</th>
+                                                            <th>Editor</th>
+                                                            <th className="text-center">Đã xử lý</th>
+                                                            <th className="text-center">Đang xử lý</th>
+                                                            <th className="text-center">Ghi chú</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {this.props.editors.map(editor => (
+                                                            <tr key={editor._id}>
+                                                                <td>
+                                                                    <div className="radio" onChange={this.editorSelectedHandler}>
+                                                                        <label>
+                                                                            <input
+                                                                                value={editor._id}
+                                                                                type="radio"
+                                                                                id='editor'
+                                                                                name="editor" />
+                                                                        </label>
+                                                                    </div>
+                                                                </td>
+                                                                <td className="text-primary">
+                                                                    <Link to="#">{editor.lastname} {editor.firstname}</Link>
+                                                                </td>
+                                                                <td className="text-center">5</td>
+                                                                <td className="text-center">1</td>
+                                                                <td className="text-center">Available</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        ) : <Spinner />}
 
+                                        <div className="border-top p-3 ml-2">
+                                            <div className="form-check">
+                                                <input type="checkbox" defaultChecked className="form-check-input" id="checkboxSendNoti" />
+                                                <label className="form-check-label" htmlFor="checkboxSendNoti">Gửi thông báo đến biên tập viên.</label>
+                                            </div>
+                                            <div className="form-check">
+                                                <input type="checkbox" className="form-check-input" id="checkboxSendEmail" />
+                                                <label className="form-check-label" htmlFor="checkboxSendEmail">Gửi email đến biên tập viên.</label>
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer d-flex justify-content-center">
+                                            <button onClick={this.assignEditorHandler} className="btn btn-primary">Gửi yêu cầu</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer d-flex justify-content-center">
-                            <button class="btn btn-primary">Giao</button>
-                        </div>
                     </div>
                 </div>
+                <Modal
+                    show={this.state.isModalOpen}
+                    message="Chỉ định biên tập viên thành công!"
+                    modalClosed={this.closeModalHandler}>
+                </Modal>
             </div>
-        </div>
-    );
+        );
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        submission: state.submission.submission,
+        editors: state.review.editors,
+        isEditorAssigned: state.review.isEditorAssigned,
+        message: state.review.message
+    };
 };
 
-export default AssignEditor;
+const mapDispatchToProps = {
+    assignEditor,
+    resetEditorAssignmentState,
+    getSubmissionDetail
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AssignEditor);

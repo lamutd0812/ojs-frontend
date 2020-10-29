@@ -2257,17 +2257,19 @@ textarea.form-control {
 
 .badge-dark,
 .badge-warning,
-.badge-primary {
+.badge-primary,
+.badge-success {
+  width: 120px;
   padding: 4.5%;
   font-size: 14px;
   border-radius: 20px;
 }
 
-.badge-success {
+/* .badge-success {
   padding: 4.5% 17% 4.5% 17%;
   font-size: 14px;
   border-radius: 20px;
-}
+} */
 
 .avatar {
   width: 10%;

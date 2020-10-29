@@ -14,7 +14,7 @@ class Navigation extends Component {
                             <a className="nav-link" data-widget="pushmenu" href="idndex.html" role="button"><i className="fas fa-bars"></i></a>
                         </li>
                         <li className="nav-item d-none d-sm-inline-block">
-                            <NavLink to="/dashboard" className="nav-link">Home</NavLink>
+                            <NavLink to="/dashboard" className="nav-link">Dashboard</NavLink>
                         </li>
                         <li className="nav-item d-none d-sm-inline-block">
                             <NavLink to="/dashboard" className="nav-link">Contact</NavLink>
@@ -39,7 +39,7 @@ class Navigation extends Component {
                         <li className="nav-item dropdown">
                             <a className="nav-link" data-toggle="dropdown" href="idndex.html">
                                 <i className="far fa-comments"></i>
-                                <span className="badge badge-danger navbar-badge">3</span>
+                                <span className="badge badge-secondary navbar-badge">3</span>
                             </a>
                             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                 <a href="idndex.html" className="dropdown-item">
@@ -97,7 +97,7 @@ class Navigation extends Component {
                         <li className="nav-item dropdown">
                             <a className="nav-link" data-toggle="dropdown" href="idndex.html">
                                 <i className="far fa-bell"></i>
-                                <span className="badge badge-warning navbar-badge">15</span>
+                                <span className="badge badge-danger navbar-badge">15</span>
                             </a>
                             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                 <span className="dropdown-header">15 Notifications</span>

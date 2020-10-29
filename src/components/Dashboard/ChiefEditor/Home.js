@@ -53,7 +53,7 @@ class Home extends Component {
                                                         <Link to="#" className="text-primary">{submission.authorId.firstname} {submission.authorId.lastname}</Link>
                                                     </td>
                                                     <td className="project-state">
-                                                        <span className={getStageBadgeClassname(submission.submissionStatus.stageId.value)}>{submission.submissionStatus.stageId.name}</span>
+                                                        <span className={"badge " + getStageBadgeClassname(submission.submissionStatus.stageId.value)}>{submission.submissionStatus.stageId.name}</span>
                                                     </td>
                                                     <td className="text-center">
                                                         {!submission.editorId ? <span><i className="fa fa-exclamation-triangle"></i> Chưa có Biên tập viên</span> :
@@ -71,7 +71,7 @@ class Home extends Component {
                                             ))}
                                         </tbody>
                                     </table>
-                                ) : (<div className="card-text ml-4">Bạn chưa có bài báo nào được đăng tải lên hệ thống. Click vào<Link className="shop-now" to="/dashboard/new-submission"> đây</Link> để tiến hành đăng bài.</div>)}
+                                ) : (<div className="card-text ml-4">Chưa có bài báo nào được đăng tải lên hệ thống.</div>)}
                             </div>
                         </div>
                     ) : <Spinner />}

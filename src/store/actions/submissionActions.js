@@ -108,7 +108,7 @@ export const resetCreateSubmissionState = () => (dispatch) => {
     })
 };
 
-// Chief Editor
+// Chief Editor get All Submissions
 export const getAllSubmissions = () => (dispatch, getState) => {
     const token = getState().auth.token;
     dispatch(submissionStart());
