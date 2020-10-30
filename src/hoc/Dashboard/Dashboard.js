@@ -5,6 +5,7 @@ import Navigation from '../../components/Dashboard/Shared/Navigation';
 import Sidebar from '../../components/Dashboard/Shared/Sidebar';
 import SubmitArticle from '../../components/Dashboard/Author/SubmitArticle';
 import SubmissionDetail from '../../components/Dashboard/Shared/SubmissionDetail';
+import AssignEditor from '../../components/Dashboard/ChiefEditor/AssignEditor';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { USER_ROLES } from '../../utils/constant';
@@ -27,6 +28,7 @@ class Dashboard extends Component {
                     <Switch>
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
+                        <Route path="/dashboard/assign-editor" component={AssignEditor} />
                         <Route exact path="/dashboard" component={ChiefEditorHome} />
                     </Switch>
                 );

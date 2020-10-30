@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { updateObject, checkValidity } from '../../../utils/utility';
 import { getCategories, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submissionActions';
 import { Link } from 'react-router-dom';
+import ContentHeader from '../Shared/ContentHeader';
 
 class SubmitArticle extends Component {
 
@@ -171,21 +172,7 @@ class SubmitArticle extends Component {
         const submitArticle = (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <div className="container-fluid">
-                        <div className="row mb-2">
-                            <div className="col-sm-6">
-                                <h1>
-                                    Đăng bài báo lên hệ thống
-                                </h1>
-                            </div>
-                            <div className="col-sm-6">
-                                <ol className="breadcrumb float-sm-right">
-                                    <li className="breadcrumb-item"><a href="d">Home</a></li>
-                                    <li className="breadcrumb-item active">Navbar & Tabs</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
+                    <ContentHeader title="Submit bài báo lên hệ thống" />
                 </section>
                 <section className="content">
                     <div className="container-fluid">

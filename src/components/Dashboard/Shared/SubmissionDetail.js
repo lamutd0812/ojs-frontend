@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Spinner from '../../UI/Spinner/Spinner';
-import AssignEditor from '../ChiefEditor/AssignEditor';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import { USER_ROLES } from '../../../utils/constant';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
-import { getAllEditors } from '../../../store/actions/reviewActions';
 
 class SubmissionDetail extends Component {
 
@@ -25,18 +23,11 @@ class SubmissionDetail extends Component {
     //     }
     // }
 
-    // Chief Editor Get All Editor to Assign
-    getEditors = () => {
-        if (this.props.editors.length < 1) {
-            this.props.getAllEditors();
-        }
-    }
-
     render() {
         return (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader>
+                    <ContentHeader title="Thông tin chi tiết bài báo">
                         <li className="breadcrumb-item active">Submission Detail</li>
                     </ContentHeader>
                 </section>
@@ -106,25 +97,22 @@ class SubmissionDetail extends Component {
                                             </div>
                                         </div>
                                         <div className="p-2 col-lg-3 border rounded">
-                                            {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel
-                                                && !this.props.submission.editorId ? (
-                                                    <div className="form-group">
-                                                        <button className="btn btn-primary btn-block"
-                                                            data-toggle="modal"
-                                                            data-target="#modalAssignEditor"
-                                                            onClick={this.getEditors}>
-                                                            Chỉ định biên tập viên
-                                                        </button>
-                                                    </div>
-                                                ) : (
-                                                    <div className="form-group">
-                                                        <button className="btn btn-primary btn-block" disabled>
-                                                            Chỉ định biên tập viên
-                                                        </button>
-                                                    </div>
-                                                )}
                                             {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel ? (
                                                 <div>
+                                                    {!this.props.submission.editorId ? (
+                                                        <div className="form-group">
+                                                            <Link to={`/dashboard/assign-editor?submissionId=${this.props.submission._id}`}
+                                                                className="btn btn-primary btn-block">
+                                                                Chỉ định biên tập viên
+                                                            </Link>
+                                                        </div>
+                                                    ) : (
+                                                            <div className="form-group">
+                                                                <button className="btn btn-primary btn-block" disabled>
+                                                                    Chỉ định biên tập viên
+                                                                </button>
+                                                            </div>
+                                                        )}
                                                     <div className="form-group">
                                                         <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
                                                     </div>
@@ -179,9 +167,6 @@ class SubmissionDetail extends Component {
                         </div>
                     ) : <Spinner />}
                 </section>
-                {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel && (
-                    <AssignEditor />
-                )}
             </div>
         );
     }
@@ -197,8 +182,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-    getSubmissionDetail,
-    getAllEditors
+    getSubmissionDetail
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionDetail);

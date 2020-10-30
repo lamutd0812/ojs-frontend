@@ -27,7 +27,7 @@ class Home extends Component {
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
                 <section className="content-header">
-                    <ContentHeader />
+                    <ContentHeader title="Author Dashboard" />
                     <button onClick={this.btnNewSubmissonClickHandler} className="btn btn-primary">Submit bài báo </button>
                 </section>
 

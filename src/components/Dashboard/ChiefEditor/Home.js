@@ -17,7 +17,7 @@ class Home extends Component {
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
                 <section className="content-header">
-                    <ContentHeader />
+                    <ContentHeader title="Chief Editor Dashboard" />
                 </section>
 
                 {/* <!-- Main content --> */}
