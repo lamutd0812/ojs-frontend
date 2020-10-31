@@ -181,23 +181,17 @@ class SubmitArticle extends Component {
                                 <div className="card-header p-0 pt-1">
                                     <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                         <li className="nav-item">
-                                            <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}
-                                            // onClick={this.step1ActiveHandler}
-                                            >
+                                            <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}>
                                                 1. Điều khoản
                                             </div>
                                         </li>
                                         <li className="nav-item">
-                                            <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
-                                            // onClick={this.step2ActiveHandler}
-                                            >
+                                            <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}>
                                                 2. Đăng bài
                                             </div>
                                         </li>
                                         <li className="nav-item">
-                                            <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
-                                                // onClick={this.step3ActiveHandler}
-                                            >
+                                            <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}>
                                                 3. Hoàn thành
                                             </div>
                                         </li>
@@ -279,7 +273,6 @@ class SubmitArticle extends Component {
                                                         className="btn btn-primary"
                                                         disabled={!this.state.formIsValid}>Submit</button>
                                                     <button
-                                                        type="submit"
                                                         className="btn btn-primary ml-2"
                                                         onClick={this.step1ActiveHandler}>Quay lại</button>
                                                 </div>

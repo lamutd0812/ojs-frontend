@@ -4,8 +4,11 @@ import Modal from '../../UI/Modal/Modal';
 import Spinner from '../../UI/Spinner/Spinner';
 import { updateObject } from '../../../utils/utility';
 import { connect } from 'react-redux';
+import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getAllEditors, assignEditor, resetEditorAssignmentState } from '../../../store/actions/reviewActions';
 import ContentHeader from '../Shared/ContentHeader';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 class AssignEditor extends Component {
 
@@ -13,8 +16,12 @@ class AssignEditor extends Component {
         step1Active: true,
         step2Active: false,
         step3Active: false,
+        dueDate: new Date(),
         submissionId: '',
         selectedEditorId: '',
+        selectedEditorName: '',
+        notiToEditor: 'Nội dung thông báo',
+        messageToEditor: 'Nội dung lời nhắn',
         isModalOpen: false
     };
 
@@ -26,26 +33,29 @@ class AssignEditor extends Component {
             this.setState(updateObject(this.state, {
                 submissionId: submissionId
             }));
+            if (!this.props.submission) {
+                this.props.getSubmissionDetail(submissionId);
+            }
         }
     }
 
-    // step1ActiveHandler = () => {
-    //     let newState = updateObject(this.state, {
-    //         step1Active: true,
-    //         step2Active: false,
-    //         step3Active: false
-    //     });
-    //     this.setState(newState);
-    // }
+    step1ActiveHandler = () => {
+        let newState = updateObject(this.state, {
+            step1Active: true,
+            step2Active: false,
+            step3Active: false
+        });
+        this.setState(newState);
+    }
 
-    // step2ActiveHandler = () => {
-    //     let newState = updateObject(this.state, {
-    //         step1Active: false,
-    //         step2Active: true,
-    //         step3Active: false
-    //     });
-    //     this.setState(newState);
-    // }
+    step2ActiveHandler = () => {
+        let newState = updateObject(this.state, {
+            step1Active: false,
+            step2Active: true,
+            step3Active: false
+        });
+        this.setState(newState);
+    }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isEditorAssigned) {
@@ -53,8 +63,15 @@ class AssignEditor extends Component {
         }
     }
 
+    setDueDateHandler = (date) => {
+        this.setState(updateObject(this.state, { dueDate: date }));
+    }
+
     editorSelectedHandler = (event) => {
-        this.setState(updateObject(this.state, { selectedEditorId: event.target.value }));
+        this.setState(updateObject(this.state, {
+            selectedEditorId: event.target.value,
+            selectedEditorName: event.target.id
+        }));
     }
 
     assignEditorHandler = () => {
@@ -62,10 +79,13 @@ class AssignEditor extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState(updateObject(this.state, { isModalOpen: false }));
+        this.setState(updateObject(this.state, {
+            isModalOpen: false,
+            step1Active: false,
+            step2Active: false,
+            step3Active: true
+        }));
         this.props.resetEditorAssignmentState();
-        this.props.history.push('/dashboard/submission/' + this.state.submissionId);
-        // this.props.getSubmissionDetail(this.props.submission._id);
     }
 
     render() {
@@ -85,25 +105,19 @@ class AssignEditor extends Component {
                                     <div className="card-header p-0 pt-1">
                                         <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                             <li className="nav-item">
-                                                <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}
-                                                // onClick={this.step1ActiveHandler}
-                                                >
+                                                <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}>
                                                     1. Lựa chọn biên tập viên
-                                            </div>
+                                                </div>
                                             </li>
                                             <li className="nav-item">
-                                                <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
-                                                // onClick={this.step2ActiveHandler}
-                                                >
+                                                <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}>
                                                     2. Chi tiết yêu cầu
-                                            </div>
+                                                </div>
                                             </li>
                                             <li className="nav-item">
-                                                <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
-                                                // onClick={this.step3ActiveHandler}
-                                                >
+                                                <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}>
                                                     3. Hoàn thành
-                                            </div>
+                                                </div>
                                             </li>
                                         </ul>
                                     </div>
@@ -139,7 +153,7 @@ class AssignEditor extends Component {
                                                                                     <input
                                                                                         value={editor._id}
                                                                                         type="radio"
-                                                                                        id='editor'
+                                                                                        id={editor.lastname + " " + editor.firstname}
                                                                                         name="editor" />
                                                                                 </label>
                                                                             </div>
@@ -159,7 +173,62 @@ class AssignEditor extends Component {
                                                 <button
                                                     className="btn btn-primary"
                                                     disabled={this.state.selectedEditorId === ''}
-                                                    onClick={this.assignEditorHandler}>Lựa chọn</button>
+                                                    onClick={this.step2ActiveHandler}>Lựa chọn</button>
+                                            </div>
+                                            <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
+                                                <div className="form-group">
+                                                    <h6>Thời hạn xử lý*</h6>
+                                                    <DatePicker className="form-control"
+                                                        showTimeSelect
+                                                        minDate={new Date()}
+                                                        selected={this.state.dueDate}
+                                                        onChange={date => this.setDueDateHandler(date)}
+                                                        dateFormat="dd/MM/yyyy" />
+                                                </div>
+                                                <div className="form-group">
+                                                    <h6>Gửi thông báo và email tới biên tập viên*</h6>
+                                                    <textarea
+                                                        type="text"
+                                                        name="noti_and_email"
+                                                        className="form-control"
+                                                        defaultValue={this.state.notiToEditor} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <h6>Lời nhắn</h6>
+                                                    <textarea
+                                                        type="text"
+                                                        name="noti_and_email"
+                                                        className="form-control"
+                                                        defaultValue={this.state.messageToEditor} />
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        className="btn btn-primary"
+                                                        onClick={this.assignEditorHandler}>Hoàn thành</button>
+                                                    <button
+                                                        className="btn btn-primary ml-2"
+                                                        onClick={this.step1ActiveHandler}>Quay lại</button>
+                                                </div>
+                                            </div>
+                                            <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>
+                                                <h4>Chỉ định biên tập viên thành công.</h4>
+                                                {this.props.submission ? (
+                                                    <div className="ml-2">Bạn đã chỉ định biên tập viên <Link to="#" className="text-primary">{this.state.selectedEditorName}</Link> chủ trì quá trình
+                                                    thẩm định bài báo <b>{this.props.submission.title}</b> của tác giả <Link to="" className="text-primary">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}</Link></div>
+                                                ) : null}
+                                                <h4 className="mt-3">Bây giờ, bạn có thể:</h4>
+                                                {this.props.submission ? (
+                                                    <div className="ml-2">
+                                                        <i className="fa fa-eye"></i>
+                                                        {" "}<Link to={`/dashboard/submission/${this.props.submission._id}`} className="text-primary">
+                                                            Theo dõi quá trình thẩm định.
+                                                    </Link>.
+                                                    </div>
+                                                ) : null}
+                                                <div className="ml-2">
+                                                    <i className="fa fa-home"></i>
+                                                    {" "} <Link to="/dashboard" className="text-primary">Trở về trang chủ.</Link>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -189,6 +258,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getAllEditors,
+    getSubmissionDetail,
     assignEditor,
     resetEditorAssignmentState
 };

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Spinner from '../../UI/Spinner/Spinner';
-import ContentHeader from '../../Dashboard/Shared/ContentHeader';
+import ContentHeader from '../Shared/ContentHeader';
 import { USER_ROLES } from '../../../utils/constant';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
@@ -23,6 +23,12 @@ class SubmissionDetail extends Component {
     //     }
     // }
 
+    refreshHandler = () => {
+        if (this.props.match.params.submissionId) {
+            this.props.getSubmissionDetail(this.props.match.params.submissionId);
+        }
+    }
+
     render() {
         return (
             <div className="content-wrapper">
@@ -37,6 +43,11 @@ class SubmissionDetail extends Component {
                         <div className="card">
                             <div className="card-header">
                                 {this.props.submission ? <h3 className="card-title">{this.props.submission.title}</h3> : null}
+                                <div className="float-right mr-5">
+                                    <button className="btn btn-tool" onClick={this.refreshHandler}>
+                                        <i className="fas fa-sync-alt" style={{ fontSize: '20px' }}></i>
+                                    </button>
+                                </div>
                             </div>
                             {this.props.submission ? (
                                 <div className="card-body">
@@ -101,9 +112,8 @@ class SubmissionDetail extends Component {
                                                 <div>
                                                     {!this.props.submission.editorId ? (
                                                         <div className="form-group">
-                                                            <Link to={`/dashboard/assign-editor?submissionId=${this.props.submission._id}`}
-                                                                className="btn btn-primary btn-block">
-                                                                Chỉ định biên tập viên
+                                                            <Link to={`/dashboard/assign-editor?submissionId=${this.props.submission._id}`}>
+                                                                <button className="btn btn-primary btn-block">Chỉ định biên tập viên</button>
                                                             </Link>
                                                         </div>
                                                     ) : (

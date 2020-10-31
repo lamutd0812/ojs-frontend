@@ -6,9 +6,15 @@ import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 
+let stt = 1;
+
 class Home extends Component {
 
     componentDidMount() {
+        this.props.getAllSubmissions();
+    }
+
+    refreshHandler = () => {
         this.props.getAllSubmissions();
     }
 
@@ -26,6 +32,11 @@ class Home extends Component {
                         <div className="card">
                             <div className="card-header">
                                 <h3 className="card-title">Danh mục</h3>
+                                <div className="float-right mr-5">
+                                    <button className="btn btn-tool" onClick={this.refreshHandler}>
+                                        <i className="fas fa-sync-alt" style={{ fontSize: '20px' }}></i>
+                                    </button>
+                                </div>
                             </div>
                             <div className="card-body p-0">
                                 {this.props.submissions.length > 0 ? (
@@ -43,7 +54,7 @@ class Home extends Component {
                                         <tbody>
                                             {this.props.submissions.map(submission => (
                                                 <tr key={submission._id}>
-                                                    <td>#</td>
+                                                    <td>{stt++}</td>
                                                     <td>
                                                         <Link to={`/dashboard/submission/${submission._id}`}>{submission.title}</Link>
                                                         <br />
