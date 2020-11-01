@@ -1,5 +1,4 @@
 {
-  "proxy": "https://ojs.s3.ap-southeast-1.amazonaws.com",
   "name": "oa-frontend",
   "version": "0.1.0",
   "private": true,

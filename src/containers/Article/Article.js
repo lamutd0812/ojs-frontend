@@ -1,36 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Navigation from '../../components/Navigation/Navigation';
 import Footer from '../../components/Footer/Footer';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import RouteBreadcrumb from '../../components/Breadcrumb/RouteBreadcrumb';
-import { Document, Page, pdfjs } from 'react-pdf';
 
-const url = "/1604206540983-test.pdf";
+const url = "https://ojs.s3.ap-southeast-1.amazonaws.com/1604114351446-Unsupervised-real-time-anomaly-detection-for-streaming-da_2017_Neurocomputin.pdf";
 
 const Article = () => {
-
-    pdfjs.GlobalWorkerOptions.workerSrc =
-        `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-    const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
-
-    function onDocumentLoadSuccess({ numPages }) {
-        setNumPages(numPages);
-        setPageNumber(1);
-    }
-
-    function changePage(offset) {
-        setPageNumber(prevPageNumber => prevPageNumber + offset);
-    }
-
-    function previousPage() {
-        changePage(-1);
-    }
-
-    function nextPage() {
-        changePage(1);
-    }
 
     return (
         <Aux>
@@ -44,11 +21,8 @@ const Article = () => {
                 <div className="container">
                     <div className="row justify-content-center">
                         {/* Post Details Content Area */}
-                        <div className="col-12 col-xl-8">
+                        <div className="col col-9">
                             <div className="post-details-content bg-white mb-30 p-30 box-shadow">
-                                <div className="blog-thumb mb-30">
-                                    <img src="img/bg-img/50.jpg" alt="" />
-                                </div>
                                 <div className="blog-content">
                                     <div className="post-meta">
                                         <a href="a">MAY 8, 2018</a>
@@ -63,66 +37,17 @@ const Article = () => {
                                     </div>
 
                                     <div>
-                                        <Document
-                                            file={url}
-                                            onLoadSuccess={onDocumentLoadSuccess}
-                                        >
-                                            <Page pageNumber={pageNumber} />
-                                        </Document>
+                                        <embed
+                                            src={url}
+                                            type="application/pdf"
+                                            frameBorder="0"
+                                            scrolling="auto"
+                                            height="800px"
+                                            width="100%"
+                                        />
                                     </div>
-                                    <div>
-                                        Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
-                                    </div>
-                                    <div>
-                                        <button
-                                            type="button"
-                                            disabled={pageNumber <= 1}
-                                            onClick={previousPage}
-                                            className="Pre"
-
-                                        >
-                                            Previous
-        </button>
-                                        <button
-                                            type="button"
-                                            disabled={pageNumber >= numPages}
-                                            onClick={nextPage}
-
-                                        >
-                                            Next
-        </button>
-                                    </div>
-
-                                    {/* <p>Lorem ipsum dolor sit amet, consectetur sita adipiscing elit. Proin molestie accumsan orci suneget placerat. Etiama faucibuss orci quis posuere vestibulu. Ut id purusos ultricies, dictumax quam id, ullamcorper urna. Curabitur sitdown nisi vitae nisi vestotana vestibul ut non massa. Aliquam erat volutpat. Morbi nect nunc et orci euismode finibus. Donec lobortis venenatis turpis. Aenean act congue arcu, nect porttitor magna. Nam consequa ligula nibh, in maximus gravida. Vivamus nuornare masa. Quisque sed honcus leo, ullamcorper auctor mi. Maecenas mollis purus, mattis nisl condimentum. Nam eros elementu, congue diam imperdiet, interdum tellus.</p>
-
-                                        <p>Mauris dapibus turpis vel ialis tempor. Morbi turpis leon, pulvinar vitae convallis vitae, scelerisque necto eros. Suspendisse vitae pharetra risus. Pellentesque varius, felis in lacinia faucibus, ipsum liula aliquam nulla, non honcus nunc ipsum eu risus. Nunc finibus euismod magna sagittis. Sed dictum libero consectetur.</p>
-
-                                        <div className="row">
-                                            <div className="col-12 col-lg-8">
-                                                <p>Vivamus nisl metus, dictum sit amet porttitor sit amet, lobortis sit amet ipsum. Mauris ut quam non magna gravida egestas. Sed rutrum sapien eget lorem bibendum ullamcorper.</p>
-                                                <ul>
-                                                    <li><i className="fa fa-check-circle-o" aria-hidden="true"></i> Duis blandit maximus tellus, sagittis volutpat tellus sandi.</li>
-                                                    <li><i className="fa fa-check-circle-o" aria-hidden="true"></i> Etiam vel auctor elit. Usaceros suscipit, lobortis felis non.</li>
-                                                    <li><i className="fa fa-check-circle-o" aria-hidden="true"></i> Integer sagittis finibus nequer, euster tincidunt misult.</li>
-                                                    <li><i className="fa fa-check-circle-o" aria-hidden="true"></i> Pellentesque euismod semeget diam ege</li>
-                                                </ul>
-                                                <p>Aliquam venenatis dui elit, et viverra mi maximus quis. Etiam vel auctor elit. Ut ac eros suscipit, lobortis felison, vulputate tellus. Suspendisse hendrerit aliquet lectus.</p>
-                                            </div>
-                                            <div className="col-12 col-lg-4">
-                                                <img className="mb-15" src="img/bg-img/51.jpg" alt="" />
-                                            </div>
-                                        </div>
-
-                                        <p>Mauris nisi arcu, consectetur convallis fringilla quis, posuere ac mauris. Ut in placerat lorem. Donec cursus malesuada nibhem, eget consectetur posuere sed. Suspendisse auctor nec diamet consectetur. Etiam ac maurised nisib tincidunt viverra. Sed nulla lacus, convallis vel nunc sed, fringilla venenatis neque.</p>
-
-                                        <blockquote>
-                                            <h6 className="quote-text">“Design is a funny word. Some people think design means how it looks. But of course, if you dig deeper, it's really how it works. The design of the Mac wasn't what it looked like, although that was part of it.”</h6>
-                                            <h6 className="quote-name">STEVE JOBS</h6>
-                                        </blockquote>
-
-                                        <p>Phasellus laoreet mattis ultrices. Integer ex sem, ultrices eu sem in, laoreet vehicula ligula. Phasellus quistor blandit salah convallis augue. Sed velot dictum sapient. In pulvinar libero turpis. Quisque facilisis bigbang consenti. Nullam bendumaz, massan consequat in gravida porttitor, aguet lacus condimentum mauris, id blandit quam augue eget mana. Etiam denim jeans lacus, nascetur auge bibendum vel pulvinar viverra, mattis sit amet mi. Mauris fringilla, ex vitae maximus fringilla, neque sapien maximus justo, cursus risus neque sed nibh. Donec at urna eros scelerisque non nibh sed.</p> */}
-
-                                    {/* <!-- Like Dislike Share --> */}
+                                    
+                                    {/* Like Disklike Share */}
                                     <div className="like-dislike-share my-5">
                                         <h4 className="share">240<span>Share</span></h4>
                                         <a href="a" className="facebook"><i className="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</a>
@@ -309,8 +234,8 @@ const Article = () => {
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-6 col-lg-5 col-xl-4">
-                            <div className="sidebar-area bg-white mb-30 box-shadow">
+                        <div className="col col-3">
+                            <div className="post-sidebar-area right-sidebar mt-30 mb-30 box-shadow">
                                 {/* <!-- Sidebar Widget --> */}
                                 <div className="single-sidebar-widget p-30">
                                     {/* <!-- Social Followers Info --> */}
