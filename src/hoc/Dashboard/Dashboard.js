@@ -6,7 +6,7 @@ import Sidebar from '../../components/Dashboard/Shared/Sidebar';
 import SubmitArticle from '../../components/Dashboard/Author/SubmitArticle';
 import SubmissionDetail from '../../components/Dashboard/Submission/SubmissionDetail';
 import AssignEditor from '../../components/Dashboard/ChiefEditor/AssignEditor';
-import { Route, Switch } from 'react-router-dom';
+import {  Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { USER_ROLES } from '../../utils/constant';
 

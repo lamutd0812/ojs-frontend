@@ -4,7 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Navigation from '../../components/Navigation/Navigation';
 import Footer from '../../components/Footer/Footer';
-import Breadcumb from '../../components/Breadcrumb/Breadcrumb';
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import { auth } from '../../store/actions/authActions';
 import { updateObject, checkValidity } from '../../utils/utility';
 
@@ -85,7 +85,7 @@ class Login extends Component {
             <Aux>
                 {authRedirect}
                 <Navigation />
-                <Breadcumb
+                <Breadcrumb
                     title="Trang Đăng Nhập"
                     imageUrl={`url(${require("../../resources/imgs/40.jpg")})`} />
                 <div className="mag-login-area py-5">

@@ -11,10 +11,12 @@ let stt = 1;
 class Home extends Component {
 
     componentDidMount() {
+        stt = 1;
         this.props.getAllSubmissions();
     }
 
     refreshHandler = () => {
+        stt = 1;
         this.props.getAllSubmissions();
     }
 

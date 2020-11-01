@@ -10,6 +10,7 @@ let stt = 1;
 class Home extends Component {
 
     componentDidMount() {
+        stt = 1;
         this.props.getSubmissionsByAuthor(this.props.userId);
     }
 
@@ -20,6 +21,7 @@ class Home extends Component {
     // }
 
     refreshHandler = () => {
+        stt = 1;
         this.props.getSubmissionsByAuthor(this.props.userId);
     }
 

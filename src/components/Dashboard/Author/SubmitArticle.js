@@ -200,7 +200,28 @@ class SubmitArticle extends Component {
                                 <div className="card-body">
                                     <div className="tab-content" id="custom-tabs-one-tabContent">
                                         <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            <div>Chấp nhận điều khoản để tiếp tục</div>
+                                            {/* <div>Chấp nhận điều khoản để tiếp tục</div> */}
+                                            <div className="crd-body">
+                                                <div className="form-group">
+                                                    <h6>Yêu cầu chung</h6>
+                                                    <div className="form-check">
+                                                        <input className="form-check-input" type="checkbox" />
+                                                        <label className="form-check-label">Yêu cầu 1</label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input className="form-check-input" type="checkbox" />
+                                                        <label className="form-check-label">Yêu cầu 2</label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input className="form-check-input" type="checkbox" />
+                                                        <label className="form-check-label">Yêu cầu 2</label>
+                                                    </div>
+                                                    <div className="form-check">
+                                                        <input className="form-check-input" type="checkbox" />
+                                                        <label className="form-check-label">Yêu cầu 2</label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <button className="btn btn-primary" onClick={this.step2ActiveHandler}>Chấp nhận</button>
                                         </div>
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>

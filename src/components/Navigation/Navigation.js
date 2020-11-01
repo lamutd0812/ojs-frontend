@@ -24,7 +24,7 @@ class Navigation extends Component {
                                     <div className="classynav">
                                         <ul>
                                             <li className="active"><Link to="/" >Home</Link></li>
-                                            <li><NavLink to="#">Archive</NavLink></li>
+                                            <li><NavLink to="/single-article">Article</NavLink></li>
                                             <li><NavLink to="/dashboard">Dashboard</NavLink></li>
                                             <li><NavLink to="#">Contact</NavLink></li>
                                         </ul>

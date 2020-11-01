@@ -2276,3 +2276,7 @@ textarea.form-control {
   margin-right: 20px;
 }
 
+.react-datepicker-popper {
+  z-index: 3 !important;
+}
+
