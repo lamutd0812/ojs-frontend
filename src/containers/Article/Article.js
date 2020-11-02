@@ -5,7 +5,7 @@ import Footer from '../../components/Footer/Footer';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import RouteBreadcrumb from '../../components/Breadcrumb/RouteBreadcrumb';
 
-const url = "https://ojs.s3.ap-southeast-1.amazonaws.com/1604114351446-Unsupervised-real-time-anomaly-detection-for-streaming-da_2017_Neurocomputin.pdf";
+const url = "https://ojs.s3.ap-southeast-1.amazonaws.com/1604286906976-Detection%20of%20spam-posting%20accounts%20on%20Twitter.pdf";
 
 const Article = () => {
 
@@ -28,7 +28,7 @@ const Article = () => {
                                         <a href="a">MAY 8, 2018</a>
                                         <a href="archive.html">lifestyle</a>
                                     </div>
-                                    <h4 className="post-title">From Wetlands To Canals And Dams Amsterdam Is Alive</h4>
+                                    <h4 className="post-title">Detection of spam-posting accounts on Twitter</h4>
                                     {/* <!-- Post Meta --> */}
                                     <div className="post-meta-2">
                                         <a href="a"><i className="fa fa-eye" aria-hidden="true"></i> 1034</a>

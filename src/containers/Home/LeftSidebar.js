@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const LeftSidebar = () => {
     return (
@@ -13,7 +14,7 @@ const LeftSidebar = () => {
                         <img src="img/bg-img/4.jpg" alt="" />
                     </div>
                     <div className="post-content">
-                        <a href="single-post.html" className="post-title">Du Lịch Việt Nam năm 2020</a>
+                        <Link to="/single-article" className="post-title">Detection of spam-posting accounts on Twitter</Link>
                         <div className="post-meta d-flex justify-content-between">
                             <a href="index.html"><i className="fa fa-eye" aria-hidden="true"></i> 34</a>
                             <a href="index.html"><i className="fa fa-thumbs-o-up" aria-hidden="true"></i> 84</a>

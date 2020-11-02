@@ -174,7 +174,7 @@ class Register extends Component {
             this.state.toBeReviewer);
     };
 
-    closeModalHandler = () => {
+    confirmHandler = () => {
         this.setState(updateObject(this.state, { isModalOpen: false }));
         this.props.onResetRegisterState();
         this.props.history.push('/login');
@@ -328,7 +328,9 @@ class Register extends Component {
                 <Modal
                     show={this.state.isModalOpen}
                     message="Đăng ký tài khoản thành công!"
-                    modalClosed={this.closeModalHandler}>
+                    hasCancel={false}
+                    confirmMessage="Đồng ý"
+                    confirm={this.confirmHandler}>
                 </Modal>
             </Aux>
         );

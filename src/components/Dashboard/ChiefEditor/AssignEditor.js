@@ -59,7 +59,7 @@ class AssignEditor extends Component {
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isEditorAssigned) {
-            this.setState(updateObject(this.state, { isModalOpen: true }));
+            this.props.resetEditorAssignmentState();
         }
     }
 
@@ -74,18 +74,26 @@ class AssignEditor extends Component {
         }));
     }
 
-    assignEditorHandler = () => {
-        this.props.assignEditor(this.state.submissionId, this.state.selectedEditorId);
+    showModalHandler = (event) => {
+        event.preventDefault();
+        this.setState(updateObject(this.state, { isModalOpen: true }));
     }
 
-    closeModalHandler = () => {
+    confirmSubmitHandler = () => {
+        this.props.assignEditor(this.state.submissionId, this.state.selectedEditorId);
+
         this.setState(updateObject(this.state, {
             isModalOpen: false,
             step1Active: false,
             step2Active: false,
             step3Active: true
         }));
-        this.props.resetEditorAssignmentState();
+    }
+
+    cancelHandler = () => {
+        this.setState(updateObject(this.state, {
+            isModalOpen: false
+        }));
     }
 
     render() {
@@ -204,7 +212,7 @@ class AssignEditor extends Component {
                                                 <div>
                                                     <button
                                                         className="btn btn-primary"
-                                                        onClick={this.assignEditorHandler}>Hoàn thành</button>
+                                                        onClick={this.showModalHandler}>Tiếp tục</button>
                                                     <button
                                                         className="btn btn-primary ml-2"
                                                         onClick={this.step1ActiveHandler}>Quay lại</button>
@@ -214,7 +222,7 @@ class AssignEditor extends Component {
                                                 <h4>Chỉ định biên tập viên thành công.</h4>
                                                 {this.props.submission ? (
                                                     <div className="ml-2">Bạn đã chỉ định biên tập viên <Link to="#" className="text-primary">{this.state.selectedEditorName}</Link> chủ trì quá trình
-                                                    thẩm định bài báo <b>{this.props.submission.title}</b> của tác giả <Link to="" className="text-primary">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}</Link></div>
+                                                    thẩm định bài báo <b>{this.props.submission.title}</b> của tác giả <Link to="" className="text-primary">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}.</Link></div>
                                                 ) : null}
                                                 <h4 className="mt-3">Bây giờ, bạn có thể:</h4>
                                                 {this.props.submission ? (
@@ -239,8 +247,12 @@ class AssignEditor extends Component {
                 </div>
                 <Modal
                     show={this.state.isModalOpen}
-                    message="Chỉ định biên tập viên thành công!"
-                    modalClosed={this.closeModalHandler}>
+                    message="Xác nhận chỉ định biên tập viên?"
+                    confirmMessage="Đồng ý"
+                    confirm={this.confirmSubmitHandler}
+                    hasCancel={true}
+                    cancelMessage="Hủy"
+                    cancel={this.cancelHandler}>
                 </Modal>
             </div>
         );

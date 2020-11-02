@@ -8,8 +8,15 @@ const Modal = (props) => {
                 <div className={classes.content}>
                     {props.message}
                 </div>
-                <div className={classes.btn} onClick={props.modalClosed}>
-                    OK
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div className={classes.btn} onClick={props.confirm}>
+                        {props.confirmMessage}
+                    </div>
+                    {props.hasCancel ? (
+                        <div className={classes.btn} onClick={props.cancel}>
+                            {props.cancelMessage}
+                        </div>
+                    ) : null}
                 </div>
             </div> : null
     );

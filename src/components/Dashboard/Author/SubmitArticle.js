@@ -76,7 +76,7 @@ class SubmitArticle extends Component {
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isSubmissionCreated) {
-            this.setState(updateObject(this.state, { isModalOpen: true }));
+            this.props.resetCreateSubmissionState();
         }
     }
 
@@ -131,33 +131,31 @@ class SubmitArticle extends Component {
         this.setState(newState);
     }
 
-    // step3ActiveHandler = () => {
-    //     let newState = updateObject(this.state, {
-    //         step1Active: false,
-    //         step2Active: false,
-    //         step3Active: true
-    //     });
-    //     this.setState(newState);
-    // }
-
-    formSubmitHandler = (event) => {
+    showModalHandler = (event) => {
         event.preventDefault();
+        this.setState(updateObject(this.state, { isModalOpen: true }));
+    }
+
+    confirmSubmitHandler = () => {
         const formData = new FormData();
         formData.append('title', this.state.controls.title.value);
         formData.append('abstract', this.state.controls.abstract.value);
         formData.append('attachment', this.state.controls.attachment.file);
         formData.append('categoryId', this.state.controls.categoryId.value);
         this.props.createSubmission(formData);
-    }
 
-    closeModalHandler = () => {
         this.setState(updateObject(this.state, {
             isModalOpen: false,
             step1Active: false,
             step2Active: false,
             step3Active: true
         }));
-        this.props.resetCreateSubmissionState();
+    }
+
+    cancelHandler = () => {
+        this.setState(updateObject(this.state, {
+            isModalOpen: false
+        }));
     }
 
     render() {
@@ -225,7 +223,7 @@ class SubmitArticle extends Component {
                                             <button className="btn btn-primary" onClick={this.step2ActiveHandler}>Chấp nhận</button>
                                         </div>
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            <form onSubmit={this.formSubmitHandler}>
+                                            <form onSubmit={this.showModalHandler}>
                                                 <div className="card-body">
                                                     {this.props.categories ? (
                                                         <div className="form-group">
@@ -337,8 +335,12 @@ class SubmitArticle extends Component {
                 {submitArticle}
                 <Modal
                     show={this.state.isModalOpen}
-                    message="Submit bài báo thành công!"
-                    modalClosed={this.closeModalHandler}>
+                    message="Submit bài báo lên hệ thống?"                  
+                    confirmMessage="Đồng ý"
+                    confirm={this.confirmSubmitHandler}
+                    hasCancel={true}
+                    cancelMessage="Hủy"                  
+                    cancel={this.cancelHandler}>
                 </Modal>
             </Aux>
         );
