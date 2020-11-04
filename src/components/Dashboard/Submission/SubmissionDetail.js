@@ -6,12 +6,14 @@ import ContentHeader from '../Shared/ContentHeader';
 import { USER_ROLES } from '../../../utils/constant';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
+import { getEditorAssignment } from '../../../store/actions/reviewActions';
 
 class SubmissionDetail extends Component {
 
     componentDidMount() {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
+            this.props.getEditorAssignment(this.props.match.params.submissionId);
         }
     }
 
@@ -26,6 +28,7 @@ class SubmissionDetail extends Component {
     refreshHandler = () => {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
+            this.props.getEditorAssignment(this.props.match.params.submissionId);
         }
     }
 
@@ -65,9 +68,9 @@ class SubmissionDetail extends Component {
                                                 <div className="col-lg-4">
                                                     <div className="form-group mr-2">
                                                         <label>Biên tập viên (Editor)</label>
-                                                        {this.props.submission.editorId ? (
+                                                        {this.props.editorAssignment ? (
                                                             <Link to="#">
-                                                                <p className="text-primary ml-4">{this.props.submission.editorId.firstname} {this.props.submission.editorId.lastname}</p>
+                                                                <p className="text-primary ml-4">{this.props.editorAssignment.editorId.lastname} {this.props.editorAssignment.editorId.firstname}</p>
                                                             </Link>
                                                         ) : <p className="ml-4">Chưa được chỉ định</p>}
                                                     </div>
@@ -110,7 +113,7 @@ class SubmissionDetail extends Component {
                                         <div className="p-2 col-lg-3 border rounded">
                                             {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel ? (
                                                 <div>
-                                                    {!this.props.submission.editorId ? (
+                                                    {!this.props.editorAssignment ? (
                                                         <div className="form-group">
                                                             <Link to={`/dashboard/assign-editor?submissionId=${this.props.submission._id}`}>
                                                                 <button className="btn btn-primary btn-block">Chỉ định biên tập viên</button>
@@ -187,12 +190,14 @@ const mapStateToProps = (state) => {
         submission: state.submission.submission,
         loading: state.submission.loading,
         permissionLevel: state.auth.role.permissionLevel,
-        editors: state.review.editors
+        editors: state.review.editors,
+        editorAssignment: state.review.editorAssignment
     }
 };
 
 const mapDispatchToProps = {
-    getSubmissionDetail
+    getSubmissionDetail,
+    getEditorAssignment
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionDetail);

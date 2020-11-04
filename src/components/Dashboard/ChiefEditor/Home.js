@@ -69,7 +69,7 @@ class Home extends Component {
                                                         <span className={"badge " + getStageBadgeClassname(submission.submissionStatus.stageId.value)}>{submission.submissionStatus.stageId.name}</span>
                                                     </td>
                                                     <td className="text-center">
-                                                        {!submission.editorId ? <span><i className="fa fa-exclamation-triangle"></i> Chưa có Biên tập viên</span> :
+                                                        {!submission.editorAssignmentId ? <span><i className="fa fa-exclamation-triangle"></i> Chưa có Biên tập viên</span> :
                                                             <span>{submission.submissionStatus.status}</span>}
                                                     </td>
                                                     <td className="project-actions text-center">

@@ -12,8 +12,15 @@ const assignEditorSuccess = (message) => {
     return {
         type: actionTypes.ASSIGN_EDITOR_SUCCESS,
         message: message
-    }
-}
+    };
+};
+
+const getEditorAssignmentSuccess = (editorAssignment) => {
+    return {
+        type: actionTypes.GET_EDITOR_ASSIGNMENT_SUCCESS,
+        editorAssignment: editorAssignment
+    };
+};
 
 const reviewProcessError = (error) => {
     return {
@@ -58,4 +65,18 @@ export const resetEditorAssignmentState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_EDITOR_ASSIGNMENT_STATE
     })
+};
+
+// CE and other roles get Editor Assignment
+export const getEditorAssignment = (submissionId) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.get('/reviews/editor-assignment/' + submissionId, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getEditorAssignmentSuccess(res.data.editorAssignment));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.message));
+    });
 };
