@@ -59,3 +59,31 @@ export const getFormattedDate = (dateStr) => {
     const formattedDate = day + "-" + month + "-" + date.getFullYear() + " " + hour + ":" + min + ":" + sec;
     return formattedDate;
 }
+
+export const getFormattedDateOnly = (dateStr) => {
+    let date = new Date(dateStr);
+
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    month = (month < 10 ? "0" : "") + month;
+    day = (day < 10 ? "0" : "") + day;
+
+    const formattedDate = day + "-" + month + "-" + date.getFullYear();
+    return formattedDate;
+}
+
+export const getFormattedTimeOnly = (dateStr) => {
+    let date = new Date(dateStr);
+
+    let hour = date.getHours();
+    let min = date.getMinutes();
+    let sec = date.getSeconds();
+
+    hour = (hour < 10 ? "0" : "") + hour;
+    min = (min < 10 ? "0" : "") + min;
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    const formattedTimeFromDate = hour + ":" + min + ":" + sec;
+    return formattedTimeFromDate;
+}

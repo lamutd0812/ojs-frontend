@@ -16,12 +16,12 @@ class AssignEditor extends Component {
         step1Active: true,
         step2Active: false,
         step3Active: false,
-        dueDate: new Date(),
         submissionId: '',
         selectedEditorId: '',
         selectedEditorName: '',
-        notiToEditor: 'Nội dung thông báo',
+        dueDate: new Date(),
         messageToEditor: 'Nội dung lời nhắn',
+        emailToEditor: 'Nội dung thông báo',
         isModalOpen: false
     };
 
@@ -63,15 +63,24 @@ class AssignEditor extends Component {
         }
     }
 
-    setDueDateHandler = (date) => {
-        this.setState(updateObject(this.state, { dueDate: date }));
-    }
-
     editorSelectedHandler = (event) => {
         this.setState(updateObject(this.state, {
             selectedEditorId: event.target.value,
             selectedEditorName: event.target.id
         }));
+    }
+
+    setDueDateHandler = (date) => {
+        this.setState(updateObject(this.state, { dueDate: date }));
+    }
+
+    setMessageToEditorHandler = (event) => {
+        this.setState(updateObject(this.state, { messageToEditor: event.target.value }));
+    }
+
+    setEmailToEditorHandler = (event) => {
+        this.setState(updateObject(this.state, { emailToEditor: event.target.value }));
+        console.log(this.state);
     }
 
     showModalHandler = (event) => {
@@ -80,7 +89,8 @@ class AssignEditor extends Component {
     }
 
     confirmSubmitHandler = () => {
-        this.props.assignEditor(this.state.submissionId, this.state.selectedEditorId);
+        this.props.assignEditor(this.state.submissionId, this.state.selectedEditorId,
+            this.state.dueDate, this.state.messageToEditor);
 
         this.setState(updateObject(this.state, {
             isModalOpen: false,
@@ -194,20 +204,22 @@ class AssignEditor extends Component {
                                                         dateFormat="dd/MM/yyyy" />
                                                 </div>
                                                 <div className="form-group">
-                                                    <h6>Gửi thông báo và email tới biên tập viên*</h6>
+                                                    <h6>Gửi Email tới biên tập viên*</h6>
                                                     <textarea
                                                         type="text"
                                                         name="noti_and_email"
                                                         className="form-control"
-                                                        defaultValue={this.state.notiToEditor} />
+                                                        defaultValue={this.state.emailToEditor}
+                                                        onChange={this.setEmailToEditorHandler} />
                                                 </div>
                                                 <div className="form-group">
                                                     <h6>Lời nhắn</h6>
                                                     <textarea
                                                         type="text"
-                                                        name="noti_and_email"
+                                                        name="message"
                                                         className="form-control"
-                                                        defaultValue={this.state.messageToEditor} />
+                                                        defaultValue={this.state.messageToEditor}
+                                                        onChange={this.setMessageToEditorHandler} />
                                                 </div>
                                                 <div>
                                                     <button

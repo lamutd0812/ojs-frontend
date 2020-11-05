@@ -44,11 +44,13 @@ export const getAllEditors = () => (dispatch, getState) => {
 };
 
 // Chief Editor assign Editor
-export const assignEditor = (submissionId, editorId) => (dispatch, getState) => {
+export const assignEditor = (submissionId, editorId, dueDate, message) => (dispatch, getState) => {
     const token = getState().auth.token;
     const reqBody = {
         submissionId: submissionId,
-        editorId: editorId
+        editorId: editorId,
+        dueDate: dueDate,
+        message: message
     };
     axios.put('/reviews/assign-editor', reqBody, {
         headers: {

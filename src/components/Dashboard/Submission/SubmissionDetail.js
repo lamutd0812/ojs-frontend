@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import SubmissionLogs from './SubmissionLogs';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
 import { USER_ROLES } from '../../../utils/constant';
@@ -160,7 +161,7 @@ class SubmissionDetail extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <label>Nhật ký hoạt động</label><br />
-                                                <Link to="#" className="ml-3 text-primary">Xem chi tiết.</Link>
+                                                <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#exampleModal">Xem chi tiết.</Link>
                                             </div>
                                             {this.props.permissionLevel === USER_ROLES.AUTHOR.permissionLevel ? (
                                                 <div className="form-group">
@@ -180,6 +181,7 @@ class SubmissionDetail extends Component {
                         </div>
                     ) : <Spinner />}
                 </section>
+                {this.props.submission && <SubmissionLogs logs={this.props.submission.submissionLogs} />}
             </div>
         );
     }
