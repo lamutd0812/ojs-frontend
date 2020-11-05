@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import SubmissionLogs from './SubmissionLogs';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
-import { USER_ROLES } from '../../../utils/constant';
+import { USER_ROLES, STAGE } from '../../../utils/constant';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getEditorAssignment } from '../../../store/actions/reviewActions';
@@ -166,9 +166,15 @@ class SubmissionDetail extends Component {
                                             {this.props.permissionLevel === USER_ROLES.AUTHOR.permissionLevel ? (
                                                 <div className="form-group">
                                                     <label>Chỉnh sửa</label><br />
-                                                    <Link to="#" className="btn btn-info btn-sm mr-1">
-                                                        <i className="fas fa-pencil-alt"></i> Sửa
-                                                    </Link>
+                                                    {this.props.submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
+                                                        <Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="btn btn-info btn-sm mr-1">
+                                                            <i className="fas fa-pencil-alt"></i> Sửa
+                                                        </Link>
+                                                    ) : (
+                                                        <Link to="#" className="btn btn-info btn-sm mr-1 disabled">
+                                                            <i className="fas fa-pencil-alt"></i> Sửa
+                                                        </Link>
+                                                    )}
                                                     <Link to="#" className="btn btn-danger btn-sm">
                                                         <i className="fas fa-trash"></i> Xóa
                                                     </Link>

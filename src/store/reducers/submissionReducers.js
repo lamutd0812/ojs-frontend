@@ -6,6 +6,7 @@ const initialState = {
     submissions: [],
     submission: null,
     isSubmissionCreated: false,
+    isSubmissionEdited: false,
     loading: true,
     error: null
 };
@@ -54,10 +55,25 @@ const resetCreateSubmissionState = (state) => {
     })
 };
 
+const editSubmissionSuccess = (state, action) => {
+    return updateObject(state, {
+        submission: action.submission,
+        isSubmissionEdited: true,
+        error: null
+    });
+};
+
+const resetEditSubmissionState = (state) => {
+    return updateObject(state, {
+        isSubmissionEdited: false,
+        error: null
+    })
+};
+
 const fetchSubmissionError = (state, action) => {
     return updateObject(state, {
         error: action.error,
-        loading: true
+        // loading: true
     });
 };
 
@@ -80,6 +96,8 @@ const submissionReducer = (state = initialState, action) => {
         case actionTypes.GET_SUBMISSIONS_DETAIL_SUCCESS: return getSubmissionDetailSuccess(state, action);
         case actionTypes.CREATE_SUBMISSION_SUCCESS: return createSubmissionSuccess(state, action);
         case actionTypes.RESET_CREATE_SUBMISSION_STATE: return resetCreateSubmissionState(state);
+        case actionTypes.EDIT_SUBMISSION_SUCCESS: return editSubmissionSuccess(state, action);
+        case actionTypes.RESET_EDIT_SUBMISSION_STATE: return resetEditSubmissionState(state);
         case actionTypes.GET_ALL_SUBMISSIONS_SUCCESS: return getAllSubmissionsSuccess(state, action);
         default: return state;
     }

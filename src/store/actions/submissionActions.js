@@ -35,6 +35,13 @@ const createSubmissionSuccess = (submission) => {
     }
 };
 
+const editSubmissionSuccess = (submission) => {
+    return {
+        type: actionTypes.EDIT_SUBMISSION_SUCCESS,
+        submission: submission
+    }
+};
+
 const submissionErrors = (error) => {
     return {
         type: actionTypes.SUBMISSIONS_ERROR,
@@ -105,6 +112,26 @@ export const createSubmission = (formData) => (dispatch, getState) => {
 export const resetCreateSubmissionState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_CREATE_SUBMISSION_STATE
+    })
+};
+
+export const editSubmission = (submissionId, formData) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.put('/submissions/' + submissionId, formData, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(res => {
+        dispatch(editSubmissionSuccess(res.data.submission));
+    }).catch(err => {
+        dispatch(submissionErrors(err.response.data.error));
+    });
+};
+
+export const resetEditSubmissionState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_EDIT_SUBMISSION_STATE
     })
 };
 

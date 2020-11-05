@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import Modal from '../../../components/UI/Modal/Modal';
+import Modal from '../../UI/Modal/Modal';
 import { connect } from 'react-redux';
 import { updateObject, checkValidity } from '../../../utils/utility';
 import { getCategories, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submissionActions';
@@ -67,7 +67,8 @@ class SubmitArticle extends Component {
                 touched: false
             }
         },
-        formIsValid: false
+        formIsValid: false,
+        isModalOpen: false
     }
 
     componentDidMount() {
@@ -77,6 +78,11 @@ class SubmitArticle extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isSubmissionCreated) {
             this.props.resetCreateSubmissionState();
+            this.setState(updateObject(this.state, {
+                step1Active: false,
+                step2Active: false,
+                step3Active: true
+            }));
         }
     }
 
@@ -113,11 +119,12 @@ class SubmitArticle extends Component {
         });
     };
 
-    step1ActiveHandler = () => {
+    step1ActiveHandler = (event) => {
+        event.preventDefault();
         let newState = updateObject(this.state, {
             step1Active: true,
             step2Active: false,
-            step3Active: false
+            step3Active: false,
         });
         this.setState(newState);
     }
@@ -143,13 +150,7 @@ class SubmitArticle extends Component {
         formData.append('attachment', this.state.controls.attachment.file);
         formData.append('categoryId', this.state.controls.categoryId.value);
         this.props.createSubmission(formData);
-
-        this.setState(updateObject(this.state, {
-            isModalOpen: false,
-            step1Active: false,
-            step2Active: false,
-            step3Active: true
-        }));
+        this.setState(updateObject(this.state, { isModalOpen: false }));
     }
 
     cancelHandler = () => {
@@ -212,18 +213,18 @@ class SubmitArticle extends Component {
                                                     </div>
                                                     <div className="form-check">
                                                         <input className="form-check-input" type="checkbox" />
-                                                        <label className="form-check-label">Yêu cầu 2</label>
+                                                        <label className="form-check-label">Yêu cầu 3</label>
                                                     </div>
                                                     <div className="form-check">
                                                         <input className="form-check-input" type="checkbox" />
-                                                        <label className="form-check-label">Yêu cầu 2</label>
+                                                        <label className="form-check-label">Yêu cầu 4</label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <button className="btn btn-primary" onClick={this.step2ActiveHandler}>Chấp nhận</button>
                                         </div>
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            <form onSubmit={this.showModalHandler}>
+                                            <form>
                                                 <div className="card-body">
                                                     {this.props.categories ? (
                                                         <div className="form-group">
@@ -288,8 +289,8 @@ class SubmitArticle extends Component {
 
                                                 <div className="card-footer">
                                                     <button
-                                                        type="submit"
                                                         className="btn btn-primary"
+                                                        onClick={this.showModalHandler}
                                                         disabled={!this.state.formIsValid}>Submit</button>
                                                     <button
                                                         className="btn btn-primary ml-2"

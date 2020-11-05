@@ -5,6 +5,7 @@ import { getSubmissionsByAuthor } from '../../../store/actions/submissionActions
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
+import { STAGE } from '../../../utils/constant';
 
 let stt = 1;
 class Home extends Component {
@@ -80,13 +81,20 @@ class Home extends Component {
                                                     <td className="project-actions text-right">
                                                         <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-primary btn-sm mr-1">
                                                             <i className="fas fa-eye"></i> Xem
-                                                    </Link>
-                                                        <Link to="#" className="btn btn-info btn-sm mr-1">
-                                                            <i className="fas fa-pencil-alt"></i> Sửa
-                                                    </Link>
+                                                        </Link>
+
+                                                        {submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
+                                                            <Link to={`/dashboard/edit-submission/${submission._id}`} className="btn btn-info btn-sm mr-1">
+                                                                <i className="fas fa-pencil-alt"></i> Sửa
+                                                            </Link>
+                                                        ) : (
+                                                            <Link to="#" className="btn btn-info btn-sm mr-1 disabled">
+                                                                <i className="fas fa-pencil-alt"></i> Sửa
+                                                            </Link>
+                                                        )}
                                                         <Link to="#" className="btn btn-danger btn-sm">
                                                             <i className="fas fa-trash"></i> Xóa
-                                                    </Link>
+                                                        </Link>
                                                     </td>
                                                 </tr>
                                             ))}

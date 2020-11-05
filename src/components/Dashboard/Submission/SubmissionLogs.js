@@ -4,34 +4,34 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 
 const SubmissionLogs = (props) => {
     return (
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Nhật ký hoạt động</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Nhật ký hoạt động</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="timeline">
+                    <div className="modal-body">
+                        <div className="timeline">
                             {props.logs.map(log => (
-                                <Aux>
-                                    <div class="time-label">
-                                        <span class="bg-red">{getFormattedDateOnly(log.createdAt)}</span>
+                                <Aux key={log.createdAt}>
+                                    <div className="time-label">
+                                        <span className="bg-red">{getFormattedDateOnly(log.createdAt)}</span>
                                     </div>
                                     <div>
-                                        <i class="fas fa-user bg-green"></i>
-                                        <div class="timeline-item">
-                                            <span class="time"><i class="fas fa-clock"></i> {getFormattedTimeOnly(log.createdAt)}</span>
-                                            <h3 class="timeline-header no-border">{log.event}</h3>
+                                        <i className="fas fa-user bg-green"></i>
+                                        <div className="timeline-item">
+                                            <span className="time"><i className="fas fa-clock"></i> {getFormattedTimeOnly(log.createdAt)}</span>
+                                            <h3 className="timeline-header no-border">{log.event}</h3>
                                         </div>
                                     </div>
                                 </Aux>
                             ))}
 
                             <div>
-                                <i class="fas fa-clock bg-gray"></i>
+                                <i className="fas fa-clock bg-gray"></i>
                             </div>
                         </div>
                     </div>
