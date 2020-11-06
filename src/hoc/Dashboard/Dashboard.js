@@ -4,7 +4,7 @@ import ChiefEditorHome from '../../components/Dashboard/ChiefEditor/Home';
 import Navigation from '../../components/Dashboard/Shared/Navigation';
 import Sidebar from '../../components/Dashboard/Shared/Sidebar';
 import SubmitArticle from '../../components/Dashboard/Author/SubmitArticle';
-import EditArticle from '../../components/Dashboard/Author/EditArticle';
+import EditSubmission from '../../components/Dashboard/Author/EditSubmission';
 import SubmissionDetail from '../../components/Dashboard/Submission/SubmissionDetail';
 import AssignEditor from '../../components/Dashboard/ChiefEditor/AssignEditor';
 import {  Route, Switch } from 'react-router-dom';
@@ -20,7 +20,7 @@ class Dashboard extends Component {
                     <Switch>
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
-                        <Route path="/dashboard/edit-submission/:submissionId" component={EditArticle} />
+                        <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
                         <Route exact path="/dashboard" component={AuthorHome} />
                     </Switch>
                 );

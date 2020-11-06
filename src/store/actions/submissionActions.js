@@ -42,6 +42,13 @@ const editSubmissionSuccess = (submission) => {
     }
 };
 
+const deleteSubmissionSuccess = (message) => {
+    return {
+        type: actionTypes.DELETE_SUBMISSION_SUCCESS,
+        message: message
+    }
+};
+
 const submissionErrors = (error) => {
     return {
         type: actionTypes.SUBMISSIONS_ERROR,
@@ -95,6 +102,7 @@ export const getSubmissionDetail = (submissionId) => (dispatch, getState) => {
     });
 };
 
+// Create Submission
 export const createSubmission = (formData) => (dispatch, getState) => {
     const token = getState().auth.token;
     axios.post('/submissions', formData, {
@@ -115,6 +123,7 @@ export const resetCreateSubmissionState = () => (dispatch) => {
     })
 };
 
+// Edit Submission
 export const editSubmission = (submissionId, formData) => (dispatch, getState) => {
     const token = getState().auth.token;
     axios.put('/submissions/' + submissionId, formData, {
@@ -132,6 +141,27 @@ export const editSubmission = (submissionId, formData) => (dispatch, getState) =
 export const resetEditSubmissionState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_EDIT_SUBMISSION_STATE
+    })
+};
+
+// Delete Submission
+export const deleteubmission = (submissionId, formData) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.delete('/submissions/' + submissionId, formData, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(res => {
+        dispatch(deleteSubmissionSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(submissionErrors(err.response.data.error));
+    });
+};
+
+export const resetDeleteSubmissionState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_DELETE_SUBMISSION_STATE
     })
 };
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { getSubmissionsByAuthor } from '../../../store/actions/submissionActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import Spinner from '../../UI/Spinner/Spinner';
@@ -84,17 +85,24 @@ class Home extends Component {
                                                         </Link>
 
                                                         {submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
-                                                            <Link to={`/dashboard/edit-submission/${submission._id}`} className="btn btn-info btn-sm mr-1">
-                                                                <i className="fas fa-pencil-alt"></i> Sửa
-                                                            </Link>
+                                                            <Aux>
+                                                                <Link to={`/dashboard/edit-submission/${submission._id}`} className="btn btn-info btn-sm mr-1">
+                                                                    <i className="fas fa-pencil-alt"></i> Sửa
+                                                                </Link>
+                                                                <Link to="#" className="btn btn-danger btn-sm">
+                                                                    <i className="fas fa-trash"></i> Xóa
+                                                                </Link>
+                                                            </Aux>
                                                         ) : (
-                                                            <Link to="#" className="btn btn-info btn-sm mr-1 disabled">
-                                                                <i className="fas fa-pencil-alt"></i> Sửa
-                                                            </Link>
-                                                        )}
-                                                        <Link to="#" className="btn btn-danger btn-sm">
-                                                            <i className="fas fa-trash"></i> Xóa
-                                                        </Link>
+                                                                <Aux>
+                                                                    <button className="btn btn-info btn-sm mr-1 disabled">
+                                                                        <i className="fas fa-pencil-alt"></i> Sửa
+                                                                    </button>
+                                                                    <button className="btn btn-danger btn-sm disabled">
+                                                                        <i className="fas fa-trash"></i> Xóa
+                                                                    </button>
+                                                                </Aux>
+                                                            )}
                                                     </td>
                                                 </tr>
                                             ))}

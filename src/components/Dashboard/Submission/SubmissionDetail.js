@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import SubmissionLogs from './SubmissionLogs';
+import DeleteSubmission from './DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
 import { USER_ROLES, STAGE } from '../../../utils/constant';
-import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
+import { getFormattedDate, getStageBadgeClassname, updateObject } from '../../../utils/utility';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getEditorAssignment } from '../../../store/actions/reviewActions';
 
 class SubmissionDetail extends Component {
+
+
+    state = {
+        submissionIsDeleted: false
+    }
 
     componentDidMount() {
         if (this.props.match.params.submissionId) {
@@ -33,11 +40,18 @@ class SubmissionDetail extends Component {
         }
     }
 
+
+    closeDeleteModalHandler = (event) => {
+        event.preventDefault();
+        this.setState(updateObject(this.state, { submissionIsDeleted: true }));
+        this.props.history.push('/dashboard');
+    }
+
     render() {
         return (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader title="Thông tin chi tiết bài báo">
+                    <ContentHeader title={this.state.showDeleteModal ? 'True' : 'False'}>
                         <li className="breadcrumb-item active">Submission Detail</li>
                     </ContentHeader>
                 </section>
@@ -60,7 +74,7 @@ class SubmissionDetail extends Component {
                                             <div className="row">
                                                 <div className="col-lg-4">
                                                     <div className="form-group mr-2">
-                                                        <label>Tác giả</label>
+                                                        <label>Tác giả (Author)</label>
                                                         <Link to="#">
                                                             <p className="text-primary ml-4">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}</p>
                                                         </Link>
@@ -89,7 +103,9 @@ class SubmissionDetail extends Component {
                                         <div className="p-2 col-lg-9 border rounded">
                                             <div className="form-group mr-2">
                                                 <label>Thể loại</label>
-                                                <p className="ml-4">{this.props.submission.categoryId.name}</p>
+                                                <Link to="#">
+                                                    <p className="ml-4 text-success">{this.props.submission.categoryId.name}</p>
+                                                </Link>
                                             </div>
                                             <div className="form-group mr-2">
                                                 <label>Tiêu để</label>
@@ -161,23 +177,30 @@ class SubmissionDetail extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <label>Nhật ký hoạt động</label><br />
-                                                <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#exampleModal">Xem chi tiết.</Link>
+                                                <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#submissionLogsModal">Xem chi tiết.</Link>
                                             </div>
                                             {this.props.permissionLevel === USER_ROLES.AUTHOR.permissionLevel ? (
                                                 <div className="form-group">
                                                     <label>Chỉnh sửa</label><br />
                                                     {this.props.submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
-                                                        <Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="btn btn-info btn-sm mr-1">
-                                                            <i className="fas fa-pencil-alt"></i> Sửa
-                                                        </Link>
+                                                        <Aux>
+                                                            <Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="btn btn-info btn-sm mr-1">
+                                                                <i className="fas fa-pencil-alt"></i> Chỉnh sửa
+                                                            </Link>
+                                                            <button className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal" onClick={this.showDeleteModalHandler}>
+                                                                <i className="fas fa-trash"></i> Xóa bài báo
+                                                            </button>
+                                                        </Aux>
                                                     ) : (
-                                                        <Link to="#" className="btn btn-info btn-sm mr-1 disabled">
-                                                            <i className="fas fa-pencil-alt"></i> Sửa
-                                                        </Link>
-                                                    )}
-                                                    <Link to="#" className="btn btn-danger btn-sm">
-                                                        <i className="fas fa-trash"></i> Xóa
-                                                    </Link>
+                                                            <Aux>
+                                                                <button className="btn btn-info btn-sm mr-1 disabled">
+                                                                    <i className="fas fa-pencil-alt"></i> Chỉnh sửa
+                                                                </button>
+                                                                <button className="btn btn-danger btn-sm disabled">
+                                                                    <i className="fas fa-trash"></i> Xóa bài báo
+                                                                </button>
+                                                            </Aux>
+                                                        )}
                                                 </div>
                                             ) : null}
                                         </div>
@@ -188,6 +211,9 @@ class SubmissionDetail extends Component {
                     ) : <Spinner />}
                 </section>
                 {this.props.submission && <SubmissionLogs logs={this.props.submission.submissionLogs} />}
+                <DeleteSubmission
+                    show={this.state.submissionIsDeleted}
+                    closeModal={this.closeDeleteModalHandler} />
             </div>
         );
     }
