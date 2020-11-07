@@ -5,7 +5,7 @@ import Footer from '../../components/Footer/Footer';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import RouteBreadcrumb from '../../components/Breadcrumb/RouteBreadcrumb';
 
-const url = "https://ojs.s3.ap-southeast-1.amazonaws.com/1604672505733-Detection%20of%20spam-posting%20accounts%20on%20Twitter.pdf";
+const url = "https://ojs.s3.ap-southeast-1.amazonaws.com/1604718838421-Unsupervised-real-time-anomaly-detection-for-streaming-da_2017_Neurocomputin.pdf";
 
 const Article = () => {
 

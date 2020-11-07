@@ -2,17 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import { getSubmissionsByAuthor } from '../../../store/actions/submissionActions';
+import DeleteSubmission from '../Submission/DeleteSubmission';
+import { getSubmissionsByAuthor, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
+import { updateObject } from '../../../utils/utility';
 import { STAGE } from '../../../utils/constant';
 
-let stt = 1;
 class Home extends Component {
 
+    state = {
+        submissionId: '',
+        deletionConfirmed: false,
+        checked: false
+    }
+
     componentDidMount() {
-        stt = 1;
         this.props.getSubmissionsByAuthor(this.props.userId);
     }
 
@@ -22,16 +28,44 @@ class Home extends Component {
     //     }
     // }
 
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.isSubmissionDeleted) {
+            this.props.resetDeleteSubmissionState();
+            this.refreshHandler();
+        }
+    }
+
     refreshHandler = () => {
-        stt = 1;
         this.props.getSubmissionsByAuthor(this.props.userId);
+    }
+
+    selectSubmissionHandler = (submissionId) => {
+        this.setState(updateObject(this.state, { submissionId: submissionId }));
     }
 
     btnNewSubmissonClickHandler = () => {
         this.props.history.push("/dashboard/new-submission");
     }
 
+    uncheckedHandler = () => {
+        this.setState(updateObject(this.state, { deletionConfirmed: false, checked: false }));
+    }
+
+    confirmDeleteHandler = (event) => {
+        if (event.target.checked) {
+            this.setState(updateObject(this.state, { deletionConfirmed: true, checked: true }));
+        } else {
+            this.setState(updateObject(this.state, { deletionConfirmed: false, checked: false }));
+        }
+    }
+
+    deleteSubmissionHandler = (event, submissionId) => {
+        event.preventDefault();
+        this.props.deleteSubmission(submissionId);
+    }
+
     render() {
+        let stt = 1;
         return (
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
@@ -89,9 +123,10 @@ class Home extends Component {
                                                                 <Link to={`/dashboard/edit-submission/${submission._id}`} className="btn btn-info btn-sm mr-1">
                                                                     <i className="fas fa-pencil-alt"></i> Sửa
                                                                 </Link>
-                                                                <Link to="#" className="btn btn-danger btn-sm">
+                                                                <button className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal"
+                                                                    onClick={() => this.selectSubmissionHandler(submission._id)}>
                                                                     <i className="fas fa-trash"></i> Xóa
-                                                                </Link>
+                                                                </button>
                                                             </Aux>
                                                         ) : (
                                                                 <Aux>
@@ -113,6 +148,12 @@ class Home extends Component {
                         </div>
                     ) : <Spinner />}
                 </section>
+                <DeleteSubmission
+                    checked={this.state.checked}
+                    uncheckedHandler={this.uncheckedHandler}
+                    confirmDelete={this.confirmDeleteHandler}
+                    deletionConfirmed={this.state.deletionConfirmed}
+                    deleteSubmission={(event) => this.deleteSubmissionHandler(event, this.state.submissionId)} />
             </div>
         );
     }
@@ -122,12 +163,15 @@ const mapStateToProps = (state) => {
     return {
         userId: state.auth.userId,
         submissions: state.submission.submissions,
-        loading: state.submission.loading
+        loading: state.submission.loading,
+        isSubmissionDeleted: state.submission.isSubmissionDeleted
     }
 };
 
 const mapDispatchToProps = {
-    getSubmissionsByAuthor
+    getSubmissionsByAuthor,
+    deleteSubmission,
+    resetDeleteSubmissionState
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

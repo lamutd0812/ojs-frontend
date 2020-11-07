@@ -8,14 +8,14 @@ import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
 import { USER_ROLES, STAGE } from '../../../utils/constant';
 import { getFormattedDate, getStageBadgeClassname, updateObject } from '../../../utils/utility';
-import { getSubmissionDetail } from '../../../store/actions/submissionActions';
+import { getSubmissionDetail, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
 import { getEditorAssignment } from '../../../store/actions/reviewActions';
 
 class SubmissionDetail extends Component {
 
 
     state = {
-        submissionIsDeleted: false
+        deletionConfirmed: false
     }
 
     componentDidMount() {
@@ -33,6 +33,13 @@ class SubmissionDetail extends Component {
     //     }
     // }
 
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.isSubmissionDeleted) {    
+            this.props.resetDeleteSubmissionState();
+            this.props.history.push('/dashboard');
+        }
+    }
+
     refreshHandler = () => {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
@@ -40,18 +47,24 @@ class SubmissionDetail extends Component {
         }
     }
 
+    confirmDeleteHandler = (event) => {
+        if (event.target.checked) {
+            this.setState(updateObject(this.state, { deletionConfirmed: true }));
+        } else {
+            this.setState(updateObject(this.state, { deletionConfirmed: false }));
+        }
+    }
 
-    closeDeleteModalHandler = (event) => {
+    deleteSubmissionHandler = (event) => {
         event.preventDefault();
-        this.setState(updateObject(this.state, { submissionIsDeleted: true }));
-        this.props.history.push('/dashboard');
+        this.props.deleteSubmission(this.props.submission._id);
     }
 
     render() {
         return (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader title={this.state.showDeleteModal ? 'True' : 'False'}>
+                    <ContentHeader title="Thông tin chi tiết bài báo">
                         <li className="breadcrumb-item active">Submission Detail</li>
                     </ContentHeader>
                 </section>
@@ -187,7 +200,7 @@ class SubmissionDetail extends Component {
                                                             <Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="btn btn-info btn-sm mr-1">
                                                                 <i className="fas fa-pencil-alt"></i> Chỉnh sửa
                                                             </Link>
-                                                            <button className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal" onClick={this.showDeleteModalHandler}>
+                                                            <button className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal">
                                                                 <i className="fas fa-trash"></i> Xóa bài báo
                                                             </button>
                                                         </Aux>
@@ -212,8 +225,9 @@ class SubmissionDetail extends Component {
                 </section>
                 {this.props.submission && <SubmissionLogs logs={this.props.submission.submissionLogs} />}
                 <DeleteSubmission
-                    show={this.state.submissionIsDeleted}
-                    closeModal={this.closeDeleteModalHandler} />
+                    confirmDelete={this.confirmDeleteHandler}
+                    deletionConfirmed={this.state.deletionConfirmed}
+                    deleteSubmission={this.deleteSubmissionHandler} />
             </div>
         );
     }
@@ -225,13 +239,16 @@ const mapStateToProps = (state) => {
         loading: state.submission.loading,
         permissionLevel: state.auth.role.permissionLevel,
         editors: state.review.editors,
-        editorAssignment: state.review.editorAssignment
+        editorAssignment: state.review.editorAssignment,
+        isSubmissionDeleted: state.submission.isSubmissionDeleted
     }
 };
 
 const mapDispatchToProps = {
     getSubmissionDetail,
-    getEditorAssignment
+    getEditorAssignment,
+    deleteSubmission,
+    resetDeleteSubmissionState
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionDetail);

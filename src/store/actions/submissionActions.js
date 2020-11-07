@@ -145,12 +145,11 @@ export const resetEditSubmissionState = () => (dispatch) => {
 };
 
 // Delete Submission
-export const deleteubmission = (submissionId, formData) => (dispatch, getState) => {
+export const deleteSubmission = (submissionId) => (dispatch, getState) => {
     const token = getState().auth.token;
-    axios.delete('/submissions/' + submissionId, formData, {
+    axios.delete('/submissions/' + submissionId, {
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
         }
     }).then(res => {
         dispatch(deleteSubmissionSuccess(res.data.message));

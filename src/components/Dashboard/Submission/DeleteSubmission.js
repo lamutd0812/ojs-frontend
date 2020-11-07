@@ -19,16 +19,25 @@ const DeleteSubmission = (props) => {
                                 muốn gỡ bỏ bài báo.
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input pr-1" type="checkbox" />
+                                <input
+                                    className="form-check-input pr-1"
+                                    type="checkbox"
+                                    checked={props.checked}
+                                    onChange={(event) => props.confirmDelete(event)} />
                                 <label className="form-check-label"> Tôi đã hiểu và đồng ý.</label>
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button"
-                                className="btn btn-primary"
+                                className="btn btn-danger"
                                 data-dismiss="modal"
-                                onClick={props.closeModal}>Save changes</button>
+                                disabled={!props.deletionConfirmed}
+                                onClick={props.deleteSubmission}>Xóa bài báo</button>
+                            <button
+                             type="button"
+                              className="btn btn-secondary" 
+                              data-dismiss="modal"
+                              onClick={props.uncheckedHandler}>Hủy</button>
                         </div>
                     </div>
                 </div>
