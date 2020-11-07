@@ -68,7 +68,8 @@ class EditArticle extends Component {
                 touched: false
             }
         },
-        formIsValid: true
+        formIsValid: true,
+        isModalOpen: false
     }
 
     componentDidMount() {
@@ -95,6 +96,7 @@ class EditArticle extends Component {
         if (nextProps.isSubmissionEdited) {
             this.props.resetEditSubmissionState();
             this.setState(updateObject(this.state, {
+                isModalOpen: false,
                 step1Active: false,
                 step2Active: true,
             }));
@@ -146,7 +148,7 @@ class EditArticle extends Component {
         formData.append('attachment', this.state.controls.attachment.file);
         formData.append('categoryId', this.state.controls.categoryId.value);
         this.props.editSubmission(this.props.submission._id, formData);
-        this.setState(updateObject(this.state, { isModalOpen: false }));
+        // this.setState(updateObject(this.state, { isModalOpen: false }));
     }
 
     cancelHandler = () => {
@@ -249,6 +251,13 @@ class EditArticle extends Component {
                                                                     <label className="custom-file-label" htmlFor="coverImage">{this.state.controls.attachment.filename}</label>
                                                                 </div>
                                                             </div>
+                                                            {this.state.controls.attachment.file && this.props.fileUploading ? (
+                                                            <div className="input-group">
+                                                                <div className="spinner-border text-primary mt-2" role="status" style={{ width: '25px', height: '25px' }}>
+                                                                </div>
+                                                                <div className="mt-2 ml-2 text-secondary" style={{ fontStyle: 'italic' }}>Đang tải lên...</div>
+                                                            </div>
+                                                        ) : null}
                                                         </div>
                                                         <div className="form-group">
                                                             {errorMessage}
@@ -325,6 +334,7 @@ const mapStateToProps = (state) => {
         isSubmissionEdited: state.submission.isSubmissionEdited,
         submission: state.submission.submission,
         loading: state.submission.loading,
+        fileUploading: state.submission.fileUploading
     };
 };
 

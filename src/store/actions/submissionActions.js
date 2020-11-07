@@ -4,8 +4,14 @@ import * as actionTypes from './actionTypes';
 const submissionStart = () => {
     return {
         type: actionTypes.SUBMISSIONS_START
+    };
+};
+
+const uploadStart = () => {
+    return {
+        type: actionTypes.UPLOAD_START
     }
-}
+};
 
 const getCategoriesSuccess = (categories) => {
     return {
@@ -104,6 +110,7 @@ export const getSubmissionDetail = (submissionId) => (dispatch, getState) => {
 
 // Create Submission
 export const createSubmission = (formData) => (dispatch, getState) => {
+    dispatch(uploadStart());
     const token = getState().auth.token;
     axios.post('/submissions', formData, {
         headers: {
@@ -125,6 +132,7 @@ export const resetCreateSubmissionState = () => (dispatch) => {
 
 // Edit Submission
 export const editSubmission = (submissionId, formData) => (dispatch, getState) => {
+    dispatch(uploadStart());
     const token = getState().auth.token;
     axios.put('/submissions/' + submissionId, formData, {
         headers: {

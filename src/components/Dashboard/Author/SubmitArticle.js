@@ -281,6 +281,13 @@ class SubmitArticle extends Component {
                                                                 <label className="custom-file-label" htmlFor="coverImage">{this.state.controls.attachment.filename}</label>
                                                             </div>
                                                         </div>
+                                                        {this.props.fileUploading ? (
+                                                            <div className="input-group">
+                                                                <div className="spinner-border text-primary mt-2" role="status" style={{ width: '25px', height: '25px' }}>
+                                                                </div>
+                                                                <div className="mt-2 ml-2 text-secondary" style={{ fontStyle: 'italic' }}>Đang tải lên...</div>
+                                                            </div>
+                                                        ) : null}
                                                     </div>
                                                     <div className="form-group">
                                                         {errorMessage}
@@ -336,11 +343,11 @@ class SubmitArticle extends Component {
                 {submitArticle}
                 <Modal
                     show={this.state.isModalOpen}
-                    message="Submit bài báo lên hệ thống?"                  
+                    message="Submit bài báo lên hệ thống?"
                     confirmMessage="Đồng ý"
                     confirm={this.confirmSubmitHandler}
                     hasCancel={true}
-                    cancelMessage="Hủy"                  
+                    cancelMessage="Hủy"
                     cancel={this.cancelHandler}>
                 </Modal>
             </Aux>
@@ -353,7 +360,8 @@ const mapStateToProps = (state) => {
         categories: state.submission.categories,
         error: state.submission.error,
         isSubmissionCreated: state.submission.isSubmissionCreated,
-        submission: state.submission.submission
+        submission: state.submission.submission,
+        fileUploading: state.submission.fileUploading
     };
 };
 

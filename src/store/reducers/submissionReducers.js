@@ -5,6 +5,7 @@ const initialState = {
     categories: null,
     submissions: [],
     submission: null,
+    fileUploading: false,
     isSubmissionCreated: false,
     isSubmissionEdited: false,
     isSubmissionDeleted: false,
@@ -14,10 +15,12 @@ const initialState = {
 };
 
 const submissionStart = (state) => {
-    return updateObject(state, {
-        loading: true
-    });
+    return updateObject(state, { loading: true });
 };
+
+const uploadStart = (state) => {
+    return updateObject(state, { fileUploading: true });
+}
 
 const getCategoriesSuccess = (state, action) => {
     return updateObject(state, {
@@ -46,6 +49,7 @@ const createSubmissionSuccess = (state, action) => {
     return updateObject(state, {
         submission: action.submission,
         isSubmissionCreated: true,
+        fileUploading: false,
         error: null
     });
 };
@@ -60,6 +64,7 @@ const editSubmissionSuccess = (state, action) => {
     return updateObject(state, {
         submission: action.submission,
         isSubmissionEdited: true,
+        fileUploading: false,
         error: null
     });
 };
@@ -104,6 +109,7 @@ const getAllSubmissionsSuccess = (state, action) => {
 const submissionReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SUBMISSIONS_START: return submissionStart(state);
+        case actionTypes.UPLOAD_START: return uploadStart(state);
         case actionTypes.SUBMISSIONS_ERROR: return fetchSubmissionError(state, action);
 
         case actionTypes.GET_CATEGORIES_SUCCESS: return getCategoriesSuccess(state, action);
@@ -118,7 +124,7 @@ const submissionReducer = (state = initialState, action) => {
         case actionTypes.EDIT_SUBMISSION_SUCCESS: return editSubmissionSuccess(state, action);
         case actionTypes.RESET_EDIT_SUBMISSION_STATE: return resetEditSubmissionState(state);
 
-        case actionTypes.DELETE_SUBMISSION_SUCCESS: return deleteSubmissionSuccess(state,action);
+        case actionTypes.DELETE_SUBMISSION_SUCCESS: return deleteSubmissionSuccess(state, action);
         case actionTypes.RESET_DELETE_SUBMISSION_STATE: return resetDeleteSubmissionState(state);
 
         case actionTypes.GET_ALL_SUBMISSIONS_SUCCESS: return getAllSubmissionsSuccess(state, action);
