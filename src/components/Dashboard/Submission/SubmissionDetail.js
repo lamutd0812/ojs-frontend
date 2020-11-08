@@ -89,7 +89,7 @@ class SubmissionDetail extends Component {
                                                     <div className="form-group mr-2">
                                                         <label>Tác giả (Author)</label>
                                                         <Link to="#">
-                                                            <p className="text-primary ml-4">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}</p>
+                                                            <p className="text-primary ml-4">{this.props.submission.authorId.lastname} {this.props.submission.authorId.firstname}</p>
                                                         </Link>
                                                     </div>
                                                 </div>

@@ -5,22 +5,22 @@ exports.USER_ROLES = {
         roleId: '5f97f6d9d1011608a40d3349'
     },
     CHIEF_EDITOR: {
-        name: 'Chief Editor',
+        name: 'Tổng biên tập',
         permissionLevel: 4,
         roleId: '5f97f6cbd1011608a40d3348'
     },
     EDITOR: {
-        name: 'Editor',
+        name: 'Biên tập viên',
         permissionLevel: 3,
         roleId: '5f97f6b4d1011608a40d3347'
     },
     REVIEWER: {
-        name: 'Reviewer',
+        name: 'Thẩm định viên',
         permissionLevel: 2,
         roleId: '5f97f6a8d1011608a40d3346'
     },
     AUTHOR: {
-        name: 'Author',
+        name: 'Tác giả',
         permissionLevel: 1,
         roleId: '5f97f67fd1011608a40d3345'
     }

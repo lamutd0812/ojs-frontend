@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
+import { USER_ROLES } from '../../../utils/constant';
 
 class Sidebar extends Component {
 
@@ -11,7 +12,7 @@ class Sidebar extends Component {
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
                     <div className="brand-link">
                         <NavLink to="/">
-                            <img src="https://w7.pngwing.com/pngs/791/922/png-transparent-react-javascript-library-redux-user-interface-tesseract-logo-symmetry-nodejs.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ 'opacity': .8 }} />
+                            <img src="https://www.4science.it/wp-content/uploads/2017/02/OJS_logo_home.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ 'opacity': .8 }} />
                             <div style={{ fontSize: '18px', color: 'white' }}>AwesomeOJS</div>
                         </NavLink>
                     </div>
@@ -24,7 +25,7 @@ class Sidebar extends Component {
                             </div>
                             <div className="info">
                                 <Link to="#" className="d-block">{this.props.fullname}</Link>
-                                <div className="d-block text-success">{this.props.role}</div>
+                                <div className="d-block text-success">{this.props.roleName}</div>
                             </div>
                         </div>
 
@@ -45,12 +46,28 @@ class Sidebar extends Component {
                             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <li className="nav-item menu-open">
                                     <ul className="nav nav-treeview">
-                                        <li className="nav-item">
-                                            <NavLink to="/dashboard/new-submission" className="nav-link">
-                                                <i className="nav-icon fas fa-edit"></i>
-                                                <p>Submit bài bào</p>
-                                            </NavLink>
-                                        </li>
+                                        {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
+                                            <li className="nav-item">
+                                                <NavLink to="/dashboard/" className="nav-link">
+                                                    <i className="nav-icon fas fa-edit"></i>
+                                                    <p>Trang tổng biên tập</p>
+                                                </NavLink>
+                                            </li>
+                                        ) : this.props.roleId === USER_ROLES.EDITOR.roleId ? (
+                                            <li className="nav-item">
+                                                <NavLink to="/dashboard/" className="nav-link">
+                                                    <i className="nav-icon fas fa-edit"></i>
+                                                    <p>Trang biên tập viên</p>
+                                                </NavLink>
+                                            </li>
+                                        ) : this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
+                                            <li className="nav-item">
+                                                <NavLink to="/dashboard/" className="nav-link">
+                                                    <i className="nav-icon fas fa-edit"></i>
+                                                    <p>Trang tác giả</p>
+                                                </NavLink>
+                                            </li>
+                                        ) : null}
                                     </ul>
                                 </li>
                             </ul>
@@ -69,7 +86,8 @@ const mapStateToProps = state => {
         isAuth: state.auth.token != null,
         userId: state.auth.userId,
         fullname: state.auth.fullname,
-        role: state.auth.role.name,
+        roleName: state.auth.role.name,
+        roleId: state.auth.role._id,
         avatar: state.auth.avatar
     };
 };

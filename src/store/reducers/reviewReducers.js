@@ -6,6 +6,7 @@ const initialState = {
     error: null,
     loading: true,
     isEditorAssigned: false,
+    editorAssignments: [],
     editorAssignment: null,
     responseMessage: null
 };
@@ -34,9 +35,17 @@ const resetEditorAssignmentState = (state) => {
     });
 };
 
-const getEditorAssignmentSuccess = (state, action) => {
+const getEditorAssignmentBySubmissionSuccess = (state, action) => {
     return updateObject(state, {
-        editorAssignment: action.editorAssignment
+        editorAssignment: action.editorAssignment,
+        error: null
+    });
+};
+
+const getMyEditorAssignmentsSuccess = (state, action) => {
+    return updateObject(state, {
+        editorAssignments: action.editorAssignments,
+        error: null
     });
 };
 
@@ -53,7 +62,8 @@ const reviewReducer = (state = initialState, action) => {
         case actionTypes.REVIEW_PROCESS_ERROR: return reviewProcessError(state, action);
         case actionTypes.ASSIGN_EDITOR_SUCCESS: return assignEditorSuccess(state, action);
         case actionTypes.RESET_EDITOR_ASSIGNMENT_STATE: return resetEditorAssignmentState(state);
-        case actionTypes.GET_EDITOR_ASSIGNMENT_SUCCESS: return getEditorAssignmentSuccess(state, action);
+        case actionTypes.GET_EDITOR_ASSIGNMENT_BY_SUBMISSION_SUCCESS: return getEditorAssignmentBySubmissionSuccess(state, action);
+        case actionTypes.GET_MY_EDITOR_ASSIGNMENTS_SUCCESS: return getMyEditorAssignmentsSuccess(state, action);
         default: return state;
     }
 };

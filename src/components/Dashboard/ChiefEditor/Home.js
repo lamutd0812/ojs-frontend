@@ -5,6 +5,7 @@ import { getAllSubmissions } from '../../../store/actions/submissionActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
+import { STAGE } from '../../../utils/constant';
 
 let stt = 1;
 
@@ -25,7 +26,7 @@ class Home extends Component {
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
                 <section className="content-header">
-                    <ContentHeader title="Chief Editor Dashboard" />
+                    <ContentHeader title="Trang tổng biên tập" />
                 </section>
 
                 {/* <!-- Main content --> */}
@@ -33,7 +34,7 @@ class Home extends Component {
                     {!this.props.loading ? (
                         <div className="card">
                             <div className="card-header">
-                                <h3 className="card-title">Danh mục</h3>
+                                <h3 className="card-title">Quản lý bài đăng</h3>
                                 <div className="float-right mr-5">
                                     <button className="btn btn-tool" onClick={this.refreshHandler}>
                                         <i className="fas fa-sync-alt" style={{ fontSize: '20px' }}></i>
@@ -63,13 +64,14 @@ class Home extends Component {
                                                         <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
                                                     </td>
                                                     <td className="text-center">
-                                                        <Link to="#" className="text-primary">{submission.authorId.firstname} {submission.authorId.lastname}</Link>
+                                                        <Link to="#" className="text-primary">{submission.authorId.lastname} {submission.authorId.firstname}</Link>
                                                     </td>
                                                     <td className="project-state">
                                                         <span className={"badge " + getStageBadgeClassname(submission.submissionStatus.stageId.value)}>{submission.submissionStatus.stageId.name}</span>
                                                     </td>
                                                     <td className="text-center">
-                                                        {!submission.editorAssignmentId ? <span><i className="fa fa-exclamation-triangle"></i> Chưa có Biên tập viên</span> :
+                                                        {JSON.stringify(submission.submissionStatus.stageId) === JSON.stringify(STAGE.SUBMISSION) ? (
+                                                            <span><i className="fa fa-exclamation-triangle"></i> Chưa có Biên tập viên</span>) :
                                                             <span>{submission.submissionStatus.status}</span>}
                                                     </td>
                                                     <td className="project-actions text-center">

@@ -74,7 +74,7 @@ class Home extends Component {
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
                 <section className="content-header">
-                    <ContentHeader title="Author Dashboard" />
+                    <ContentHeader title="Trang tác giả" />
                     <button onClick={this.btnNewSubmissonClickHandler} className="btn btn-primary">Submit bài báo </button>
                 </section>
 
@@ -83,7 +83,7 @@ class Home extends Component {
                     {!this.props.loading ? (
                         <div className="card">
                             <div className="card-header">
-                                <h3 className="card-title">Danh mục</h3>
+                                <h3 className="card-title">Bài báo của tôi</h3>
                                 <div className="float-right mr-5">
                                     <button className="btn btn-tool" onClick={this.refreshHandler}>
                                         <i className="fas fa-sync-alt" style={{ fontSize: '20px' }}></i>

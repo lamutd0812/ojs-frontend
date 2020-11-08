@@ -15,10 +15,17 @@ const assignEditorSuccess = (message) => {
     };
 };
 
-const getEditorAssignmentSuccess = (editorAssignment) => {
+const getEditorAssignmentBySubmissionSuccess = (editorAssignment) => {
     return {
-        type: actionTypes.GET_EDITOR_ASSIGNMENT_SUCCESS,
+        type: actionTypes.GET_EDITOR_ASSIGNMENT_BY_SUBMISSION_SUCCESS,
         editorAssignment: editorAssignment
+    };
+};
+
+const getMyEditorAssignmentsSuccess = (editorAssignments) => {
+    return {
+        type: actionTypes.GET_MY_EDITOR_ASSIGNMENTS_SUCCESS,
+        editorAssignments: editorAssignments
     };
 };
 
@@ -69,15 +76,29 @@ export const resetEditorAssignmentState = () => (dispatch) => {
     })
 };
 
-// CE and other roles get Editor Assignment
+// CE and other roles get Editor Assignment by Submission
 export const getEditorAssignment = (submissionId) => (dispatch, getState) => {
     const token = getState().auth.token;
-    axios.get('/reviews/editor-assignment/' + submissionId, {
+    axios.get('/reviews/editor-assignments/' + submissionId, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     }).then(res => {
-        dispatch(getEditorAssignmentSuccess(res.data.editorAssignment));
+        dispatch(getEditorAssignmentBySubmissionSuccess(res.data.editorAssignment));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.message));
+    });
+};
+
+// Editor get My Assignments
+export const getMyEditorAssignments = () => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.get('/reviews/editor-assignments/my/all', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getMyEditorAssignmentsSuccess(res.data.editorAssignments));
     }).catch(err => {
         dispatch(reviewProcessError(err.message));
     });

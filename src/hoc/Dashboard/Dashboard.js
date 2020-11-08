@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AuthorHome from '../../components/Dashboard/Author/Home';
 import ChiefEditorHome from '../../components/Dashboard/ChiefEditor/Home';
+import EditorHome from '../../components/Dashboard/Editor/Home';
 import Navigation from '../../components/Dashboard/Shared/Navigation';
 import Sidebar from '../../components/Dashboard/Shared/Sidebar';
 import SubmitArticle from '../../components/Dashboard/Author/SubmitArticle';
@@ -41,7 +42,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
-                        <Route exact path="/dashboard" component={AuthorHome} />
+                        <Route exact path="/dashboard" component={EditorHome} />
                     </Switch>
                 );
                 break;
