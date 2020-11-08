@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Modal from '../../UI/Modal/Modal';
+import ContentHeader from '../Shared/ContentHeader';
+import DatePicker from 'react-datepicker';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import Spinner from '../../UI/Spinner/Spinner';
 import { updateObject } from '../../../utils/utility';
 import { connect } from 'react-redux';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getAllEditors, assignEditor, resetEditorAssignmentState } from '../../../store/actions/reviewActions';
-import ContentHeader from '../Shared/ContentHeader';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 class AssignEditor extends Component {
@@ -60,6 +62,7 @@ class AssignEditor extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isEditorAssigned) {
             this.props.resetEditorAssignmentState();
+            toast.success("Chỉ định biên tập viên thành công!");
         }
     }
 
@@ -222,9 +225,14 @@ class AssignEditor extends Component {
                                                         onChange={this.setMessageToEditorHandler} />
                                                 </div>
                                                 <div>
-                                                    <button
+                                                    {/* <button
                                                         className="btn btn-primary"
-                                                        onClick={this.showModalHandler}>Tiếp tục</button>
+                                                        onClick={this.showModalHandler}>Tiếp tục</button> */}
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-primary"
+                                                        data-toggle="modal"
+                                                        data-target="#confirmDialogModal">Submit</button>
                                                     <button
                                                         className="btn btn-primary ml-2"
                                                         onClick={this.step1ActiveHandler}>Quay lại</button>
@@ -257,7 +265,7 @@ class AssignEditor extends Component {
                         </div>
                     </section>
                 </div>
-                <Modal
+                {/* <Modal
                     show={this.state.isModalOpen}
                     message="Xác nhận chỉ định biên tập viên?"
                     confirmMessage="Đồng ý"
@@ -265,7 +273,12 @@ class AssignEditor extends Component {
                     hasCancel={true}
                     cancelMessage="Hủy"
                     cancel={this.cancelHandler}>
-                </Modal>
+                </Modal> */}
+                <ConfirmDialog
+                    title="Xác nhận"
+                    message="Chỉ định biên tập viên cho bài báo?"
+                    confirm={this.confirmSubmitHandler} />
+                <ToastContainer autoClose={2000} />
             </div>
         );
     }

@@ -296,7 +296,6 @@ class EditArticle extends Component {
                         </div>
                     </div>
                 </section>
-                <ToastContainer autoClose={2000} />
             </div>
         );
 
@@ -307,6 +306,7 @@ class EditArticle extends Component {
                     title="Xác nhận"
                     message="Chỉnh sửa thông tin bài báo?"
                     confirm={this.confirmSubmitHandler} />
+                <ToastContainer autoClose={2000} />
             </Aux>
         );
     }

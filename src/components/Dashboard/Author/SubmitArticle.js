@@ -325,7 +325,6 @@ class SubmitArticle extends Component {
                         </div>
                     </div>
                 </section>
-                <ToastContainer autoClose={2000} />
             </div>
         );
 
@@ -336,6 +335,7 @@ class SubmitArticle extends Component {
                     title="Xác nhận"
                     message="Đăng tải bài báo lên hệ thống?"
                     confirm={this.confirmSubmitHandler} />
+                <ToastContainer autoClose={2000} />
             </Aux>
         );
     }

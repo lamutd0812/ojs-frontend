@@ -105,7 +105,7 @@ class SubmissionDetail extends Component {
                                                 </div>
                                                 <div className="col-lg-4">
                                                     <div className="form-group mr-2">
-                                                        <label>Nhà thẩm định (Reviewers)</label>
+                                                        <label>Thẩm định viên (Reviewers)</label>
                                                         <p className="ml-4">Chưa có</p>
                                                     </div>
                                                 </div>
@@ -141,7 +141,7 @@ class SubmissionDetail extends Component {
                                             </div>
                                         </div>
                                         <div className="p-2 col-lg-3 border rounded">
-                                            {this.props.permissionLevel === USER_ROLES.CHIEF_EDITOR.permissionLevel ? (
+                                            {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
                                                 <div>
                                                     {!this.props.editorAssignment ? (
                                                         <div className="form-group">
@@ -192,7 +192,7 @@ class SubmissionDetail extends Component {
                                                 <label>Nhật ký hoạt động</label><br />
                                                 <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#submissionLogsModal">Xem chi tiết.</Link>
                                             </div>
-                                            {this.props.permissionLevel === USER_ROLES.AUTHOR.permissionLevel ? (
+                                            {this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
                                                 <div className="form-group">
                                                     <label>Chỉnh sửa</label><br />
                                                     {this.props.submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
@@ -235,9 +235,9 @@ class SubmissionDetail extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        roleId: state.auth.role._id,
         submission: state.submission.submission,
         loading: state.submission.loading,
-        permissionLevel: state.auth.role.permissionLevel,
         editors: state.review.editors,
         editorAssignment: state.review.editorAssignment,
         isSubmissionDeleted: state.submission.isSubmissionDeleted
