@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import DeleteSubmission from '../Submission/DeleteSubmission';
+import DeleteSubmission from '../Author/DeleteSubmission';
+import Spinner from '../../UI/Spinner/Spinner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getSubmissionsByAuthor, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
-import Spinner from '../../UI/Spinner/Spinner';
-import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import { updateObject } from '../../../utils/utility';
 import { STAGE } from '../../../utils/constant';
 
@@ -31,6 +33,7 @@ class Home extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isSubmissionDeleted) {
             this.props.resetDeleteSubmissionState();
+            toast.success("Xóa bài báo khỏi hệ thống thành công!");
             this.refreshHandler();
         }
     }
@@ -66,6 +69,7 @@ class Home extends Component {
 
     render() {
         let stt = 1;
+
         return (
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
@@ -154,6 +158,7 @@ class Home extends Component {
                     confirmDelete={this.confirmDeleteHandler}
                     deletionConfirmed={this.state.deletionConfirmed}
                     deleteSubmission={(event) => this.deleteSubmissionHandler(event, this.state.submissionId)} />
+                <ToastContainer autoClose={2000} />
             </div>
         );
     }

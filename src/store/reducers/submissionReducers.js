@@ -92,6 +92,7 @@ const resetDeleteSubmissionState = (state) => {
 const fetchSubmissionError = (state, action) => {
     return updateObject(state, {
         error: action.error,
+        fileUploading: false
         // loading: true
     });
 };

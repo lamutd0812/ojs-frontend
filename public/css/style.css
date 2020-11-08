@@ -2280,18 +2280,7 @@ textarea.form-control {
   z-index: 3 !important;
 }
 
-/* Modal */
-/* .modal-dialog{
-  overflow-y: initial !important
+/* Toastfify */
+.Toastify__toast--success {
+  color: #000000;
 }
-
-.modal-body{
-  height: 80vh;
-  overflow-y: auto;
-} */
-
-/* Show Modal */
-/* .show {
-  display: block;
-  padding-right: 15px;
-} */

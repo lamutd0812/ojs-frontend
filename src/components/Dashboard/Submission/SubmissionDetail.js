@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import SubmissionLogs from './SubmissionLogs';
-import DeleteSubmission from './DeleteSubmission';
+import DeleteSubmission from '../Author/DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
 import { USER_ROLES, STAGE } from '../../../utils/constant';

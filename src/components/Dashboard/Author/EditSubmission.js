@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import Modal from '../../UI/Modal/Modal';
+import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import Spinner from '../../UI/Spinner/Spinner';
 import { connect } from 'react-redux';
 import { updateObject, checkValidity } from '../../../utils/utility';
 import { getCategories, getSubmissionDetail, editSubmission, resetEditSubmissionState } from '../../../store/actions/submissionActions';
 import { Link } from 'react-router-dom';
 import ContentHeader from '../Shared/ContentHeader';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class EditArticle extends Component {
 
@@ -68,8 +70,7 @@ class EditArticle extends Component {
                 touched: false
             }
         },
-        formIsValid: true,
-        isModalOpen: false
+        formIsValid: true
     }
 
     componentDidMount() {
@@ -79,28 +80,29 @@ class EditArticle extends Component {
         }
     }
 
-    initControlValues = (nextProps) => {
+    initControlValues = (submission) => {
         const updatedControls = updateObject(this.state.controls, {
-            categoryId: updateObject(this.state.controls.categoryId, { value: nextProps.submission.categoryId._id, categoryName: nextProps.submission.categoryId.name }),
-            title: updateObject(this.state.controls.title, { value: nextProps.submission.title }),
-            abstract: updateObject(this.state.controls.abstract, { value: nextProps.submission.abstract }),
-            attachment: updateObject(this.state.controls.attachment, { filename: nextProps.submission.attachmentFile })
+            categoryId: updateObject(this.state.controls.categoryId, { value: submission.categoryId._id, categoryName: submission.categoryId.name }),
+            title: updateObject(this.state.controls.title, { value: submission.title }),
+            abstract: updateObject(this.state.controls.abstract, { value: submission.abstract }),
+            attachment: updateObject(this.state.controls.attachment, { filename: submission.attachmentFile })
         });
         this.setState(updateObject(this.state, { controls: updatedControls }));
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.submission) {
-            this.initControlValues(nextProps);
+        if (nextProps.submission && nextProps.submission !== this.props.submission) {
+            this.initControlValues(nextProps.submission);
         }
         if (nextProps.isSubmissionEdited) {
             this.props.resetEditSubmissionState();
+            toast.success("Chỉnh sửa thông tin bài báo thành công!");
             this.setState(updateObject(this.state, {
-                isModalOpen: false,
                 step1Active: false,
                 step2Active: true,
             }));
         }
+        console.log(this.state);
     }
 
     inputChangeHandler = (event) => {
@@ -136,11 +138,6 @@ class EditArticle extends Component {
         });
     };
 
-    showModalHandler = (event) => {
-        event.preventDefault();
-        this.setState(updateObject(this.state, { isModalOpen: true }));
-    }
-
     confirmSubmitHandler = () => {
         const formData = new FormData();
         formData.append('title', this.state.controls.title.value);
@@ -148,13 +145,6 @@ class EditArticle extends Component {
         formData.append('attachment', this.state.controls.attachment.file);
         formData.append('categoryId', this.state.controls.categoryId.value);
         this.props.editSubmission(this.props.submission._id, formData);
-        // this.setState(updateObject(this.state, { isModalOpen: false }));
-    }
-
-    cancelHandler = () => {
-        this.setState(updateObject(this.state, {
-            isModalOpen: false
-        }));
     }
 
     render() {
@@ -194,84 +184,83 @@ class EditArticle extends Component {
                                         <div className="tab-content" id="custom-tabs-one-tabContent">
                                             {/* Step 1 Active  */}
                                             <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
-                                                <form>
-                                                    <div className="card-body">
-                                                        {this.props.categories ? (
-                                                            <div className="form-group">
-                                                                <label>Thể loại*</label>
-                                                                <select
-                                                                    name="categoryId"
-                                                                    defaultValue={this.value}
-                                                                    className="custom-select form-control"
-                                                                    onChange={this.inputChangeHandler}
-                                                                >
-                                                                    <option value="" hidden>{this.state.controls.categoryId.categoryName}</option>
-                                                                    {this.props.categories.map(category => (
-                                                                        <option key={category._id} value={category._id}>
-                                                                            {category.name}
-                                                                        </option>
-                                                                    ))}
-                                                                </select>
-                                                            </div>
-                                                        ) : null}
+                                                <div className="card-body">
+                                                    {this.props.categories ? (
                                                         <div className="form-group">
-                                                            <label>Tiêu để*</label>
-                                                            <input
-                                                                type="text"
-                                                                name="title"
-                                                                className={!this.state.controls.title.valid && this.state.controls.title.touched ? "form-control-error" : "form-control"}
-                                                                defaultValue={this.state.controls.title.value}
-                                                                onChange={this.inputChangeHandler} />
-                                                            {!this.state.controls.title.valid && this.state.controls.title.touched ?
-                                                                <p className="form-control-error-msg">Tiêu đề không hợp lệ!</p> : null}
+                                                            <label>Thể loại*</label>
+                                                            <select
+                                                                name="categoryId"
+                                                                defaultValue={this.value}
+                                                                className="custom-select form-control"
+                                                                onChange={this.inputChangeHandler}
+                                                            >
+                                                                <option value="" hidden>{this.state.controls.categoryId.categoryName}</option>
+                                                                {this.props.categories.map(category => (
+                                                                    <option key={category._id} value={category._id}>
+                                                                        {category.name}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
                                                         </div>
-                                                        <div className="form-group">
-                                                            <label>Mô tả*</label>
-                                                            <textarea
-                                                                type="text"
-                                                                name="abstract"
-                                                                className={!this.state.controls.abstract.valid && this.state.controls.abstract.touched ? "form-control-error" : "form-control"}
-                                                                placeholder={this.state.controls.abstract.elementConfig.placeholder}
-                                                                defaultValue={this.state.controls.abstract.value}
-                                                                onChange={this.inputChangeHandler} />
-                                                            {!this.state.controls.abstract.valid && this.state.controls.abstract.touched ?
-                                                                <p className="form-control-error-msg">Mô tả không hợp lệ!</p> : null}
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>File đính kèm*</label>
-                                                            <div className="input-group">
-                                                                <div className="custom-file">
-                                                                    <input
-                                                                        type="file"
-                                                                        name="attachment"
-                                                                        className="custom-file-input"
-                                                                        onChange={this.inputChangeHandler} />
-                                                                    {!this.state.controls.attachment.valid && this.state.controls.attachment.touched ?
-                                                                        <p className="form-control-error-msg">File tải lên không hợp lệ!</p> : null}
-                                                                    <label className="custom-file-label" htmlFor="coverImage">{this.state.controls.attachment.filename}</label>
-                                                                </div>
+                                                    ) : null}
+                                                    <div className="form-group">
+                                                        <label>Tiêu để*</label>
+                                                        <input
+                                                            type="text"
+                                                            name="title"
+                                                            className={!this.state.controls.title.valid && this.state.controls.title.touched ? "form-control-error" : "form-control"}
+                                                            defaultValue={this.state.controls.title.value}
+                                                            onChange={this.inputChangeHandler} />
+                                                        {!this.state.controls.title.valid && this.state.controls.title.touched ?
+                                                            <p className="form-control-error-msg">Tiêu đề không hợp lệ!</p> : null}
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label>Mô tả*</label>
+                                                        <textarea
+                                                            type="text"
+                                                            name="abstract"
+                                                            className={!this.state.controls.abstract.valid && this.state.controls.abstract.touched ? "form-control-error" : "form-control"}
+                                                            placeholder={this.state.controls.abstract.elementConfig.placeholder}
+                                                            defaultValue={this.state.controls.abstract.value}
+                                                            onChange={this.inputChangeHandler} />
+                                                        {!this.state.controls.abstract.valid && this.state.controls.abstract.touched ?
+                                                            <p className="form-control-error-msg">Mô tả không hợp lệ!</p> : null}
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label>File đính kèm*</label>
+                                                        <div className="input-group">
+                                                            <div className="custom-file">
+                                                                <input
+                                                                    type="file"
+                                                                    name="attachment"
+                                                                    className="custom-file-input"
+                                                                    onChange={this.inputChangeHandler} />
+                                                                {!this.state.controls.attachment.valid && this.state.controls.attachment.touched ?
+                                                                    <p className="form-control-error-msg">File tải lên không hợp lệ!</p> : null}
+                                                                <label className="custom-file-label" htmlFor="coverImage">{this.state.controls.attachment.filename}</label>
                                                             </div>
-                                                            {this.state.controls.attachment.file && this.props.fileUploading ? (
+                                                        </div>
+                                                        {this.state.controls.attachment.file && this.props.fileUploading ? (
                                                             <div className="input-group">
                                                                 <div className="spinner-border text-primary mt-2" role="status" style={{ width: '25px', height: '25px' }}>
                                                                 </div>
                                                                 <div className="mt-2 ml-2 text-secondary" style={{ fontStyle: 'italic' }}>Đang tải lên...</div>
                                                             </div>
                                                         ) : null}
-                                                        </div>
-                                                        <div className="form-group">
-                                                            {errorMessage}
-                                                        </div>
                                                     </div>
+                                                    <div className="form-group">
+                                                        {errorMessage}
+                                                    </div>
+                                                </div>
 
-                                                    <div className="card-footer">
-                                                        <button
-                                                            type="submit"
-                                                            className="btn btn-primary"
-                                                            onClick={this.showModalHandler}
-                                                            disabled={!this.state.formIsValid}>Chỉnh sửa</button>
-                                                    </div>
-                                                </form>
+                                                <div className="card-footer">
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-primary"
+                                                        data-toggle="modal"
+                                                        data-target="#confirmDialogModal"
+                                                        disabled={!this.state.formIsValid}>Submit</button>
+                                                </div>
                                             </div>
                                             {/* Step 2 Active */}
                                             <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
@@ -307,21 +296,17 @@ class EditArticle extends Component {
                         </div>
                     </div>
                 </section>
+                <ToastContainer autoClose={2000} />
             </div>
         );
 
         return (
             <Aux>
                 {editArticle}
-                <Modal
-                    show={this.state.isModalOpen}
-                    message="Chỉnh sửa bài báo?"
-                    confirmMessage="Đồng ý"
-                    confirm={this.confirmSubmitHandler}
-                    hasCancel={true}
-                    cancelMessage="Hủy"
-                    cancel={this.cancelHandler}>
-                </Modal>
+                <ConfirmDialog
+                    title="Xác nhận"
+                    message="Chỉnh sửa thông tin bài báo?"
+                    confirm={this.confirmSubmitHandler} />
             </Aux>
         );
     }
