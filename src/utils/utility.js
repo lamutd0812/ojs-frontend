@@ -87,3 +87,5 @@ export const getFormattedTimeOnly = (dateStr) => {
     const formattedTimeFromDate = hour + ":" + min + ":" + sec;
     return formattedTimeFromDate;
 }
+
+
