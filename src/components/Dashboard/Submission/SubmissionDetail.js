@@ -9,7 +9,7 @@ import ContentHeader from '../Shared/ContentHeader';
 import { USER_ROLES, STAGE } from '../../../utils/constant';
 import { getFormattedDate, getStageBadgeClassname, updateObject } from '../../../utils/utility';
 import { getSubmissionDetail, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
-import { getEditorAssignment } from '../../../store/actions/reviewActions';
+import { getEditorAssignmentBySubmission, getReviewerAssignmentsBySubmission } from '../../../store/actions/reviewActions';
 
 class SubmissionDetail extends Component {
 
@@ -21,7 +21,8 @@ class SubmissionDetail extends Component {
     componentDidMount() {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
-            this.props.getEditorAssignment(this.props.match.params.submissionId);
+            this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getReviewerAssignmentsBySubmission(this.props.match.params.submissionId);
         }
     }
 
@@ -34,7 +35,7 @@ class SubmissionDetail extends Component {
     // }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.isSubmissionDeleted) {    
+        if (nextProps.isSubmissionDeleted) {
             this.props.resetDeleteSubmissionState();
             this.props.history.push('/dashboard');
         }
@@ -89,7 +90,10 @@ class SubmissionDetail extends Component {
                                                     <div className="form-group mr-2">
                                                         <label>Tác giả (Author)</label>
                                                         <Link to="#">
-                                                            <p className="text-primary ml-4">{this.props.submission.authorId.lastname} {this.props.submission.authorId.firstname}</p>
+                                                            <p className="text-primary ml-4">
+                                                                <i className="fas fa-user text-dark"></i> {" "}
+                                                                {this.props.submission.authorId.lastname} {this.props.submission.authorId.firstname}
+                                                            </p>
                                                         </Link>
                                                     </div>
                                                 </div>
@@ -98,15 +102,32 @@ class SubmissionDetail extends Component {
                                                         <label>Biên tập viên (Editor)</label>
                                                         {this.props.editorAssignment ? (
                                                             <Link to="#">
-                                                                <p className="text-primary ml-4">{this.props.editorAssignment.editorId.lastname} {this.props.editorAssignment.editorId.firstname}</p>
+                                                                <p className="text-primary ml-4">
+                                                                    <i className="fas fa-user text-dark"></i> {" "}
+                                                                    {this.props.editorAssignment.editorId.lastname} {this.props.editorAssignment.editorId.firstname}
+                                                                </p>
                                                             </Link>
                                                         ) : <p className="ml-4">Chưa được chỉ định</p>}
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-4">
                                                     <div className="form-group mr-2">
-                                                        <label>Thẩm định viên (Reviewers)</label>
-                                                        <p className="ml-4">Chưa có</p>
+                                                        <label>Thẩm định viên ({this.props.reviewerAssignments.length}/3)</label>
+                                                        {this.props.reviewerAssignments.length > 0 ? (
+                                                            <div className="ml-4">
+                                                                {this.props.reviewerAssignments.map(ra => (
+                                                                    <Link to="#">
+                                                                        <div className="text-primary"><i className="fas fa-user text-dark"></i> {" "}
+                                                                            {ra.reviewerId.lastname} {ra.reviewerId.firstname}
+                                                                        </div>
+                                                                    </Link>
+                                                                ))}
+                                                            </div>
+                                                        ) : (
+                                                                <div className="ml-4">
+                                                                    <div>Chưa được chỉ định</div>
+                                                                </div>
+                                                            )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,7 +163,7 @@ class SubmissionDetail extends Component {
                                         </div>
                                         <div className="p-2 col-lg-3 border rounded">
                                             {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
-                                                <div>
+                                                <Aux>
                                                     {!this.props.editorAssignment ? (
                                                         <div className="form-group">
                                                             <Link to={`/dashboard/assign-editor?submissionId=${this.props.submission._id}`}>
@@ -162,7 +183,29 @@ class SubmissionDetail extends Component {
                                                     <div className="form-group">
                                                         <button className="btn btn-danger btn-block">Từ chối bài báo</button>
                                                     </div>
-                                                </div>
+                                                </Aux>
+                                            ) : this.props.roleId === USER_ROLES.EDITOR.roleId ? (
+                                                <Aux>
+                                                    {this.props.reviewerAssignments.length < 3 ? (
+                                                        <div className="form-group">
+                                                            <Link to={`/dashboard/assign-reviewer?submissionId=${this.props.submission._id}`}>
+                                                                <button className="btn btn-primary btn-block">Chỉ định thẩm định viên</button>
+                                                            </Link>
+                                                        </div>
+                                                    ) : (
+                                                            <div className="form-group">
+                                                                <button className="btn btn-primary btn-block" disabled>
+                                                                    Chỉ định thẩm định viên
+                                                                </button>
+                                                            </div>
+                                                        )}
+                                                    <div className="form-group">
+                                                        <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <button className="btn btn-danger btn-block">Yêu cầu chỉnh sửa</button>
+                                                    </div>
+                                                </Aux>
                                             ) : null}
                                             <div className="form-group">
                                                 <label>Ngày đăng:</label>
@@ -238,15 +281,18 @@ const mapStateToProps = (state) => {
         roleId: state.auth.role._id,
         submission: state.submission.submission,
         loading: state.submission.loading,
+        isSubmissionDeleted: state.submission.isSubmissionDeleted,
         editors: state.review.editors,
         editorAssignment: state.review.editorAssignment,
-        isSubmissionDeleted: state.submission.isSubmissionDeleted
+        reviewers: state.review.reviewers,
+        reviewerAssignments: state.review.reviewerAssignments
     }
 };
 
 const mapDispatchToProps = {
     getSubmissionDetail,
-    getEditorAssignment,
+    getEditorAssignmentBySubmission,
+    getReviewerAssignmentsBySubmission,
     deleteSubmission,
     resetDeleteSubmissionState
 };

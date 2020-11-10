@@ -8,6 +8,7 @@ import SubmitArticle from '../../components/Dashboard/Author/SubmitArticle';
 import EditSubmission from '../../components/Dashboard/Author/EditSubmission';
 import SubmissionDetail from '../../components/Dashboard/Submission/SubmissionDetail';
 import AssignEditor from '../../components/Dashboard/ChiefEditor/AssignEditor';
+import AssignReviewer from '../../components/Dashboard/Editor/AssignReviewer';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { USER_ROLES } from '../../utils/constant';
@@ -41,7 +42,7 @@ class Dashboard extends Component {
                     <Switch>
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
-                        <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
+                        <Route path="/dashboard/assign-reviewer" component={AssignReviewer} />
                         <Route exact path="/dashboard" component={EditorHome} />
                     </Switch>
                 );

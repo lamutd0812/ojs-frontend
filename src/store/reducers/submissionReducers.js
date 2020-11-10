@@ -10,7 +10,7 @@ const initialState = {
     isSubmissionEdited: false,
     isSubmissionDeleted: false,
     message: '',
-    loading: true,
+    loading: false,
     error: null
 };
 

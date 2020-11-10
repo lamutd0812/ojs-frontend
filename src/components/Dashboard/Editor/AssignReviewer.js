@@ -9,29 +9,29 @@ import Spinner from '../../UI/Spinner/Spinner';
 import { updateObject } from '../../../utils/utility';
 import { connect } from 'react-redux';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
-import { getAllEditors, assignEditor, resetEditorAssignmentState } from '../../../store/actions/reviewActions';
+import { getAllReviewers, assignReviewer, resetReviewerAssignmentState } from '../../../store/actions/reviewActions';
 import "react-datepicker/dist/react-datepicker.css";
 
-class AssignEditor extends Component {
+class AssignReviewer extends Component {
 
     state = {
         step1Active: true,
         step2Active: false,
         step3Active: false,
         submissionId: '',
-        selectedEditorId: '',
-        selectedEditorName: '',
+        selectedReviewerId: '',
+        selectedReviewerName: '',
         dueDate: new Date(),
-        messageToEditor: 'Nội dung lời nhắn',
-        emailToEditor: 'Nội dung thông báo',
+        messageToReviewer: 'Nội dung lời nhắn',
+        emailToReviewer: 'Nội dung thông báo',
         isModalOpen: false
     };
 
     componentDidMount() {
-        this.props.getAllEditors();
         if (this.props.location.search) {
             const query = new URLSearchParams(this.props.location.search);
             const submissionId = query.get('submissionId');
+            this.props.getAllReviewers(submissionId);
             this.setState(updateObject(this.state, {
                 submissionId: submissionId
             }));
@@ -60,16 +60,16 @@ class AssignEditor extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.isEditorAssigned) {
-            this.props.resetEditorAssignmentState();
-            toast.success("Chỉ định biên tập viên thành công!");
+        if (nextProps.isReviewerAssigned) {
+            this.props.resetReviewerAssignmentState();
+            toast.success("Chỉ định thẩm định viên thành công!");
         }
     }
 
-    editorSelectedHandler = (event) => {
+    reviewerSelectedHandler = (event) => {
         this.setState(updateObject(this.state, {
-            selectedEditorId: event.target.value,
-            selectedEditorName: event.target.id
+            selectedReviewerId: event.target.value,
+            selectedReviewerName: event.target.id
         }));
     }
 
@@ -77,18 +77,18 @@ class AssignEditor extends Component {
         this.setState(updateObject(this.state, { dueDate: date }));
     }
 
-    setMessageToEditorHandler = (event) => {
-        this.setState(updateObject(this.state, { messageToEditor: event.target.value }));
+    setMessageToReviewerHandler = (event) => {
+        this.setState(updateObject(this.state, { messageToReviewer: event.target.value }));
     }
 
-    setEmailToEditorHandler = (event) => {
-        this.setState(updateObject(this.state, { emailToEditor: event.target.value }));
+    setEmailToReviewerHandler = (event) => {
+        this.setState(updateObject(this.state, { emailToReviewer: event.target.value }));
         console.log(this.state);
     }
 
     confirmSubmitHandler = () => {
-        this.props.assignEditor(this.state.submissionId, this.state.selectedEditorId,
-            this.state.dueDate, this.state.messageToEditor);
+        this.props.assignReviewer(this.state.submissionId, this.state.selectedReviewerId,
+            this.state.dueDate, this.state.messageToReviewer);
 
         this.setState(updateObject(this.state, {
             isModalOpen: false,
@@ -109,8 +109,8 @@ class AssignEditor extends Component {
             <div>
                 <div className="content-wrapper">
                     <section className="content-header">
-                        <ContentHeader title="Chỉ định biên tập viên">
-                            <li className="breadcrumb-item active">Assign Editor</li>
+                        <ContentHeader title="Chỉ định thẩm định viên">
+                            <li className="breadcrumb-item active">Assign Reviewer</li>
                         </ContentHeader>
                     </section>
 
@@ -122,7 +122,7 @@ class AssignEditor extends Component {
                                         <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                             <li className="nav-item">
                                                 <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}>
-                                                    1. Lựa chọn biên tập viên
+                                                    1. Lựa chọn thẩm định viên
                                                 </div>
                                             </li>
                                             <li className="nav-item">
@@ -148,34 +148,34 @@ class AssignEditor extends Component {
                                                         </button>
                                                     </div>
                                                 </div>
-                                                {this.props.editors.length > 0 ? (
+                                                {this.props.reviewers.length > 0 ? (
                                                     <div className="card-body table-responsive p-0" style={{ height: '300px' }}>
                                                         <table className="table table-head-fixed text-nowrap">
                                                             <thead>
                                                                 <tr>
                                                                     <th>Chọn</th>
-                                                                    <th>Biên tập viên</th>
+                                                                    <th>Thẩm định viên</th>
                                                                     <th className="text-center">Đã xử lý</th>
                                                                     <th className="text-center">Đang xử lý</th>
                                                                     <th className="text-center">Ghi chú</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {this.props.editors.map(editor => (
-                                                                    <tr key={editor._id}>
+                                                                {this.props.reviewers.map(reviewer => (
+                                                                    <tr key={reviewer._id}>
                                                                         <td>
-                                                                            <div className="radio" onChange={this.editorSelectedHandler}>
+                                                                            <div className="radio" onChange={this.reviewerSelectedHandler}>
                                                                                 <label>
                                                                                     <input
-                                                                                        value={editor._id}
+                                                                                        value={reviewer._id}
                                                                                         type="radio"
-                                                                                        id={editor.lastname + " " + editor.firstname}
-                                                                                        name="editor" />
+                                                                                        id={reviewer.lastname + " " + reviewer.firstname}
+                                                                                        name="reviewer" />
                                                                                 </label>
                                                                             </div>
                                                                         </td>
                                                                         <td>
-                                                                            <Link className="text-primary" to="#">{editor.lastname} {editor.firstname}</Link>
+                                                                            <Link className="text-primary" to="#">{reviewer.lastname} {reviewer.firstname}</Link>
                                                                         </td>
                                                                         <td className="text-center">5</td>
                                                                         <td className="text-center">1</td>
@@ -188,7 +188,7 @@ class AssignEditor extends Component {
                                                 ) : <Spinner />}
                                                 <button
                                                     className="btn btn-primary"
-                                                    disabled={this.state.selectedEditorId === ''}
+                                                    disabled={this.state.selectedReviewerId === ''}
                                                     onClick={this.step2ActiveHandler}>Lựa chọn</button>
                                             </div>
                                             <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
@@ -207,8 +207,8 @@ class AssignEditor extends Component {
                                                         type="text"
                                                         name="noti_and_email"
                                                         className="form-control"
-                                                        defaultValue={this.state.emailToEditor}
-                                                        onChange={this.setEmailToEditorHandler} />
+                                                        defaultValue={this.state.emailToReviewer}
+                                                        onChange={this.setEmailToReviewerHandler} />
                                                 </div>
                                                 <div className="form-group">
                                                     <h6>Lời nhắn</h6>
@@ -216,8 +216,8 @@ class AssignEditor extends Component {
                                                         type="text"
                                                         name="message"
                                                         className="form-control"
-                                                        defaultValue={this.state.messageToEditor}
-                                                        onChange={this.setMessageToEditorHandler} />
+                                                        defaultValue={this.state.messageToReviewer}
+                                                        onChange={this.setMessageToReviewerHandler} />
                                                 </div>
                                                 <div>
                                                     <button
@@ -233,7 +233,7 @@ class AssignEditor extends Component {
                                             <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>
                                                 <h4>Chỉ định biên tập viên thành công.</h4>
                                                 {this.props.submission ? (
-                                                    <div className="ml-2">Bạn đã chỉ định biên tập viên <Link to="#" className="text-primary">{this.state.selectedEditorName}</Link> chủ trì quá trình
+                                                    <div className="ml-2">Bạn đã chỉ định thẩm định viên <Link to="#" className="text-primary">{this.state.selectedReviewerName}</Link>
                                                     thẩm định bài báo <b>{this.props.submission.title}</b> của tác giả <Link to="" className="text-primary">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}.</Link></div>
                                                 ) : null}
                                                 <h4 className="mt-3">Bây giờ, bạn có thể:</h4>
@@ -259,7 +259,7 @@ class AssignEditor extends Component {
                 </div>
                 <ConfirmDialog
                     title="Xác nhận"
-                    message="Chỉ định biên tập viên cho bài báo?"
+                    message="Chỉ định thẩm định viên cho bài báo?"
                     confirm={this.confirmSubmitHandler} />
                 <ToastContainer autoClose={2000} />
             </div>
@@ -270,17 +270,17 @@ class AssignEditor extends Component {
 const mapStateToProps = (state) => {
     return {
         submission: state.submission.submission,
-        editors: state.review.editors,
-        isEditorAssigned: state.review.isEditorAssigned,
+        reviewers: state.review.reviewers,
+        isReviewerAssigned: state.review.isReviewerAssigned,
         message: state.review.message
     };
 };
 
 const mapDispatchToProps = {
-    getAllEditors,
+    getAllReviewers,
     getSubmissionDetail,
-    assignEditor,
-    resetEditorAssignmentState
+    assignReviewer,
+    resetReviewerAssignmentState
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AssignEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(AssignReviewer);

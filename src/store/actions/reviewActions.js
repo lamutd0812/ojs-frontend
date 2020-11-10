@@ -1,10 +1,23 @@
 import axios from '../../utils/axios';
 import * as actionTypes from './actionTypes';
 
+const reviewProcessStart = () => {
+    return {
+        type: actionTypes.REVIEW_PROCESS_START
+    };
+};
+
 const getAllEditorsSuccess = (editors) => {
     return {
         type: actionTypes.GET_ALL_EDITORS_SUCCESS,
         editors: editors
+    };
+};
+
+const getAllReviewersSuccess = (reviewers) => {
+    return {
+        type: actionTypes.GET_ALL_REVIEWERS_SUCCESS,
+        reviewers: reviewers
     };
 };
 
@@ -15,10 +28,24 @@ const assignEditorSuccess = (message) => {
     };
 };
 
+const assignReviewerSuccess = (message) => {
+    return {
+        type: actionTypes.ASSIGN_REVIEWER_SUCCESS,
+        message: message
+    };
+};
+
 const getEditorAssignmentBySubmissionSuccess = (editorAssignment) => {
     return {
         type: actionTypes.GET_EDITOR_ASSIGNMENT_BY_SUBMISSION_SUCCESS,
         editorAssignment: editorAssignment
+    };
+};
+
+const getReviewerAssignmentsBySubmissionSuccess = (reviewerAssignments) => {
+    return {
+        type: actionTypes.GET_REVIEWER_ASSIGNMENTS_BY_SUBMISSION_SUCCESS,
+        reviewerAssignments: reviewerAssignments
     };
 };
 
@@ -38,6 +65,7 @@ const reviewProcessError = (error) => {
 
 // Chief Editor get All Editors
 export const getAllEditors = () => (dispatch, getState) => {
+    dispatch(reviewProcessStart());
     const token = getState().auth.token;
     axios.get('/reviews/editors', {
         headers: {
@@ -45,6 +73,24 @@ export const getAllEditors = () => (dispatch, getState) => {
         }
     }).then(res => {
         dispatch(getAllEditorsSuccess(res.data.editors));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.message));
+    });
+};
+
+// Editor get All Reviewers
+export const getAllReviewers = (submissionId) => (dispatch, getState) => {
+    dispatch(reviewProcessStart());
+    const token = getState().auth.token;
+    axios.get('/reviews/reviewers', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        params: {
+            submissionId
+        }
+    }).then(res => {
+        dispatch(getAllReviewersSuccess(res.data.reviewers));
     }).catch(err => {
         dispatch(reviewProcessError(err.message));
     });
@@ -70,14 +116,41 @@ export const assignEditor = (submissionId, editorId, dueDate, message) => (dispa
     });
 };
 
+// Editor assign Reviewer
+export const assignReviewer = (submissionId, reviewerId, dueDate, message) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const reqBody = {
+        submissionId: submissionId,
+        reviewerId: reviewerId,
+        dueDate: dueDate,
+        message: message
+    };
+    axios.put('/reviews/assign-reviewer', reqBody, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(assignReviewerSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.response.data.error));
+    });
+};
+
 export const resetEditorAssignmentState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_EDITOR_ASSIGNMENT_STATE
-    })
+    });
+};
+
+export const resetReviewerAssignmentState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_REVIEWER_ASSIGNMENT_STATE
+    });
 };
 
 // CE and other roles get Editor Assignment by Submission
-export const getEditorAssignment = (submissionId) => (dispatch, getState) => {
+export const getEditorAssignmentBySubmission = (submissionId) => (dispatch, getState) => {
+    ;
     const token = getState().auth.token;
     axios.get('/reviews/editor-assignments/' + submissionId, {
         headers: {
@@ -90,8 +163,24 @@ export const getEditorAssignment = (submissionId) => (dispatch, getState) => {
     });
 };
 
+// CE and other roles get Reviewer Assignments by Submission
+export const getReviewerAssignmentsBySubmission = (submissionId) => (dispatch, getState) => {
+    ;
+    const token = getState().auth.token;
+    axios.get('/reviews/reviewer-assignments/' + submissionId, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getReviewerAssignmentsBySubmissionSuccess(res.data.reviewerAssignments));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.message));
+    });
+};
+
 // Editor get My Assignments
 export const getMyEditorAssignments = () => (dispatch, getState) => {
+    dispatch(reviewProcessStart());
     const token = getState().auth.token;
     axios.get('/reviews/editor-assignments/my/all', {
         headers: {
