@@ -1784,6 +1784,18 @@ textarea.form-control {
   border-radius: 20px;
 }
 
+.bg-dark,
+.bg-secondary,
+.bg-warning,
+.bg-primary,
+.bg-success,
+.bg-danger {
+  width: 130px;
+  padding: 4.5%;
+  font-size: 14px;
+  font-weight: 400;
+}
+
 /* .badge-success {
   padding: 4.5% 17% 4.5% 17%;
   font-size: 14px;
@@ -1807,4 +1819,9 @@ textarea.form-control {
 /* Table Collapse */
 .hiddenRow {
   padding: 0 !important;
+}
+
+/* Table No Striped */
+.table-nostriped tbody tr:nth-of-type(odd) {
+  background-color:transparent;
 }

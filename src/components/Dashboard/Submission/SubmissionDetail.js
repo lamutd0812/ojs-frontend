@@ -10,6 +10,22 @@ import { USER_ROLES, STAGE } from '../../../utils/constant';
 import { getFormattedDate, getStageBadgeClassname, updateObject } from '../../../utils/utility';
 import { getSubmissionDetail, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
 import { getEditorAssignmentBySubmission, getReviewerAssignmentsBySubmission } from '../../../store/actions/reviewActions';
+import { Doughnut } from 'react-chartjs-2';
+import ReviewerSubmission from '../Editor/ReviewerSubmission';
+
+const data = {
+    labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
+    datasets: [
+        {
+            data: [1, 1, 1],
+            backgroundColor: [
+                '#28a745',
+                '#dc3545',
+                '#17a2b8'
+            ]
+        },
+    ],
+}
 
 class SubmissionDetail extends Component {
 
@@ -44,7 +60,7 @@ class SubmissionDetail extends Component {
     refreshHandler = () => {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
-            this.props.getEditorAssignment(this.props.match.params.submissionId);
+            this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
         }
     }
 
@@ -83,9 +99,11 @@ class SubmissionDetail extends Component {
                             </div>
                             {this.props.submission ? (
                                 <div className="card-body">
+                                    {/* Row */}
                                     <div className="row">
-                                        <div className="p-2 col-lg-12 border rounded mb-3">
-                                            <div className="row">
+                                        <div className="p-2 col-lg-12 border rounded">
+                                            <h6>1. Thông tin ban biên tập</h6>
+                                            <div className="row ml-2">
                                                 <div className="col-lg-4">
                                                     <div className="form-group mr-2">
                                                         <label>Tác giả (Author)</label>
@@ -116,7 +134,7 @@ class SubmissionDetail extends Component {
                                                         {this.props.reviewerAssignments.length > 0 ? (
                                                             <div className="ml-4">
                                                                 {this.props.reviewerAssignments.map(ra => (
-                                                                    <Link to="#">
+                                                                    <Link to="#" key={ra._id}>
                                                                         <div className="text-primary"><i className="fas fa-user text-dark"></i> {" "}
                                                                             {ra.reviewerId.lastname} {ra.reviewerId.firstname}
                                                                         </div>
@@ -133,19 +151,21 @@ class SubmissionDetail extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="p-2 col-lg-9 border rounded">
-                                            <div className="form-group mr-2">
+                                    {/* Row */}
+                                    <div className="row pt-2">
+                                        <div className="p-2 col-lg-8 border rounded">
+                                            <h6>2. Thông tin chi tiết bài báo</h6>
+                                            <div className="form-group ml-3">
                                                 <label>Thể loại</label>
                                                 <Link to="#">
                                                     <p className="ml-4 text-success">{this.props.submission.categoryId.name}</p>
                                                 </Link>
                                             </div>
-                                            <div className="form-group mr-2">
+                                            <div className="form-group ml-3">
                                                 <label>Tiêu để</label>
                                                 <p className="ml-4">{this.props.submission.title}</p>
                                             </div>
-                                            <div className="form-group mr-2">
+                                            <div className="form-group ml-3">
                                                 <label>Mô tả</label>
                                                 <p className="ml-4">
                                                     {this.props.submission.abstract}
@@ -161,7 +181,7 @@ class SubmissionDetail extends Component {
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className="p-2 col-lg-3 border rounded">
+                                        <div className="p-2 col-lg-4 border rounded">
                                             {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
                                                 <Aux>
                                                     {!this.props.editorAssignment ? (
@@ -214,10 +234,14 @@ class SubmissionDetail extends Component {
                                                 </p>
                                             </div>
                                             <div className="form-group">
-                                                <label>Chỉnh sửa lần cuối</label>
+                                                <label>Cập nhật lần cuối:</label>
                                                 <p className="ml-4">
                                                     {getFormattedDate(this.props.submission.updatedAt)}
                                                 </p>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Nhật ký hoạt động</label><br />
+                                                <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#submissionLogsModal"><u>Xem chi tiết</u></Link>
                                             </div>
                                             <div className="form-group">
                                                 <label>Pha</label><br />
@@ -231,10 +255,7 @@ class SubmissionDetail extends Component {
                                                     {this.props.submission.submissionStatus.status}
                                                 </p>
                                             </div>
-                                            <div className="form-group">
-                                                <label>Nhật ký hoạt động</label><br />
-                                                <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#submissionLogsModal">Xem chi tiết.</Link>
-                                            </div>
+
                                             {this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
                                                 <div className="form-group">
                                                     <label>Chỉnh sửa</label><br />
@@ -261,6 +282,80 @@ class SubmissionDetail extends Component {
                                             ) : null}
                                         </div>
                                     </div>
+                                    {/* Row */}
+                                    {this.props.roleId === USER_ROLES.EDITOR.roleId ? (
+                                        <div className="row border rounded mt-2">
+                                            <div className="p-2 col-lg-8">
+                                                <h6>3. Ý kiến của thẩm định viên</h6>
+                                                <table className="table table-bordered table-sm mt-2">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style={{ width: '1%' }}>#</th>
+                                                            <th style={{ width: '30%' }}>Thẩm định viên</th>
+                                                            <th style={{ width: '25%' }}>Trạng thái</th>
+                                                            <th style={{ width: '25%' }} className="text-center">Quyết định</th>
+                                                            <th style={{ width: '19%' }} className="text-center">Chi tiết</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>Nguyễn văn A</td>
+                                                            <td>Đã gửi ý kiến</td>
+                                                            <td className="text-center">
+                                                                <span className="badge bg-success p-1">Chấp nhận bài báo</span>
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <Link to="#" className="text-primary" style={{ fontWeight: '400' }} data-toggle="modal" data-target="#reviewerSubmissionModal">
+                                                                    <u>Xem chi tiết</u>
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>Lê Văn B</td>
+                                                            <td>Đã gửi ý kiến</td>
+                                                            <td className="text-center">
+                                                                <span className="badge bg-danger p-1">Yêu cầu chỉnh sửa</span>
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <Link to="#" className="text-primary" style={{ fontWeight: '400' }} data-toggle="modal" data-target="#reviewerSubmissionModal">
+                                                                    <u>Xem chi tiết</u>
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td>Trần Thanh C</td>
+                                                            <td>Chưa nộp ý kiến</td>
+                                                            <td className="text-center">
+                                                                <span className="badge bg-secondary p-1">Chưa nộp ý kiến</span>
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <Link to="#" className="text-primary" style={{ fontWeight: '400' }} data-toggle="modal" data-target="#reviewerSubmissionModal">
+                                                                    <u>Xem chi tiết</u>
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div className="p-2 col-lg-4">
+                                                <Doughnut
+                                                    data={data}
+                                                    options={{
+                                                        responsive: true,
+                                                        maintainAspectRatio: true,
+                                                        legend: {
+                                                            labels: {
+                                                                fontFamily: 'Roboto Slab'
+                                                            }
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+                                    ) : null}
                                 </div>
                             ) : null}
                         </div>
@@ -271,6 +366,7 @@ class SubmissionDetail extends Component {
                     confirmDelete={this.confirmDeleteHandler}
                     deletionConfirmed={this.state.deletionConfirmed}
                     deleteSubmission={this.deleteSubmissionHandler} />
+                <ReviewerSubmission />
             </div>
         );
     }
