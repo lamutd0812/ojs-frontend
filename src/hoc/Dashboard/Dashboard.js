@@ -23,6 +23,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
+                        <Route exact path="/dashboard/author" component={AuthorHome} />
                         <Route exact path="/dashboard" component={AuthorHome} />
                     </Switch>
                 );
@@ -43,7 +44,9 @@ class Dashboard extends Component {
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
                         <Route path="/dashboard/assign-reviewer" component={AssignReviewer} />
-                        <Route exact path="/dashboard" component={EditorHome} />
+                        <Route path="/dashboard/editor" component={EditorHome} />
+                        <Route exact path="/dashboard/author" component={AuthorHome} />
+                        <Route exact path="/dashboard" component={AuthorHome} />
                     </Switch>
                 );
                 break;

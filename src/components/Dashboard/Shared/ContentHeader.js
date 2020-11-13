@@ -6,7 +6,7 @@ const ContentHeader = (props) => {
         <div className="container-fluid">
             <div className="row mb-2">
                 <div className="col-sm-6">
-                    <h3>{props.title}</h3>
+                    <h4>{props.title}</h4>
                 </div>
                 <div className="col-sm-6">
                     <ol className="breadcrumb float-sm-right">

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { Link, NavLink } from 'react-router-dom';
 import { USER_ROLES } from '../../../utils/constant';
 
@@ -54,15 +55,23 @@ class Sidebar extends Component {
                                                 </NavLink>
                                             </li>
                                         ) : this.props.roleId === USER_ROLES.EDITOR.roleId ? (
-                                            <li className="nav-item">
-                                                <NavLink to="/dashboard/" className="nav-link">
-                                                    <i className="nav-icon fas fa-edit"></i>
-                                                    <p>Trang biên tập viên</p>
-                                                </NavLink>
-                                            </li>
+                                            <Aux>
+                                                <li className="nav-item">
+                                                    <NavLink to="/dashboard/author" className="nav-link">
+                                                        <i className="nav-icon fas fa-edit"></i>
+                                                        <p>Trang tác giả</p>
+                                                    </NavLink>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <NavLink to="/dashboard/editor" className="nav-link">
+                                                        <i className="nav-icon fas fa-edit"></i>
+                                                        <p>Trang biên tập viên</p>
+                                                    </NavLink>
+                                                </li>
+                                            </Aux>
                                         ) : this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
                                             <li className="nav-item">
-                                                <NavLink to="/dashboard/" className="nav-link">
+                                                <NavLink to="/dashboard/author" className="nav-link">
                                                     <i className="nav-icon fas fa-edit"></i>
                                                     <p>Trang tác giả</p>
                                                 </NavLink>

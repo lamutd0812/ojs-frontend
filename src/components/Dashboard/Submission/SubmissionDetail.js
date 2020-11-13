@@ -102,7 +102,7 @@ class SubmissionDetail extends Component {
                                     {/* Row */}
                                     <div className="row">
                                         <div className="p-2 col-lg-12 border rounded">
-                                            <h6>1. Thông tin ban biên tập</h6>
+                                            <h6>THÔNG TIN BAN BIÊN TẬP</h6>
                                             <div className="row ml-2">
                                                 <div className="col-lg-4">
                                                     <div className="form-group mr-2">
@@ -152,141 +152,10 @@ class SubmissionDetail extends Component {
                                         </div>
                                     </div>
                                     {/* Row */}
-                                    <div className="row pt-2">
-                                        <div className="p-2 col-lg-8 border rounded">
-                                            <h6>2. Thông tin chi tiết bài báo</h6>
-                                            <div className="form-group ml-3">
-                                                <label>Thể loại</label>
-                                                <Link to="#">
-                                                    <p className="ml-4 text-success">{this.props.submission.categoryId.name}</p>
-                                                </Link>
-                                            </div>
-                                            <div className="form-group ml-3">
-                                                <label>Tiêu để</label>
-                                                <p className="ml-4">{this.props.submission.title}</p>
-                                            </div>
-                                            <div className="form-group ml-3">
-                                                <label>Mô tả</label>
-                                                <p className="ml-4">
-                                                    {this.props.submission.abstract}
-                                                </p>
-                                            </div>
-                                            <div className="form-group mr-2">
-                                                <label>File đính kèm</label>
-                                                <p className="ml-4">
-                                                    <i className="fa fa-paperclip fa-lg"></i>
-                                                    <a href={this.props.submission.attachmentUrl} className="text-primary" target="_blank" rel="noopener noreferrer">
-                                                        {" "}{this.props.submission.attachmentFile}
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="p-2 col-lg-4 border rounded">
-                                            {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
-                                                <Aux>
-                                                    {!this.props.editorAssignment ? (
-                                                        <div className="form-group">
-                                                            <Link to={`/dashboard/assign-editor?submissionId=${this.props.submission._id}`}>
-                                                                <button className="btn btn-primary btn-block">Chỉ định biên tập viên</button>
-                                                            </Link>
-                                                        </div>
-                                                    ) : (
-                                                            <div className="form-group">
-                                                                <button className="btn btn-primary btn-block" disabled>
-                                                                    Chỉ định biên tập viên
-                                                                </button>
-                                                            </div>
-                                                        )}
-                                                    <div className="form-group">
-                                                        <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <button className="btn btn-danger btn-block">Từ chối bài báo</button>
-                                                    </div>
-                                                </Aux>
-                                            ) : this.props.roleId === USER_ROLES.EDITOR.roleId ? (
-                                                <Aux>
-                                                    {this.props.reviewerAssignments.length < 3 ? (
-                                                        <div className="form-group">
-                                                            <Link to={`/dashboard/assign-reviewer?submissionId=${this.props.submission._id}`}>
-                                                                <button className="btn btn-primary btn-block">Chỉ định thẩm định viên</button>
-                                                            </Link>
-                                                        </div>
-                                                    ) : (
-                                                            <div className="form-group">
-                                                                <button className="btn btn-primary btn-block" disabled>
-                                                                    Chỉ định thẩm định viên
-                                                                </button>
-                                                            </div>
-                                                        )}
-                                                    <div className="form-group">
-                                                        <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <button className="btn btn-danger btn-block">Yêu cầu chỉnh sửa</button>
-                                                    </div>
-                                                </Aux>
-                                            ) : null}
-                                            <div className="form-group">
-                                                <label>Ngày đăng:</label>
-                                                <p className="ml-4">
-                                                    {getFormattedDate(this.props.submission.createdAt)}
-                                                </p>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Cập nhật lần cuối:</label>
-                                                <p className="ml-4">
-                                                    {getFormattedDate(this.props.submission.updatedAt)}
-                                                </p>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Nhật ký hoạt động</label><br />
-                                                <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#submissionLogsModal"><u>Xem chi tiết</u></Link>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Pha</label><br />
-                                                <div className={"badge " + getStageBadgeClassname(this.props.submission.submissionStatus.stageId.value) + " ml-3"}>
-                                                    {this.props.submission.submissionStatus.stageId.name}
-                                                </div>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Trạng thái</label><br />
-                                                <p className="ml-3">
-                                                    {this.props.submission.submissionStatus.status}
-                                                </p>
-                                            </div>
-
-                                            {this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
-                                                <div className="form-group">
-                                                    <label>Chỉnh sửa</label><br />
-                                                    {this.props.submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
-                                                        <Aux>
-                                                            <Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="btn btn-info btn-sm mr-1">
-                                                                <i className="fas fa-pencil-alt"></i> Chỉnh sửa
-                                                            </Link>
-                                                            <button className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal">
-                                                                <i className="fas fa-trash"></i> Xóa bài báo
-                                                            </button>
-                                                        </Aux>
-                                                    ) : (
-                                                            <Aux>
-                                                                <button className="btn btn-info btn-sm mr-1 disabled">
-                                                                    <i className="fas fa-pencil-alt"></i> Chỉnh sửa
-                                                                </button>
-                                                                <button className="btn btn-danger btn-sm disabled">
-                                                                    <i className="fas fa-trash"></i> Xóa bài báo
-                                                                </button>
-                                                            </Aux>
-                                                        )}
-                                                </div>
-                                            ) : null}
-                                        </div>
-                                    </div>
-                                    {/* Row */}
                                     {this.props.roleId === USER_ROLES.EDITOR.roleId ? (
                                         <div className="row border rounded mt-2">
                                             <div className="p-2 col-lg-8">
-                                                <h6>3. Ý kiến của thẩm định viên</h6>
+                                                <h6>Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
                                                 <table className="table table-bordered table-sm mt-2">
                                                     <thead>
                                                         <tr>
@@ -356,6 +225,125 @@ class SubmissionDetail extends Component {
                                             </div>
                                         </div>
                                     ) : null}
+                                    {/* Row */}
+                                    <div className="row pt-2">
+                                        <div className="p-2 col-lg-8 border rounded">
+                                            <h6>THÔNG TIN CHI TIẾT BÀI BÁO</h6>
+                                            <div className="form-group ml-3">
+                                                <label>Thể loại</label>
+                                                <Link to="#">
+                                                    <p className="ml-4 text-success">{this.props.submission.categoryId.name}</p>
+                                                </Link>
+                                            </div>
+                                            <div className="form-group ml-3">
+                                                <label>Tiêu để</label>
+                                                <p className="ml-4">{this.props.submission.title}</p>
+                                            </div>
+                                            <div className="form-group ml-3">
+                                                <label>Mô tả</label>
+                                                <p className="ml-4">
+                                                    {this.props.submission.abstract}
+                                                </p>
+                                            </div>
+                                            <div className="form-group mr-2">
+                                                <label>File đính kèm</label>
+                                                <p className="ml-4">
+                                                    <i className="fa fa-paperclip fa-lg"></i>
+                                                    <a href={this.props.submission.attachmentUrl} className="text-primary" target="_blank" rel="noopener noreferrer">
+                                                        {" "}{this.props.submission.attachmentFile}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="p-2 col-lg-4 border rounded">
+                                            {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
+                                                <Aux>
+                                                    {!this.props.editorAssignment ? (
+                                                        <div className="form-group">
+                                                            <Link to={`/dashboard/assign-editor?submissionId=${this.props.submission._id}`}>
+                                                                <button className="btn btn-primary btn-block">Chỉ định biên tập viên</button>
+                                                            </Link>
+                                                        </div>
+                                                    ) : null}
+                                                    <div className="form-group">
+                                                        <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <button className="btn btn-danger btn-block">Từ chối bài báo</button>
+                                                    </div>
+                                                </Aux>
+                                            ) : this.props.roleId === USER_ROLES.EDITOR.roleId ? (
+                                                <Aux>
+                                                    {this.props.reviewerAssignments.length < 3 ? (
+                                                        <div className="form-group">
+                                                            <Link to={`/dashboard/assign-reviewer?submissionId=${this.props.submission._id}`}>
+                                                                <button className="btn btn-primary btn-block">Chỉ định thẩm định viên</button>
+                                                            </Link>
+                                                        </div>
+                                                    ) : null}
+                                                    <div className="form-group">
+                                                        <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <button className="btn btn-danger btn-block">Yêu cầu chỉnh sửa</button>
+                                                    </div>
+                                                </Aux>
+                                            ) : null}
+                                            <div className="form-group">
+                                                <label>Ngày đăng:</label>
+                                                <p className="ml-4">
+                                                    {getFormattedDate(this.props.submission.createdAt)}
+                                                </p>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Cập nhật lần cuối:</label>
+                                                <p className="ml-4">
+                                                    {getFormattedDate(this.props.submission.updatedAt)}
+                                                </p>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Nhật ký hoạt động</label><br />
+                                                <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#submissionLogsModal"><u>Xem chi tiết</u></Link>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Pha</label><br />
+                                                <div className={"badge " + getStageBadgeClassname(this.props.submission.submissionStatus.stageId.value) + " ml-3"}>
+                                                    {this.props.submission.submissionStatus.stageId.name}
+                                                </div>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>Trạng thái</label><br />
+                                                <p className="ml-3">
+                                                    {this.props.submission.submissionStatus.status}
+                                                </p>
+                                            </div>
+
+                                            {this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
+                                                <div className="form-group">
+                                                    <label>Chỉnh sửa</label><br />
+                                                    {this.props.submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
+                                                        <Aux>
+                                                            <Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="btn btn-info btn-sm mr-1">
+                                                                <i className="fas fa-pencil-alt"></i> Chỉnh sửa
+                                                            </Link>
+                                                            <button className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal">
+                                                                <i className="fas fa-trash"></i> Xóa bài báo
+                                                            </button>
+                                                        </Aux>
+                                                    ) : (
+                                                            <Aux>
+                                                                <button className="btn btn-info btn-sm mr-1 disabled">
+                                                                    <i className="fas fa-pencil-alt"></i> Chỉnh sửa
+                                                                </button>
+                                                                <button className="btn btn-danger btn-sm disabled">
+                                                                    <i className="fas fa-trash"></i> Xóa bài báo
+                                                                </button>
+                                                            </Aux>
+                                                        )}
+                                                </div>
+                                            ) : null}
+                                        </div>
+                                    </div>
                                 </div>
                             ) : null}
                         </div>
