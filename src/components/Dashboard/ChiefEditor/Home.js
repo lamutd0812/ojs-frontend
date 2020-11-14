@@ -72,11 +72,11 @@ class Home extends Component {
                                                             <span>{submission.submissionStatus.status}</span>}
                                                     </td>
                                                     <td className="project-actions text-center">
-                                                        <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-primary btn-sm mr-1">
+                                                        <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
                                                             <i className="fas fa-eye"></i> Xem
                                                         </Link>
-                                                        <Link to="#" className="btn btn-danger btn-sm">
-                                                            <i className="fas fa-ban"></i> Từ chối
+                                                        <Link to="#" className="btn btn-outline-danger btn-sm">
+                                                            <i className="fas fa-close"></i> Từ chối
                                                         </Link>
                                                     </td>
                                                 </tr>

@@ -5,8 +5,10 @@ import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Navigation from '../../components/Navigation/Navigation';
 import Footer from '../../components/Footer/Footer';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
-import { auth } from '../../store/actions/authActions';
+import { auth, resetRegisterState } from '../../store/actions/authActions';
 import { updateObject, checkValidity } from '../../utils/utility';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Login extends Component {
     state = {
@@ -41,6 +43,19 @@ class Login extends Component {
         formIsValid: false
     }
 
+    componentDidUpdate() {
+        if(this.props.isSignedUp) {
+            this.props.resetRegisterState();
+            toast.success("Đăng ký tài khoản thành công!");
+        }
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.props.resetRegisterState();
+        }
+    }
+
     inputChangeHandler = (event) => {
         let controlName = event.target.name;
         const updatedControls = updateObject(this.state.controls, {
@@ -64,7 +79,7 @@ class Login extends Component {
 
     formSubmitHandler = (event) => {
         event.preventDefault();
-        this.props.onAuth(this.state.controls.username.value,
+        this.props.auth(this.state.controls.username.value,
             this.state.controls.password.value);
     };
 
@@ -72,13 +87,6 @@ class Login extends Component {
         let authRedirect = null;
         if (this.props.isAuth) {
             authRedirect = <Redirect to="/" />
-        }
-
-        let errorMessage = null;
-        if (this.props.error) {
-            errorMessage = (
-                <p style={{ fontStyle: 'italic', color: 'red' }}>{this.props.error}</p>
-            );
         }
 
         return (
@@ -122,9 +130,6 @@ class Login extends Component {
                                         <div className="form-group">
                                             <div>Quên mật khẩu?</div>
                                         </div>
-                                        <div className="form-group">
-                                            {errorMessage}
-                                        </div>
                                         <button
                                             type="submit"
                                             className="btn mag-btn mt-10"
@@ -139,6 +144,8 @@ class Login extends Component {
                     </div>
                 </div>
                 <Footer />
+                <ToastContainer autoClose={2000} />
+                {this.props.error ? toast.error(this.props.error) : null}
             </Aux>
         );
     }
@@ -148,12 +155,14 @@ const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
-        isAuth: state.auth.token !== null
+        isAuth: state.auth.token !== null,
+        isSignedUp: state.auth.isSignedUp
     };
 };
 
 const mapDispatchToProps = {
-    onAuth: auth
+    auth,
+    resetRegisterState
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -118,26 +118,26 @@ class Home extends Component {
                                                         <span>{submission.submissionStatus.status}</span>
                                                     </td>
                                                     <td className="project-actions text-right">
-                                                        <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-primary btn-sm mr-1">
+                                                        <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
                                                             <i className="fas fa-eye"></i> Xem
                                                         </Link>
 
                                                         {submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
                                                             <Aux>
-                                                                <Link to={`/dashboard/edit-submission/${submission._id}`} className="btn btn-info btn-sm mr-1">
+                                                                <Link to={`/dashboard/edit-submission/${submission._id}`} className="btn btn-outline-secondary btn-sm mr-1">
                                                                     <i className="fas fa-pencil-alt"></i> Sửa
                                                                 </Link>
-                                                                <button className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal"
+                                                                <button className="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal"
                                                                     onClick={() => this.selectSubmissionHandler(submission._id)}>
                                                                     <i className="fas fa-trash"></i> Xóa
                                                                 </button>
                                                             </Aux>
                                                         ) : (
                                                                 <Aux>
-                                                                    <button className="btn btn-info btn-sm mr-1 disabled">
+                                                                    <button className="btn btn-outline-secondary btn-sm mr-1 disabled">
                                                                         <i className="fas fa-pencil-alt"></i> Sửa
                                                                     </button>
-                                                                    <button className="btn btn-danger btn-sm disabled">
+                                                                    <button className="btn btn-outline-danger btn-sm disabled">
                                                                         <i className="fas fa-trash"></i> Xóa
                                                                     </button>
                                                                 </Aux>

@@ -171,15 +171,24 @@ class SubmissionDetail extends Component {
                                                     {!this.props.editorAssignment ? (
                                                         <div className="form-group">
                                                             <Link to={`/dashboard/chief-editor/assign-editor?submissionId=${this.props.submission._id}`}>
-                                                                <button className="btn btn-primary btn-block">Chỉ định biên tập viên</button>
+                                                                <button className="btn btn-outline-primary btn-block">
+                                                                    <i class="fas fa-user"></i> {" "}
+                                                                    Chỉ định biên tập viên
+                                                                </button>
                                                             </Link>
                                                         </div>
                                                     ) : null}
                                                     <div className="form-group">
-                                                        <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
+                                                        <button className="btn btn-outline-success btn-block">
+                                                            <i class="fas fa-check"></i> {" "}
+                                                            Chấp nhận bài báo
+                                                        </button>
                                                     </div>
                                                     <div className="form-group">
-                                                        <button className="btn btn-danger btn-block">Từ chối bài báo</button>
+                                                        <button className="btn btn-outline-danger btn-block">
+                                                            <i class="fas fa-times"></i>{" "}
+                                                            Từ chối bài báo
+                                                        </button>
                                                     </div>
                                                 </Aux>
                                             ) : null}
@@ -217,19 +226,19 @@ class SubmissionDetail extends Component {
                                                     <label>Chỉnh sửa</label><br />
                                                     {this.props.submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
                                                         <Aux>
-                                                            <Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="btn btn-info btn-sm mr-1">
+                                                            <Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="btn btn-outline-secondary btn-sm mr-1">
                                                                 <i className="fas fa-pencil-alt"></i> Chỉnh sửa
                                                             </Link>
-                                                            <button className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal">
+                                                            <button className="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal">
                                                                 <i className="fas fa-trash"></i> Xóa bài báo
                                                             </button>
                                                         </Aux>
                                                     ) : (
                                                             <Aux>
-                                                                <button className="btn btn-info btn-sm mr-1 disabled">
+                                                                <button className="btn btn-outline-secondary btn-sm mr-1 disabled">
                                                                     <i className="fas fa-pencil-alt"></i> Chỉnh sửa
                                                                 </button>
-                                                                <button className="btn btn-danger btn-sm disabled">
+                                                                <button className="btn btn-outline-danger btn-sm disabled">
                                                                     <i className="fas fa-trash"></i> Xóa bài báo
                                                                 </button>
                                                             </Aux>

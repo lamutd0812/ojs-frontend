@@ -255,36 +255,29 @@ class EditorAssignment extends Component {
                                             </div>
                                         </div>
                                         <div className="p-2 col-lg-4 border rounded">
-                                            {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
-                                                <Aux>
-                                                    {!this.props.editorAssignment ? (
-                                                        <div className="form-group">
-                                                            <Link to={`/dashboard/chief-editor/assign-editor?submissionId=${this.props.submission._id}`}>
-                                                                <button className="btn btn-primary btn-block">Chỉ định biên tập viên</button>
-                                                            </Link>
-                                                        </div>
-                                                    ) : null}
-                                                    <div className="form-group">
-                                                        <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <button className="btn btn-danger btn-block">Từ chối bài báo</button>
-                                                    </div>
-                                                </Aux>
-                                            ) : this.props.roleId === USER_ROLES.EDITOR.roleId ? (
+                                            {this.props.roleId === USER_ROLES.EDITOR.roleId ? (
                                                 <Aux>
                                                     {this.props.reviewerAssignments.length < 3 ? (
                                                         <div className="form-group">
                                                             <Link to={`/dashboard/editor/assign-reviewer?submissionId=${this.props.submission._id}`}>
-                                                                <button className="btn btn-primary btn-block">Chỉ định thẩm định viên</button>
+                                                                <button className="btn btn-outline-primary btn-block">
+                                                                    <i class="fas fa-user"></i>{" "}
+                                                                    Chỉ định thẩm định viên
+                                                                </button>
                                                             </Link>
                                                         </div>
                                                     ) : null}
                                                     <div className="form-group">
-                                                        <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
+                                                        <button className="btn btn-outline-success btn-block">
+                                                            <i class="fas fa-check"></i> {" "}
+                                                            Chấp nhận bài báo
+                                                        </button>
                                                     </div>
                                                     <div className="form-group">
-                                                        <button className="btn btn-danger btn-block">Yêu cầu chỉnh sửa</button>
+                                                        <button className="btn btn-outline-danger btn-block">
+                                                            <i class="fas fa-edit"></i> {" "}
+                                                            Yêu cầu chỉnh sửa
+                                                        </button>
                                                     </div>
                                                 </Aux>
                                             ) : null}
