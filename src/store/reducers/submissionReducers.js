@@ -15,11 +15,11 @@ const initialState = {
 };
 
 const submissionStart = (state) => {
-    return updateObject(state, { loading: true });
+    return updateObject(state, { loading: true, error: null });
 };
 
 const uploadStart = (state) => {
-    return updateObject(state, { fileUploading: true });
+    return updateObject(state, { fileUploading: true, error: null });
 }
 
 const getCategoriesSuccess = (state, action) => {
@@ -56,7 +56,8 @@ const createSubmissionSuccess = (state, action) => {
 
 const resetCreateSubmissionState = (state) => {
     return updateObject(state, {
-        isSubmissionCreated: false
+        isSubmissionCreated: false,
+        error: null
     })
 };
 
@@ -71,7 +72,8 @@ const editSubmissionSuccess = (state, action) => {
 
 const resetEditSubmissionState = (state) => {
     return updateObject(state, {
-        isSubmissionEdited: false
+        isSubmissionEdited: false,
+        error: null
     })
 };
 
@@ -85,7 +87,8 @@ const deleteSubmissionSuccess = (state, action) => {
 
 const resetDeleteSubmissionState = (state) => {
     return updateObject(state, {
-        isSubmissionDeleted: false
+        isSubmissionDeleted: false,
+        error: null
     })
 };
 

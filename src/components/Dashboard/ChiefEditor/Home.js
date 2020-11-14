@@ -7,21 +7,18 @@ import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import { STAGE } from '../../../utils/constant';
 
-let stt = 1;
-
 class Home extends Component {
 
     componentDidMount() {
-        stt = 1;
         this.props.getAllSubmissions();
     }
 
     refreshHandler = () => {
-        stt = 1;
         this.props.getAllSubmissions();
     }
 
     render() {
+        let stt = 1;
         return (
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
@@ -51,7 +48,7 @@ class Home extends Component {
                                                 <th style={{ width: '15%' }} className="text-center"> Tác giả</th>
                                                 <th style={{ width: '20%' }} className="text-center"> Pha</th>
                                                 <th style={{ width: '15%' }} className="text-center"> Trạng thái</th>
-                                                <th style={{ width: '25%' }} className="text-center"> Action</th>
+                                                <th style={{ width: '30%' }} className="text-center"> Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>

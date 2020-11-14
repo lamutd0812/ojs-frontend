@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import Spinner from '../../UI/Spinner/Spinner';
-import { updateObject } from '../../../utils/utility';
+import { updateObject, getDeadlineDate } from '../../../utils/utility';
 import { connect } from 'react-redux';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getAllEditors, assignEditor, resetEditorAssignmentState } from '../../../store/actions/reviewActions';
@@ -21,17 +21,17 @@ class AssignEditor extends Component {
         submissionId: '',
         selectedEditorId: '',
         selectedEditorName: '',
-        dueDate: new Date(),
+        dueDate: getDeadlineDate(7),
         messageToEditor: 'Nội dung lời nhắn',
         emailToEditor: 'Nội dung thông báo',
         isModalOpen: false
     };
 
     componentDidMount() {
-        this.props.getAllEditors();
         if (this.props.location.search) {
             const query = new URLSearchParams(this.props.location.search);
             const submissionId = query.get('submissionId');
+            this.props.getAllEditors(submissionId);
             this.setState(updateObject(this.state, {
                 submissionId: submissionId
             }));
@@ -60,9 +60,18 @@ class AssignEditor extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.isEditorAssigned) {
+        if (nextProps.error) {
+            this.props.resetEditorAssignmentState();
+        }
+        if (nextProps.isEditorAssigned && !nextProps.error) {
             this.props.resetEditorAssignmentState();
             toast.success("Chỉ định biên tập viên thành công!");
+            this.setState(updateObject(this.state, {
+                isModalOpen: false,
+                step1Active: false,
+                step2Active: false,
+                step3Active: true
+            }));
         }
     }
 
@@ -83,19 +92,11 @@ class AssignEditor extends Component {
 
     setEmailToEditorHandler = (event) => {
         this.setState(updateObject(this.state, { emailToEditor: event.target.value }));
-        console.log(this.state);
     }
 
     confirmSubmitHandler = () => {
         this.props.assignEditor(this.state.submissionId, this.state.selectedEditorId,
             this.state.dueDate, this.state.messageToEditor);
-
-        this.setState(updateObject(this.state, {
-            isModalOpen: false,
-            step1Active: false,
-            step2Active: false,
-            step3Active: true
-        }));
     }
 
     cancelHandler = () => {
@@ -196,7 +197,7 @@ class AssignEditor extends Component {
                                                     <h6>Thời hạn xử lý*</h6>
                                                     <DatePicker className="form-control"
                                                         showTimeSelect
-                                                        minDate={new Date()}
+                                                        minDate={getDeadlineDate(7)}
                                                         selected={this.state.dueDate}
                                                         onChange={date => this.setDueDateHandler(date)}
                                                         dateFormat="dd/MM/yyyy" />
@@ -262,6 +263,7 @@ class AssignEditor extends Component {
                     message="Chỉ định biên tập viên cho bài báo?"
                     confirm={this.confirmSubmitHandler} />
                 <ToastContainer autoClose={2000} />
+                {this.props.error ? toast.error(this.props.error) : null}
             </div>
         );
     }
@@ -272,7 +274,8 @@ const mapStateToProps = (state) => {
         submission: state.submission.submission,
         editors: state.review.editors,
         isEditorAssigned: state.review.isEditorAssigned,
-        message: state.review.message
+        message: state.review.message,
+        error: state.review.error
     };
 };
 

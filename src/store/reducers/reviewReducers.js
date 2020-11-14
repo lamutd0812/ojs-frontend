@@ -16,7 +16,7 @@ const initialState = {
 };
 
 const reviewProcessStart = (state) => {
-    return updateObject(state, { loading: true });
+    return updateObject(state, { loading: true, error: null });
 };
 
 // Chief Editor get all Editors

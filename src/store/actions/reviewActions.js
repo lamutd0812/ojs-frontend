@@ -64,12 +64,15 @@ const reviewProcessError = (error) => {
 };
 
 // Chief Editor get All Editors
-export const getAllEditors = () => (dispatch, getState) => {
+export const getAllEditors = (submissionId) => (dispatch, getState) => {
     dispatch(reviewProcessStart());
     const token = getState().auth.token;
     axios.get('/reviews/editors', {
         headers: {
             'Authorization': `Bearer ${token}`
+        },
+        params: {
+            submissionId
         }
     }).then(res => {
         dispatch(getAllEditorsSuccess(res.data.editors));

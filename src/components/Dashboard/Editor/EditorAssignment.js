@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import SubmissionLogs from './SubmissionLogs';
+import SubmissionLogs from '../Submission/SubmissionLogs';
 import DeleteSubmission from '../Author/DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
@@ -10,9 +10,24 @@ import { USER_ROLES, STAGE } from '../../../utils/constant';
 import { getFormattedDate, getStageBadgeClassname, updateObject } from '../../../utils/utility';
 import { getSubmissionDetail, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
 import { getEditorAssignmentBySubmission, getReviewerAssignmentsBySubmission } from '../../../store/actions/reviewActions';
+import { Doughnut } from 'react-chartjs-2';
 import ReviewerSubmission from '../Editor/ReviewerSubmission';
 
-class SubmissionDetail extends Component {
+const data = {
+    labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
+    datasets: [
+        {
+            data: [1, 1, 1],
+            backgroundColor: [
+                '#28a745',
+                '#dc3545',
+                '#17a2b8'
+            ]
+        },
+    ],
+}
+
+class EditorAssignment extends Component {
 
     state = {
         deletionConfirmed: false
@@ -109,7 +124,7 @@ class SubmissionDetail extends Component {
                                                                     {this.props.editorAssignment.editorId.lastname} {this.props.editorAssignment.editorId.firstname}
                                                                 </p>
                                                             </Link>
-                                                        ) : <div className="ml-4 text-secondary">Chưa được chỉ định</div>}
+                                                        ) : <p className="ml-4">Chưa được chỉ định</p>}
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-4">
@@ -126,7 +141,7 @@ class SubmissionDetail extends Component {
                                                                 ))}
                                                             </div>
                                                         ) : (
-                                                                <div className="ml-4 text-secondary">
+                                                                <div className="ml-4">
                                                                     <div>Chưa được chỉ định</div>
                                                                 </div>
                                                             )}
@@ -135,6 +150,80 @@ class SubmissionDetail extends Component {
                                             </div>
                                         </div>
                                     </div>
+                                    {/* Row */}
+                                    {this.props.roleId === USER_ROLES.EDITOR.roleId ? (
+                                        <div className="row border rounded mt-2">
+                                            <div className="p-2 col-lg-8">
+                                                <h6>Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
+                                                <table className="table table-bordered table-sm mt-2">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style={{ width: '1%' }}>#</th>
+                                                            <th style={{ width: '30%' }}>Thẩm định viên</th>
+                                                            <th style={{ width: '25%' }}>Trạng thái</th>
+                                                            <th style={{ width: '25%' }} className="text-center">Quyết định</th>
+                                                            <th style={{ width: '19%' }} className="text-center">Chi tiết</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>Nguyễn Tùng Dương</td>
+                                                            <td>Đã gửi ý kiến</td>
+                                                            <td className="text-center">
+                                                                <span className="badge bg-success p-1">Chấp nhận bài báo</span>
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <Link to="#" className="text-primary" style={{ fontWeight: '400' }} data-toggle="modal" data-target="#reviewerSubmissionModal">
+                                                                    <u>Xem chi tiết</u>
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>Lê Văn Nam</td>
+                                                            <td>Đã gửi ý kiến</td>
+                                                            <td className="text-center">
+                                                                <span className="badge bg-danger p-1">Yêu cầu chỉnh sửa</span>
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <Link to="#" className="text-primary" style={{ fontWeight: '400' }} data-toggle="modal" data-target="#reviewerSubmissionModal">
+                                                                    <u>Xem chi tiết</u>
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td>David De Gea</td>
+                                                            <td>Chưa nộp ý kiến</td>
+                                                            <td className="text-center">
+                                                                <span className="badge bg-secondary p-1">Chưa nộp ý kiến</span>
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <Link to="#" className="text-primary" style={{ fontWeight: '400' }} data-toggle="modal" data-target="#reviewerSubmissionModal">
+                                                                    <u>Xem chi tiết</u>
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div className="p-2 col-lg-4">
+                                                <Doughnut
+                                                    data={data}
+                                                    options={{
+                                                        responsive: true,
+                                                        maintainAspectRatio: true,
+                                                        legend: {
+                                                            labels: {
+                                                                fontFamily: 'Roboto Slab'
+                                                            }
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+                                    ) : null}
                                     {/* Row */}
                                     <div className="row pt-2">
                                         <div className="p-2 col-lg-8 border rounded">
@@ -182,6 +271,22 @@ class SubmissionDetail extends Component {
                                                         <button className="btn btn-danger btn-block">Từ chối bài báo</button>
                                                     </div>
                                                 </Aux>
+                                            ) : this.props.roleId === USER_ROLES.EDITOR.roleId ? (
+                                                <Aux>
+                                                    {this.props.reviewerAssignments.length < 3 ? (
+                                                        <div className="form-group">
+                                                            <Link to={`/dashboard/editor/assign-reviewer?submissionId=${this.props.submission._id}`}>
+                                                                <button className="btn btn-primary btn-block">Chỉ định thẩm định viên</button>
+                                                            </Link>
+                                                        </div>
+                                                    ) : null}
+                                                    <div className="form-group">
+                                                        <button className="btn btn-success btn-block">Chấp nhận bài báo</button>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <button className="btn btn-danger btn-block">Yêu cầu chỉnh sửa</button>
+                                                    </div>
+                                                </Aux>
                                             ) : null}
                                             <div className="form-group">
                                                 <label>Ngày đăng:</label>
@@ -212,7 +317,7 @@ class SubmissionDetail extends Component {
                                                 </p>
                                             </div>
 
-                                            {this.props.userId === this.props.submission.authorId._id ? (
+                                            {this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
                                                 <div className="form-group">
                                                     <label>Chỉnh sửa</label><br />
                                                     {this.props.submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
@@ -256,7 +361,6 @@ class SubmissionDetail extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        userId: state.auth.userId,
         roleId: state.auth.role._id,
         submission: state.submission.submission,
         loading: state.submission.loading,
@@ -276,4 +380,4 @@ const mapDispatchToProps = {
     resetDeleteSubmissionState
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubmissionDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(EditorAssignment);

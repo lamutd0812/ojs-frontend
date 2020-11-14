@@ -84,7 +84,7 @@ class Home extends Component {
                                                             <span>{getFormattedDate(ea.dueDate)}</span>
                                                         </td>
                                                         <td className="project-actions text-center">
-                                                            <Link to={`/dashboard/submission/${ea.submissionId._id}`} className="btn btn-primary btn-sm mr-1">
+                                                            <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-primary btn-sm mr-1">
                                                                 <i className="fas fa-eye"></i> Xử lý
                                                             </Link>
                                                         </td>

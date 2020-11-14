@@ -8,6 +8,7 @@ import SubmitArticle from '../../components/Dashboard/Author/SubmitArticle';
 import EditSubmission from '../../components/Dashboard/Author/EditSubmission';
 import SubmissionDetail from '../../components/Dashboard/Submission/SubmissionDetail';
 import AssignEditor from '../../components/Dashboard/ChiefEditor/AssignEditor';
+import EditorAssignment from '../../components/Dashboard/Editor/EditorAssignment';
 import AssignReviewer from '../../components/Dashboard/Editor/AssignReviewer';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -23,7 +24,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
-                        <Route exact path="/dashboard/author" component={AuthorHome} />
+                        <Route path="/dashboard/author" component={AuthorHome} />
                         <Route exact path="/dashboard" component={AuthorHome} />
                     </Switch>
                 );
@@ -33,7 +34,7 @@ class Dashboard extends Component {
                     <Switch>
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
-                        <Route path="/dashboard/assign-editor" component={AssignEditor} />
+                        <Route path="/dashboard/chief-editor/assign-editor" component={AssignEditor} />
                         <Route exact path="/dashboard" component={ChiefEditorHome} />
                     </Switch>
                 );
@@ -43,9 +44,11 @@ class Dashboard extends Component {
                     <Switch>
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
-                        <Route path="/dashboard/assign-reviewer" component={AssignReviewer} />
+                        <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
+                        <Route path="/dashboard/editor/assign-reviewer" component={AssignReviewer} />
+                        <Route path="/dashboard/editor/assignment/:submissionId" component={EditorAssignment} />
                         <Route path="/dashboard/editor" component={EditorHome} />
-                        <Route exact path="/dashboard/author" component={AuthorHome} />
+                        <Route path="/dashboard/author" component={AuthorHome} />
                         <Route exact path="/dashboard" component={AuthorHome} />
                     </Switch>
                 );

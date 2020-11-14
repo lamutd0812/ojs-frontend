@@ -38,8 +38,15 @@ export const getStageBadgeClassname = (value) => {
             return "badge-success";
         default:
             return "badge-dark";
-    }
-}
+    };
+};
+
+export const getDeadlineDate = (days) => {
+    const today = new Date();
+    let deadline = new Date();
+    deadline.setDate(today.getDate() + days);
+    return deadline;
+};
 
 export const getFormattedDate = (dateStr) => {
     let date = new Date(dateStr);
@@ -58,7 +65,7 @@ export const getFormattedDate = (dateStr) => {
 
     const formattedDate = day + "-" + month + "-" + date.getFullYear() + " " + hour + ":" + min + ":" + sec;
     return formattedDate;
-}
+};
 
 export const getFormattedDateOnly = (dateStr) => {
     let date = new Date(dateStr);
@@ -71,7 +78,7 @@ export const getFormattedDateOnly = (dateStr) => {
 
     const formattedDate = day + "-" + month + "-" + date.getFullYear();
     return formattedDate;
-}
+};
 
 export const getFormattedTimeOnly = (dateStr) => {
     let date = new Date(dateStr);
@@ -86,6 +93,6 @@ export const getFormattedTimeOnly = (dateStr) => {
 
     const formattedTimeFromDate = hour + ":" + min + ":" + sec;
     return formattedTimeFromDate;
-}
+};
 
 

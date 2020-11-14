@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import Spinner from '../../UI/Spinner/Spinner';
-import { updateObject } from '../../../utils/utility';
+import { updateObject, getDeadlineDate } from '../../../utils/utility';
 import { connect } from 'react-redux';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getAllReviewers, assignReviewer, resetReviewerAssignmentState } from '../../../store/actions/reviewActions';
@@ -21,7 +21,7 @@ class AssignReviewer extends Component {
         submissionId: '',
         selectedReviewerId: '',
         selectedReviewerName: '',
-        dueDate: new Date(),
+        dueDate: getDeadlineDate(7),
         messageToReviewer: 'Nội dung lời nhắn',
         emailToReviewer: 'Nội dung thông báo',
         isModalOpen: false
@@ -60,9 +60,18 @@ class AssignReviewer extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.isReviewerAssigned) {
+        if (nextProps.error) {
+            this.props.resetReviewerAssignmentState();
+        }
+        if (nextProps.isReviewerAssigned && !nextProps.error) {
             this.props.resetReviewerAssignmentState();
             toast.success("Chỉ định thẩm định viên thành công!");
+            this.setState(updateObject(this.state, {
+                isModalOpen: false,
+                step1Active: false,
+                step2Active: false,
+                step3Active: true
+            }));
         }
     }
 
@@ -83,19 +92,11 @@ class AssignReviewer extends Component {
 
     setEmailToReviewerHandler = (event) => {
         this.setState(updateObject(this.state, { emailToReviewer: event.target.value }));
-        console.log(this.state);
     }
 
     confirmSubmitHandler = () => {
         this.props.assignReviewer(this.state.submissionId, this.state.selectedReviewerId,
             this.state.dueDate, this.state.messageToReviewer);
-
-        this.setState(updateObject(this.state, {
-            isModalOpen: false,
-            step1Active: false,
-            step2Active: false,
-            step3Active: true
-        }));
     }
 
     cancelHandler = () => {
@@ -196,7 +197,7 @@ class AssignReviewer extends Component {
                                                     <h6>Thời hạn xử lý*</h6>
                                                     <DatePicker className="form-control"
                                                         showTimeSelect
-                                                        minDate={new Date()}
+                                                        minDate={getDeadlineDate(7)}
                                                         selected={this.state.dueDate}
                                                         onChange={date => this.setDueDateHandler(date)}
                                                         dateFormat="dd/MM/yyyy" />
@@ -240,14 +241,14 @@ class AssignReviewer extends Component {
                                                 {this.props.submission ? (
                                                     <div className="ml-2">
                                                         <i className="fa fa-eye"></i>
-                                                        {" "}<Link to={`/dashboard/submission/${this.props.submission._id}`} className="text-primary">
+                                                        {" "}<Link to={`/dashboard/editor/assignment/${this.props.submission._id}`} className="text-primary">
                                                             Theo dõi quá trình thẩm định.
                                                     </Link>.
                                                     </div>
                                                 ) : null}
                                                 <div className="ml-2">
                                                     <i className="fa fa-home"></i>
-                                                    {" "} <Link to="/dashboard" className="text-primary">Trở về trang chủ.</Link>
+                                                    {" "} <Link to="/dashboard/editor" className="text-primary">Xử lý bài báo khác.</Link>
                                                 </div>
                                             </div>
                                         </div>
@@ -262,6 +263,7 @@ class AssignReviewer extends Component {
                     message="Chỉ định thẩm định viên cho bài báo?"
                     confirm={this.confirmSubmitHandler} />
                 <ToastContainer autoClose={2000} />
+                {this.props.error ? toast.error(this.props.error) : null}
             </div>
         );
     }
@@ -272,7 +274,8 @@ const mapStateToProps = (state) => {
         submission: state.submission.submission,
         reviewers: state.review.reviewers,
         isReviewerAssigned: state.review.isReviewerAssigned,
-        message: state.review.message
+        message: state.review.message,
+        error: state.review.error
     };
 };
 

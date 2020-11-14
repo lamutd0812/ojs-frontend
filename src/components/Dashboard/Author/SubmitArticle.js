@@ -77,7 +77,10 @@ class SubmitArticle extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.isSubmissionCreated) {
+        if (nextProps.error) {
+            this.props.resetCreateSubmissionState();
+        }
+        if (nextProps.isSubmissionCreated && !nextProps.error) {
             this.props.resetCreateSubmissionState();
             toast.success("Submit bài báo lên hệ thống thành công!");
             this.setState(updateObject(this.state, {
@@ -150,14 +153,6 @@ class SubmitArticle extends Component {
     }
 
     render() {
-
-        let errorMessage = null;
-        if (this.props.error) {
-            errorMessage = (
-                <p style={{ fontStyle: 'italic', color: 'red' }}>{this.props.error}</p>
-            );
-        }
-
         const submitArticle = (
             <div className="content-wrapper">
                 <section className="content-header">
@@ -278,9 +273,6 @@ class SubmitArticle extends Component {
                                                         </div>
                                                     ) : null}
                                                 </div>
-                                                <div className="form-group">
-                                                    {errorMessage}
-                                                </div>
                                             </div>
 
                                             <div className="card-footer">
@@ -303,17 +295,19 @@ class SubmitArticle extends Component {
                                             báo trên hệ thống thường xuyên để thuận tiện trong việc trao đổi với ban biên tập các vấn đề liên quan.</div>
                                             <h4 className="mt-3">Bây giờ, bạn có thể:</h4>
                                             {this.props.submission ? (
-                                                <div className="ml-2">
-                                                    <i className="fa fa-eye"></i>
-                                                    {" "}<Link to={`/dashboard/submission/${this.props.submission._id}`} className="text-primary">
-                                                        Xem chi tiết bài báo.
+                                                <Aux>
+                                                    <div className="ml-2">
+                                                        <i className="fa fa-eye"></i>
+                                                        {" "}<Link to={`/dashboard/submission/${this.props.submission._id}`} className="text-primary">
+                                                            Xem chi tiết bài báo.
                                                     </Link>.
-                                                </div>
+                                                    </div>
+                                                    <div className="ml-2">
+                                                        <i className="fa fa-edit"></i>
+                                                        {" "}<Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="text-primary">Chỉnh sửa bài báo</Link> (Trước khi bước vào pha Thẩm định).
+                                                    </div>
+                                                </Aux>
                                             ) : null}
-                                            <div className="ml-2">
-                                                <i className="fa fa-edit"></i>
-                                                {" "}<Link to="#" className="text-primary">Chỉnh sửa bài báo</Link> (Trước khi bước vào pha Thẩm định).
-                                            </div>
                                             <div className="ml-2">
                                                 <i className="fa fa-home"></i>
                                                 {" "} <Link to="/dashboard" className="text-primary">Trở về trang chủ.</Link>
@@ -336,6 +330,7 @@ class SubmitArticle extends Component {
                     message="Đăng tải bài báo lên hệ thống?"
                     confirm={this.confirmSubmitHandler} />
                 <ToastContainer autoClose={2000} />
+                {this.props.error ? toast.error(this.props.error) : null}
             </Aux>
         );
     }

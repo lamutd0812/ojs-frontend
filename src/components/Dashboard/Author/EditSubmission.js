@@ -102,7 +102,6 @@ class EditArticle extends Component {
                 step2Active: true,
             }));
         }
-        console.log(this.state);
     }
 
     inputChangeHandler = (event) => {
