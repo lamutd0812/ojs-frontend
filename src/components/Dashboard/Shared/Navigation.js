@@ -10,14 +10,8 @@ class Navigation extends Component {
                 <nav className="main-header navbar navbar-expand navbar-dark">
                     {/* <!-- Left navbar links --> */}
                     <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <a className="nav-link" data-widget="pushmenu" href="idndex.html" role="button"><i className="fas fa-bars"></i></a>
-                        </li>
                         <li className="nav-item d-none d-sm-inline-block">
                             <NavLink to="/dashboard" className="nav-link">Dashboard</NavLink>
-                        </li>
-                        <li className="nav-item d-none d-sm-inline-block">
-                            <NavLink to="/dashboard" className="nav-link">Contact</NavLink>
                         </li>
                     </ul>
 

@@ -161,7 +161,7 @@ class SubmitArticle extends Component {
                 <section className="content">
                     <div className="container-fluid">
                         <div className="col-md-12">
-                            <div className="card card-primary card-tabs">
+                            <div className="card card-dark card-tabs">
                                 <div className="card-header p-0 pt-1">
                                     <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                         <li className="nav-item">
@@ -185,7 +185,7 @@ class SubmitArticle extends Component {
                                     <div className="tab-content" id="custom-tabs-one-tabContent">
                                         <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
                                             {/* <div>Chấp nhận điều khoản để tiếp tục</div> */}
-                                            <div className="crd-body">
+                                            <div className="card-body">
                                                 <div className="form-group">
                                                     <h6>Yêu cầu chung</h6>
                                                     <div className="form-check">

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
+import SubmissionInfor from './SubmissionInfor/SubmissionInfor';
 import SubmissionLogs from './SubmissionLogs';
 import DeleteSubmission from '../Author/DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
@@ -10,8 +11,6 @@ import { USER_ROLES, STAGE } from '../../../utils/constant';
 import { getFormattedDate, getStageBadgeClassname, updateObject } from '../../../utils/utility';
 import { getSubmissionDetail, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
 import { getEditorAssignmentBySubmission, getReviewerAssignmentsBySubmission } from '../../../store/actions/reviewActions';
-import ReviewerSubmission from '../Editor/ReviewerSubmission';
-
 class SubmissionDetail extends Component {
 
     state = {
@@ -25,14 +24,6 @@ class SubmissionDetail extends Component {
             this.props.getReviewerAssignmentsBySubmission(this.props.match.params.submissionId);
         }
     }
-
-    // componentDidUpdate(prevProps) {
-    //     if (this.props.match.params.submissionId) {
-    //         if (!this.props.submission || (this.props.submission && this.props.submission._id !== this.props.match.params.submissionId)) {
-    //             this.props.getSubmissionDetail(this.props.match.params.submissionId);
-    //         }
-    //     }
-    // }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isSubmissionDeleted) {
@@ -138,32 +129,7 @@ class SubmissionDetail extends Component {
                                     {/* Row */}
                                     <div className="row pt-2">
                                         <div className="p-2 col-lg-8 border rounded">
-                                            <h6>THÔNG TIN CHI TIẾT BÀI BÁO</h6>
-                                            <div className="form-group ml-3">
-                                                <label>Thể loại</label>
-                                                <Link to="#">
-                                                    <p className="ml-4 text-success">{this.props.submission.categoryId.name}</p>
-                                                </Link>
-                                            </div>
-                                            <div className="form-group ml-3">
-                                                <label>Tiêu để</label>
-                                                <p className="ml-4">{this.props.submission.title}</p>
-                                            </div>
-                                            <div className="form-group ml-3">
-                                                <label>Mô tả</label>
-                                                <p className="ml-4">
-                                                    {this.props.submission.abstract}
-                                                </p>
-                                            </div>
-                                            <div className="form-group mr-2">
-                                                <label>File đính kèm</label>
-                                                <p className="ml-4">
-                                                    <i className="fa fa-paperclip fa-lg"></i>
-                                                    <a href={this.props.submission.attachmentUrl} className="text-primary" target="_blank" rel="noopener noreferrer">
-                                                        {" "}{this.props.submission.attachmentFile}
-                                                    </a>
-                                                </p>
-                                            </div>
+                                            <SubmissionInfor submission={this.props.submission} />
                                         </div>
                                         <div className="p-2 col-lg-4 border rounded">
                                             {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
@@ -257,7 +223,6 @@ class SubmissionDetail extends Component {
                     confirmDelete={this.confirmDeleteHandler}
                     deletionConfirmed={this.state.deletionConfirmed}
                     deleteSubmission={this.deleteSubmissionHandler} />
-                <ReviewerSubmission />
             </div>
         );
     }

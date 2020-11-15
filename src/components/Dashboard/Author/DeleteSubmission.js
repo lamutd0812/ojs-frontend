@@ -35,7 +35,7 @@ const DeleteSubmission = (props) => {
                                 onClick={props.deleteSubmission}>Xóa bài báo</button>
                             <button
                              type="button"
-                              className="btn btn-secondary" 
+                              className="btn btn-info" 
                               data-dismiss="modal"
                               onClick={props.uncheckedHandler}>Hủy</button>
                         </div>

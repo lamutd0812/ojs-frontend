@@ -43,11 +43,8 @@ class Login extends Component {
         formIsValid: false
     }
 
-    componentDidUpdate() {
-        if(this.props.isSignedUp) {
-            this.props.resetRegisterState();
-            toast.success("Đăng ký tài khoản thành công!");
-        }
+    componentDidMount() {
+        window.scrollTo(0, 0);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {

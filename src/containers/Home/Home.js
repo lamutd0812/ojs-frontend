@@ -14,7 +14,7 @@ class Home extends Component {
         return (
             <div>
                 <Breadcumb
-                    title="Tạp chí truy cập mở HLOJS"
+                    title="Tạp chí truy cập mở AwesomeOJS"
                     imageUrl={`url(${require("../../resources/imgs/40.jpg")})`} />
                 <section className="mag-posts-area d-flex flex-wrap">
                     {/* Post Left Sidebar Area */}

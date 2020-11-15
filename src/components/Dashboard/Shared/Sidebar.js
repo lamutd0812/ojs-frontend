@@ -69,13 +69,29 @@ class Sidebar extends Component {
                                                     </NavLink>
                                                 </li>
                                             </Aux>
-                                        ) : this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
+                                        ) : this.props.roleId === USER_ROLES.REVIEWER.roleId ? (
+                                            <Aux>
                                             <li className="nav-item">
                                                 <NavLink to="/dashboard/author" className="nav-link">
                                                     <i className="nav-icon fas fa-edit"></i>
                                                     <p>Trang tác giả</p>
                                                 </NavLink>
                                             </li>
+                                            <li className="nav-item">
+                                                <NavLink to="/dashboard/reviewer" className="nav-link">
+                                                    <i className="nav-icon fas fa-edit"></i>
+                                                    <p>Trang thẩm định viên</p>
+                                                </NavLink>
+                                            </li>
+                                        </Aux>
+                                        )
+                                         : this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
+                                            <li className="nav-item">
+                                            <NavLink to="/dashboard/author" className="nav-link">
+                                                <i className="nav-icon fas fa-edit"></i>
+                                                <p>Trang tác giả</p>
+                                            </NavLink>
+                                        </li>
                                         ) : null}
                                     </ul>
                                 </li>

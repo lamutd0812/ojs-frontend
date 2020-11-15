@@ -85,10 +85,28 @@ const getReviewerAssignmentsBySubmissionSuccess = (state, action) => {
     });
 };
 
-// Editor get my Assignment
+// Editor get my Assignments
 const getMyEditorAssignmentsSuccess = (state, action) => {
     return updateObject(state, {
         editorAssignments: action.editorAssignments,
+        loading: false,
+        error: null
+    });
+};
+
+// Reviewer get my Assignments
+const getMyReviewerAssignmentsSuccess = (state, action) => {
+    return updateObject(state, {
+        reviewerAssignments: action.reviewerAssignments,
+        loading: false,
+        error: null
+    });
+};
+
+// Reviewer get my Assignment Detail by Submission
+const getMyReviewerAssignmentDetailSuccess = (state, action) => {
+    return updateObject(state, {
+        reviewerAssignment: action.reviewerAssignment,
         loading: false,
         error: null
     });
@@ -117,6 +135,10 @@ const reviewReducer = (state = initialState, action) => {
         case actionTypes.GET_ALL_REVIEWERS_SUCCESS: return getAllReviewersSuccess(state, action);
         case actionTypes.ASSIGN_REVIEWER_SUCCESS: return assignReviewerSuccess(state, action);
         case actionTypes.RESET_REVIEWER_ASSIGNMENT_STATE: return resetReviewerAssignmentState(state);
+
+        case actionTypes.GET_MY_REVIEWER_ASSIGNMENTS_SUCCESS: return getMyReviewerAssignmentsSuccess(state, action);
+        case actionTypes.GET_MY_REVIEWER_ASSIGNMENT_DETAIL_SUCCESS: return getMyReviewerAssignmentDetailSuccess(state, action)
+
         default: return state;
     }
 };

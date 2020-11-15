@@ -7,7 +7,7 @@ import Footer from '../../components/Footer/Footer';
 import Breadcumb from '../../components/Breadcrumb/Breadcrumb';
 import { updateObject, checkValidity } from '../../utils/utility';
 import { Link } from 'react-router-dom';
-import ConfirmDialog from '../../components/UI/ConfirmDialog/ConfirmDialog';
+import NotiDialog from '../../components/UI/NotiDialog/NotiDialog';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -132,9 +132,6 @@ class Register extends Component {
         if (nextProps.error) {
             this.props.onResetRegisterState();
         }
-        if (nextProps.isSignedUp && !nextProps.error) {
-            this.props.history.push('/login');
-        }
     }
 
     checkboxChangeHandler = (event) => {
@@ -178,6 +175,10 @@ class Register extends Component {
             this.state.controls.affiliation.value, this.state.controls.biography.value,
             this.state.toBeReviewer);
     };
+
+    confirmHandler = () => {
+        this.props.history.push('/login');
+    }
 
     render() {
         return (
@@ -304,7 +305,8 @@ class Register extends Component {
                                         type="button"
                                         className="btn mag-btn mt-10"
                                         data-toggle="modal"
-                                        data-target="#confirmDialogModal"
+                                        data-target="#notiDialogModal"
+                                        onClick={this.formSubmitHandler}
                                         disabled={!this.state.formIsValid}>Đăng ký</button>
                                     <div className="mt-20">
                                         Đã có tài khoản? Đăng nhập <Link to="/login"> tại đây.</Link>
@@ -315,10 +317,10 @@ class Register extends Component {
                     </div>
                 </div>
                 <Footer />
-                <ConfirmDialog
-                    title="Xác nhận"
-                    message="Đăng ký tài khoản mới lên hệ thống?"
-                    confirm={this.formSubmitHandler} />
+                <NotiDialog
+                    title="Thông báo"
+                    message="Đăng ký tài khoản thành công!"
+                    confirm={this.confirmHandler} />
                 <ToastContainer autoClose={2000} />
                 {this.props.error ? toast.error(this.props.error) : null}
             </Aux>

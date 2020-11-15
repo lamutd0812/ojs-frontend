@@ -164,7 +164,7 @@ class EditArticle extends Component {
                     <div className="container-fluid">
                         <div className="col-md-12">
                             {!this.props.loading ? (
-                                <div className="card card-primary card-tabs">
+                                <div className="card card-dark card-tabs">
                                     <div className="card-header p-0 pt-1">
                                         <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                             <li className="nav-item">

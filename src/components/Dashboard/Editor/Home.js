@@ -95,19 +95,29 @@ class Home extends Component {
                                                                 <div className="row pl-5">
                                                                     <div className="col-lg-4 pt-2">
                                                                         <div className="mr-2">
-                                                                            <label>Ngày giao</label>
+                                                                            <div className="font-weight-bold">Nguời giao</div>
+                                                                            <p className="ml-3">
+                                                                                <Link to="#">
+                                                                                    <div className="text-primary"><i className="fas fa-user text-dark"></i> {" "}
+                                                                                        {ea.chiefEditorId.lastname} {ea.chiefEditorId.firstname}
+                                                                                    </div>
+                                                                                </Link>
+                                                                            </p>
+                                                                        </div>
+                                                                        <div className="mr-2">
+                                                                            <div className="font-weight-bold">Ngày giao</div>
                                                                             <p className="ml-3">{getFormattedDate(ea.createdAt)}</p>
                                                                         </div>
                                                                         <div className="mr-2">
-                                                                            <label>Hạn xử lý</label>
+                                                                            <div className="font-weight-bold">Hạn xử lý</div>
                                                                             <p className="ml-3">{getFormattedDate(ea.dueDate)}</p>
                                                                         </div>
                                                                         <div className="mr-2">
-                                                                            <label>Lời nhắn</label>
+                                                                            <div className="font-weight-bold">Lời nhắn</div>
                                                                             <p className="ml-3">{ea.message}</p>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="col-lg-4 pt-2">
+                                                                    <div className="col-lg-4 border rounded pt-2">
                                                                         <div className="form-group">
                                                                             <label>Tác giả</label>
                                                                             <div className="ml-4">
@@ -164,7 +174,7 @@ class Home extends Component {
                                                                                             }
                                                                                         }}
                                                                                     />
-                                                                                    <Link to="#" className="text-primary"><u>Xem chi tiết</u></Link>
+                                                                                    <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="text-primary"><u>Xem chi tiết</u></Link>
                                                                                 </Aux>
                                                                             ) : (
                                                                                     <div className="ml-4">
