@@ -6,11 +6,11 @@ import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
 import SubmissionInfor from '../Submission/SubmissionInfor/SubmissionInfor';
 import EditorialBoard from '../Submission/SubmissionInfor/EditorialBoard';
-import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getEditorAssignmentBySubmission, getReviewerAssignmentsBySubmission } from '../../../store/actions/reviewActions';
 import { Doughnut } from 'react-chartjs-2';
 import ReviewerSubmission from './ReviewerSubmission';
+import AssignmentInfor from './AssigmentInfor/AssignmentInfor';
 
 const data = {
     labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
@@ -179,47 +179,10 @@ class EditorAssignment extends Component {
                                                     Yêu cầu chỉnh sửa
                                                 </button>
                                             </div>
-                                            <div className="form-group pt-3">
-                                                <h6>THÔNG TIN CHI TIẾT YÊU CẦU</h6>
-                                            </div>
-                                            <div className="form-group ml-3">
-                                                <label>Nguời giao</label>
-                                                <p className="ml-4 text-primary">
-                                                    <i className="fas fa-user text-dark"></i> {" "}
-                                                    {this.props.editorAssignment.chiefEditorId.lastname} {this.props.editorAssignment.chiefEditorId.firstname}
-                                                </p>
-                                            </div>
-                                            <div className="form-group ml-3">
-                                                <label>Ngày giao</label>
-                                                <p className="ml-4">
-                                                    {getFormattedDate(this.props.editorAssignment.createdAt)}
-                                                </p>
-                                            </div>
-                                            <div className="form-group ml-3">
-                                                <label>Thời hạn xử lý</label>
-                                                <p className="ml-4">
-                                                    {getFormattedDate(this.props.editorAssignment.dueDate)}
-                                                </p>
-                                            </div>
-                                            <div className="form-group">
-                                                <h6>TIẾN TRÌNH THẨM ĐỊNH</h6>
-                                            </div>
-                                            <div className="form-group ml-3">
-                                                <label>Nhật ký hoạt động</label><br />
-                                                <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#submissionLogsModal"><u>Xem chi tiết</u></Link>
-                                            </div>
-                                            <div className="form-group ml-3">
-                                                <label>Pha</label><br />
-                                                <div className={"badge " + getStageBadgeClassname(this.props.submission.submissionStatus.stageId.value) + " ml-3"}>
-                                                    {this.props.submission.submissionStatus.stageId.name}
-                                                </div>
-                                            </div>
-                                            <div className="form-group ml-3">
-                                                <label>Trạng thái</label><br />
-                                                <p className="ml-3">
-                                                    {this.props.submission.submissionStatus.status}
-                                                </p>
-                                            </div>
+
+                                            <AssignmentInfor
+                                                submission={this.props.submission}
+                                                editorAssignment={this.props.editorAssignment} />
                                         </div>
                                     </div>
                                 </div>
