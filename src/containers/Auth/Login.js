@@ -40,11 +40,18 @@ class Login extends Component {
                 touched: false
             }
         },
-        formIsValid: false
+        formIsValid: false,
+        isSignedUpFlag: false
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
+        if (this.props.isSignedUp) {
+            setTimeout(() => {
+                this.setState(updateObject(this.state, { isSignedUpFlag: true }));
+                this.props.resetRegisterState();
+            }, 500);
+        }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -142,6 +149,7 @@ class Login extends Component {
                 </div>
                 <Footer />
                 <ToastContainer autoClose={2000} />
+                {this.props.isSignedUp && this.state.isSignedUpFlag ? toast.success("Đăng ký tài khoản thành công!") : null}
                 {this.props.error ? toast.error(this.props.error) : null}
             </Aux>
         );
