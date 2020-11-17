@@ -10,7 +10,7 @@ const initialState = {
     editorAssignment: null,
     reviewerAssignments: [],
     reviewerAssignment: null,
-    responseMessage: null,
+    message: null,
     error: null,
     loading: false,
 };
@@ -112,6 +112,24 @@ const getMyReviewerAssignmentDetailSuccess = (state, action) => {
     });
 };
 
+// Reviewer create review for a submission
+const createReviewSubmissionSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        loading: false,
+        error: null
+    });
+};
+
+// Reviewer edit review for a submission
+const editReviewSubmissionSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        loading: false,
+        error: null
+    });
+};
+
 const reviewProcessError = (state, action) => {
     return updateObject(state, {
         error: action.error,
@@ -138,6 +156,9 @@ const reviewReducer = (state = initialState, action) => {
 
         case actionTypes.GET_MY_REVIEWER_ASSIGNMENTS_SUCCESS: return getMyReviewerAssignmentsSuccess(state, action);
         case actionTypes.GET_MY_REVIEWER_ASSIGNMENT_DETAIL_SUCCESS: return getMyReviewerAssignmentDetailSuccess(state, action)
+
+        case actionTypes.CREATE_REVIEW_SUBMISSION_SUCCESS: return createReviewSubmissionSuccess(state, action);
+        case actionTypes.EDIT_REVIEW_SUBMISSION_SUCCESS: return editReviewSubmissionSuccess(state, action);
 
         default: return state;
     }

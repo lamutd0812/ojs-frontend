@@ -70,6 +70,20 @@ const getMyReviewerAssignmentDetailSuccess = (reviewerAssignment) => {
     };
 };
 
+const createReviewSubmissionSuccess = (message) => {
+    return {
+        type: actionTypes.CREATE_REVIEW_SUBMISSION_SUCCESS,
+        message: message
+    }
+}
+
+const editReviewSubmissionSuccess = (message) => {
+    return {
+        type: actionTypes.CREATE_REVIEW_SUBMISSION_SUCCESS,
+        message: message
+    }
+}
+
 const reviewProcessError = (error) => {
     return {
         type: actionTypes.REVIEW_PROCESS_ERROR,
@@ -237,5 +251,41 @@ export const getMyReviewerAssignmentDetail = (submissionId) => (dispatch, getSta
         dispatch(getMyReviewerAssignmentDetailSuccess(res.data.reviewerAssignment));
     }).catch(err => {
         dispatch(reviewProcessError(err.message));
+    });
+};
+
+// Reviewer create review for a submission
+export const createReviewSubmission = (submissionId, content, reviewerDecisionId) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const reqBody = {
+        content: content,
+        reviewerDecisionId: reviewerDecisionId
+    };
+    axios.post('/reviews/reviewer-submission/' + submissionId, reqBody, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(createReviewSubmissionSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.response.data.error));
+    });
+};
+
+// Reviewer edit review for a submission
+export const editReviewSubmission = (submissionId, content, reviewerDecisionId) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const reqBody = {
+        content: content,
+        reviewerDecisionId: reviewerDecisionId
+    };
+    axios.put('/reviews/reviewer-submission/' + submissionId, reqBody, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(editReviewSubmissionSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.response.data.error));
     });
 };

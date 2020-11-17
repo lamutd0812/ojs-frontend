@@ -5,8 +5,7 @@ import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import DeleteSubmission from '../Author/DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {  toast } from 'react-toastify';
 import { getSubmissionsByAuthor, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { updateObject } from '../../../utils/utility';
@@ -158,7 +157,6 @@ class Home extends Component {
                     confirmDelete={this.confirmDeleteHandler}
                     deletionConfirmed={this.state.deletionConfirmed}
                     deleteSubmission={(event) => this.deleteSubmissionHandler(event, this.state.submissionId)} />
-                <ToastContainer autoClose={2000} />
             </div>
         );
     }

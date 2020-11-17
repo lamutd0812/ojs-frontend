@@ -77,6 +77,7 @@ class EditorAssignment extends Component {
                                     </div>
                                     {/* Row */}
                                     <div className="row border rounded mt-2">
+                                        {/* Column */}
                                         <div className="p-2 col-lg-8">
                                             <h6>Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
                                             <table className="table table-bordered table-sm mt-2">
@@ -132,6 +133,7 @@ class EditorAssignment extends Component {
                                                 </tbody>
                                             </table>
                                         </div>
+                                        {/* Column */}
                                         <div className="p-2 col-lg-4">
                                             <Doughnut
                                                 data={data}
@@ -149,10 +151,12 @@ class EditorAssignment extends Component {
                                     </div>
                                     {/* Row */}
                                     <div className="row pt-2">
+                                        {/* Column */}
                                         <div className="p-2 col-lg-8 border rounded">
                                             <SubmissionInfor
                                                 submission={this.props.submission} />
                                         </div>
+                                        {/* Column */}
                                         <div className="p-2 col-lg-4 border rounded">
                                             <div className="form-group">
                                                 <h6>GỬI QUYẾT ĐỊNH</h6>

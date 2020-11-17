@@ -43,10 +43,11 @@ class Home extends Component {
                                         <thead>
                                             <tr>
                                                 <th style={{ width: '1%' }}> #</th>
-                                                <th style={{ width: '35%' }}> Bài Báo</th>
+                                                <th style={{ width: '30%' }}> Bài Báo</th>
                                                 <th style={{ width: '20%' }} className="text-center"> Pha</th>
                                                 <th style={{ width: '10%' }} className="text-center"> Hạn xử lý</th>
-                                                <th style={{ width: '20%' }} className="text-center"> Xử lý</th>
+                                                <th style={{ width: '15%' }} className="text-center"> Trạng thái</th>
+                                                <th style={{ width: '10%' }} className="text-center"> Xử lý</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -63,10 +64,23 @@ class Home extends Component {
                                                         <td className="text-center">
                                                             <span>{getFormattedDate(ra.dueDate)}</span>
                                                         </td>
+                                                        <td className="text-center">
+                                                            {ra.reviewerSubmissionId ? (
+                                                                <span className="badge bg-success"> Đã nộp ý kiến</span>
+                                                            ) : (
+                                                                    <span className="badge bg-danger">Chưa nộp ý kiến</span>
+                                                                )}
+                                                        </td>
                                                         <td className="project-actions text-center">
-                                                            <Link to={`/dashboard/reviewer/assignment/${ra.submissionId._id}`} className="btn btn-primary btn-sm mr-1">
-                                                                <i className="fas fa-eye"></i> Xử lý
-                                                            </Link>
+                                                            {ra.reviewerSubmissionId ? (
+                                                                <Link to={`/dashboard/reviewer/assignment/${ra.submissionId._id}`} className="btn btn-outline-primary btn-sm mr-1">
+                                                                    <i className="fas fa-eye"></i> Xem
+                                                                </Link>
+                                                            ) : (
+                                                                <Link to={`/dashboard/reviewer/assignment/${ra.submissionId._id}`} className="btn btn-outline-dark btn-sm mr-1">
+                                                                    <i className="fas fa-tasks"></i> Xử lý
+                                                                </Link>
+                                                            )}
                                                         </td>
                                                     </tr>
                                                     <tr><td colSpan="6" className="hiddenRow">

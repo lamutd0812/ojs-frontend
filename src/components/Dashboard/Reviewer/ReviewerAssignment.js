@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import Aux from '../../../hoc/Auxiliary/Auxiliary';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import ContentHeader from '../Shared/ContentHeader';
 import SubmissionInfor from '../Submission/SubmissionInfor/SubmissionInfor';
 import Spinner from '../../UI/Spinner/Spinner';
@@ -10,6 +10,7 @@ import { getMyReviewerAssignmentDetail } from '../../../store/actions/reviewActi
 import { connect } from 'react-redux';
 import EditorialBoard from '../Submission/SubmissionInfor/EditorialBoard';
 import AssignmentInfor from './AssignmentInfor/AssignmentInfor';
+import CreateReview from './ReviewSubmission/CreateReview';
 
 class ReviewerAssignment extends Component {
 
@@ -80,7 +81,7 @@ class ReviewerAssignment extends Component {
                                     <li className="nav-item">
                                         <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step2ActiveHandler}>
-                                            <div className={this.state.step2Active ? 'text-primary' : 'text-dark'}><b>2. Nộp ý kiến</b></div>
+                                            <div className={this.state.step2Active ? 'text-primary' : 'text-dark'}><b>2. Ý kiến thẩm định</b></div>
                                         </div>
                                     </li>
                                 </ul>
@@ -92,6 +93,7 @@ class ReviewerAssignment extends Component {
                                         <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
                                             {/* Row */}
                                             <div className="row">
+                                                {/* Column */}
                                                 <div className="p-2 col-lg-12 border rounded">
                                                     <EditorialBoard
                                                         submission={this.props.submission}
@@ -100,10 +102,12 @@ class ReviewerAssignment extends Component {
                                             </div>
                                             {/* Row */}
                                             <div className="row mt-2">
+                                                {/* Colum */}
                                                 <div className="p-2 col-lg-8 border rounded">
                                                     <SubmissionInfor
                                                         submission={this.props.submission} />
                                                 </div>
+                                                {/* Column */}
                                                 <div className="p-2 col-lg-4 border rounded">
                                                     <AssignmentInfor
                                                         submission={this.props.submission}
@@ -123,10 +127,35 @@ class ReviewerAssignment extends Component {
                                             </div>
                                             {/* Row */}
                                             <div className="row mt-2">
+                                                {/* Column */}
                                                 <div className="p-2 col-lg-8 border rounded">
-                                                    Test
+                                                    <h6>Ý KIẾN CỦA BẠN</h6>
+                                                    <CreateReview />
                                                 </div>
+                                                {/* Column */}
                                                 <div className="p-2 col-lg-4 border rounded">
+                                                    {this.props.reviewerAssignment.reviewerSubmissionId ? (
+                                                        <Aux>
+                                                            <div className="form-group">
+                                                                <div className="btn btn-success btn-block">
+                                                                    Đã nộp ý kiến
+                                                                </div>
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <button className="btn btn-outline-primary btn-block">
+                                                                    <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
+                                                                    </button>
+                                                            </div>
+                                                        </Aux>
+                                                    ) : (
+                                                            <Aux>
+                                                                <div className="form-group">
+                                                                    <div className="btn btn-danger btn-block">
+                                                                        Chưa nộp ý kiến
+                                                                    </div>
+                                                                </div>
+                                                            </Aux>
+                                                        )}
                                                     <AssignmentInfor
                                                         submission={this.props.submission}
                                                         reviewerAssignment={this.props.reviewerAssignment} />

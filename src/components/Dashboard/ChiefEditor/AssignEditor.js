@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ContentHeader from '../Shared/ContentHeader';
 import DatePicker from 'react-datepicker';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {  toast } from 'react-toastify';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import Spinner from '../../UI/Spinner/Spinner';
 import { updateObject, getDeadlineDate } from '../../../utils/utility';
@@ -262,8 +261,6 @@ class AssignEditor extends Component {
                     title="Xác nhận"
                     message="Chỉ định biên tập viên cho bài báo?"
                     confirm={this.confirmSubmitHandler} />
-                <ToastContainer autoClose={2000} />
-                {this.props.error ? toast.error(this.props.error) : null}
             </div>
         );
     }
@@ -275,7 +272,6 @@ const mapStateToProps = (state) => {
         editors: state.review.editors,
         isEditorAssigned: state.review.isEditorAssigned,
         message: state.review.message,
-        error: state.review.error
     };
 };
 

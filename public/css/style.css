@@ -1769,10 +1769,6 @@ textarea.form-control {
 
 /*# sourceMappingURL=style.css.map */
 
-/* custom style */
-/* .nav-link p {
-  color:#98fb98;
-} */
 
 .badge-dark,
 .badge-warning,
@@ -1795,12 +1791,6 @@ textarea.form-control {
   font-size: 14px;
   font-weight: 400;
 }
-
-/* .badge-success {
-  padding: 4.5% 17% 4.5% 17%;
-  font-size: 14px;
-  border-radius: 20px;
-} */
 
 .avatar {
   width: 10%;

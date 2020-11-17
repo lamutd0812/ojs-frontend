@@ -12,9 +12,11 @@ import AssignEditor from '../../components/Dashboard/ChiefEditor/AssignEditor';
 import EditorAssignment from '../../components/Dashboard/Editor/EditorAssignment';
 import AssignReviewer from '../../components/Dashboard/Editor/AssignReviewer';
 import ReviewerAssignment from '../../components/Dashboard/Reviewer/ReviewerAssignment';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { USER_ROLES } from '../../utils/constant';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Dashboard extends Component {
     render() {
@@ -28,6 +30,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
                         <Route path="/dashboard/author" component={AuthorHome} />
                         <Route exact path="/dashboard" component={AuthorHome} />
+                        <Redirect to="/dashboard" />
                     </Switch>
                 );
                 break;
@@ -41,6 +44,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/reviewer" component={ReviewerHome} />
                         <Route path="/dashboard/author" component={AuthorHome} />
                         <Route exact path="/dashboard" component={AuthorHome} />
+                        <Redirect to="/dashboard" />
                     </Switch>
                 );
                 break;
@@ -55,6 +59,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/editor" component={EditorHome} />
                         <Route path="/dashboard/author" component={AuthorHome} />
                         <Route exact path="/dashboard" component={AuthorHome} />
+                        <Redirect to="/dashboard" />
                     </Switch>
                 );
                 break;
@@ -79,6 +84,10 @@ class Dashboard extends Component {
                     {this.props.children}
                 </main>
                 <Sidebar />
+                <ToastContainer autoClose={2000} />
+                {this.props.authError ? toast.error('Error: ' + this.props.authError) : null}
+                {this.props.submissionError ? toast.error('Error: ' + this.props.submissionError) : null}
+                {this.props.reviewError ? toast.error('Error: ' + this.props.reviewError) : null}
             </div>
         );
     }
@@ -86,7 +95,10 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
     return {
-        roleId: state.auth.role._id
+        roleId: state.auth.role._id,
+        authError: state.auth.error,
+        submissionError: state.submission.error,
+        reviewError: state.review.error
     };
 };
 

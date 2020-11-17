@@ -7,9 +7,7 @@ import { updateObject, checkValidity } from '../../../utils/utility';
 import { getCategories, getSubmissionDetail, editSubmission, resetEditSubmissionState } from '../../../store/actions/submissionActions';
 import { Link } from 'react-router-dom';
 import ContentHeader from '../Shared/ContentHeader';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import {  toast } from 'react-toastify';
 class EditArticle extends Component {
 
     state = {
@@ -258,7 +256,9 @@ class EditArticle extends Component {
                                                         className="btn btn-primary"
                                                         data-toggle="modal"
                                                         data-target="#confirmDialogModal"
-                                                        disabled={!this.state.formIsValid}>Submit</button>
+                                                        disabled={!this.state.formIsValid}>Chỉnh sửa</button>
+                                                    <button />
+                                                    <Link to="/dashboard" className="btn btn-dark">Hủy</Link>
                                                 </div>
                                             </div>
                                             {/* Step 2 Active */}
@@ -305,7 +305,6 @@ class EditArticle extends Component {
                     title="Xác nhận"
                     message="Chỉnh sửa thông tin bài báo?"
                     confirm={this.confirmSubmitHandler} />
-                <ToastContainer autoClose={2000} />
             </Aux>
         );
     }
@@ -314,7 +313,6 @@ class EditArticle extends Component {
 const mapStateToProps = (state) => {
     return {
         categories: state.submission.categories,
-        error: state.submission.error,
         isSubmissionEdited: state.submission.isSubmissionEdited,
         submission: state.submission.submission,
         loading: state.submission.loading,

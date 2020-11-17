@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import ContentHeader from '../Shared/ContentHeader';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {  toast } from 'react-toastify';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { connect } from 'react-redux';
 import { updateObject, checkValidity } from '../../../utils/utility';
@@ -283,7 +282,7 @@ class SubmitArticle extends Component {
                                                     data-target="#confirmDialogModal"
                                                     disabled={!this.state.formIsValid}>Submit</button>
                                                 <button
-                                                    className="btn btn-primary ml-2"
+                                                    className="btn btn-dark ml-2"
                                                     onClick={this.step1ActiveHandler}>Quay lại</button>
                                             </div>
                                         </div>
@@ -329,8 +328,6 @@ class SubmitArticle extends Component {
                     title="Xác nhận"
                     message="Đăng tải bài báo lên hệ thống?"
                     confirm={this.confirmSubmitHandler} />
-                <ToastContainer autoClose={2000} />
-                {this.props.error ? toast.error(this.props.error) : null}
             </Aux>
         );
     }
@@ -339,7 +336,6 @@ class SubmitArticle extends Component {
 const mapStateToProps = (state) => {
     return {
         categories: state.submission.categories,
-        error: state.submission.error,
         isSubmissionCreated: state.submission.isSubmissionCreated,
         submission: state.submission.submission,
         fileUploading: state.submission.fileUploading
