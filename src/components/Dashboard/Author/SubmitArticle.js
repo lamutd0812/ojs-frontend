@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import ContentHeader from '../Shared/ContentHeader';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { connect } from 'react-redux';
 import { updateObject, checkValidity } from '../../../utils/utility';
@@ -214,7 +214,6 @@ class SubmitArticle extends Component {
                                                         <label>Thể loại*</label>
                                                         <select
                                                             name="categoryId"
-                                                            value={this.value}
                                                             className="custom-select form-control"
                                                             onChange={this.inputChangeHandler}
                                                         >
@@ -328,6 +327,7 @@ class SubmitArticle extends Component {
                     title="Xác nhận"
                     message="Đăng tải bài báo lên hệ thống?"
                     confirm={this.confirmSubmitHandler} />
+                {this.props.error ? toast.error('Error: ' + this.props.error) : null}
             </Aux>
         );
     }
@@ -338,7 +338,8 @@ const mapStateToProps = (state) => {
         categories: state.submission.categories,
         isSubmissionCreated: state.submission.isSubmissionCreated,
         submission: state.submission.submission,
-        fileUploading: state.submission.fileUploading
+        fileUploading: state.submission.fileUploading,
+        error: state.submission.error
     };
 };
 

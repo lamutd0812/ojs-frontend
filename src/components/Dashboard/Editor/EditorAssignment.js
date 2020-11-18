@@ -79,7 +79,7 @@ class EditorAssignment extends Component {
                                     <div className="row border rounded mt-2">
                                         {/* Column */}
                                         <div className="p-2 col-lg-8">
-                                            <h6>Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
+                                            <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
                                             <table className="table table-bordered table-sm mt-2">
                                                 <thead>
                                                     <tr>
@@ -159,7 +159,7 @@ class EditorAssignment extends Component {
                                         {/* Column */}
                                         <div className="p-2 col-lg-4 border rounded">
                                             <div className="form-group">
-                                                <h6>GỬI QUYẾT ĐỊNH</h6>
+                                                <h6><i className="fas fa-paper-plane"></i> GỬI QUYẾT ĐỊNH</h6>
                                             </div>
                                             {this.props.reviewerAssignments.length < 3 ? (
                                                 <div className="form-group">

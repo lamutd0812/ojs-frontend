@@ -1778,6 +1778,7 @@ textarea.form-control {
   padding: 4.5%;
   font-size: 14px;
   border-radius: 20px;
+  border: 1px solid #6c757d;
 }
 
 .bg-dark,
@@ -1790,6 +1791,7 @@ textarea.form-control {
   padding: 4.5%;
   font-size: 14px;
   font-weight: 400;
+  border: 1px solid #6c757d;
 }
 
 .avatar {
@@ -1821,4 +1823,28 @@ textarea.form-control {
   color: gray;
   pointer-events: none;
   cursor: not-allowed;
+}
+
+/* Decisions Badges */
+.decision-success {
+  background-color: #28a745;
+  padding: 0.25rem;
+  color: #ffffff;
+  border-radius: 5px;
+  border: 1px solid red;
+}
+
+.decision-danger {
+  background-color: #dc3545;
+  padding: 0.25rem;
+  color: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #6c757d;
+}
+
+.decision-warning {
+  background-color: #ffc107;
+  padding: 0.25rem;
+  border-radius: 5px;
+  border: 1px solid red;
 }

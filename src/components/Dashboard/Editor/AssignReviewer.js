@@ -261,6 +261,7 @@ class AssignReviewer extends Component {
                     title="Xác nhận"
                     message="Chỉ định thẩm định viên cho bài báo?"
                     confirm={this.confirmSubmitHandler} />
+                {this.props.error ? toast.error('Error: ' + this.props.error) : null}
             </div>
         );
     }
@@ -271,7 +272,8 @@ const mapStateToProps = (state) => {
         submission: state.submission.submission,
         reviewers: state.review.reviewers,
         isReviewerAssigned: state.review.isReviewerAssigned,
-        message: state.review.message
+        message: state.review.message,
+        error: state.review.error
     };
 };
 

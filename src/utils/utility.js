@@ -6,6 +6,10 @@ export const updateObject = (oldObject, updatedProperties) => {
 
 export const checkValidity = (value, rules) => {
     let isValid = true;
+    if(rules.usernameValid){
+        const pattern = /^[a-zA-Z0-9]+$/;
+        isValid = pattern.test(value) && isValid;
+    }
     if (rules.required) {
         isValid = value.trim() !== '' && isValid;
     }
@@ -38,6 +42,19 @@ export const getStageBadgeClassname = (value) => {
             return "badge-success";
         default:
             return "badge-dark";
+    };
+};
+
+export const getDecisionBadgeClassname = (value) => {
+    switch (value) {
+        case 0:
+            return "decision-danger";
+        case 1:
+            return "decision-success";
+        case 2:
+            return "decision-warning";
+        default:
+            return "decision-danger";
     };
 };
 

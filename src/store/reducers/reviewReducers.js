@@ -13,11 +13,18 @@ const initialState = {
     message: null,
     error: null,
     loading: false,
+    fileUploading: false,
+    isReviewSubmissionCreated: false,
+    isReviewSubmissionEdited: false,
 };
 
 const reviewProcessStart = (state) => {
     return updateObject(state, { loading: true, error: null });
 };
+
+const uploadStart = (state) => {
+    return updateObject(state, { fileUploading: true, error: null });
+}
 
 // Chief Editor get all Editors
 const getAllEditorsSuccess = (state, action) => {
@@ -116,30 +123,50 @@ const getMyReviewerAssignmentDetailSuccess = (state, action) => {
 const createReviewSubmissionSuccess = (state, action) => {
     return updateObject(state, {
         message: action.message,
+        isReviewSubmissionCreated: true,
         loading: false,
-        error: null
+        error: null,
+        fileUploading: false
     });
+};
+
+const resetCreateReviewSubmissionState = (state) => {
+    return updateObject(state, {
+        isReviewSubmissionCreated: false,
+        error: null
+    })
 };
 
 // Reviewer edit review for a submission
 const editReviewSubmissionSuccess = (state, action) => {
     return updateObject(state, {
         message: action.message,
+        isReviewSubmissionEdited: true,
         loading: false,
-        error: null
+        error: null,
+        fileUploading: false
     });
+};
+
+const resetEditReviewSubmissionState = (state) => {
+    return updateObject(state, {
+        isReviewSubmissionEdited: false,
+        error: null
+    })
 };
 
 const reviewProcessError = (state, action) => {
     return updateObject(state, {
         error: action.error,
-        loading: true
+        fileUploading: false
+        // loading: true
     });
 };
 
 const reviewReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.REVIEW_PROCESS_START: return reviewProcessStart(state);
+        case actionTypes.UPLOAD_START: return uploadStart(state);
         case actionTypes.REVIEW_PROCESS_ERROR: return reviewProcessError(state, action);
 
         case actionTypes.GET_ALL_EDITORS_SUCCESS: return getAllEditorsSuccess(state, action);
@@ -158,7 +185,9 @@ const reviewReducer = (state = initialState, action) => {
         case actionTypes.GET_MY_REVIEWER_ASSIGNMENT_DETAIL_SUCCESS: return getMyReviewerAssignmentDetailSuccess(state, action)
 
         case actionTypes.CREATE_REVIEW_SUBMISSION_SUCCESS: return createReviewSubmissionSuccess(state, action);
+        case actionTypes.RESET_CREATE_REVIEW_SUBMISSION_STATE: return resetCreateReviewSubmissionState(state);
         case actionTypes.EDIT_REVIEW_SUBMISSION_SUCCESS: return editReviewSubmissionSuccess(state, action);
+        case actionTypes.RESET_EDIT_REVIEW_SUBMISSION_SUCCESS: return resetEditReviewSubmissionState(state);
 
         default: return state;
     }

@@ -96,13 +96,13 @@ class Home extends Component {
                                                                     <div className="col-lg-4 pt-2">
                                                                         <div className="mr-2">
                                                                             <div className="font-weight-bold">Nguời giao</div>
-                                                                            <p className="ml-3">
+                                                                            <div className="ml-3 pb-2">
                                                                                 <Link to="#">
-                                                                                    <div className="text-primary"><i className="fas fa-user text-dark"></i> {" "}
+                                                                                    <div className="text-primary mt-2 mb-2"><i className="fas fa-user text-dark"></i> {" "}
                                                                                         {ea.chiefEditorId.lastname} {ea.chiefEditorId.firstname}
                                                                                     </div>
                                                                                 </Link>
-                                                                            </p>
+                                                                            </div>
                                                                         </div>
                                                                         <div className="mr-2">
                                                                             <div className="font-weight-bold">Ngày giao</div>

@@ -7,7 +7,7 @@ import { getFormattedDate, getStageBadgeClassname } from '../../../../utils/util
 const AssignmentInfor = (props) => {
     return (
         <Aux>
-            <h6>CHI TIẾT YÊU CẦU</h6>
+            <h6><i className="fas fa-tasks"></i> CHI TIẾT YÊU CẦU</h6>
             <div className="form-group ml-3">
                 <label>Nguời giao</label>
                 <p className="ml-4 text-primary">
@@ -28,7 +28,7 @@ const AssignmentInfor = (props) => {
                 </p>
             </div>
             <div className="form-group">
-                <h6>TIẾN TRÌNH BÀI BÁO</h6>
+                <h6><i className="far fa-calendar-alt"></i> TIẾN TRÌNH BÀI BÁO</h6>
             </div>
             <div className="form-group ml-3">
                 <label>Nhật ký hoạt động</label><br />

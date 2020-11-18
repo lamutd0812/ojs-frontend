@@ -23,7 +23,8 @@ class Register extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    minLength: 3
+                    minLength: 3,
+                    usernameValid: true
                 },
                 valid: false,
                 touched: false

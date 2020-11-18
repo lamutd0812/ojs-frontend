@@ -4,25 +4,80 @@ import ContentHeader from '../Shared/ContentHeader';
 import SubmissionInfor from '../Submission/SubmissionInfor/SubmissionInfor';
 import Spinner from '../../UI/Spinner/Spinner';
 import SubmissionLogs from '../Submission/SubmissionLogs';
-import { updateObject } from '../../../utils/utility';
-import { getSubmissionDetail } from '../../../store/actions/submissionActions';
-import { getMyReviewerAssignmentDetail } from '../../../store/actions/reviewActions';
+import { checkValidity, updateObject } from '../../../utils/utility';
+import { getSubmissionDetail, getReviewerDecisions } from '../../../store/actions/submissionActions';
+import { getMyReviewerAssignmentDetail, createReviewSubmission, resetCreateReviewSubmissionState } from '../../../store/actions/reviewActions';
 import { connect } from 'react-redux';
 import EditorialBoard from '../Submission/SubmissionInfor/EditorialBoard';
 import AssignmentInfor from './AssignmentInfor/AssignmentInfor';
 import CreateReview from './ReviewSubmission/CreateReview';
-
+import ReviewDetail from './ReviewSubmission/ReviewDetail';
+import { toast } from 'react-toastify';
+import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 class ReviewerAssignment extends Component {
 
     state = {
         step1Active: true,
-        step2Active: false
+        step2Active: false,
+        controls: {
+            decisionId: {
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Quyết định'
+                },
+                value: '',
+                validation: {
+                    required: true
+                },
+                valid: true,
+                touched: false
+            },
+            content: {
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Ý kiến nhận xét của bạn'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5
+                },
+                valid: false,
+                touched: false
+            },
+            attachment: {
+                elementConfig: {
+                    type: 'file',
+                    placeholder: 'Chọn File'
+                },
+                filename: 'Chọn File',
+                file: null,
+                validation: {
+                    required: true,
+                    minLength: 5
+                },
+                valid: false,
+                touched: false
+            }
+        },
+        formIsValid: false
     }
 
     componentDidMount() {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getMyReviewerAssignmentDetail(this.props.match.params.submissionId);
+            this.props.getReviewerDecisions();
+        }
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.props.resetCreateReviewSubmissionState();
+        }
+        if (nextProps.isReviewSubmissionCreated && !nextProps.error) {
+            this.props.resetCreateReviewSubmissionState();
+            toast.success("Gửi ý kiến thẩm định thành công!");
         }
     }
 
@@ -30,6 +85,7 @@ class ReviewerAssignment extends Component {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getMyReviewerAssignmentDetail(this.props.match.params.submissionId);
+            this.props.getReviewerDecisions();
         }
     }
 
@@ -50,8 +106,51 @@ class ReviewerAssignment extends Component {
         this.setState(newState);
     }
 
+    inputChangeHandler = (event) => {
+        let controlName = event.target.name;
+        let updatedControls = null;
+        if (controlName === 'attachment') {
+            updatedControls = updateObject(this.state.controls, {
+                [controlName]: updateObject(this.state.controls[controlName], {
+                    filename: event.target.files[0].name,
+                    file: event.target.files[0],
+                    valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
+                    touched: true
+                })
+            });
+        } else {
+            updatedControls = updateObject(this.state.controls, {
+                [controlName]: updateObject(this.state.controls[controlName], {
+                    value: event.target.value,
+                    valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
+                    touched: true
+                })
+            });
+        }
+
+        let formIsValid = true;
+        for (let controlName in updatedControls) {
+            formIsValid = updatedControls[controlName].valid && formIsValid;
+        }
+
+        this.setState({
+            controls: updatedControls,
+            formIsValid: formIsValid
+        });
+    };
+
+    confirmSubmitHandler = () => {
+        const submissionId = this.props.submission._id;
+        const formData = new FormData();
+        formData.append('reviewerDecisionId', this.state.controls.decisionId.value);
+        formData.append('content', this.state.controls.content.value);
+        formData.append('attachment', this.state.controls.attachment.file);
+        console.log(formData);
+        this.props.createReviewSubmission(submissionId, formData);
+    }
+
     render() {
-        return (
+        const contentWrapper = (
             <div className="content-wrapper">
                 <section className="content-header">
                     <ContentHeader title="Xử lý yêu cầu thẩm định">
@@ -129,11 +228,21 @@ class ReviewerAssignment extends Component {
                                             <div className="row mt-2">
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-8 border rounded">
-                                                    <h6>Ý KIẾN CỦA BẠN</h6>
-                                                    <CreateReview />
+                                                    <h6><i className="fas fa-paper-plane"></i> Ý KIẾN CỦA BẠN</h6>
+                                                    {this.props.reviewerAssignment.reviewerSubmissionId ? (
+                                                        <ReviewDetail
+                                                            reviewerSubmission={this.props.reviewerAssignment.reviewerSubmissionId} />
+                                                    ) : (
+                                                            <CreateReview
+                                                                reviewerDecisions={this.props.reviewerDecisions}
+                                                                inputChangeHandler={this.inputChangeHandler}
+                                                                controls={this.state.controls}
+                                                                formIsValid={this.state.formIsValid} />
+                                                        )}
                                                 </div>
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-4 border rounded">
+                                                    <h6><i className="fas fa-stream"></i> TRẠNG THÁI</h6>
                                                     {this.props.reviewerAssignment.reviewerSubmissionId ? (
                                                         <Aux>
                                                             <div className="form-group">
@@ -152,7 +261,7 @@ class ReviewerAssignment extends Component {
                                                                 <div className="form-group">
                                                                     <div className="btn btn-danger btn-block">
                                                                         Chưa nộp ý kiến
-                                                                    </div>
+                                                                </div>
                                                                 </div>
                                                             </Aux>
                                                         )}
@@ -171,6 +280,16 @@ class ReviewerAssignment extends Component {
                 {this.props.submission && <SubmissionLogs logs={this.props.submission.submissionLogs} />}
             </div>
         );
+        return (
+            <Aux>
+                {contentWrapper}
+                <ConfirmDialog
+                    title="Xác nhận"
+                    message="Gửi ý kiến thẩm định bài báo?"
+                    confirm={this.confirmSubmitHandler} />
+                {this.props.error ? toast.error('Error: ' + this.props.error) : null}
+            </Aux>
+        );
     }
 }
 
@@ -178,13 +297,20 @@ const mapStateToProps = (state) => {
     return {
         submission: state.submission.submission,
         loading: state.submission.loading,
-        reviewerAssignment: state.review.reviewerAssignment
+        reviewerAssignment: state.review.reviewerAssignment,
+        reviewerDecisions: state.submission.reviewerDecisions,
+        fileUploading: state.review.fileUploading,
+        isReviewSubmissionCreated: state.review.isReviewSubmissionCreated,
+        error: state.review.error
     }
 };
 
 const mapDispatchToProps = {
     getSubmissionDetail,
-    getMyReviewerAssignmentDetail
+    getMyReviewerAssignmentDetail,
+    getReviewerDecisions,
+    createReviewSubmission,
+    resetCreateReviewSubmissionState
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewerAssignment);

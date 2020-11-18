@@ -7,8 +7,8 @@ import { updateObject, checkValidity } from '../../../utils/utility';
 import { getCategories, getSubmissionDetail, editSubmission, resetEditSubmissionState } from '../../../store/actions/submissionActions';
 import { Link } from 'react-router-dom';
 import ContentHeader from '../Shared/ContentHeader';
-import {  toast } from 'react-toastify';
-class EditArticle extends Component {
+import { toast } from 'react-toastify';
+class EditSubmission extends Component {
 
     state = {
         step1Active: true,
@@ -144,6 +144,11 @@ class EditArticle extends Component {
         this.props.editSubmission(this.props.submission._id, formData);
     }
 
+    cancelHandler = () => {
+        this.props.resetEditSubmissionState();
+        this.props.history.push('/dashboard');
+    }
+
     render() {
 
         let errorMessage = null;
@@ -257,8 +262,10 @@ class EditArticle extends Component {
                                                         data-toggle="modal"
                                                         data-target="#confirmDialogModal"
                                                         disabled={!this.state.formIsValid}>Chỉnh sửa</button>
-                                                    <button />
-                                                    <Link to="/dashboard" className="btn btn-dark">Hủy</Link>
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-infor ml-1"
+                                                        onClick={this.cancelHandler}>Hủy</button>
                                                 </div>
                                             </div>
                                             {/* Step 2 Active */}
@@ -305,6 +312,7 @@ class EditArticle extends Component {
                     title="Xác nhận"
                     message="Chỉnh sửa thông tin bài báo?"
                     confirm={this.confirmSubmitHandler} />
+                {this.props.error ? toast.error('Error: ' + this.props.error) : null}
             </Aux>
         );
     }
@@ -316,7 +324,8 @@ const mapStateToProps = (state) => {
         isSubmissionEdited: state.submission.isSubmissionEdited,
         submission: state.submission.submission,
         loading: state.submission.loading,
-        fileUploading: state.submission.fileUploading
+        fileUploading: state.submission.fileUploading,
+        error: state.submission.error
     };
 };
 
@@ -327,4 +336,4 @@ const mapDispatchToProps = {
     resetEditSubmissionState
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditArticle);
+export default connect(mapStateToProps, mapDispatchToProps)(EditSubmission);

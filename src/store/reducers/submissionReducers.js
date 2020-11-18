@@ -11,7 +11,10 @@ const initialState = {
     isSubmissionDeleted: false,
     message: '',
     loading: false,
-    error: null
+    error: null,
+    reviewerDecisions: [],
+    editorDecisions: [],
+    chiefEditorDecisions: []
 };
 
 const submissionStart = (state) => {
@@ -25,6 +28,13 @@ const uploadStart = (state) => {
 const getCategoriesSuccess = (state, action) => {
     return updateObject(state, {
         categories: action.categories,
+        error: null
+    });
+};
+
+const getReviewerDecisionsSuccess = (state, action) => {
+    return updateObject(state, {
+        reviewerDecisions: action.reviewerDecisions,
         error: null
     });
 };
@@ -117,6 +127,7 @@ const submissionReducer = (state = initialState, action) => {
         case actionTypes.SUBMISSIONS_ERROR: return fetchSubmissionError(state, action);
 
         case actionTypes.GET_CATEGORIES_SUCCESS: return getCategoriesSuccess(state, action);
+        case actionTypes.GET_REVIEWER_DECISIONS_SUCCESS: return getReviewerDecisionsSuccess(state, action);
 
         case actionTypes.GET_SUBMISSIONS_BY_AUTHOR_SUCCESS: return getSubmissionsByAuthorSuccess(state, action);
 

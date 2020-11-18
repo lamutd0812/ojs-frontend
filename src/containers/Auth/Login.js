@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 class Login extends Component {
+    
     state = {
         controls: {
             username: {
@@ -21,7 +22,8 @@ class Login extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    minLength: 3
+                    minLength: 3,
+                    usernameValid: true
                 },
                 valid: false,
                 touched: false

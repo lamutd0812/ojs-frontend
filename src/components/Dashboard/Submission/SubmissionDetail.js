@@ -77,7 +77,7 @@ class SubmissionDetail extends Component {
                                     {/* Row */}
                                     <div className="row">
                                         <div className="p-2 col-lg-12 border rounded">
-                                            <h6>THÔNG TIN BAN BIÊN TẬP</h6>
+                                            <h6><i className="fas fa-users"></i> THÔNG TIN BAN BIÊN TẬP</h6>
                                             <div className="row ml-2">
                                                 <div className="col-lg-4">
                                                     <div className="form-group mr-2">
@@ -158,7 +158,7 @@ class SubmissionDetail extends Component {
                                                     </div>
                                                 </Aux>
                                             ) : null}
-                                            <div className="form-group">
+                                            <div className="form-group mt-4">
                                                 <label>Ngày đăng:</label>
                                                 <p className="ml-4">
                                                     {getFormattedDate(this.props.submission.createdAt)}

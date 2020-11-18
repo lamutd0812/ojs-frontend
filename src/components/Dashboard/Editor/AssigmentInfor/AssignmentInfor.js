@@ -7,7 +7,7 @@ const AssignmentInfor = (props) => {
     return (
         <Aux>
             <div className="form-group pt-3">
-                <h6>THÔNG TIN CHI TIẾT YÊU CẦU</h6>
+                <h6><i className="fas fa-tasks"></i> THÔNG TIN CHI TIẾT YÊU CẦU</h6>
             </div>
             <div className="form-group ml-3">
                 <label>Nguời giao</label>
@@ -29,7 +29,7 @@ const AssignmentInfor = (props) => {
                 </p>
             </div>
             <div className="form-group">
-                <h6>TIẾN TRÌNH THẨM ĐỊNH</h6>
+                <h6><i className="far fa-calendar-alt"></i> TIẾN TRÌNH BÀI BÁO</h6>
             </div>
             <div className="form-group ml-3">
                 <label>Nhật ký hoạt động</label><br />

@@ -5,7 +5,7 @@ import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 const EditorialBoard = (props) => {
     return (
         <Aux>
-            <h6>THÔNG TIN BAN BIÊN TẬP</h6>
+            <h6><i className="fas fa-users"></i> THÔNG TIN BAN BIÊN TẬP</h6>
             <div className="row ml-2">
                 <div className="col-lg-4">
                     <div className="form-group mr-2">

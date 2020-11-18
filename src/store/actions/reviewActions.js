@@ -7,6 +7,12 @@ const reviewProcessStart = () => {
     };
 };
 
+const uploadStart = () => {
+    return {
+        type: actionTypes.UPLOAD_START
+    }
+};
+
 const getAllEditorsSuccess = (editors) => {
     return {
         type: actionTypes.GET_ALL_EDITORS_SUCCESS,
@@ -255,15 +261,13 @@ export const getMyReviewerAssignmentDetail = (submissionId) => (dispatch, getSta
 };
 
 // Reviewer create review for a submission
-export const createReviewSubmission = (submissionId, content, reviewerDecisionId) => (dispatch, getState) => {
+export const createReviewSubmission = (submissionId, formData) => (dispatch, getState) => {
+    dispatch(uploadStart());
     const token = getState().auth.token;
-    const reqBody = {
-        content: content,
-        reviewerDecisionId: reviewerDecisionId
-    };
-    axios.post('/reviews/reviewer-submission/' + submissionId, reqBody, {
+    axios.post('/reviews/reviewer-submission/' + submissionId, formData, {
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
         }
     }).then(res => {
         dispatch(createReviewSubmissionSuccess(res.data.message));
@@ -272,20 +276,30 @@ export const createReviewSubmission = (submissionId, content, reviewerDecisionId
     });
 };
 
+export const resetCreateReviewSubmissionState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_CREATE_REVIEW_SUBMISSION_STATE
+    })
+};
+
 // Reviewer edit review for a submission
-export const editReviewSubmission = (submissionId, content, reviewerDecisionId) => (dispatch, getState) => {
+export const editReviewSubmission = (submissionId, formData) => (dispatch, getState) => {
+    dispatch(uploadStart());
     const token = getState().auth.token;
-    const reqBody = {
-        content: content,
-        reviewerDecisionId: reviewerDecisionId
-    };
-    axios.put('/reviews/reviewer-submission/' + submissionId, reqBody, {
+    axios.put('/reviews/reviewer-submission/' + submissionId, formData, {
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
         }
     }).then(res => {
         dispatch(editReviewSubmissionSuccess(res.data.message));
     }).catch(err => {
         dispatch(reviewProcessError(err.response.data.error));
     });
+};
+
+export const resetEditReviewSubmissionState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_EDIT_REVIEW_SUBMISSION_SUCCESS
+    })
 };
