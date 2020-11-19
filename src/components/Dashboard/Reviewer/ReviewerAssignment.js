@@ -78,6 +78,7 @@ class ReviewerAssignment extends Component {
         if (nextProps.isReviewSubmissionCreated && !nextProps.error) {
             this.props.resetCreateReviewSubmissionState();
             toast.success("Gửi ý kiến thẩm định thành công!");
+            this.props.getMyReviewerAssignmentDetail(this.props.match.params.submissionId);
         }
     }
 
@@ -141,12 +142,17 @@ class ReviewerAssignment extends Component {
 
     confirmSubmitHandler = () => {
         const submissionId = this.props.submission._id;
-        const formData = new FormData();
-        formData.append('reviewerDecisionId', this.state.controls.decisionId.value);
-        formData.append('content', this.state.controls.content.value);
-        formData.append('attachment', this.state.controls.attachment.file);
-        console.log(formData);
-        this.props.createReviewSubmission(submissionId, formData);
+        const reqBody = {
+            content: this.state.controls.content.value,
+            reviewerDecisionId: this.state.controls.decisionId.value
+        }
+        this.props.createReviewSubmission(submissionId, reqBody);
+        // const formData = new FormData();
+        // formData.append('reviewerDecisionId', this.state.controls.decisionId.value);
+        // formData.append('content', this.state.controls.content.value);
+        // formData.append('attachment', this.state.controls.attachment.file);
+        // console.log(formData);
+        // this.props.createReviewSubmission(submissionId, formData);
     }
 
     render() {

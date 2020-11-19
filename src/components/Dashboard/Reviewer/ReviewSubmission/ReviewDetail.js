@@ -21,8 +21,8 @@ const ReviewDetail = (props) => {
                     <label>File đính kèm</label>
                     <p className="ml-4">
                         <i className="fa fa-paperclip fa-lg"></i>
-                        <a href="a" className="text-primary" target="_blank" rel="noopener noreferrer">
-                            {" "} tenfiledinhkem.pdf
+                        <a href="https://ojs.s3-ap-southeast-1.amazonaws.com/1605345202062-Unsupervised-real-time-anomaly-detection-for-streaming-da_2017_Neurocomputin.pdf" className="text-primary" target="_blank" rel="noopener noreferrer">
+                            {" "} test.pdf
                         </a>
                     </p>
                 </div>

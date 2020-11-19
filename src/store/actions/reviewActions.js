@@ -261,13 +261,12 @@ export const getMyReviewerAssignmentDetail = (submissionId) => (dispatch, getSta
 };
 
 // Reviewer create review for a submission
-export const createReviewSubmission = (submissionId, formData) => (dispatch, getState) => {
+export const createReviewSubmission = (submissionId, reqBody) => (dispatch, getState) => {
     dispatch(uploadStart());
     const token = getState().auth.token;
-    axios.post('/reviews/reviewer-submission/' + submissionId, formData, {
+    axios.post('/reviews/reviewer-submission/' + submissionId, reqBody, {
         headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
+            'Authorization': `Bearer ${token}`
         }
     }).then(res => {
         dispatch(createReviewSubmissionSuccess(res.data.message));
