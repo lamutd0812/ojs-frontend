@@ -1,10 +1,10 @@
 import React from 'react';
-import Aux from '../../../hoc/Auxiliary/Auxiliary';
+import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
 
-const ReviewerSubmission = (props) => {
+const ReviewerSubmissionDetail = (props) => {
     return (
         <Aux>
-            <div className="modal fade" id="reviewerSubmissionModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="reviewerSubmissionDetailModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -23,4 +23,4 @@ const ReviewerSubmission = (props) => {
     );
 };
 
-export default ReviewerSubmission;
+export default ReviewerSubmissionDetail;

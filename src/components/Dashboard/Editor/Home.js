@@ -5,22 +5,8 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Spinner from '../../UI/Spinner/Spinner';
 import { getMyEditorAssignments } from '../../../store/actions/reviewActions';
 import { Link } from 'react-router-dom';
-import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
+import { getDoughnutData, getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { Doughnut } from 'react-chartjs-2';
-
-const data = {
-    labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
-    datasets: [
-        {
-            data: [1, 1, 1],
-            backgroundColor: [
-                '#28a745',
-                '#dc3545',
-                '#17a2b8'
-            ]
-        },
-    ],
-}
 
 class Home extends Component {
 
@@ -30,6 +16,11 @@ class Home extends Component {
 
     refreshHandler = () => {
         this.props.getMyEditorAssignments();
+    }
+
+    fetchDoughnutData = (reviewerAssignments) => {
+        const data = getDoughnutData(reviewerAssignments);
+        return data;
     }
 
     render() {
@@ -163,7 +154,8 @@ class Home extends Component {
                                                                             {ea.reviewerAssignmentId.length > 0 ? (
                                                                                 <Aux>
                                                                                     <Doughnut
-                                                                                        data={data}
+                                                                                        // data={data}
+                                                                                        data={this.fetchDoughnutData(ea.reviewerAssignmentId)}
                                                                                         options={{
                                                                                             responsive: true,
                                                                                             maintainAspectRatio: true,
@@ -205,6 +197,7 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        token: state.auth.token,
         editorAssignments: state.review.editorAssignments,
         loading: state.review.loading,
         error: state.review.error

@@ -1,3 +1,6 @@
+// import axios from './axios';
+import { REVIEWER_DECISION } from './constant';
+
 export const updateObject = (oldObject, updatedProperties) => {
     return {
         ...oldObject, ...updatedProperties
@@ -6,7 +9,7 @@ export const updateObject = (oldObject, updatedProperties) => {
 
 export const checkValidity = (value, rules) => {
     let isValid = true;
-    if(rules.usernameValid){
+    if (rules.usernameValid) {
         const pattern = /^[a-zA-Z0-9]+$/;
         isValid = pattern.test(value) && isValid;
     }
@@ -48,13 +51,26 @@ export const getStageBadgeClassname = (value) => {
 export const getDecisionBadgeClassname = (value) => {
     switch (value) {
         case 0:
-            return "decision-danger";
+            return "decision-secondary";
         case 1:
             return "decision-success";
         case 2:
-            return "decision-warning";
+            return "decision-danger";
         default:
             return "decision-danger";
+    };
+};
+
+export const getDecisionBadgeClassname2 = (value) => {
+    switch (value) {
+        case 0:
+            return "bg-secondary";
+        case 1:
+            return "bg-success";
+        case 2:
+            return "bg-danger";
+        default:
+            return "bg-secondary";
     };
 };
 
@@ -111,5 +127,61 @@ export const getFormattedTimeOnly = (dateStr) => {
     const formattedTimeFromDate = hour + ":" + min + ":" + sec;
     return formattedTimeFromDate;
 };
+
+// export const getDoughnutData = async (submissionId, token) => {
+//     const res = await axios.get('/reviews/reviewer-submission-statistics/' + submissionId, {
+//         headers: {
+//             'Authorization': `Bearer ${token}`
+//         }
+//     });
+//     const decisions = res.data;
+//     const data = {
+//         labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
+//         datasets: [
+//             {
+//                 data: [decisions.accept, decisions.editRequired, decisions.unSent],
+//                 backgroundColor: [
+//                     '#28a745',
+//                     '#dc3545',
+//                     '#17a2b8'
+//                 ]
+//             },
+//         ],
+//     };
+//     return data;
+// }
+
+export const getDoughnutData = (reviewerAssignments) => {
+    let accept = 0, editRequired = 0, unSent = 0;
+    if (reviewerAssignments) {
+        reviewerAssignments.forEach(ra => {
+            if (ra.reviewerSubmissionId !== null) {
+                const decisionValue = ra.reviewerSubmissionId.reviewerDecisionId.value;
+                if (decisionValue === REVIEWER_DECISION.ACCEPT_SUBMISSION.value) {
+                    accept++;
+                }
+                if (decisionValue === REVIEWER_DECISION.REVISION_REQUIRED.value) {
+                    editRequired++;
+                }
+            } else {
+                unSent++;
+            }
+        });
+    }
+    const data = {
+        labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
+        datasets: [
+            {
+                data: [accept, editRequired, unSent],
+                backgroundColor: [
+                    '#28a745',
+                    '#dc3545',
+                    '#17a2b8'
+                ]
+            },
+        ],
+    };
+    return data;
+}
 
 

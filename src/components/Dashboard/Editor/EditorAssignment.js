@@ -9,24 +9,27 @@ import EditorialBoard from '../Submission/SubmissionInfor/EditorialBoard';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getEditorAssignmentBySubmission, getReviewerAssignmentsBySubmission } from '../../../store/actions/reviewActions';
 import { Doughnut } from 'react-chartjs-2';
-import ReviewerSubmission from './ReviewerSubmission';
 import AssignmentInfor from './AssigmentInfor/AssignmentInfor';
-
-const data = {
-    labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
-    datasets: [
-        {
-            data: [1, 1, 1],
-            backgroundColor: [
-                '#28a745',
-                '#dc3545',
-                '#17a2b8'
-            ]
-        },
-    ],
-}
+import { getDoughnutData, updateObject } from '../../../utils/utility';
+import ReviewerSubmissions from './ReviewerSubmissions/ReviewerSubmissions';
 
 class EditorAssignment extends Component {
+
+    state = {
+        data: {
+            labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
+            datasets: [
+                {
+                    data: [0, 0, 3],
+                    backgroundColor: [
+                        '#28a745',
+                        '#dc3545',
+                        '#17a2b8'
+                    ]
+                },
+            ],
+        }
+    }
 
     componentDidMount() {
         if (this.props.match.params.submissionId) {
@@ -34,13 +37,28 @@ class EditorAssignment extends Component {
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getReviewerAssignmentsBySubmission(this.props.match.params.submissionId);
         }
+
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.reviewerAssignments.length > 0 && this.props.reviewerAssignments.length !== prevProps.reviewerAssignments.length) {
+            this.fetchDoughnutData(this.props.reviewerAssignments);
+        }
     }
 
     refreshHandler = () => {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getReviewerAssignmentsBySubmission(this.props.match.params.submissionId);
         }
+    }
+
+    fetchDoughnutData = (reviewerAssignments) => {
+        const data = getDoughnutData(reviewerAssignments);
+        this.setState(updateObject(this.state, {
+            data: data
+        }));
     }
 
     render() {
@@ -79,75 +97,25 @@ class EditorAssignment extends Component {
                                     <div className="row border rounded mt-2">
                                         {/* Column */}
                                         <div className="p-2 col-lg-8">
-                                            <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
-                                            <table className="table table-bordered table-sm mt-2">
-                                                <thead>
-                                                    <tr>
-                                                        <th style={{ width: '1%' }}>#</th>
-                                                        <th style={{ width: '30%' }}>Thẩm định viên</th>
-                                                        <th style={{ width: '25%' }}>Trạng thái</th>
-                                                        <th style={{ width: '25%' }} className="text-center">Quyết định</th>
-                                                        <th style={{ width: '19%' }} className="text-center">Chi tiết</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Nguyễn Tùng Dương</td>
-                                                        <td>Đã nộp ý kiến</td>
-                                                        <td className="text-center">
-                                                            <span className="badge bg-success p-1">Chấp nhận bài báo</span>
-                                                        </td>
-                                                        <td className="text-center">
-                                                            <Link to="#" className="text-primary" style={{ fontWeight: '400' }} data-toggle="modal" data-target="#reviewerSubmissionModal">
-                                                                <u>Xem</u>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>Lê Văn Nam</td>
-                                                        <td>Đã nộp ý kiến</td>
-                                                        <td className="text-center">
-                                                            <span className="badge bg-danger p-1">Yêu cầu chỉnh sửa</span>
-                                                        </td>
-                                                        <td className="text-center">
-                                                            <Link to="#" className="text-primary" style={{ fontWeight: '400' }} data-toggle="modal" data-target="#reviewerSubmissionModal">
-                                                                <u>Xem</u>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>David De Gea</td>
-                                                        <td>Chưa nộp ý kiến</td>
-                                                        <td className="text-center">
-                                                            <span className="badge bg-secondary p-1">Chưa nộp ý kiến</span>
-                                                        </td>
-                                                        <td className="text-center">
-                                                            <Link to="#" className="link-disabled" style={{ fontWeight: '400' }} data-toggle="modal" data-target="#reviewerSubmissionModal">
-                                                                <u>Xem</u>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <ReviewerSubmissions reviewerAssignments={this.props.reviewerAssignments} />
                                         </div>
                                         {/* Column */}
-                                        <div className="p-2 col-lg-4">
-                                            <Doughnut
-                                                data={data}
-                                                options={{
-                                                    responsive: true,
-                                                    maintainAspectRatio: true,
-                                                    legend: {
-                                                        labels: {
-                                                            fontFamily: 'Roboto Slab'
+                                        {this.props.reviewerAssignments.length > 0 ? (
+                                            <div className="p-2 col-lg-4">
+                                                <Doughnut
+                                                    data={this.state.data}
+                                                    options={{
+                                                        responsive: true,
+                                                        maintainAspectRatio: true,
+                                                        legend: {
+                                                            labels: {
+                                                                fontFamily: 'Roboto Slab'
+                                                            }
                                                         }
-                                                    }
-                                                }}
-                                            />
-                                        </div>
+                                                    }}
+                                                />
+                                            </div>
+                                        ) : null}
                                     </div>
                                     {/* Row */}
                                     <div className="row pt-2">
@@ -195,7 +163,6 @@ class EditorAssignment extends Component {
                     ) : <Spinner />}
                 </section>
                 {this.props.submission && <SubmissionLogs logs={this.props.submission.submissionLogs} />}
-                <ReviewerSubmission />
             </div>
         );
     }
@@ -203,6 +170,7 @@ class EditorAssignment extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        token: state.auth.token,
         submission: state.submission.submission,
         loading: state.submission.loading,
         editorAssignment: state.review.editorAssignment,

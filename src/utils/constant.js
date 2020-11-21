@@ -44,3 +44,44 @@ exports.STAGE = {
         value: 4
     }
 };
+
+exports.CHIEF_EDITOR_DECISION = {
+    ACCEPT_SUBMISSION: {
+        decisionName: 'Chấp nhận bài báo',
+        value: 1
+    },
+    DECLINE_SUBMISSION: {
+        decisionName: 'Từ chối bài báo',
+        value: 0
+    }
+}
+
+exports.EDITOR_DECISION = {
+    ACCEPT_SUBMISSION: {
+        decisionName: 'Chấp nhận bài báo',
+        value: 1
+    },
+    REVISION_REQUIRED: {
+        decisionName: 'Yêu cầu chỉnh sửa',
+        value: 2
+    },
+    UNSENT: {
+        decisionName: 'Chưa nộp ý kiến',
+        value: 0
+    }
+}
+
+exports.REVIEWER_DECISION = {
+    ACCEPT_SUBMISSION: {
+        decisionName: 'Chấp nhận bài báo',
+        value: 1
+    },
+    REVISION_REQUIRED: {
+        decisionName: 'Yêu cầu chỉnh sửa',
+        value: 2
+    },
+    UNSENT: {
+        decisionName: 'Chưa nộp ý kiến',
+        value: 0
+    }
+}

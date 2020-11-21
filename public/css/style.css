@@ -1787,7 +1787,7 @@ textarea.form-control {
 .bg-primary,
 .bg-success,
 .bg-danger {
-  width: 130px;
+  width: 140px;
   padding: 4.5%;
   font-size: 14px;
   font-weight: 400;
@@ -1842,8 +1842,8 @@ textarea.form-control {
   border: 1px solid #6c757d;
 }
 
-.decision-warning {
-  background-color: #ffc107;
+.decision-secondary {
+  background-color: #6c757d;
   padding: 0.25rem;
   border-radius: 5px;
   border: 1px solid red;
