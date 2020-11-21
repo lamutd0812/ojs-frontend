@@ -1,7 +1,6 @@
 import React from 'react';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 
-
 const CreateReview = (props) => {
     return (
         <Aux>
@@ -23,7 +22,7 @@ const CreateReview = (props) => {
                     </div>
                 ) : null}
                 <div className="form-group">
-                    <label>Nhận xét*</label>
+                    <label>Ý kiến*</label>
                     <textarea
                         type="text"
                         name="content"

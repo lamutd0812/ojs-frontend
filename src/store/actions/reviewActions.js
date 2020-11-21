@@ -85,7 +85,7 @@ const createReviewSubmissionSuccess = (message) => {
 
 const editReviewSubmissionSuccess = (message) => {
     return {
-        type: actionTypes.CREATE_REVIEW_SUBMISSION_SUCCESS,
+        type: actionTypes.EDIT_REVIEW_SUBMISSION_SUCCESS,
         message: message
     }
 }
@@ -282,13 +282,12 @@ export const resetCreateReviewSubmissionState = () => (dispatch) => {
 };
 
 // Reviewer edit review for a submission
-export const editReviewSubmission = (submissionId, formData) => (dispatch, getState) => {
+export const editReviewSubmission = (submissionId, reqBody) => (dispatch, getState) => {
     dispatch(uploadStart());
     const token = getState().auth.token;
-    axios.put('/reviews/reviewer-submission/' + submissionId, formData, {
+    axios.put('/reviews/reviewer-submission/' + submissionId, reqBody, {
         headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
+            'Authorization': `Bearer ${token}`
         }
     }).then(res => {
         dispatch(editReviewSubmissionSuccess(res.data.message));
