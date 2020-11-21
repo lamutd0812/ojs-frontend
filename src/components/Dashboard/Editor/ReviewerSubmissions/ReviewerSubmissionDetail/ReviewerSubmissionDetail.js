@@ -1,10 +1,11 @@
 import React from 'react';
 import Aux from '../../../../../hoc/Auxiliary/Auxiliary';
+import ReviewDetail from '../../../Reviewer/ReviewSubmission/ReviewDetail';
 
 const ReviewerSubmissionDetail = (props) => {
     return (
         <Aux>
-            <div className="modal fade" id="reviewerSubmissionDetailModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id={"aaa"+props.reviewerSubmission._id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -14,7 +15,8 @@ const ReviewerSubmissionDetail = (props) => {
                             </button>
                         </div>
                         <div className="modal-body">
-                            Đây là ý kiến của thẩm định viên
+                            <ReviewDetail
+                                reviewerSubmission={props.reviewerSubmission} />
                         </div>
                     </div>
                 </div>

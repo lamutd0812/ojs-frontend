@@ -6,6 +6,7 @@ import ReviewerSubmissionDetail from './ReviewerSubmissionDetail/ReviewerSubmiss
 
 const ReviewerSubmissions = (props) => {
     let stt = 1;
+
     return (
         <Aux>
             <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
@@ -24,34 +25,46 @@ const ReviewerSubmissions = (props) => {
                     </thead>
                     <tbody>
                         {props.reviewerAssignments.map(ra => (
-                            <tr key={ra._id}>
-                                <td>{stt++}</td>
-                                <td>{ra.reviewerId.lastname} {ra.reviewerId.firstname}</td>
-                                <td>{ra.reviewerSubmissionId ? "Đã nộp ý kiến" : "Chưa nộp ý kiến"}</td>
-                                <td className="text-center">
+                            <Aux key={ra._id}>
+                                <tr>
+                                    <td>{stt++}</td>
+                                    <td>{ra.reviewerId.lastname} {ra.reviewerId.firstname}</td>
+                                    <td>{ra.reviewerSubmissionId ? "Đã nộp ý kiến" : "Chưa nộp ý kiến"}</td>
+                                    <td className="text-center">
+                                        {ra.reviewerSubmissionId ? (
+                                            <span className={"badge " + getDecisionBadgeClassname2(ra.reviewerSubmissionId.reviewerDecisionId.value) + " p1"}>
+                                                {ra.reviewerSubmissionId.reviewerDecisionId.decisionName}
+                                            </span>
+                                        ) : (
+                                                <span className="badge bg-secondary p-1">Chưa nộp ý kiến</span>
+                                            )}
+                                    </td>
+                                    <td className="text-center">
+                                        {ra.reviewerSubmissionId ? (
+                                            <Link to="#"
+                                                className="text-primary"
+                                                data-toggle="modal"
+                                                data-target={"#aaa" + ra.reviewerSubmissionId._id}>
+                                                <u>Xem</u>
+                                            </Link>
+                                        ) : (
+                                                <Link to="#"
+                                                    className="link-disabled">
+                                                    <u>Xem</u>
+                                                </Link>
+                                            )}
+                                    </td>
                                     {ra.reviewerSubmissionId ? (
-                                        <span className={"badge " + getDecisionBadgeClassname2(ra.reviewerSubmissionId.reviewerDecisionId.value) + " p1"}>
-                                            {ra.reviewerSubmissionId.reviewerDecisionId.decisionName}
-                                        </span>
-                                    ) : (
-                                            <span className="badge bg-secondary p-1">Chưa nộp ý kiến</span>
-                                        )}
-                                </td>
-                                <td className="text-center">
-                                    <Link to="#"
-                                        className={ra.reviewerSubmissionId ? "text-primary" : "link-disabled"}
-                                        style={{ fontWeight: '400' }}
-                                        data-toggle="modal"
-                                        data-target="#reviewerSubmissionDetailModal">
-                                        <u>Xem</u>
-                                    </Link>
-                                </td>
-                            </tr>
+                                        <td style={{border: '1px solid #fff'}}>
+                                            <ReviewerSubmissionDetail reviewerSubmission={ra.reviewerSubmissionId} />
+                                        </td>
+                                    ) : null}
+                                </tr>
+                            </Aux>
                         ))}
                     </tbody>
                 </table>
             ) : <span className="p-1">Chưa có thẩm định viên nào được chỉ định</span>}
-            <ReviewerSubmissionDetail />
         </Aux>
     );
 };

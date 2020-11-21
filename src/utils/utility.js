@@ -128,29 +128,6 @@ export const getFormattedTimeOnly = (dateStr) => {
     return formattedTimeFromDate;
 };
 
-// export const getDoughnutData = async (submissionId, token) => {
-//     const res = await axios.get('/reviews/reviewer-submission-statistics/' + submissionId, {
-//         headers: {
-//             'Authorization': `Bearer ${token}`
-//         }
-//     });
-//     const decisions = res.data;
-//     const data = {
-//         labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
-//         datasets: [
-//             {
-//                 data: [decisions.accept, decisions.editRequired, decisions.unSent],
-//                 backgroundColor: [
-//                     '#28a745',
-//                     '#dc3545',
-//                     '#17a2b8'
-//                 ]
-//             },
-//         ],
-//     };
-//     return data;
-// }
-
 export const getDoughnutData = (reviewerAssignments) => {
     let accept = 0, editRequired = 0, unSent = 0;
     if (reviewerAssignments) {
