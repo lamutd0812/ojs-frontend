@@ -10,10 +10,8 @@ const ReviewerSubmissions = (props) => {
     return (
         <Aux>
             <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
-
-
             {props.reviewerAssignments.length > 0 ? (
-                <table className="table table-bordered table-sm mt-2">
+                <table className="table table-bordered table-sm mt-3">
                     <thead>
                         <tr>
                             <th style={{ width: '1%' }}>#</th>

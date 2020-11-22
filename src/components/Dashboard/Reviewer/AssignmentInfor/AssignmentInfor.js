@@ -15,14 +15,14 @@ const AssignmentInfor = (props) => {
                     <Link to="#" className="text-primary">
                         {props.reviewerAssignment.editorId.lastname} {props.reviewerAssignment.editorId.firstname}
                     </Link>
-                    {" "}<div className="badge-ol badge-ol-danger badge-outlined">Biên tập viên</div>
+                    {" "}<div className="badge-ol badge-ol-danger badge-outlined mb-1">Biên tập viên</div>
                 </div>
             </div>
             <div className="form-group ml-3">
                 <label>Ngày giao</label>
-                <p className="ml-4">
+                <div className="ml-4">
                     {getFormattedDate(props.reviewerAssignment.createdAt)}
-                </p>
+                </div>
             </div>
             <div className="form-group ml-3">
                 <label>Thời hạn xử lý</label>
@@ -48,9 +48,9 @@ const AssignmentInfor = (props) => {
             </div>
             <div className="form-group ml-3">
                 <label>Trạng thái</label><br />
-                <p className="ml-3">
+                <div className="ml-3">
                     {props.submission.submissionStatus.status}
-                </p>
+                </div>
             </div>
         </Aux>
     );

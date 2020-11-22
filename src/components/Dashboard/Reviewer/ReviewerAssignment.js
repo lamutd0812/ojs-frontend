@@ -4,7 +4,7 @@ import ContentHeader from '../Shared/ContentHeader';
 import SubmissionInfor from '../Submission/SubmissionInfor/SubmissionInfor';
 import Spinner from '../../UI/Spinner/Spinner';
 import SubmissionLogs from '../Submission/SubmissionLogs';
-import { checkValidity, updateObject } from '../../../utils/utility';
+import { checkDueDate, checkValidity, updateObject } from '../../../utils/utility';
 import { getSubmissionDetail, getReviewerDecisions } from '../../../store/actions/submissionActions';
 import {
     getMyReviewerAssignmentDetail,
@@ -218,7 +218,7 @@ class ReviewerAssignment extends Component {
 
                 <section className="content">
                     {!this.props.loading ? (
-                        <div className="card card-primary card-outline card-outline-tabs">
+                        <div className="card card-primary card-outline card-tabs">
                             <div className="card-header">
                                 {this.props.submission ? <h3 className="card-title">{this.props.submission.title}</h3> : null}
                                 <div className="float-right mr-5">
@@ -232,13 +232,13 @@ class ReviewerAssignment extends Component {
                                     <li className="nav-item">
                                         <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step1ActiveHandler}>
-                                            <div className={this.state.step1Active ? 'text-primary' : 'text-dark'}><b>1. Chi tiết yêu cầu</b></div>
+                                            <div className={this.state.step1Active ? 'text-danger' : 'text-secondary'}><b>1. Chi tiết yêu cầu</b></div>
                                         </div>
                                     </li>
                                     <li className="nav-item">
                                         <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step2ActiveHandler}>
-                                            <div className={this.state.step2Active ? 'text-primary' : 'text-dark'}><b>2. Ý kiến thẩm định</b></div>
+                                            <div className={this.state.step2Active ? 'text-danger' : 'text-secondary'}><b>2. Ý kiến thẩm định của bạn</b></div>
                                         </div>
                                     </li>
                                 </ul>
@@ -246,7 +246,7 @@ class ReviewerAssignment extends Component {
                             {this.props.submission && this.props.reviewerAssignment ? (
                                 <div className="card-body">
                                     <div className="tab-content" id="custom-tabs-one-tabContent">
-                                        {/* Tab 1 */}
+                                        {/* ------------------Tab 1----------------- */}
                                         <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
                                             {/* Row */}
                                             <div className="row">
@@ -272,7 +272,8 @@ class ReviewerAssignment extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* Tab2 */}
+
+                                        {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
                                             {/* Row */}
                                             <div className="row">
@@ -286,27 +287,38 @@ class ReviewerAssignment extends Component {
                                             <div className="row mt-2">
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-8 border rounded">
-                                                    <h6><i className="fas fa-paper-plane"></i> Ý KIẾN CỦA BẠN</h6>
-                                                    {this.props.reviewerAssignment.reviewerSubmissionId ? (
+                                                    <h6><i className="fas fa-paper-plane"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
+                                                    {!checkDueDate(this.props.reviewerAssignment.dueDate) ? (
                                                         <Aux>
-                                                            {this.state.canEdit ? (
-                                                                <EditReview
-                                                                    reviewSubmission={this.props.reviewerAssignment.reviewerSubmissionId}
-                                                                    reviewerDecisions={this.props.reviewerDecisions}
-                                                                    inputChangeHandler={this.inputChangeHandler_edit}
-                                                                    controls={this.state.controls_edit}
-                                                                    formIsValid={this.state.formIsValid_edit}
-                                                                    cancelEdit={this.blockEditReviewPageHandler} />
-                                                            ) : (
-                                                                    <ReviewDetail reviewerSubmission={this.props.reviewerAssignment.reviewerSubmissionId} />
-                                                                )}
+                                                            <div className="form-group ml-3 text-danger font-weight-bold">
+                                                                <i className="fas fa-times-circle"></i> Bài báo đã hết thời hạn thẩm định!
+                                                            </div>
+                                                            <ReviewDetail reviewerSubmission={this.props.reviewerAssignment.reviewerSubmissionId} />
                                                         </Aux>
                                                     ) : (
-                                                            <CreateReview
-                                                                reviewerDecisions={this.props.reviewerDecisions}
-                                                                inputChangeHandler={this.inputChangeHandler}
-                                                                controls={this.state.controls}
-                                                                formIsValid={this.state.formIsValid} />
+                                                            <Aux>
+                                                                {this.props.reviewerAssignment.reviewerSubmissionId ? (
+                                                                    <Aux>
+                                                                        {this.state.canEdit ? (
+                                                                            <EditReview
+                                                                                reviewSubmission={this.props.reviewerAssignment.reviewerSubmissionId}
+                                                                                reviewerDecisions={this.props.reviewerDecisions}
+                                                                                inputChangeHandler={this.inputChangeHandler_edit}
+                                                                                controls={this.state.controls_edit}
+                                                                                formIsValid={this.state.formIsValid_edit}
+                                                                                cancelEdit={this.blockEditReviewPageHandler} />
+                                                                        ) : (
+                                                                                <ReviewDetail reviewerSubmission={this.props.reviewerAssignment.reviewerSubmissionId} />
+                                                                            )}
+                                                                    </Aux>
+                                                                ) : (
+                                                                        <CreateReview
+                                                                            reviewerDecisions={this.props.reviewerDecisions}
+                                                                            inputChangeHandler={this.inputChangeHandler}
+                                                                            controls={this.state.controls}
+                                                                            formIsValid={this.state.formIsValid} />
+                                                                    )}
+                                                            </Aux>
                                                         )}
                                                 </div>
                                                 {/* Column */}
@@ -316,25 +328,35 @@ class ReviewerAssignment extends Component {
                                                         <Aux>
                                                             <div className="form-group">
                                                                 <div className="btn btn-success btn-block">
-                                                                    Đã nộp ý kiến
+                                                                    <i className="fas fa-check"></i> Đã nộp ý kiến thẩm định
                                                                 </div>
                                                             </div>
                                                             <div className="form-group">
-                                                                {!this.state.canEdit ? (
+                                                                {checkDueDate(this.props.reviewerAssignment.dueDate) ? (
+                                                                    <Aux>
+                                                                        {!this.state.canEdit ? (
+                                                                            <button
+                                                                                type="button"
+                                                                                className="btn btn-outline-primary btn-block"
+                                                                                onClick={(event) => this.openEditReviewPageHandler(event, this.props.reviewerAssignment.reviewerSubmissionId)}>
+                                                                                <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
+                                                                            </button>
+                                                                        ) : null}
+                                                                    </Aux>
+                                                                ) : (
                                                                     <button
                                                                         type="button"
-                                                                        className="btn btn-outline-primary btn-block"
-                                                                        onClick={(event) => this.openEditReviewPageHandler(event, this.props.reviewerAssignment.reviewerSubmissionId)}>
+                                                                        className="btn btn-outline-primary btn-block disabled">
                                                                         <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
                                                                     </button>
-                                                                ) : null}
+                                                                )}
                                                             </div>
                                                         </Aux>
                                                     ) : (
                                                             <Aux>
                                                                 <div className="form-group">
                                                                     <div className="btn btn-danger btn-block">
-                                                                        Chưa nộp ý kiến
+                                                                        <i className="fas fa-times-circle"></i> Chưa nộp ý kiến thẩm định
                                                                 </div>
                                                                 </div>
                                                             </Aux>

@@ -49,7 +49,7 @@ class EditorAssignment extends Component {
 
                 <section className="content">
                     {!this.props.loading ? (
-                        <div className="card">
+                        <div className="card card-primary card-outline">
                             <div className="card-header">
                                 {this.props.submission ? <h3 className="card-title">{this.props.submission.title}</h3> : null}
                                 <div className="float-right mr-5">
@@ -71,7 +71,7 @@ class EditorAssignment extends Component {
                                         </div>
                                     </div>
                                     {/* Row */}
-                                    <div className="row border rounded mt-2">
+                                    <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
                                         {/* Column */}
                                         <div className="p-2 col-lg-8">
                                             <ReviewerSubmissions reviewerAssignments={this.props.reviewerAssignments} />
@@ -138,18 +138,18 @@ class EditorAssignment extends Component {
                                                     </div>
                                                 </Aux>
                                             ) : (
-                                                <Aux>
-                                                    <div className="form-group">
-                                                        <h6><i className="fas fa-comments"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <button className="btn btn-danger btn-block">
-                                                            <i className="fas fa-ban"></i> {" "}
+                                                    <Aux>
+                                                        <div className="form-group">
+                                                            <h6><i className="fas fa-comments"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <button className="btn btn-danger btn-block">
+                                                                <i className="fas fa-ban"></i> {" "}
                                                             Bài báo đã hết hạn xử lý
                                                         </button>
-                                                    </div> 
-                                                </Aux>   
-                                            )}
+                                                        </div>
+                                                    </Aux>
+                                                )}
 
                                             <AssignmentInfor
                                                 submission={this.props.submission}

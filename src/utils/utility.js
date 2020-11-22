@@ -78,6 +78,21 @@ export const getDecisionBadgeClassname2 = (value) => {
     };
 };
 
+export const getDecisionButtonClassname = (value) => {
+    switch (value) {
+        case -1:
+            return "btn-secondary"; // chua nop y kien
+        case 0:
+            return "btn-danger"; // tu choi bai bao
+        case 1:
+            return "btn-success"; // chap nhan bai bao
+        case 2:
+            return "btn-warning";  // yeu cau chinh sua
+        default:
+            return "bg-secondary";
+    };
+};
+
 export const getDeadlineDate = (days) => {
     const today = new Date();
     let deadline = new Date();

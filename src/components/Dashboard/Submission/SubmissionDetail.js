@@ -81,7 +81,7 @@ class SubmissionDetail extends Component {
                                     {/* Row */}
                                     <div className="row">
                                         <div className="p-2 col-lg-12 border rounded">
-                                            <h6><i className="fas fa-users"></i> THÔNG TIN BAN BIÊN TẬP</h6>
+                                            <h6><i className="fas fa-users"></i> BAN BIÊN TẬP</h6>
                                             <div className="row ml-2">
                                                 <div className="col-lg-4">
                                                     <div className="form-group mr-2">

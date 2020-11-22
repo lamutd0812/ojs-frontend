@@ -9,18 +9,18 @@ const SubmissionInfor = (props) => {
             <div className="form-group ml-3">
                 <label>Thể loại</label>
                 <Link to="#">
-                    <p className="ml-4 text-success">{props.submission.categoryId.name}</p>
+                    <div className="ml-4 text-success">{props.submission.categoryId.name}</div>
                 </Link>
             </div>
             <div className="form-group ml-3">
                 <label>Tiêu để</label>
-                <p className="ml-4">{props.submission.title}</p>
+                <div className="ml-4">{props.submission.title}</div>
             </div>
             <div className="form-group ml-3">
-                <label>Mô tả</label>
-                <p className="ml-4">
+                <label>Tóm tắt</label>
+                <div className="ml-4">
                     {props.submission.abstract}
-                </p>
+                </div>
             </div>
             <div className="form-group ml-3">
                 <label>File đính kèm</label>

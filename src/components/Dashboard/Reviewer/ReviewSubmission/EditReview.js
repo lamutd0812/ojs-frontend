@@ -35,7 +35,7 @@ const Edit = (props) => {
                         <p className="form-control-error-msg">Nhận xét không hợp lệ!</p> : null}
                 </div>
                 <div className="form-group">
-                    <label>File đính kèm*</label>
+                    <label>File đính kèm</label>
                     <div className="input-group">
                         <div className="custom-file">
                             <input

@@ -5,7 +5,7 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Spinner from '../../UI/Spinner/Spinner';
 import { getMyEditorAssignments } from '../../../store/actions/reviewActions';
 import { Link } from 'react-router-dom';
-import { getDoughnutData, getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
+import { checkDueDate, getDoughnutData, getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { Doughnut } from 'react-chartjs-2';
 
 class Home extends Component {
@@ -51,8 +51,8 @@ class Home extends Component {
                                                 <th style={{ width: '1%' }}> #</th>
                                                 <th style={{ width: '35%' }}> Bài Báo</th>
                                                 <th style={{ width: '20%' }} className="text-center"> Pha</th>
-                                                <th style={{ width: '15%' }} className="text-center"> Thẩm định viên</th>
-                                                <th style={{ width: '10%' }} className="text-center"> Hạn xử lý</th>
+                                                <th style={{ width: '10%' }} className="text-center"> Thẩm định viên</th>
+                                                <th style={{ width: '15%' }} className="text-center"> Hạn xử lý</th>
                                                 <th style={{ width: '20%' }} className="text-center"> Xử lý</th>
                                             </tr>
                                         </thead>
@@ -73,11 +73,20 @@ class Home extends Component {
                                                         </td>
                                                         <td className="text-center">
                                                             <span>{getFormattedDate(ea.dueDate)}</span>
+                                                            {!checkDueDate(ea.dueDate) ? (
+                                                                <div className="badge-ol badge-ol-danger mb-1">Hết hạn xử lý</div>
+                                                            ) : null}
                                                         </td>
                                                         <td className="project-actions text-center">
-                                                            <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-primary btn-sm mr-1">
-                                                                <i className="fas fa-eye"></i> Xử lý
-                                                            </Link>
+                                                            {!checkDueDate(ea.dueDate) ? (
+                                                                <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-outline-primary btn-sm mr-1">
+                                                                    <i className="fas fa-eye"></i> Xem
+                                                                </Link>
+                                                            ) : (
+                                                                <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-outline-primary btn-sm mr-1">
+                                                                    <i className="fas fa-tasks"></i> Xử lý
+                                                                </Link>
+                                                            )}
                                                         </td>
                                                     </tr>
                                                     <tr><td colSpan="6" className="hiddenRow">
