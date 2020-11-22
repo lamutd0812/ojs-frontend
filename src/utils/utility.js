@@ -50,25 +50,29 @@ export const getStageBadgeClassname = (value) => {
 
 export const getDecisionBadgeClassname = (value) => {
     switch (value) {
+        case -1:
+            return "decision-secondary"; // chua nop y kien
         case 0:
-            return "decision-secondary";
+            return "decision-danger"; // tu choi bai bao
         case 1:
-            return "decision-success";
+            return "decision-success"; // chap nhan bai bao
         case 2:
-            return "decision-danger";
+            return "decision-warning"; // yeu cau chinh sua
         default:
-            return "decision-danger";
+            return "decision-secondary";
     };
 };
 
 export const getDecisionBadgeClassname2 = (value) => {
     switch (value) {
+        case -1:
+            return "bg-secondary"; // chua nop y kien
         case 0:
-            return "bg-secondary";
+            return "bg-danger"; // tu choi bai bao
         case 1:
-            return "bg-success";
+            return "bg-success"; // chap nhan bai bao
         case 2:
-            return "bg-danger";
+            return "bg-warning";  // yeu cau chinh sua
         default:
             return "bg-secondary";
     };
@@ -128,8 +132,14 @@ export const getFormattedTimeOnly = (dateStr) => {
     return formattedTimeFromDate;
 };
 
+export const checkDueDate = (dueDateStr) => {
+    const curDate = new Date();
+    const dueDate = new Date(dueDateStr);
+    return curDate < dueDate; // if current date < due date === true
+}
+
 export const getDoughnutData = (reviewerAssignments) => {
-    let accept = 0, editRequired = 0, unSent = 0;
+    let accept = 0, editRequired = 0, decline = 0, unSent = 0;
     if (reviewerAssignments) {
         reviewerAssignments.forEach(ra => {
             if (ra.reviewerSubmissionId !== null) {
@@ -140,20 +150,24 @@ export const getDoughnutData = (reviewerAssignments) => {
                 if (decisionValue === REVIEWER_DECISION.REVISION_REQUIRED.value) {
                     editRequired++;
                 }
+                if (decisionValue === REVIEWER_DECISION.DECLINE_SUBMISSION.value) {
+                    decline++;
+                }
             } else {
                 unSent++;
             }
         });
     }
     const data = {
-        labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
+        labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Từ chối bài báo', 'Chưa nộp ý kiến'],
         datasets: [
             {
-                data: [accept, editRequired, unSent],
+                data: [accept, editRequired, decline, unSent],
                 backgroundColor: [
                     '#28a745',
+                    '#ffc107',
                     '#dc3545',
-                    '#17a2b8'
+                    '#6c757d'
                 ]
             },
         ],

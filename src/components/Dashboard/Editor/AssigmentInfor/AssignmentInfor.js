@@ -1,20 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
-import { getFormattedDate, getStageBadgeClassname } from '../../../../utils/utility';
+import { checkDueDate, getFormattedDate, getStageBadgeClassname } from '../../../../utils/utility';
 
 const AssignmentInfor = (props) => {
     return (
         <Aux>
             <div className="form-group pt-3">
                 <h6><i className="fas fa-tasks"></i> THÔNG TIN CHI TIẾT YÊU CẦU</h6>
-            </div>
+        </div>
             <div className="form-group ml-3">
                 <label>Nguời giao</label>
-                <p className="ml-4 text-primary">
+                <div className="ml-4">
                     <i className="fas fa-user text-dark"></i> {" "}
-                    {props.editorAssignment.chiefEditorId.lastname} {props.editorAssignment.chiefEditorId.firstname}
-                </p>
+                    <Link to="#" className="text-primary">
+                        {props.editorAssignment.chiefEditorId.lastname} {props.editorAssignment.chiefEditorId.firstname}
+                    </Link>
+                    {" "}<div className="badge-ol badge-ol-danger badge-outlined">Tổng biên tập</div>
+                </div>
             </div>
             <div className="form-group ml-3">
                 <label>Ngày giao</label>
@@ -24,9 +27,12 @@ const AssignmentInfor = (props) => {
             </div>
             <div className="form-group ml-3">
                 <label>Thời hạn xử lý</label>
-                <p className="ml-4">
-                    {getFormattedDate(props.editorAssignment.dueDate)}
-                </p>
+                <div className="ml-4">
+                    {getFormattedDate(props.editorAssignment.dueDate)} {" "}
+                    {!checkDueDate(props.editorAssignment.dueDate) ? (
+                        <div className="badge-ol badge-ol-danger mb-1">Hết hạn xử lý</div>
+                    ) : null}
+                </div>
             </div>
             <div className="form-group">
                 <h6><i className="far fa-calendar-alt"></i> TIẾN TRÌNH BÀI BÁO</h6>

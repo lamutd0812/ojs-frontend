@@ -7,120 +7,14 @@ import Footer from '../../components/Footer/Footer';
 import Breadcumb from '../../components/Breadcrumb/Breadcrumb';
 import { updateObject, checkValidity } from '../../utils/utility';
 import { Link } from 'react-router-dom';
-// import NotiDialog from '../../components/UI/NotiDialog/NotiDialog';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { registerInputControls } from '../../utils/input-controls';
 
 class Register extends Component {
 
     state = {
-        controls: {
-            username: {
-                elementConfig: {
-                    type: 'username',
-                    placeholder: 'Tên đăng nhập*'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 3,
-                    usernameValid: true
-                },
-                valid: false,
-                touched: false
-            },
-            email: {
-                elementConfig: {
-                    type: 'email',
-                    placeholder: 'Địa chỉ email*'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    isEmail: true
-                },
-                valid: false,
-                touched: false
-            },
-            password: {
-                elementConfig: {
-                    type: 'password',
-                    placeholder: 'Mật khẩu*'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 6
-                },
-                valid: false,
-                touched: false
-            },
-            confirm_password: {
-                elementConfig: {
-                    type: 'password',
-                    placeholder: 'Xác nhận mật khẩu*'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 6
-                },
-                valid: false,
-                touched: false
-            },
-            firstname: {
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Nhập tên của bạn*'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 2
-                },
-                valid: false,
-                touched: false
-            },
-            lastname: {
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Nhập họ của bạn*'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 2
-                },
-                valid: false,
-                touched: false
-            },
-            affiliation: {
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Địa chỉ công tác'
-                },
-                value: '',
-                validation: {
-                    required: false,
-                    maxLength: 255
-                },
-                valid: false,
-                touched: false
-            },
-            biography: {
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Giới thiệu bản thân'
-                },
-                value: '',
-                validation: {
-                    required: false,
-                    maxLength: 10000
-                },
-                valid: false,
-                touched: false
-            }
-        },
+        controls: registerInputControls,
         toBeReviewer: false,
         formIsValid: false
     }
@@ -134,7 +28,6 @@ class Register extends Component {
             this.props.onResetRegisterState();
         }
         if(nextProps.isSignedUp && !nextProps.error) {
-            // this.props.onResetRegisterState();
             this.props.history.push('/login');
         }
     }
@@ -180,10 +73,6 @@ class Register extends Component {
             this.state.controls.affiliation.value, this.state.controls.biography.value,
             this.state.toBeReviewer);
     };
-
-    // confirmHandler = () => {
-    //     this.props.history.push('/login');
-    // }
 
     render() {
         return (
@@ -309,8 +198,6 @@ class Register extends Component {
                                     <button
                                         type="button"
                                         className="btn mag-btn mt-10"
-                                        // data-toggle="modal"
-                                        // data-target="#notiDialogModal"
                                         onClick={this.formSubmitHandler}
                                         disabled={!this.state.formIsValid}>Đăng ký</button>
                                     <div className="mt-20">
@@ -322,10 +209,6 @@ class Register extends Component {
                     </div>
                 </div>
                 <Footer />
-                {/* <NotiDialog
-                    title="Thông báo"
-                    message="Đăng ký tài khoản thành công!"
-                    confirm={this.confirmHandler} /> */}
                 <ToastContainer autoClose={2000} />
                 {this.props.error ? toast.error(this.props.error) : null}
             </Aux>

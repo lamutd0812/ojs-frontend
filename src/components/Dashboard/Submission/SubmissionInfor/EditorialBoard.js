@@ -11,10 +11,10 @@ const EditorialBoard = (props) => {
                     <div className="form-group mr-2">
                         <label>Tác giả (Author)</label>
                         <Link to="#">
-                            <p className="text-primary ml-4">
+                            <div className="text-primary ml-4">
                                 <i className="fas fa-user text-dark"></i> {" "}
                                 {props.submission.authorId.lastname} {props.submission.authorId.firstname}
-                            </p>
+                            </div>
                         </Link>
                     </div>
                 </div>
@@ -23,17 +23,17 @@ const EditorialBoard = (props) => {
                         <label>Biên tập viên (Editor)</label>
                         {props.reviewerAssignment ? (
                             <Link to="#">
-                                <p className="text-primary ml-4">
+                                <div className="text-primary ml-4">
                                     <i className="fas fa-user text-dark"></i> {" "}
                                     {props.reviewerAssignment.editorId.lastname} {props.reviewerAssignment.editorId.firstname}
-                                </p>
+                                </div>
                             </Link>
                         ) : props.editorAssignment ? (
                             <Link to="#">
-                                <p className="text-primary ml-4">
+                                <div className="text-primary ml-4">
                                     <i className="fas fa-user text-dark"></i> {" "}
                                     {props.editorAssignment.editorId.lastname} {props.editorAssignment.editorId.firstname}
-                                </p>
+                                </div>
                             </Link>
                         ) : null}
                     </div>

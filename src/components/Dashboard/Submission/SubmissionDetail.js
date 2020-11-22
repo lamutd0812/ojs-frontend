@@ -11,6 +11,7 @@ import { USER_ROLES, STAGE } from '../../../utils/constant';
 import { getFormattedDate, getStageBadgeClassname, updateObject } from '../../../utils/utility';
 import { getSubmissionDetail, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
 import { getEditorAssignmentBySubmission, getReviewerAssignmentsBySubmission } from '../../../store/actions/reviewActions';
+import { toast } from 'react-toastify';
 class SubmissionDetail extends Component {
 
     state = {
@@ -28,7 +29,10 @@ class SubmissionDetail extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isSubmissionDeleted) {
             this.props.resetDeleteSubmissionState();
-            this.props.history.push('/dashboard');
+            setTimeout(() => {
+                toast.success("Xóa bài báo khỏi hệ thống thành công!");
+                this.props.history.push('/dashboard');
+            }, 500)
         }
     }
 
@@ -83,10 +87,10 @@ class SubmissionDetail extends Component {
                                                     <div className="form-group mr-2">
                                                         <label>Tác giả (Author)</label>
                                                         <Link to="#">
-                                                            <p className="text-primary ml-4">
+                                                            <div className="text-primary ml-4">
                                                                 <i className="fas fa-user text-dark"></i> {" "}
                                                                 {this.props.submission.authorId.lastname} {this.props.submission.authorId.firstname}
-                                                            </p>
+                                                            </div>
                                                         </Link>
                                                     </div>
                                                 </div>
@@ -95,10 +99,10 @@ class SubmissionDetail extends Component {
                                                         <label>Biên tập viên (Editor)</label>
                                                         {this.props.editorAssignment ? (
                                                             <Link to="#">
-                                                                <p className="text-primary ml-4">
+                                                                <div className="text-primary ml-4">
                                                                     <i className="fas fa-user text-dark"></i> {" "}
                                                                     {this.props.editorAssignment.editorId.lastname} {this.props.editorAssignment.editorId.firstname}
-                                                                </p>
+                                                                </div>
                                                             </Link>
                                                         ) : <div className="ml-4 text-secondary">Chưa được chỉ định</div>}
                                                     </div>
@@ -138,7 +142,7 @@ class SubmissionDetail extends Component {
                                                         <div className="form-group">
                                                             <Link to={`/dashboard/chief-editor/assign-editor?submissionId=${this.props.submission._id}`}>
                                                                 <button className="btn btn-outline-primary btn-block">
-                                                                    <i class="fas fa-user"></i> {" "}
+                                                                    <i className="fas fa-user"></i> {" "}
                                                                     Chỉ định biên tập viên
                                                                 </button>
                                                             </Link>
@@ -146,13 +150,13 @@ class SubmissionDetail extends Component {
                                                     ) : null}
                                                     <div className="form-group">
                                                         <button className="btn btn-outline-success btn-block">
-                                                            <i class="fas fa-check"></i> {" "}
+                                                            <i className="fas fa-check"></i> {" "}
                                                             Chấp nhận bài báo
                                                         </button>
                                                     </div>
                                                     <div className="form-group">
                                                         <button className="btn btn-outline-danger btn-block">
-                                                            <i class="fas fa-times"></i>{" "}
+                                                            <i className="fas fa-times"></i>{" "}
                                                             Từ chối bài báo
                                                         </button>
                                                     </div>

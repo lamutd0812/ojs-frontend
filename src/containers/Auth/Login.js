@@ -9,39 +9,11 @@ import { auth, resetRegisterState } from '../../store/actions/authActions';
 import { updateObject, checkValidity } from '../../utils/utility';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { loginInputControls } from '../../utils/input-controls';
 class Login extends Component {
     
     state = {
-        controls: {
-            username: {
-                elementConfig: {
-                    type: 'username',
-                    placeholder: 'Tên đăng nhập*'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 3,
-                    usernameValid: true
-                },
-                valid: false,
-                touched: false
-            },
-            password: {
-                elementConfig: {
-                    type: 'password',
-                    placeholder: 'Mật khẩu*'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 6
-                },
-                valid: false,
-                touched: false
-            }
-        },
+        controls: loginInputControls,
         formIsValid: false,
         isSignedUpFlag: false
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
-import { getFormattedDate, getStageBadgeClassname } from '../../../../utils/utility';
+import { checkDueDate, getFormattedDate, getStageBadgeClassname } from '../../../../utils/utility';
 
 
 const AssignmentInfor = (props) => {
@@ -10,10 +10,13 @@ const AssignmentInfor = (props) => {
             <h6><i className="fas fa-tasks"></i> CHI TIẾT YÊU CẦU</h6>
             <div className="form-group ml-3">
                 <label>Nguời giao</label>
-                <p className="ml-4 text-primary">
+                <div className="ml-4">
                     <i className="fas fa-user text-dark"></i> {" "}
-                    {props.reviewerAssignment.editorId.lastname} {props.reviewerAssignment.editorId.firstname}
-                </p>
+                    <Link to="#" className="text-primary">
+                        {props.reviewerAssignment.editorId.lastname} {props.reviewerAssignment.editorId.firstname}
+                    </Link>
+                    {" "}<div className="badge-ol badge-ol-danger badge-outlined">Biên tập viên</div>
+                </div>
             </div>
             <div className="form-group ml-3">
                 <label>Ngày giao</label>
@@ -23,9 +26,12 @@ const AssignmentInfor = (props) => {
             </div>
             <div className="form-group ml-3">
                 <label>Thời hạn xử lý</label>
-                <p className="ml-4">
-                    {getFormattedDate(props.reviewerAssignment.dueDate)}
-                </p>
+                <div className="ml-4">
+                    {getFormattedDate(props.reviewerAssignment.dueDate)} {" "}
+                    {!checkDueDate(props.reviewerAssignment.dueDate) ? (
+                        <div className="badge-ol badge-ol-danger mb-1">Hết hạn xử lý</div>
+                    ) : null}
+                </div>
             </div>
             <div className="form-group">
                 <h6><i className="far fa-calendar-alt"></i> TIẾN TRÌNH BÀI BÁO</h6>

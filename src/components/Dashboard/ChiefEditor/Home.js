@@ -73,7 +73,7 @@ class Home extends Component {
                                                     </td>
                                                     <td className="project-actions text-center">
                                                         <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
-                                                            <i className="fas fa-eye"></i> Xem
+                                                            <i className="fas fa-eye"></i> Xử lý
                                                         </Link>
                                                         <Link to="#" className="btn btn-outline-danger btn-sm">
                                                             <i className="fas fa-close"></i> Từ chối

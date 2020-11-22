@@ -20,7 +20,7 @@ const ReviewerSubmissions = (props) => {
                             <th style={{ width: '30%' }}>Thẩm định viên</th>
                             <th style={{ width: '25%' }}>Trạng thái</th>
                             <th style={{ width: '25%' }} className="text-center">Quyết định</th>
-                            <th style={{ width: '19%' }} className="text-center">Chi tiết</th>
+                            <th style={{ width: '19%' }} className="text-center">Ý kiến</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,7 +50,7 @@ const ReviewerSubmissions = (props) => {
                                         ) : (
                                                 <Link to="#"
                                                     className="link-disabled">
-                                                    <u>Xem</u>
+                                                    Chưa nộp
                                                 </Link>
                                             )}
                                     </td>

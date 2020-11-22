@@ -8,66 +8,13 @@ import { getCategories, getSubmissionDetail, editSubmission, resetEditSubmission
 import { Link } from 'react-router-dom';
 import ContentHeader from '../Shared/ContentHeader';
 import { toast } from 'react-toastify';
+import { editSubmissionInputControls } from '../../../utils/input-controls';
 class EditSubmission extends Component {
 
     state = {
         step1Active: true,
         step2Active: false,
-        controls: {
-            categoryId: {
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Chọn thể loại'
-                },
-                value: '',
-                categoryName: '',
-                validation: {
-                    required: true
-                },
-                valid: true,
-                touched: false
-            },
-            title: {
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Nhập tiêu đề'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 5
-                },
-                valid: true,
-                touched: false
-            },
-            abstract: {
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Nhập mô tả'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 5
-                },
-                valid: true,
-                touched: false
-            },
-            attachment: {
-                elementConfig: {
-                    type: 'file',
-                    placeholder: 'Chọn File'
-                },
-                filename: 'Chọn File',
-                file: null,
-                validation: {
-                    required: true,
-                    minLength: 5
-                },
-                valid: true,
-                touched: false
-            }
-        },
+        controls: editSubmissionInputControls,
         formIsValid: true
     }
 

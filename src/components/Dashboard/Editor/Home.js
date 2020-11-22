@@ -161,6 +161,7 @@ class Home extends Component {
                                                                                             maintainAspectRatio: true,
                                                                                             legend: {
                                                                                                 labels: {
+                                                                                                    fontSize: 10,
                                                                                                     fontFamily: 'Roboto Slab'
                                                                                                 }
                                                                                             }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import SubmissionLogs from '../Submission/SubmissionLogs';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
@@ -10,26 +11,10 @@ import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getEditorAssignmentBySubmission, getReviewerAssignmentsBySubmission } from '../../../store/actions/reviewActions';
 import { Doughnut } from 'react-chartjs-2';
 import AssignmentInfor from './AssigmentInfor/AssignmentInfor';
-import { getDoughnutData, updateObject } from '../../../utils/utility';
+import { checkDueDate, getDoughnutData } from '../../../utils/utility';
 import ReviewerSubmissions from './ReviewerSubmissions/ReviewerSubmissions';
 
 class EditorAssignment extends Component {
-
-    state = {
-        data: {
-            labels: ['Chấp nhận bài báo', 'Yêu cầu chỉnh sửa', 'Chưa nộp ý kiến'],
-            datasets: [
-                {
-                    data: [0, 0, 3],
-                    backgroundColor: [
-                        '#28a745',
-                        '#dc3545',
-                        '#17a2b8'
-                    ]
-                },
-            ],
-        }
-    }
 
     componentDidMount() {
         if (this.props.match.params.submissionId) {
@@ -38,12 +23,6 @@ class EditorAssignment extends Component {
             this.props.getReviewerAssignmentsBySubmission(this.props.match.params.submissionId);
         }
 
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.reviewerAssignments.length > 0 && this.props.reviewerAssignments.length !== prevProps.reviewerAssignments.length) {
-            this.fetchDoughnutData(this.props.reviewerAssignments);
-        }
     }
 
     refreshHandler = () => {
@@ -56,9 +35,7 @@ class EditorAssignment extends Component {
 
     fetchDoughnutData = (reviewerAssignments) => {
         const data = getDoughnutData(reviewerAssignments);
-        this.setState(updateObject(this.state, {
-            data: data
-        }));
+        return data;
     }
 
     render() {
@@ -103,12 +80,13 @@ class EditorAssignment extends Component {
                                         {this.props.reviewerAssignments.length > 0 ? (
                                             <div className="p-2 col-lg-4">
                                                 <Doughnut
-                                                    data={this.state.data}
+                                                    data={this.fetchDoughnutData(this.props.reviewerAssignments)}
                                                     options={{
                                                         responsive: true,
-                                                        maintainAspectRatio: true,
+                                                        maintainAspectRatio: false,
                                                         legend: {
                                                             labels: {
+                                                                fontSize: 12,
                                                                 fontFamily: 'Roboto Slab'
                                                             }
                                                         }
@@ -126,31 +104,52 @@ class EditorAssignment extends Component {
                                         </div>
                                         {/* Column */}
                                         <div className="p-2 col-lg-4 border rounded">
-                                            <div className="form-group">
-                                                <h6><i className="fas fa-paper-plane"></i> GỬI QUYẾT ĐỊNH</h6>
-                                            </div>
-                                            {this.props.reviewerAssignments.length < 3 ? (
-                                                <div className="form-group">
-                                                    <Link to={`/dashboard/editor/assign-reviewer?submissionId=${this.props.submission._id}`}>
+                                            {checkDueDate(this.props.editorAssignment.dueDate) ? (
+                                                <Aux>
+                                                    {this.props.reviewerAssignments.length < 3 ? (
+                                                        <Aux>
+                                                            <div className="form-group">
+                                                                <h6><i className="fas fa-user"></i> CHỈ ĐỊNH THẨM ĐỊNH VIÊN</h6>
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <Link to={`/dashboard/editor/assign-reviewer?submissionId=${this.props.submission._id}`}>
+                                                                    <button className="btn btn-outline-primary btn-block">
+                                                                        <i className="fas fa-user"></i>{" "}
+                                                                        Chỉ định thẩm định viên
+                                                                </button>
+                                                                </Link>
+                                                            </div>
+                                                        </Aux>
+                                                    ) : null}
+                                                    <div className="form-group">
+                                                        <h6><i className="fas fa-comments"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
+                                                    </div>
+                                                    <div className="form-group">
                                                         <button className="btn btn-outline-primary btn-block">
-                                                            <i className="fas fa-user"></i>{" "}
-                                                                Chỉ định thẩm định viên
+                                                            <i className="fas fa-paper-plane"></i> {" "}
+                                                            Gửi ý kiến cho tổng biên tập
                                                         </button>
-                                                    </Link>
-                                                </div>
-                                            ) : null}
-                                            <div className="form-group">
-                                                <button className="btn btn-outline-success btn-block">
-                                                    <i className="fas fa-check"></i> {" "}
-                                                    Chấp nhận bài báo
-                                                </button>
-                                            </div>
-                                            <div className="form-group">
-                                                <button className="btn btn-outline-danger btn-block">
-                                                    <i className="fas fa-edit"></i> {" "}
-                                                    Yêu cầu chỉnh sửa
-                                                </button>
-                                            </div>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <button className="btn btn-outline-danger btn-block">
+                                                            <i className="fas fa-edit"></i> {" "}
+                                                            Yêu cầu tác giả chỉnh sửa
+                                                        </button>
+                                                    </div>
+                                                </Aux>
+                                            ) : (
+                                                <Aux>
+                                                    <div className="form-group">
+                                                        <h6><i className="fas fa-comments"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <button className="btn btn-danger btn-block">
+                                                            <i className="fas fa-ban"></i> {" "}
+                                                            Bài báo đã hết hạn xử lý
+                                                        </button>
+                                                    </div> 
+                                                </Aux>   
+                                            )}
 
                                             <AssignmentInfor
                                                 submission={this.props.submission}

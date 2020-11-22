@@ -7,67 +7,14 @@ import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { connect } from 'react-redux';
 import { updateObject, checkValidity } from '../../../utils/utility';
 import { getCategories, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submissionActions';
-
+import { submitArticleInputControls } from '../../../utils/input-controls';
 class SubmitArticle extends Component {
 
     state = {
         step1Active: true,
         step2Active: false,
         step3Active: false,
-        controls: {
-            categoryId: {
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Chọn thể loại'
-                },
-                value: '',
-                validation: {
-                    required: true
-                },
-                valid: true,
-                touched: false
-            },
-            title: {
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Nhập tiêu đề'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 5
-                },
-                valid: false,
-                touched: false
-            },
-            abstract: {
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Nhập mô tả'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 5
-                },
-                valid: false,
-                touched: false
-            },
-            attachment: {
-                elementConfig: {
-                    type: 'file',
-                    placeholder: 'Chọn File'
-                },
-                filename: 'Chọn File',
-                file: null,
-                validation: {
-                    required: true,
-                    minLength: 5
-                },
-                valid: false,
-                touched: false
-            }
-        },
+        controls: submitArticleInputControls,
         formIsValid: false
     }
 

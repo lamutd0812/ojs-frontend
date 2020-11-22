@@ -1848,3 +1848,102 @@ textarea.form-control {
   border-radius: 5px;
   border: 1px solid red;
 }
+
+.decision-warning {
+  background-color: #ffc107;
+  padding: 0.25rem;
+  border-radius: 5px;
+  border: 1px solid red;
+}
+
+/* Table Border */
+table.table-bordered > thead > tr > th{
+  border:1px solid #28a745;
+}
+
+table.table-bordered > tbody > tr > td{
+  border:1px solid #28a745;
+}
+
+/* Badge Outline */
+.badge-ol {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 6px;
+  border: 1px solid transparent;
+  min-width: 10px;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-radius: 99999px
+}
+
+.badge-ol.badge-ol-default {
+  background-color: #B0BEC5
+}
+
+.badge-ol.badge-ol-primary {
+  background-color: #2196F3
+}
+
+.badge-ol.badge-ol-secondary {
+  background-color: #323a45
+}
+
+.badge-ol.badge-ol-success {
+  background-color: #64DD17
+}
+
+.badge-ol.badge-ol-warning {
+  background-color: #FFD600
+}
+
+.badge-ol.badge-ol-info {
+  background-color: #29B6F6
+}
+
+.badge-ol.badge-ol-danger {
+  background-color: #ef1c1c
+}
+
+.badge-ol.badge-outlined {
+  background-color: transparent
+}
+
+.badge-ol.badge-outlined.badge-ol-default {
+  border-color: #B0BEC5;
+  color: #B0BEC5
+}
+
+.badge-ol.badge-outlined.badge-ol-primary {
+  border-color: #2196F3;
+  color: #2196F3
+}
+
+.badge-ol.badge-outlined.badge-ol-secondary {
+  border-color: #323a45;
+  color: #323a45
+}
+
+.badge-ol.badge-outlined.badge-ol-success {
+  border-color: #64DD17;
+  color: #64DD17
+}
+
+.badge-ol.badge-outlined.badge-ol-warning {
+  border-color: #FFD600;
+  color: #FFD600
+}
+
+.badge-ol.badge-outlined.badge-ol-info {
+  border-color: #29B6F6;
+  color: #29B6F6
+}
+
+.badge-ol.badge-outlined.badge-ol-danger {
+  border-color: #ef1c1c;
+  color: #ef1c1c
+}

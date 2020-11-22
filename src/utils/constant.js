@@ -65,8 +65,8 @@ exports.EDITOR_DECISION = {
         decisionName: 'Yêu cầu chỉnh sửa',
         value: 2
     },
-    UNSENT: {
-        decisionName: 'Chưa nộp ý kiến',
+    DECLINE_SUBMISSION: {
+        decisionName: 'Từ chối bài báo',
         value: 0
     }
 }
@@ -80,8 +80,8 @@ exports.REVIEWER_DECISION = {
         decisionName: 'Yêu cầu chỉnh sửa',
         value: 2
     },
-    UNSENT: {
-        decisionName: 'Chưa nộp ý kiến',
+    DECLINE_SUBMISSION: {
+        decisionName: 'Từ chối bài báo',
         value: 0
     }
 }
