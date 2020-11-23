@@ -1,4 +1,3 @@
-// import axios from './axios';
 import { REVIEWER_DECISION } from './constant';
 
 export const updateObject = (oldObject, updatedProperties) => {

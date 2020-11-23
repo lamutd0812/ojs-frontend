@@ -227,6 +227,7 @@ class ReviewerAssignment extends Component {
                                     </button>
                                 </div>
                             </div>
+
                             <div className="card-header p-0">
                                 <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                     <li className="nav-item">
@@ -243,6 +244,7 @@ class ReviewerAssignment extends Component {
                                     </li>
                                 </ul>
                             </div>
+
                             {this.props.submission && this.props.reviewerAssignment ? (
                                 <div className="card-body">
                                     <div className="tab-content" id="custom-tabs-one-tabContent">
@@ -287,12 +289,12 @@ class ReviewerAssignment extends Component {
                                             <div className="row mt-2">
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-8 border rounded">
-                                                    <h6><i className="fas fa-paper-plane"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
                                                     {!checkDueDate(this.props.reviewerAssignment.dueDate) ? (
                                                         <Aux>
-                                                            <div className="form-group ml-3 text-danger font-weight-bold">
+                                                            <div className="form-group ml-1 text-danger font-weight-bold">
                                                                 <i className="fas fa-times-circle"></i> Bài báo đã hết thời hạn thẩm định!
                                                             </div>
+                                                            <h6><i className="fas fa-comment"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
                                                             <ReviewDetail reviewerSubmission={this.props.reviewerAssignment.reviewerSubmissionId} />
                                                         </Aux>
                                                     ) : (
@@ -308,8 +310,11 @@ class ReviewerAssignment extends Component {
                                                                                 formIsValid={this.state.formIsValid_edit}
                                                                                 cancelEdit={this.blockEditReviewPageHandler} />
                                                                         ) : (
+                                                                            <Aux>
+                                                                                <h6><i className="fas fa-comment"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
                                                                                 <ReviewDetail reviewerSubmission={this.props.reviewerAssignment.reviewerSubmissionId} />
-                                                                            )}
+                                                                            </Aux>
+                                                                        )}
                                                                     </Aux>
                                                                 ) : (
                                                                         <CreateReview
@@ -353,14 +358,14 @@ class ReviewerAssignment extends Component {
                                                             </div>
                                                         </Aux>
                                                     ) : (
-                                                            <Aux>
-                                                                <div className="form-group">
-                                                                    <div className="btn btn-danger btn-block">
-                                                                        <i className="fas fa-times-circle"></i> Chưa nộp ý kiến thẩm định
+                                                        <Aux>
+                                                            <div className="form-group">
+                                                                <div className="btn btn-danger btn-block">
+                                                                    <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
                                                                 </div>
-                                                                </div>
-                                                            </Aux>
-                                                        )}
+                                                            </div>
+                                                        </Aux>
+                                                    )}
                                                     <AssignmentInfor
                                                         submission={this.props.submission}
                                                         reviewerAssignment={this.props.reviewerAssignment} />

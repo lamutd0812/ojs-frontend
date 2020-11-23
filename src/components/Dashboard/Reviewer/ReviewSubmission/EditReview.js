@@ -4,6 +4,7 @@ import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 const Edit = (props) => {
     return (
         <Aux>
+            <h6><i className="fas fa-edit"></i> CHỈNH SỬA Ý KIẾN THẨM ĐỊNH</h6>
             <div className="card-body">
                 {props.reviewerDecisions ? (
                     <div className="form-group">

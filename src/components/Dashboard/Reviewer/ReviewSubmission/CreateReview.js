@@ -4,6 +4,7 @@ import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 const CreateReview = (props) => {
     return (
         <Aux>
+            <h6><i className="fas fa-paper-plane"></i> NỘP Ý KIẾN THẨM ĐỊNH</h6>
             <div className="card-body">
                 {props.reviewerDecisions ? (
                     <div className="form-group">
@@ -62,7 +63,7 @@ const CreateReview = (props) => {
                     className="btn btn-primary"
                     data-toggle="modal"
                     data-target="#confirmDialogModal"
-                    disabled={!props.formIsValid}> Gửi ý kiến</button>
+                    disabled={!props.formIsValid}> Nộp ý kiến</button>
             </div>
         </Aux>
     );

@@ -8,10 +8,12 @@ import DeleteSubmission from '../Author/DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
 import { USER_ROLES, STAGE } from '../../../utils/constant';
-import { getFormattedDate, getStageBadgeClassname, updateObject } from '../../../utils/utility';
+import { updateObject } from '../../../utils/utility';
 import { getSubmissionDetail, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
 import { getEditorAssignmentBySubmission, getReviewerAssignmentsBySubmission } from '../../../store/actions/reviewActions';
 import { toast } from 'react-toastify';
+import EditorialBoard from './SubmissionInfor/EditorialBoard';
+import SubmissionFutherInfor from './SubmissionInfor/SubmissionFutherInfor';
 class SubmissionDetail extends Component {
 
     state = {
@@ -81,53 +83,10 @@ class SubmissionDetail extends Component {
                                     {/* Row */}
                                     <div className="row">
                                         <div className="p-2 col-lg-12 border rounded">
-                                            <h6><i className="fas fa-users"></i> BAN BIÊN TẬP</h6>
-                                            <div className="row ml-2">
-                                                <div className="col-lg-4">
-                                                    <div className="form-group mr-2">
-                                                        <label>Tác giả (Author)</label>
-                                                        <Link to="#">
-                                                            <div className="text-primary ml-4">
-                                                                <i className="fas fa-user text-dark"></i> {" "}
-                                                                {this.props.submission.authorId.lastname} {this.props.submission.authorId.firstname}
-                                                            </div>
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-4">
-                                                    <div className="form-group mr-2">
-                                                        <label>Biên tập viên (Editor)</label>
-                                                        {this.props.editorAssignment ? (
-                                                            <Link to="#">
-                                                                <div className="text-primary ml-4">
-                                                                    <i className="fas fa-user text-dark"></i> {" "}
-                                                                    {this.props.editorAssignment.editorId.lastname} {this.props.editorAssignment.editorId.firstname}
-                                                                </div>
-                                                            </Link>
-                                                        ) : <div className="ml-4 text-secondary">Chưa được chỉ định</div>}
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-4">
-                                                    <div className="form-group mr-2">
-                                                        <label>Thẩm định viên ({this.props.reviewerAssignments.length}/3)</label>
-                                                        {this.props.reviewerAssignments.length > 0 ? (
-                                                            <div className="ml-4">
-                                                                {this.props.reviewerAssignments.map(ra => (
-                                                                    <Link to="#" key={ra._id}>
-                                                                        <div className="text-primary"><i className="fas fa-user text-dark"></i> {" "}
-                                                                            {ra.reviewerId.lastname} {ra.reviewerId.firstname}
-                                                                        </div>
-                                                                    </Link>
-                                                                ))}
-                                                            </div>
-                                                        ) : (
-                                                                <div className="ml-4 text-secondary">
-                                                                    <div>Chưa được chỉ định</div>
-                                                                </div>
-                                                            )}
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <EditorialBoard
+                                                submission={this.props.submission}
+                                                editorAssignment={this.props.editorAssignment}
+                                                reviewerAssignments={this.props.reviewerAssignments} />
                                         </div>
                                     </div>
                                     {/* Row */}
@@ -136,6 +95,7 @@ class SubmissionDetail extends Component {
                                             <SubmissionInfor submission={this.props.submission} />
                                         </div>
                                         <div className="p-2 col-lg-4 border rounded">
+                                            {/* -----------CHIEF EDITOR--------------  */}
                                             {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
                                                 <Aux>
                                                     {!this.props.editorAssignment ? (
@@ -162,34 +122,8 @@ class SubmissionDetail extends Component {
                                                     </div>
                                                 </Aux>
                                             ) : null}
-                                            <div className="form-group mt-4">
-                                                <label>Ngày đăng:</label>
-                                                <p className="ml-4">
-                                                    {getFormattedDate(this.props.submission.createdAt)}
-                                                </p>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Cập nhật lần cuối:</label>
-                                                <p className="ml-4">
-                                                    {getFormattedDate(this.props.submission.updatedAt)}
-                                                </p>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Nhật ký hoạt động</label><br />
-                                                <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#submissionLogsModal"><u>Xem chi tiết</u></Link>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Pha</label><br />
-                                                <div className={"badge " + getStageBadgeClassname(this.props.submission.submissionStatus.stageId.value) + " ml-3"}>
-                                                    {this.props.submission.submissionStatus.stageId.name}
-                                                </div>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Trạng thái</label><br />
-                                                <p className="ml-3">
-                                                    {this.props.submission.submissionStatus.status}
-                                                </p>
-                                            </div>
+
+                                            <SubmissionFutherInfor submission={this.props.submission} />
 
                                             {this.props.userId === this.props.submission.authorId._id ? (
                                                 <div className="form-group">
