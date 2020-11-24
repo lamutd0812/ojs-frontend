@@ -1,12 +1,12 @@
 import React from 'react';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 
-const EditReview = (props) => {
+const CreateEditorSubmisison = (props) => {
     return (
         <Aux>
-            <h6><i className="fas fa-edit"></i> CHỈNH SỬA Ý KIẾN THẨM ĐỊNH</h6>
+            <h6><i className="fas fa-paper-plane"></i> NỘP Ý KIẾN THẨM ĐỊNH</h6>
             <div className="card-body">
-                {props.reviewerDecisions ? (
+                {props.editorDecisions ? (
                     <div className="form-group">
                         <label>Quyết định*</label>
                         <select
@@ -14,8 +14,7 @@ const EditReview = (props) => {
                             className="custom-select form-control"
                             onChange={props.inputChangeHandler}
                         >
-                            <option value="" hidden>{props.controls.decisionId.decisionName}</option>
-                            {props.reviewerDecisions.map(decision => (
+                            {props.editorDecisions.map(decision => (
                                 <option key={decision._id} value={decision._id}>
                                     {decision.decisionName}
                                 </option>
@@ -64,14 +63,10 @@ const EditReview = (props) => {
                     className="btn btn-primary"
                     data-toggle="modal"
                     data-target="#confirmDialogModal"
-                    disabled={!props.formIsValid}> Chỉnh sửa ý kiến</button>
-                <button
-                    type="button"
-                    className="btn btn-danger ml-2"
-                    onClick={props.cancelEdit}>Hủy</button>
+                    disabled={!props.formIsValid}> Nộp ý kiến</button>
             </div>
         </Aux>
     );
 };
 
-export default EditReview;
+export default CreateEditorSubmisison;

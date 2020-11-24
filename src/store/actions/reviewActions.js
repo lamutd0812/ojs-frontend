@@ -90,6 +90,20 @@ const editReviewSubmissionSuccess = (message) => {
     }
 }
 
+const createEditorSubmissionSuccess = (message) => {
+    return {
+        type: actionTypes.CREATE_EDITOR_SUBMISSION_SUCCESS,
+        message: message
+    }
+}
+
+const editEditorSubmissionSuccess = (message) => {
+    return {
+        type: actionTypes.EDIT_EDITOR_SUBMISSION_SUCCESS,
+        message: message
+    }
+}
+
 const reviewProcessError = (error) => {
     return {
         type: actionTypes.REVIEW_PROCESS_ERROR,
@@ -299,5 +313,48 @@ export const editReviewSubmission = (submissionId, reqBody) => (dispatch, getSta
 export const resetEditReviewSubmissionState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_EDIT_REVIEW_SUBMISSION_SUCCESS
+    })
+};
+
+// ----------------
+// Editor create review for a submission
+export const createEditorSubmission = (submissionId, reqBody) => (dispatch, getState) => {
+    dispatch(uploadStart());
+    const token = getState().auth.token;
+    axios.post('/reviews/editor-submission/' + submissionId, reqBody, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(createEditorSubmissionSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.response.data.error));
+    });
+};
+
+export const resetCreateEditorSubmissionState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_CREATE_EDITOR_SUBMISSION_STATE
+    })
+};
+
+// Editor edit review for a submission
+export const editEditorSubmission = (submissionId, reqBody) => (dispatch, getState) => {
+    dispatch(uploadStart());
+    const token = getState().auth.token;
+    axios.put('/reviews/editor-submission/' + submissionId, reqBody, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(editEditorSubmissionSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.response.data.error));
+    });
+};
+
+export const resetEditEditorSubmissionState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_EDIT_EDITOR_SUBMISSION_SUCCESS
     })
 };

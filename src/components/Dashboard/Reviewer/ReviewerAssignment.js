@@ -61,6 +61,7 @@ class ReviewerAssignment extends Component {
             this.props.getMyReviewerAssignmentDetail(this.props.match.params.submissionId);
         }
         if (nextProps.isReviewSubmissionEdited && !nextProps.error) {
+            this.props.resetEditReviewSubmissionState();
             toast.success("Chỉnh sửa ý kiến thẩm định thành công!");
             this.props.getMyReviewerAssignmentDetail(this.props.match.params.submissionId);
         }
@@ -161,7 +162,7 @@ class ReviewerAssignment extends Component {
     openEditReviewPageHandler = (event, reviewSubmission) => {
         event.preventDefault();
         // Init Control Edit Values
-        const updatedControls = updateObject(this.state.controls, {
+        const updatedControls = updateObject(this.state.controls_edit, {
             decisionId: updateObject(this.state.controls_edit.decisionId, {
                 value: reviewSubmission.reviewerDecisionId._id,
                 decisionName: reviewSubmission.reviewerDecisionId.decisionName
@@ -298,33 +299,33 @@ class ReviewerAssignment extends Component {
                                                             <ReviewDetail reviewerSubmission={this.props.reviewerAssignment.reviewerSubmissionId} />
                                                         </Aux>
                                                     ) : (
-                                                            <Aux>
-                                                                {this.props.reviewerAssignment.reviewerSubmissionId ? (
-                                                                    <Aux>
-                                                                        {this.state.canEdit ? (
-                                                                            <EditReview
-                                                                                reviewSubmission={this.props.reviewerAssignment.reviewerSubmissionId}
-                                                                                reviewerDecisions={this.props.reviewerDecisions}
-                                                                                inputChangeHandler={this.inputChangeHandler_edit}
-                                                                                controls={this.state.controls_edit}
-                                                                                formIsValid={this.state.formIsValid_edit}
-                                                                                cancelEdit={this.blockEditReviewPageHandler} />
-                                                                        ) : (
-                                                                            <Aux>
-                                                                                <h6><i className="fas fa-comment"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
-                                                                                <ReviewDetail reviewerSubmission={this.props.reviewerAssignment.reviewerSubmissionId} />
-                                                                            </Aux>
-                                                                        )}
-                                                                    </Aux>
-                                                                ) : (
-                                                                        <CreateReview
+                                                        <Aux>
+                                                            {this.props.reviewerAssignment.reviewerSubmissionId ? (
+                                                                <Aux>
+                                                                    {this.state.canEdit ? (
+                                                                        <EditReview
+                                                                            reviewSubmission={this.props.reviewerAssignment.reviewerSubmissionId}
                                                                             reviewerDecisions={this.props.reviewerDecisions}
-                                                                            inputChangeHandler={this.inputChangeHandler}
-                                                                            controls={this.state.controls}
-                                                                            formIsValid={this.state.formIsValid} />
+                                                                            inputChangeHandler={this.inputChangeHandler_edit}
+                                                                            controls={this.state.controls_edit}
+                                                                            formIsValid={this.state.formIsValid_edit}
+                                                                            cancelEdit={this.blockEditReviewPageHandler} />
+                                                                    ) : (
+                                                                        <Aux>
+                                                                            <h6><i className="fas fa-comment"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
+                                                                             <ReviewDetail reviewerSubmission={this.props.reviewerAssignment.reviewerSubmissionId} />
+                                                                        </Aux>
                                                                     )}
-                                                            </Aux>
-                                                        )}
+                                                                </Aux>
+                                                            ) : (
+                                                                <CreateReview
+                                                                    reviewerDecisions={this.props.reviewerDecisions}
+                                                                    inputChangeHandler={this.inputChangeHandler}
+                                                                    controls={this.state.controls}
+                                                                    formIsValid={this.state.formIsValid} />
+                                                                )}
+                                                        </Aux>
+                                                    )}
                                                 </div>
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-4 border rounded">
@@ -381,12 +382,13 @@ class ReviewerAssignment extends Component {
                 {this.props.submission && <SubmissionLogs logs={this.props.submission.submissionLogs} />}
             </div>
         );
+
         return (
             <Aux>
                 {contentWrapper}
                 <ConfirmDialog
                     title="Xác nhận"
-                    message="Gửi ý kiến thẩm định bài báo?"
+                    message="Gửi ý kiến thẩm định bài báo cho biên tập viên?"
                     confirm={this.confirmSubmitHandler} />
                 {this.props.error ? toast.error('Error: ' + this.props.error) : null}
             </Aux>

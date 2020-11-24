@@ -2,20 +2,20 @@ import React from 'react';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 import { getDecisionBadgeClassname, getFormattedDate } from '../../../../utils/utility';
 
-const ReviewDetail = (props) => {
+const EditorSubmissionDetail = (props) => {
     return (
         <Aux>
-            {props.reviewerSubmission ? (
+            {props.editorSubmission ? (
                 <Aux>
                     <div className="form-group ml-3">
                         <label>Quyết định</label><br />
-                        <span className={getDecisionBadgeClassname(props.reviewerSubmission.reviewerDecisionId.value) + " ml-4"}>
-                            {props.reviewerSubmission.reviewerDecisionId.decisionName}
+                        <span className={getDecisionBadgeClassname(props.editorSubmission.editorDecisionId.value) + " ml-4"}>
+                            {props.editorSubmission.editorDecisionId.decisionName}
                         </span>
                     </div>
                     <div className="form-group ml-3">
                         <label>Ý kiến</label>
-                        <p className="ml-4">{props.reviewerSubmission.content}</p>
+                        <p className="ml-4">{props.editorSubmission.content}</p>
                     </div>
                     <div className="form-group ml-3">
                         <label>File đính kèm</label>
@@ -28,7 +28,7 @@ const ReviewDetail = (props) => {
                     </div>
                     <div className="form-group ml-3">
                         <label>Ngày gửi</label>
-                        <p className="ml-4">{getFormattedDate(props.reviewerSubmission.createdAt)}</p>
+                        <p className="ml-4">{getFormattedDate(props.editorSubmission.createdAt)}</p>
                     </div>
                 </Aux>
             ) : null}
@@ -36,4 +36,4 @@ const ReviewDetail = (props) => {
     );
 };
 
-export default ReviewDetail;
+export default EditorSubmissionDetail;

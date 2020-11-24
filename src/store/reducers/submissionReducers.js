@@ -39,6 +39,13 @@ const getReviewerDecisionsSuccess = (state, action) => {
     });
 };
 
+const getEditorDecisionsSuccess = (state, action) => {
+    return updateObject(state, {
+        editorDecisions: action.editorDecisions,
+        error: null
+    });
+};
+
 const getSubmissionsByAuthorSuccess = (state, action) => {
     return updateObject(state, {
         submissions: action.submissions,
@@ -128,6 +135,7 @@ const submissionReducer = (state = initialState, action) => {
 
         case actionTypes.GET_CATEGORIES_SUCCESS: return getCategoriesSuccess(state, action);
         case actionTypes.GET_REVIEWER_DECISIONS_SUCCESS: return getReviewerDecisionsSuccess(state, action);
+        case actionTypes.GET_EDITOR_DECISIONS_SUCCESS: return getEditorDecisionsSuccess(state, action);
 
         case actionTypes.GET_SUBMISSIONS_BY_AUTHOR_SUCCESS: return getSubmissionsByAuthorSuccess(state, action);
 

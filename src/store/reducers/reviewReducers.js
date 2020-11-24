@@ -16,6 +16,8 @@ const initialState = {
     fileUploading: false,
     isReviewSubmissionCreated: false,
     isReviewSubmissionEdited: false,
+    isEditorSubmissionCreated: false,
+    isEditorSubmissionEdited: false
 };
 
 const reviewProcessStart = (state) => {
@@ -155,6 +157,42 @@ const resetEditReviewSubmissionState = (state) => {
     })
 };
 
+// Editor submit review for a submission
+const createEditorSubmissionSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isEditorSubmissionCreated: true,
+        loading: false,
+        error: null,
+        fileUploading: false
+    });
+};
+
+const resetCreateEditorSubmissionState = (state) => {
+    return updateObject(state, {
+        isEditorSubmissionCreated: false,
+        error: null
+    })
+};
+
+// Editor edit review for a submission
+const editEditorSubmissionSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isEditorSubmissionEdited: true,
+        loading: false,
+        error: null,
+        fileUploading: false
+    });
+};
+
+const resetEditEditorSubmissionState = (state) => {
+    return updateObject(state, {
+        isEditorSubmissionEdited: false,
+        error: null
+    })
+};
+
 const reviewProcessError = (state, action) => {
     return updateObject(state, {
         error: action.error,
@@ -188,6 +226,11 @@ const reviewReducer = (state = initialState, action) => {
         case actionTypes.RESET_CREATE_REVIEW_SUBMISSION_STATE: return resetCreateReviewSubmissionState(state);
         case actionTypes.EDIT_REVIEW_SUBMISSION_SUCCESS: return editReviewSubmissionSuccess(state, action);
         case actionTypes.RESET_EDIT_REVIEW_SUBMISSION_SUCCESS: return resetEditReviewSubmissionState(state);
+
+        case actionTypes.CREATE_EDITOR_SUBMISSION_SUCCESS: return createEditorSubmissionSuccess(state, action);
+        case actionTypes.RESET_CREATE_EDITOR_SUBMISSION_STATE: return resetCreateEditorSubmissionState(state);
+        case actionTypes.EDIT_EDITOR_SUBMISSION_SUCCESS: return editEditorSubmissionSuccess(state, action);
+        case actionTypes.RESET_EDIT_EDITOR_SUBMISSION_SUCCESS: return resetEditEditorSubmissionState(state);
 
         default: return state;
     }
