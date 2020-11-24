@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ContentHeader from '../Shared/ContentHeader';
 import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import { toast } from 'react-toastify';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import Spinner from '../../UI/Spinner/Spinner';
@@ -9,7 +10,6 @@ import { updateObject, getDeadlineDate } from '../../../utils/utility';
 import { connect } from 'react-redux';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getAllEditors, assignEditor, resetEditorAssignmentState } from '../../../store/actions/reviewActions';
-import "react-datepicker/dist/react-datepicker.css";
 
 class AssignEditor extends Component {
 

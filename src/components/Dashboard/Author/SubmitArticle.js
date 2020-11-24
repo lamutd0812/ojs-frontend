@@ -5,9 +5,10 @@ import ContentHeader from '../Shared/ContentHeader';
 import { toast } from 'react-toastify';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { connect } from 'react-redux';
-import { updateObject, checkValidity } from '../../../utils/utility';
+import { updateObject } from '../../../utils/utility';
 import { getCategories, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submissionActions';
 import { submitArticleInputControls } from '../../../utils/input-controls';
+import { submitArticleInputChangeHandler } from '../../../utils/input-change';
 class SubmitArticle extends Component {
 
     state = {
@@ -38,32 +39,8 @@ class SubmitArticle extends Component {
     }
 
     inputChangeHandler = (event) => {
-        let controlName = event.target.name;
-        let updatedControls = null;
-        if (controlName === 'attachment') {
-            updatedControls = updateObject(this.state.controls, {
-                [controlName]: updateObject(this.state.controls[controlName], {
-                    filename: event.target.files[0].name,
-                    file: event.target.files[0],
-                    valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
-                    touched: true
-                })
-            });
-        } else {
-            updatedControls = updateObject(this.state.controls, {
-                [controlName]: updateObject(this.state.controls[controlName], {
-                    value: event.target.value,
-                    valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
-                    touched: true
-                })
-            });
-        }
-
-        let formIsValid = true;
-        for (let controlName in updatedControls) {
-            formIsValid = updatedControls[controlName].valid && formIsValid;
-        }
-
+        event.preventDefault();
+        const { updatedControls, formIsValid } = submitArticleInputChangeHandler(event, this.state);
         this.setState({
             controls: updatedControls,
             formIsValid: formIsValid

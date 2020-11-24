@@ -21,11 +21,12 @@ import {
 } from '../../../store/actions/reviewActions';
 import { Doughnut } from 'react-chartjs-2';
 import AssignmentInfor from './AssigmentInfor/AssignmentInfor';
-import { checkDueDate, checkValidity, getDoughnutData, updateObject } from '../../../utils/utility';
+import { checkDueDate, getDoughnutData, updateObject } from '../../../utils/utility';
 import ReviewerSubmissions from './ReviewerSubmissions/ReviewerSubmissions';
-import { createReviewInputControls, editReviewInputControls } from '../../../utils/input-controls';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { toast } from 'react-toastify';
+import { createReviewInputControls, editReviewInputControls } from '../../../utils/input-controls';
+import { createReviewInputChangeHandler, editReviewInnputChangeHandler } from '../../../utils/input-change';
 
 class EditorAssignment extends Component {
 
@@ -104,32 +105,8 @@ class EditorAssignment extends Component {
     }
 
     inputChangeHandler = (event) => {
-        let controlName = event.target.name;
-        let updatedControls = null;
-        if (controlName === 'attachment') {
-            updatedControls = updateObject(this.state.controls, {
-                [controlName]: updateObject(this.state.controls[controlName], {
-                    filename: event.target.files[0].name,
-                    file: event.target.files[0],
-                    valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
-                    touched: true
-                })
-            });
-        } else {
-            updatedControls = updateObject(this.state.controls, {
-                [controlName]: updateObject(this.state.controls[controlName], {
-                    value: event.target.value,
-                    valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
-                    touched: true
-                })
-            });
-        }
-
-        let formIsValid = true;
-        for (let controlName in updatedControls) {
-            formIsValid = updatedControls[controlName].valid && formIsValid;
-        }
-
+        event.preventDefault();
+        const { updatedControls, formIsValid } = createReviewInputChangeHandler(event, this.state);
         this.setState({
             controls: updatedControls,
             formIsValid: formIsValid
@@ -137,35 +114,11 @@ class EditorAssignment extends Component {
     };
 
     inputChangeHandler_edit = (event) => {
-        let controlName = event.target.name;
-        let updatedControls = null;
-        if (controlName === 'attachment') {
-            updatedControls = updateObject(this.state.controls_edit, {
-                [controlName]: updateObject(this.state.controls_edit[controlName], {
-                    filename: event.target.files[0].name,
-                    file: event.target.files[0],
-                    valid: checkValidity(event.target.value, this.state.controls_edit[controlName].validation),
-                    touched: true
-                })
-            });
-        } else {
-            updatedControls = updateObject(this.state.controls_edit, {
-                [controlName]: updateObject(this.state.controls_edit[controlName], {
-                    value: event.target.value,
-                    valid: checkValidity(event.target.value, this.state.controls_edit[controlName].validation),
-                    touched: true
-                })
-            });
-        }
-
-        let formIsValid = true;
-        for (let controlName in updatedControls) {
-            formIsValid = updatedControls[controlName].valid && formIsValid;
-        }
-
+        event.preventDefault();
+        const { updatedControls, formIsValid } = editReviewInnputChangeHandler(event, this.state);
         this.setState({
             controls_edit: updatedControls,
-            formIsValid_edit: formIsValid
+            formIsValid: formIsValid
         });
     };
 
@@ -348,7 +301,7 @@ class EditorAssignment extends Component {
                                             <div className="row pt-2">
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-8 border rounded">
-                                                {!checkDueDate(this.props.editorAssignment.dueDate) ? (
+                                                    {!checkDueDate(this.props.editorAssignment.dueDate) ? (
                                                         <Aux>
                                                             <div className="form-group ml-1 text-danger font-weight-bold">
                                                                 <i className="fas fa-times-circle"></i> Bài báo đã hết thời hạn thẩm định!
@@ -357,37 +310,37 @@ class EditorAssignment extends Component {
                                                             <EditorSubmissionDetail editorSubmission={this.props.editorAssignment.editorSubmissionId} />
                                                         </Aux>
                                                     ) : (
-                                                        <Aux>
-                                                            {this.props.editorAssignment.editorSubmissionId ? (
-                                                                <Aux>
-                                                                    {this.state.canEdit ? (
-                                                                        <EditEditorSubmission
-                                                                            editorSubmission={this.props.editorAssignment.editorSubmissionId}
+                                                            <Aux>
+                                                                {this.props.editorAssignment.editorSubmissionId ? (
+                                                                    <Aux>
+                                                                        {this.state.canEdit ? (
+                                                                            <EditEditorSubmission
+                                                                                editorSubmission={this.props.editorAssignment.editorSubmissionId}
+                                                                                editorDecisions={this.props.editorDecisions}
+                                                                                inputChangeHandler={this.inputChangeHandler_edit}
+                                                                                controls={this.state.controls_edit}
+                                                                                formIsValid={this.state.formIsValid_edit}
+                                                                                cancelEdit={this.blockEditReviewPageHandler} />
+                                                                        ) : (
+                                                                                <Aux>
+                                                                                    <h6><i className="fas fa-comment"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
+                                                                                    <EditorSubmissionDetail editorSubmission={this.props.editorAssignment.editorSubmissionId} />
+                                                                                </Aux>
+                                                                            )}
+                                                                    </Aux>
+                                                                ) : (
+                                                                        <CreateEditorSubmission
                                                                             editorDecisions={this.props.editorDecisions}
-                                                                            inputChangeHandler={this.inputChangeHandler_edit}
-                                                                            controls={this.state.controls_edit}
-                                                                            formIsValid={this.state.formIsValid_edit}
-                                                                            cancelEdit={this.blockEditReviewPageHandler} />
-                                                                    ) : (
-                                                                        <Aux>
-                                                                            <h6><i className="fas fa-comment"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
-                                                                             <EditorSubmissionDetail editorSubmission={this.props.editorAssignment.editorSubmissionId} />
-                                                                        </Aux>
+                                                                            inputChangeHandler={this.inputChangeHandler}
+                                                                            controls={this.state.controls}
+                                                                            formIsValid={this.state.formIsValid} />
                                                                     )}
-                                                                </Aux>
-                                                            ) : (
-                                                                <CreateEditorSubmission
-                                                                    editorDecisions={this.props.editorDecisions}
-                                                                    inputChangeHandler={this.inputChangeHandler}
-                                                                    controls={this.state.controls}
-                                                                    formIsValid={this.state.formIsValid} />
-                                                                )}
-                                                        </Aux>
-                                                    )}
+                                                            </Aux>
+                                                        )}
                                                 </div>
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-4 border rounded">
-                                                <h6><i className="fas fa-stream"></i> TRẠNG THÁI</h6>
+                                                    <h6><i className="fas fa-stream"></i> TRẠNG THÁI</h6>
                                                     {this.props.editorAssignment.editorSubmissionId ? (
                                                         <Aux>
                                                             <div className="form-group">
@@ -408,23 +361,23 @@ class EditorAssignment extends Component {
                                                                         ) : null}
                                                                     </Aux>
                                                                 ) : (
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-outline-primary btn-block disabled">
-                                                                        <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
-                                                                    </button>
-                                                                )}
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-outline-primary btn-block disabled">
+                                                                            <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
+                                                                        </button>
+                                                                    )}
                                                             </div>
                                                         </Aux>
                                                     ) : (
-                                                        <Aux>
-                                                            <div className="form-group">
-                                                                <div className="btn btn-danger btn-block">
-                                                                    <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
+                                                            <Aux>
+                                                                <div className="form-group">
+                                                                    <div className="btn btn-danger btn-block">
+                                                                        <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
                                                                 </div>
-                                                            </div>
-                                                        </Aux>
-                                                    )}
+                                                                </div>
+                                                            </Aux>
+                                                        )}
 
                                                     <AssignmentInfor
                                                         submission={this.props.submission}

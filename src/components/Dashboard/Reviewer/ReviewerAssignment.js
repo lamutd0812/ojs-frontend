@@ -4,7 +4,7 @@ import ContentHeader from '../Shared/ContentHeader';
 import SubmissionInfor from '../Submission/SubmissionInfor/SubmissionInfor';
 import Spinner from '../../UI/Spinner/Spinner';
 import SubmissionLogs from '../Submission/SubmissionLogs';
-import { checkDueDate, checkValidity, updateObject } from '../../../utils/utility';
+import { checkDueDate, updateObject } from '../../../utils/utility';
 import { getSubmissionDetail, getReviewerDecisions } from '../../../store/actions/submissionActions';
 import {
     getMyReviewerAssignmentDetail,
@@ -22,6 +22,7 @@ import ReviewDetail from './ReviewSubmission/ReviewDetail';
 import { toast } from 'react-toastify';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { createReviewInputControls, editReviewInputControls } from '../../../utils/input-controls';
+import { createReviewInputChangeHandler, editReviewInnputChangeHandler } from '../../../utils/input-change';
 class ReviewerAssignment extends Component {
 
     state = {
@@ -93,32 +94,8 @@ class ReviewerAssignment extends Component {
     }
 
     inputChangeHandler = (event) => {
-        let controlName = event.target.name;
-        let updatedControls = null;
-        if (controlName === 'attachment') {
-            updatedControls = updateObject(this.state.controls, {
-                [controlName]: updateObject(this.state.controls[controlName], {
-                    filename: event.target.files[0].name,
-                    file: event.target.files[0],
-                    valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
-                    touched: true
-                })
-            });
-        } else {
-            updatedControls = updateObject(this.state.controls, {
-                [controlName]: updateObject(this.state.controls[controlName], {
-                    value: event.target.value,
-                    valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
-                    touched: true
-                })
-            });
-        }
-
-        let formIsValid = true;
-        for (let controlName in updatedControls) {
-            formIsValid = updatedControls[controlName].valid && formIsValid;
-        }
-
+        event.preventDefault();
+        const { updatedControls, formIsValid } = createReviewInputChangeHandler(event, this.state);
         this.setState({
             controls: updatedControls,
             formIsValid: formIsValid
@@ -126,35 +103,11 @@ class ReviewerAssignment extends Component {
     };
 
     inputChangeHandler_edit = (event) => {
-        let controlName = event.target.name;
-        let updatedControls = null;
-        if (controlName === 'attachment') {
-            updatedControls = updateObject(this.state.controls_edit, {
-                [controlName]: updateObject(this.state.controls_edit[controlName], {
-                    filename: event.target.files[0].name,
-                    file: event.target.files[0],
-                    valid: checkValidity(event.target.value, this.state.controls_edit[controlName].validation),
-                    touched: true
-                })
-            });
-        } else {
-            updatedControls = updateObject(this.state.controls_edit, {
-                [controlName]: updateObject(this.state.controls_edit[controlName], {
-                    value: event.target.value,
-                    valid: checkValidity(event.target.value, this.state.controls_edit[controlName].validation),
-                    touched: true
-                })
-            });
-        }
-
-        let formIsValid = true;
-        for (let controlName in updatedControls) {
-            formIsValid = updatedControls[controlName].valid && formIsValid;
-        }
-
+        event.preventDefault();
+        const { updatedControls, formIsValid } = editReviewInnputChangeHandler(event, this.state);
         this.setState({
             controls_edit: updatedControls,
-            formIsValid_edit: formIsValid
+            formIsValid: formIsValid
         });
     };
 

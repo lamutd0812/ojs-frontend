@@ -5,11 +5,12 @@ import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Navigation from '../../components/Navigation/Navigation';
 import Footer from '../../components/Footer/Footer';
 import Breadcumb from '../../components/Breadcrumb/Breadcrumb';
-import { updateObject, checkValidity } from '../../utils/utility';
+import { updateObject } from '../../utils/utility';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { registerInputControls } from '../../utils/input-controls';
+import { registerInputChangeHandler } from '../../utils/input-change';
 
 class Register extends Component {
 
@@ -40,28 +41,11 @@ class Register extends Component {
     }
 
     inputChangeHandler = (event) => {
-        let controlName = event.target.name;
-        const updatedControls = updateObject(this.state.controls, {
-            [controlName]: updateObject(this.state.controls[controlName], {
-                value: event.target.value,
-                valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
-                touched: true
-            })
-        });
-
-        let passwordEquals = true;
-        if (updatedControls['password'].value !== updatedControls['confirm_password'].value) {
-            passwordEquals = false;
-        }
-
-        let formIsValid = true;
-        for (let controlName in updatedControls) {
-            formIsValid = updatedControls[controlName].valid && formIsValid;
-        }
-
+        event.preventDefault();
+        const { updatedControls, eq } = registerInputChangeHandler(event, this.state);
         this.setState({
             controls: updatedControls,
-            formIsValid: formIsValid && passwordEquals
+            formIsValid: eq
         });
     };
 

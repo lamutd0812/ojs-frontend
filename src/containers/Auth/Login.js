@@ -6,10 +6,11 @@ import Navigation from '../../components/Navigation/Navigation';
 import Footer from '../../components/Footer/Footer';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import { auth, resetRegisterState } from '../../store/actions/authActions';
-import { updateObject, checkValidity } from '../../utils/utility';
+import { updateObject } from '../../utils/utility';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loginInputControls } from '../../utils/input-controls';
+import { loginInputChangeHandler } from '../../utils/input-change';
 class Login extends Component {
     
     state = {
@@ -35,20 +36,8 @@ class Login extends Component {
     }
 
     inputChangeHandler = (event) => {
-        let controlName = event.target.name;
-        const updatedControls = updateObject(this.state.controls, {
-            [controlName]: updateObject(this.state.controls[controlName], {
-                value: event.target.value,
-                valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
-                touched: true
-            })
-        });
-
-        let formIsValid = true;
-        for (let controlName in updatedControls) {
-            formIsValid = updatedControls[controlName].valid && formIsValid;
-        }
-
+        event.preventDefault();
+        const { updatedControls, formIsValid } = loginInputChangeHandler(event, this.state);
         this.setState({
             controls: updatedControls,
             formIsValid: formIsValid
