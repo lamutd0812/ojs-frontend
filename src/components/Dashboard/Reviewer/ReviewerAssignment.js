@@ -187,13 +187,13 @@ class ReviewerAssignment extends Component {
                                     <li className="nav-item">
                                         <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step1ActiveHandler}>
-                                            <div className={this.state.step1Active ? 'text-danger' : 'text-secondary'}><b>1. Chi tiết yêu cầu</b></div>
+                                            <div className={this.state.step1Active ? 'text-orange' : 'text-secondary'}><b>Chi tiết yêu cầu</b></div>
                                         </div>
                                     </li>
                                     <li className="nav-item">
                                         <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step2ActiveHandler}>
-                                            <div className={this.state.step2Active ? 'text-danger' : 'text-secondary'}><b>2. Ý kiến thẩm định của bạn</b></div>
+                                            <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Ý kiến thẩm định của bạn</b></div>
                                         </div>
                                     </li>
                                 </ul>
@@ -305,7 +305,8 @@ class ReviewerAssignment extends Component {
                                                                 ) : (
                                                                     <button
                                                                         type="button"
-                                                                        className="btn btn-outline-primary btn-block disabled">
+                                                                        className="btn btn-outline-primary btn-block"
+                                                                        onClick={()=> toast.error('Bài báo đã hết hạn xử lý!')}>
                                                                         <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
                                                                     </button>
                                                                 )}

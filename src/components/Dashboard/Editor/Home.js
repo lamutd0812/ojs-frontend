@@ -49,11 +49,12 @@ class Home extends Component {
                                         <thead>
                                             <tr>
                                                 <th style={{ width: '1%' }}> #</th>
-                                                <th style={{ width: '35%' }}> Bài Báo</th>
-                                                <th style={{ width: '20%' }} className="text-center"> Pha</th>
-                                                <th style={{ width: '10%' }} className="text-center"> Thẩm định viên</th>
+                                                <th style={{ width: '30%' }}> Bài Báo</th>
+                                                <th style={{ width: '15%' }} className="text-center"> Pha</th>
+                                                <th style={{ width: '15%' }} className="text-center"> Thẩm định viên</th>
                                                 <th style={{ width: '15%' }} className="text-center"> Hạn xử lý</th>
-                                                <th style={{ width: '20%' }} className="text-center"> Xử lý</th>
+                                                <th style={{ width: '10%' }} className="text-center"> Trạng thái</th>
+                                                <th style={{ width: '15%' }} className="text-center"> Xử lý</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -77,6 +78,13 @@ class Home extends Component {
                                                                 <div className="badge-ol badge-ol-danger mb-1">Hết hạn xử lý</div>
                                                             ) : null}
                                                         </td>
+                                                        <td className="text-center">
+                                                            {ea.editorSubmissionId ? (
+                                                                <span className="badge bg-success"> Đã nộp ý kiến</span>
+                                                            ) : (
+                                                                    <span className="badge bg-danger">Chưa nộp ý kiến</span>
+                                                                )}
+                                                        </td>
                                                         <td className="project-actions text-center">
                                                             {!checkDueDate(ea.dueDate) ? (
                                                                 <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-outline-primary btn-sm mr-1">
@@ -89,7 +97,7 @@ class Home extends Component {
                                                             )}
                                                         </td>
                                                     </tr>
-                                                    <tr><td colSpan="6" className="hiddenRow">
+                                                    <tr><td colSpan="8" className="hiddenRow">
                                                         <div id={`aaa${ea._id}`} className="accordian-body collapse">
                                                             <div className="col-lg-12">
                                                                 <div className="row pl-5">
@@ -139,7 +147,7 @@ class Home extends Component {
                                                                             </div>
                                                                         </div>
                                                                         <div className="form-group">
-                                                                            <label>Thẩm định viên</label>
+                                                                            <label>Thẩm định viên ({ea.reviewerAssignmentId.length}/3)</label>
                                                                             {ea.reviewerAssignmentId.length > 0 ? (
                                                                                 <div className="ml-4">
                                                                                     {ea.reviewerAssignmentId.map(ra => (

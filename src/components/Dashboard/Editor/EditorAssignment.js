@@ -17,27 +17,37 @@ import {
     createEditorSubmission,
     resetCreateEditorSubmissionState,
     editEditorSubmission,
-    resetEditEditorSubmissionState
+    resetEditEditorSubmissionState,
+    requestAuthorRevision,
+    resetRequestAuthorRevisionState,
+    getAuthorAssignmentBySubmission
 } from '../../../store/actions/reviewActions';
 import { Doughnut } from 'react-chartjs-2';
 import AssignmentInfor from './AssigmentInfor/AssignmentInfor';
-import { checkDueDate, getDoughnutData, updateObject } from '../../../utils/utility';
+import { checkDueDate, getDeadlineDate, getDoughnutData, updateObject } from '../../../utils/utility';
 import ReviewerSubmissions from './ReviewerSubmissions/ReviewerSubmissions';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { toast } from 'react-toastify';
 import { createReviewInputControls, editReviewInputControls } from '../../../utils/input-controls';
 import { createReviewInputChangeHandler, editReviewInnputChangeHandler } from '../../../utils/input-change';
-
+import RequestRevision from './RequestAuthorRevision/RequestRevision';
+import AuthorAssignment from './RequestAuthorRevision/AuthorAssignment';
 class EditorAssignment extends Component {
 
     state = {
         step1Active: true,
         step2Active: false,
+        step3Active: false,
         controls: createReviewInputControls,
         controls_edit: editReviewInputControls,
         formIsValid: false,
         formIsValid_edit: true,
-        canEdit: false
+        canEdit: false,
+        // request author revision
+        canRequestAuthorRevision: false,
+        dueDate: getDeadlineDate(7),
+        messageToAuthor: 'Nội dung lời nhắn',
+        emailToAuthor: 'Nội dung thông báo',
     }
 
     componentDidMount() {
@@ -46,6 +56,7 @@ class EditorAssignment extends Component {
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getReviewerAssignmentsBySubmission(this.props.match.params.submissionId);
             this.props.getEditorDecisions();
+            this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
         }
     }
 
@@ -61,6 +72,7 @@ class EditorAssignment extends Component {
         if (nextProps.error) {
             this.props.resetCreateEditorSubmissionState();
             this.props.resetEditEditorSubmissionState();
+            this.props.resetRequestAuthorRevisionState();
         }
         if (nextProps.isEditorSubmissionCreated && !nextProps.error) {
             this.props.resetCreateEditorSubmissionState();
@@ -72,6 +84,11 @@ class EditorAssignment extends Component {
             toast.success("Chỉnh sửa ý kiến thẩm định thành công!");
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
         }
+        if (nextProps.isRequestAuthorRevisionCreated && !nextProps.error) {
+            this.props.resetRequestAuthorRevisionState();
+            toast.success("Yêu cầu tác giả chỉnh sửa bài báo thành công!");
+            this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
+        }
     }
 
     refreshHandler = () => {
@@ -79,6 +96,8 @@ class EditorAssignment extends Component {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getReviewerAssignmentsBySubmission(this.props.match.params.submissionId);
+            this.props.getEditorDecisions();
+            this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
         }
     }
 
@@ -92,6 +111,8 @@ class EditorAssignment extends Component {
         let newState = updateObject(this.state, {
             step1Active: true,
             step2Active: false,
+            step3Active: false,
+            canRequestAuthorRevision: false
         });
         this.setState(newState);
     }
@@ -100,6 +121,18 @@ class EditorAssignment extends Component {
         let newState = updateObject(this.state, {
             step1Active: false,
             step2Active: true,
+            step3Active: false,
+            canRequestAuthorRevision: false
+        });
+        this.setState(newState);
+    }
+
+    step3ActiveHandler = () => {
+        let newState = updateObject(this.state, {
+            step1Active: false,
+            step2Active: false,
+            step3Active: true,
+            canRequestAuthorRevision: true
         });
         this.setState(newState);
     }
@@ -148,7 +181,15 @@ class EditorAssignment extends Component {
 
     confirmSubmitHandler = () => {
         const submissionId = this.props.submission._id;
-        if (!this.state.canEdit) {
+        if (this.state.canRequestAuthorRevision) {
+            // request author revision
+            const reqBody = {
+                dueDate: this.state.dueDate,
+                message: this.state.messageToAuthor
+            }
+            this.props.requestAuthorRevision(submissionId, reqBody)
+        }
+        else if (!this.state.canEdit) {
             // create editor submission
             const reqBody = {
                 content: this.state.controls.content.value,
@@ -164,6 +205,21 @@ class EditorAssignment extends Component {
             }
             this.props.editEditorSubmission(submissionId, reqBody);
         }
+    }
+
+    // Tab3: Request Author Revision
+    setDueDateHandler = (date) => {
+        this.setState(updateObject(this.state, { dueDate: date }));
+    }
+
+    setMessageToAuthorHandler = (event) => {
+        event.preventDefault();
+        this.setState(updateObject(this.state, { messageToReviewer: event.target.value }));
+    }
+
+    setEmailToAuthorHandler = (event) => {
+        event.preventDefault();
+        this.setState(updateObject(this.state, { emailToReviewer: event.target.value }));
     }
 
     render() {
@@ -192,13 +248,19 @@ class EditorAssignment extends Component {
                                     <li className="nav-item">
                                         <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step1ActiveHandler}>
-                                            <div className={this.state.step1Active ? 'text-danger' : 'text-secondary'}><b>1. Chi tiết yêu cầu</b></div>
+                                            <div className={this.state.step1Active ? 'text-orange' : 'text-secondary'}><b>Chi tiết yêu cầu</b></div>
                                         </div>
                                     </li>
                                     <li className="nav-item">
                                         <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step2ActiveHandler}>
-                                            <div className={this.state.step2Active ? 'text-danger' : 'text-secondary'}><b>2. Ý kiến thẩm định của bạn</b></div>
+                                            <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Nộp ý kiến thẩm định</b></div>
+                                        </div>
+                                    </li>
+                                    <li className="nav-item">
+                                        <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
+                                            onClick={this.step3ActiveHandler}>
+                                            <div className={this.state.step3Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu tác giả chỉnh sửa</b></div>
                                         </div>
                                     </li>
                                 </ul>
@@ -363,7 +425,8 @@ class EditorAssignment extends Component {
                                                                 ) : (
                                                                         <button
                                                                             type="button"
-                                                                            className="btn btn-outline-primary btn-block disabled">
+                                                                            className="btn btn-outline-primary btn-block"
+                                                                            onClick={() => toast.error('Bài báo đã hết hạn xử lý!')}>
                                                                             <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
                                                                         </button>
                                                                     )}
@@ -374,6 +437,82 @@ class EditorAssignment extends Component {
                                                                 <div className="form-group">
                                                                     <div className="btn btn-danger btn-block">
                                                                         <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
+                                                                </div>
+                                                                </div>
+                                                            </Aux>
+                                                        )}
+
+                                                    <AssignmentInfor
+                                                        submission={this.props.submission}
+                                                        editorAssignment={this.props.editorAssignment} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* ------------------Tab 3----------------- */}
+                                        <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>
+                                            {/* Row */}
+                                            <div className="row">
+                                                <div className="p-2 col-lg-12 border rounded">
+                                                    <EditorialBoard
+                                                        submission={this.props.submission}
+                                                        editorAssignment={this.props.editorAssignment}
+                                                        reviewerAssignments={this.props.reviewerAssignments} />
+                                                </div>
+                                            </div>
+                                            {/* Row */}
+                                            <div className="row pt-2">
+                                                {/* Column */}
+                                                <div className="p-2 col-lg-8 border rounded">
+                                                    {!checkDueDate(this.props.editorAssignment.dueDate) ? (
+                                                        <Aux>
+                                                            <div className="form-group ml-1 text-danger font-weight-bold">
+                                                                <i className="fas fa-times-circle"></i> Bài báo đã hết thời hạn thẩm định!
+                                                            </div>
+                                                            <h6><i className="fas fa-comment"></i> CHI TIẾT YÊU CẦU TÁC GIẢ CHỈNH SỬA</h6>
+                                                            {this.props.authorAssignment ? (
+                                                                <AuthorAssignment authorAssignment={this.props.authorAssignment} />
+                                                            ) : (
+                                                                    <div className="form-group ml-3">
+                                                                        <p className="ml-4">Bạn chưa gửi yêu cầu chỉnh sửa bài báo cho tác giả.</p>
+                                                                    </div>
+                                                                )}
+                                                        </Aux>
+                                                    ) : (
+                                                            <Aux>
+                                                                {this.props.authorAssignment ? (
+                                                                    <Aux>
+                                                                        <h6><i className="fas fa-edit"></i> CHI TIẾT YÊU CẦU TÁC GIẢ CHỈNH SỬA</h6>
+                                                                        <AuthorAssignment authorAssignment={this.props.authorAssignment} />
+                                                                    </Aux>
+                                                                ) : (
+                                                                        <RequestRevision
+                                                                            dueDate={this.state.dueDate}
+                                                                            emailToAuthor={this.state.emailToAuthor}
+                                                                            messageToAuthor={this.state.messageToAuthor}
+                                                                            setDueDate={this.setDueDateHandler}
+                                                                            setMessage={this.setMessageToAuthorHandler}
+                                                                            setEmail={this.setEmailToAuthorHandler} />
+                                                                    )}
+                                                            </Aux>
+                                                        )}
+                                                </div>
+                                                {/* Column */}
+                                                <div className="p-2 col-lg-4 border rounded">
+                                                    <h6><i className="fas fa-stream"></i> TRẠNG THÁI</h6>
+
+                                                    {this.props.authorAssignment ? (
+                                                        <Aux>
+                                                            <div className="form-group">
+                                                                <div className="btn btn-success btn-block">
+                                                                    <i className="fas fa-check"></i> Đã gửi yêu cầu đến tác giả
+                                                                </div>
+                                                            </div>
+                                                        </Aux>
+                                                    ) : (
+                                                            <Aux>
+                                                                <div className="form-group">
+                                                                    <div className="btn btn-danger btn-block">
+                                                                        <i className="fas fa-close"></i> Chưa gửi yêu cầu đến tác giả
                                                                 </div>
                                                                 </div>
                                                             </Aux>
@@ -418,6 +557,8 @@ const mapStateToProps = (state) => {
         fileUploading: state.review.fileUploading,
         isEditorSubmissionCreated: state.review.isEditorSubmissionCreated,
         isEditorSubmissionEdited: state.review.isEditorSubmissionEdited,
+        isRequestAuthorRevisionCreated: state.review.isRequestAuthorRevisionCreated,
+        authorAssignment: state.review.authorAssignment,
         error: state.review.error
     }
 };
@@ -430,7 +571,10 @@ const mapDispatchToProps = {
     createEditorSubmission,
     resetCreateEditorSubmissionState,
     editEditorSubmission,
-    resetEditEditorSubmissionState
+    resetEditEditorSubmissionState,
+    requestAuthorRevision,
+    resetRequestAuthorRevisionState,
+    getAuthorAssignmentBySubmission
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditorAssignment);

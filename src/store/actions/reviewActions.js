@@ -104,6 +104,20 @@ const editEditorSubmissionSuccess = (message) => {
     }
 }
 
+const requestAuthorRevisionSuccess = (message) => {
+    return {
+        type: actionTypes.REQUEST_AUTHOR_REVISION_SUCCESS,
+        message: message
+    }
+}
+
+const getAuthorAssignmentSuccess = (authorAssignment) => {
+    return {
+        type: actionTypes.GET_AUTHOR_ASSIGNMENT_SUCCESS,
+        authorAssignment: authorAssignment
+    };
+};
+
 const reviewProcessError = (error) => {
     return {
         type: actionTypes.REVIEW_PROCESS_ERROR,
@@ -316,7 +330,6 @@ export const resetEditReviewSubmissionState = () => (dispatch) => {
     })
 };
 
-// ----------------
 // Editor create review for a submission
 export const createEditorSubmission = (submissionId, reqBody) => (dispatch, getState) => {
     dispatch(uploadStart());
@@ -357,4 +370,40 @@ export const resetEditEditorSubmissionState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_EDIT_EDITOR_SUBMISSION_SUCCESS
     })
+};
+
+// Editor request author revision
+export const requestAuthorRevision = (submissionId, reqBody) => (dispatch, getState) => {
+    dispatch(uploadStart());
+    const token = getState().auth.token;
+    axios.post('/reviews/request-author-revision/' + submissionId, reqBody, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(requestAuthorRevisionSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.response.data.error));
+    });
+};
+
+export const resetRequestAuthorRevisionState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_REQUEST_AUTHOR_REVISION_STATE
+    })
+};
+
+// Editor and Author get Author Assignment by Submission
+export const getAuthorAssignmentBySubmission = (submissionId) => (dispatch, getState) => {
+    ;
+    const token = getState().auth.token;
+    axios.get('/reviews/author-assignment/' + submissionId, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getAuthorAssignmentSuccess(res.data.authorAssignment));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.message));
+    });
 };

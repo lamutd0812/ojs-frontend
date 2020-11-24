@@ -17,7 +17,10 @@ const initialState = {
     isReviewSubmissionCreated: false,
     isReviewSubmissionEdited: false,
     isEditorSubmissionCreated: false,
-    isEditorSubmissionEdited: false
+    isEditorSubmissionEdited: false,
+    isRequestAuthorRevisionCreated: false,
+    // isRequestAuthorRevisionEdited: false,
+    authorAssignment: null
 };
 
 const reviewProcessStart = (state) => {
@@ -193,6 +196,34 @@ const resetEditEditorSubmissionState = (state) => {
     })
 };
 
+// Editor Request Author Revision.
+const requestAuthorRevisionSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isRequestAuthorRevisionCreated: true,
+        loading: false,
+        error: null,
+        fileUploading: false
+    });
+};
+
+const resetRequestAuthorRevisionState = (state) => {
+    return updateObject(state, {
+        isRequestAuthorRevisionCreated: false,
+        error: null
+    })
+};
+
+// Editor and Author get Author Assignment by Submission
+const getAuthorAssignmentSuccess = (state, action) => {
+    return updateObject(state, {
+        authorAssignment: action.authorAssignment,
+        loading: false,
+        error: null
+    });
+};
+
+// Error 
 const reviewProcessError = (state, action) => {
     return updateObject(state, {
         error: action.error,
@@ -231,6 +262,10 @@ const reviewReducer = (state = initialState, action) => {
         case actionTypes.RESET_CREATE_EDITOR_SUBMISSION_STATE: return resetCreateEditorSubmissionState(state);
         case actionTypes.EDIT_EDITOR_SUBMISSION_SUCCESS: return editEditorSubmissionSuccess(state, action);
         case actionTypes.RESET_EDIT_EDITOR_SUBMISSION_SUCCESS: return resetEditEditorSubmissionState(state);
+        case actionTypes.REQUEST_AUTHOR_REVISION_SUCCESS: return requestAuthorRevisionSuccess(state, action);
+        case actionTypes.RESET_REQUEST_AUTHOR_REVISION_STATE: return resetRequestAuthorRevisionState(state);
+
+        case actionTypes.GET_AUTHOR_ASSIGNMENT_SUCCESS: return getAuthorAssignmentSuccess(state, action);
 
         default: return state;
     }

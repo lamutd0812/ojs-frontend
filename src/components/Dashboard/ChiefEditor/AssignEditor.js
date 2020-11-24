@@ -23,7 +23,6 @@ class AssignEditor extends Component {
         dueDate: getDeadlineDate(7),
         messageToEditor: 'Nội dung lời nhắn',
         emailToEditor: 'Nội dung thông báo',
-        isModalOpen: false
     };
 
     componentDidMount() {
@@ -66,7 +65,6 @@ class AssignEditor extends Component {
             this.props.resetEditorAssignmentState();
             toast.success("Chỉ định biên tập viên thành công!");
             this.setState(updateObject(this.state, {
-                isModalOpen: false,
                 step1Active: false,
                 step2Active: false,
                 step3Active: true
@@ -96,12 +94,6 @@ class AssignEditor extends Component {
     confirmSubmitHandler = () => {
         this.props.assignEditor(this.state.submissionId, this.state.selectedEditorId,
             this.state.dueDate, this.state.messageToEditor);
-    }
-
-    cancelHandler = () => {
-        this.setState(updateObject(this.state, {
-            isModalOpen: false
-        }));
     }
 
     render() {

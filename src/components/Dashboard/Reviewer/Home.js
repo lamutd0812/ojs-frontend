@@ -44,10 +44,10 @@ class Home extends Component {
                                             <tr>
                                                 <th style={{ width: '1%' }}> #</th>
                                                 <th style={{ width: '30%' }}> Bài Báo</th>
-                                                <th style={{ width: '20%' }} className="text-center"> Pha</th>
+                                                <th style={{ width: '15%' }} className="text-center"> Pha</th>
                                                 <th style={{ width: '15%' }} className="text-center"> Hạn xử lý</th>
                                                 <th style={{ width: '10%' }} className="text-center"> Trạng thái</th>
-                                                <th style={{ width: '10%' }} className="text-center"> Xử lý</th>
+                                                <th style={{ width: '15%' }} className="text-center"> Xử lý</th>
                                             </tr>
                                         </thead>
                                         <tbody>

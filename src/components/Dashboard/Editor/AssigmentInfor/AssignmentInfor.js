@@ -8,7 +8,7 @@ const AssignmentInfor = (props) => {
         <Aux>
             <div className="form-group pt-3">
                 <h6><i className="fas fa-tasks"></i> THÔNG TIN CHI TIẾT YÊU CẦU</h6>
-        </div>
+            </div>
             <div className="form-group ml-3">
                 <label>Nguời giao</label>
                 <div className="ml-4">

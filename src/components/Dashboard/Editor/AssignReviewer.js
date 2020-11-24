@@ -23,7 +23,6 @@ class AssignReviewer extends Component {
         dueDate: getDeadlineDate(7),
         messageToReviewer: 'Nội dung lời nhắn',
         emailToReviewer: 'Nội dung thông báo',
-        isModalOpen: false
     };
 
     componentDidMount() {
@@ -66,7 +65,6 @@ class AssignReviewer extends Component {
             this.props.resetReviewerAssignmentState();
             toast.success("Chỉ định thẩm định viên thành công!");
             this.setState(updateObject(this.state, {
-                isModalOpen: false,
                 step1Active: false,
                 step2Active: false,
                 step3Active: true
@@ -96,12 +94,6 @@ class AssignReviewer extends Component {
     confirmSubmitHandler = () => {
         this.props.assignReviewer(this.state.submissionId, this.state.selectedReviewerId,
             this.state.dueDate, this.state.messageToReviewer);
-    }
-
-    cancelHandler = () => {
-        this.setState(updateObject(this.state, {
-            isModalOpen: false
-        }));
     }
 
     render() {
