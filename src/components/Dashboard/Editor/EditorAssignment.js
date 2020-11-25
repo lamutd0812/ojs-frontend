@@ -182,20 +182,28 @@ class EditorAssignment extends Component {
     confirmSubmitHandler = () => {
         const submissionId = this.props.submission._id;
         if (this.state.canRequestAuthorRevision) {
-            // request author revision
-            const reqBody = {
-                dueDate: this.state.dueDate,
-                message: this.state.messageToAuthor
+            if (this.props.editorAssignment.editorSubmissionId) {
+                toast.error('Bạn đã nộp quyết định cho tổng biên tập trước đó!');
+            } else {
+                // request author revision
+                const reqBody = {
+                    dueDate: this.state.dueDate,
+                    message: this.state.messageToAuthor
+                }
+                this.props.requestAuthorRevision(submissionId, reqBody);
             }
-            this.props.requestAuthorRevision(submissionId, reqBody)
         }
         else if (!this.state.canEdit) {
-            // create editor submission
-            const reqBody = {
-                content: this.state.controls.content.value,
-                editorDecisionId: this.state.controls.decisionId.value
+            if (this.props.authorAssignment && !this.props.authorAssignment.authorRevisionId) {
+                toast.error('Tác giả chưa nộp bản chỉnh sửa bài báo!');
+            } else {
+                // create editor submission
+                const reqBody = {
+                    content: this.state.controls.content.value,
+                    editorDecisionId: this.state.controls.decisionId.value
+                }
+                this.props.createEditorSubmission(submissionId, reqBody);
             }
-            this.props.createEditorSubmission(submissionId, reqBody);
         }
         else {
             // edit editor submission

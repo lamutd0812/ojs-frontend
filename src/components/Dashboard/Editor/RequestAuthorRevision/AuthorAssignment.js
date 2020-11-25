@@ -11,9 +11,13 @@ const AuthorAssignment = (props) => {
                     <div className="form-group ml-3">
                         <label>Trạng thái</label><br />
                         {props.authorAssignment.authorRevisionId ? (
-                            <span className="decision-success ml-4">
-                                Tác giả đã gửi bản chỉnh sửa bài báo
-                            </span>
+                            <Aux>
+                                <span className="decision-success ml-4">
+                                    Tác giả đã gửi bản chỉnh sửa bài báo
+                                </span> <br />
+                                <div className="p-1"></div>
+                                <div className="text-primary ml-4" style={{ cursor: 'pointer' }}><u>Xem bản chỉnh sửa</u></div>
+                            </Aux>
                         ) : (
                             <span className="decision-danger ml-4">
                                 Tác giả chưa gửi bản chỉnh sửa bài báo
