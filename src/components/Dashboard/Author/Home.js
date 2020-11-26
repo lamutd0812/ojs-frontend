@@ -5,11 +5,14 @@ import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import DeleteSubmission from '../Author/DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
-import {  toast } from 'react-toastify';
-import { getSubmissionsByAuthor, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
+import { toast } from 'react-toastify';
+import {
+    getSubmissionsByAuthor,
+    deleteSubmission,
+    resetDeleteSubmissionState
+} from '../../../store/actions/submissionActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { updateObject } from '../../../utils/utility';
-import { STAGE } from '../../../utils/constant';
 
 class Home extends Component {
 
@@ -67,8 +70,6 @@ class Home extends Component {
     }
 
     render() {
-        let stt = 1;
-
         return (
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
@@ -95,54 +96,52 @@ class Home extends Component {
                                         <thead>
                                             <tr>
                                                 <th style={{ width: '1%' }}> #</th>
-                                                <th style={{ width: '30%' }}> Bài Báo</th>
+                                                <th style={{ width: '39%' }}> Bài Báo</th>
                                                 <th style={{ width: '20%' }} className="text-center"> Pha</th>
                                                 <th style={{ width: '20%' }} className="text-center"> Trạng thái</th>
-                                                <th style={{ width: '30%' }} className="text-center"> Action</th>
+                                                <th style={{ width: '20%' }} className="text-center"> Chi tiết</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {this.props.submissions.map(submission => (
-                                                <tr key={submission._id}>
-                                                    <td>{stt++}</td>
-                                                    <td>
-                                                        <Link to={`/dashboard/submission/${submission._id}`}>{submission.title}</Link>
-                                                        <br />
-                                                        <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
-                                                    </td>
-                                                    <td className="project-state">
-                                                        <span className={"badge " + getStageBadgeClassname(submission.submissionStatus.stageId.value)}>{submission.submissionStatus.stageId.name}</span>
-                                                    </td>
-                                                    <td className="text-center">
-                                                        <span>{submission.submissionStatus.status}</span>
-                                                    </td>
-                                                    <td className="project-actions text-right">
-                                                        <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
-                                                            <i className="fas fa-eye"></i> Xem
-                                                        </Link>
+                                                <Aux key={submission._id}>
+                                                    <tr data-toggle="collapse" data-target={`#aaa${submission._id}`} className="accordion-toggle" aria-expanded="true" aria-controls="collapseOne">
+                                                        <td style={{ cursor: 'pointer' }}><i className="fas fa-caret-down"></i></td>
+                                                        <td>
+                                                            <Link to={`/dashboard/submission/${submission._id}`}>{submission.title}</Link>
+                                                            <br />
+                                                            <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
+                                                        </td>
+                                                        <td className="project-state">
+                                                            <span className={"badge " + getStageBadgeClassname(submission.submissionStatus.stageId.value)}>{submission.submissionStatus.stageId.name}</span>
+                                                        </td>
+                                                        <td className="text-center">
+                                                            <span>{submission.submissionStatus.status}</span>
+                                                        </td>
+                                                        <td className="project-actions text-center">
+                                                            <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
+                                                                <i className="fas fa-eye"></i> Xem chi tiết
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td colSpan="6" className="hiddenRow">
+                                                        <div id={`aaa${submission._id}`} className="accordian-body collapse">
+                                                            <div className="col-lg-12">
+                                                                <div className="row pl-5">
+                                                                    <div className="col-lg-4 pt-2">
 
-                                                        {submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
-                                                            <Aux>
-                                                                <Link to={`/dashboard/edit-submission/${submission._id}`} className="btn btn-outline-secondary btn-sm mr-1">
-                                                                    <i className="fas fa-pencil-alt"></i> Sửa
-                                                                </Link>
-                                                                <button className="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal"
-                                                                    onClick={() => this.selectSubmissionHandler(submission._id)}>
-                                                                    <i className="fas fa-trash"></i> Xóa
-                                                                </button>
-                                                            </Aux>
-                                                        ) : (
-                                                                <Aux>
-                                                                    <button className="btn btn-outline-secondary btn-sm mr-1 disabled">
-                                                                        <i className="fas fa-pencil-alt"></i> Sửa
-                                                                    </button>
-                                                                    <button className="btn btn-outline-danger btn-sm disabled">
-                                                                        <i className="fas fa-trash"></i> Xóa
-                                                                    </button>
-                                                                </Aux>
-                                                            )}
-                                                    </td>
-                                                </tr>
+                                                                    </div>
+                                                                    <div className="col-lg-4 border rounded pt-2">
+
+                                                                    </div>
+                                                                    <div className="col-lg-4 border rounded pt-2 pb-2">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td></tr>
+                                                </Aux>
                                             ))}
                                         </tbody>
                                     </table>
@@ -167,14 +166,14 @@ const mapStateToProps = (state) => {
         userId: state.auth.userId,
         submissions: state.submission.submissions,
         loading: state.submission.loading,
-        isSubmissionDeleted: state.submission.isSubmissionDeleted
+        isSubmissionDeleted: state.submission.isSubmissionDeleted,
     }
 };
 
 const mapDispatchToProps = {
     getSubmissionsByAuthor,
     deleteSubmission,
-    resetDeleteSubmissionState
+    resetDeleteSubmissionState,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

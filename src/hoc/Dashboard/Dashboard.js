@@ -12,6 +12,7 @@ import AssignEditor from '../../components/Dashboard/ChiefEditor/AssignEditor';
 import EditorAssignment from '../../components/Dashboard/Editor/EditorAssignment';
 import AssignReviewer from '../../components/Dashboard/Editor/AssignReviewer';
 import ReviewerAssignment from '../../components/Dashboard/Reviewer/ReviewerAssignment';
+import ReviseSubmission from '../../components/Dashboard/Author/AuthorAssignment/ReviseSubmission';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { USER_ROLES } from '../../utils/constant';
@@ -28,6 +29,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
+                        <Route path="/dashboard/revise-submission/:submissionId" component={ReviseSubmission} />
                         <Route path="/dashboard/author" component={AuthorHome} />
                         <Route exact path="/dashboard" component={AuthorHome} />
                         <Redirect to="/dashboard" />
@@ -85,9 +87,6 @@ class Dashboard extends Component {
                 </main>
                 <Sidebar />
                 <ToastContainer autoClose={2000} />
-                {/* {this.props.authError ? toast.error('Error: ' + this.props.authError) : null}
-                {this.props.submissionError ? toast.error('Error: ' + this.props.submissionError) : null}
-                {this.props.reviewError ? toast.error('Error: ' + this.props.reviewError) : null} */}
             </div>
         );
     }
@@ -96,9 +95,6 @@ class Dashboard extends Component {
 const mapStateToProps = state => {
     return {
         roleId: state.auth.role._id,
-        // authError: state.auth.error,
-        // submissionError: state.submission.error,
-        // reviewError: state.review.error
     };
 };
 

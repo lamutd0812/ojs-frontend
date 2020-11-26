@@ -18,7 +18,7 @@ const RequestRevision = (props) => {
                         dateFormat="dd/MM/yyyy" />
                 </div>
                 <div className="form-group">
-                    <label>Gửi Email tới biên tập viên*</label>
+                    <label>Gửi Email tới tác giả*</label>
                     <textarea
                         type="text"
                         name="noti_and_email"

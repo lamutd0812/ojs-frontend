@@ -49,11 +49,11 @@ class Home extends Component {
                                         <thead>
                                             <tr>
                                                 <th style={{ width: '1%' }}> #</th>
-                                                <th style={{ width: '30%' }}> Bài Báo</th>
+                                                <th style={{ width: '25%' }}> Bài Báo</th>
                                                 <th style={{ width: '15%' }} className="text-center"> Pha</th>
                                                 <th style={{ width: '15%' }} className="text-center"> Thẩm định viên</th>
                                                 <th style={{ width: '15%' }} className="text-center"> Hạn xử lý</th>
-                                                <th style={{ width: '10%' }} className="text-center"> Trạng thái</th>
+                                                <th style={{ width: '15%' }} className="text-center"> Trạng thái</th>
                                                 <th style={{ width: '15%' }} className="text-center"> Xử lý</th>
                                             </tr>
                                         </thead>
@@ -79,11 +79,13 @@ class Home extends Component {
                                                             ) : null}
                                                         </td>
                                                         <td className="text-center">
-                                                            {ea.editorSubmissionId ? (
+                                                            {ea.authorAssignmentId ? (
+                                                                <span className="text-danger"><i className="fas fa-edit"></i> Đã yêu cầu tác giả chỉnh sửa</span>
+                                                            ) : ea.editorSubmissionId ? (
                                                                 <span className="badge bg-success"> Đã nộp ý kiến</span>
                                                             ) : (
-                                                                    <span className="badge bg-danger">Chưa nộp ý kiến</span>
-                                                                )}
+                                                                <span className="badge bg-danger">Chưa nộp ý kiến</span>
+                                                            )}
                                                         </td>
                                                         <td className="project-actions text-center">
                                                             {!checkDueDate(ea.dueDate) ? (
@@ -91,10 +93,10 @@ class Home extends Component {
                                                                     <i className="fas fa-eye"></i> Xem
                                                                 </Link>
                                                             ) : (
-                                                                <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-outline-primary btn-sm mr-1">
-                                                                    <i className="fas fa-tasks"></i> Xử lý
-                                                                </Link>
-                                                            )}
+                                                                    <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-outline-primary btn-sm mr-1">
+                                                                        <i className="fas fa-tasks"></i> Xử lý
+                                                                    </Link>
+                                                                )}
                                                         </td>
                                                     </tr>
                                                     <tr><td colSpan="8" className="hiddenRow">

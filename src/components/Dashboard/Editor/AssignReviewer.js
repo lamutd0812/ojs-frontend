@@ -22,7 +22,7 @@ class AssignReviewer extends Component {
         selectedReviewerName: '',
         dueDate: getDeadlineDate(7),
         messageToReviewer: 'Nội dung lời nhắn',
-        emailToReviewer: 'Nội dung thông báo',
+        emailToReviewer: 'Nội dung email',
     };
 
     componentDidMount() {
@@ -194,7 +194,7 @@ class AssignReviewer extends Component {
                                                         dateFormat="dd/MM/yyyy" />
                                                 </div>
                                                 <div className="form-group">
-                                                    <h6>Gửi Email tới biên tập viên*</h6>
+                                                    <h6>Gửi Email tới thẩm định viên*</h6>
                                                     <textarea
                                                         type="text"
                                                         name="noti_and_email"
@@ -226,7 +226,7 @@ class AssignReviewer extends Component {
                                                 <h4>Chỉ định biên tập viên thành công.</h4>
                                                 {this.props.submission ? (
                                                     <div className="ml-2">Bạn đã chỉ định thẩm định viên <Link to="#" className="text-primary">{this.state.selectedReviewerName}</Link>
-                                                    thẩm định bài báo <b>{this.props.submission.title}</b> của tác giả <Link to="" className="text-primary">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}.</Link></div>
+                                                    {" "}thẩm định bài báo <b>{this.props.submission.title}</b> của tác giả <Link to="" className="text-primary">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}.</Link></div>
                                                 ) : null}
                                                 <h4 className="mt-3">Bây giờ, bạn có thể:</h4>
                                                 {this.props.submission ? (

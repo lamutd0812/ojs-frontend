@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
-import Aux from '../../../hoc/Auxiliary/Auxiliary';
-import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
-import Spinner from '../../UI/Spinner/Spinner';
+import Aux from '../../../../hoc/Auxiliary/Auxiliary';
+import ConfirmDialog from '../../../UI/ConfirmDialog/ConfirmDialog';
+import Spinner from '../../../UI/Spinner/Spinner';
 import { connect } from 'react-redux';
-import { updateObject } from '../../../utils/utility';
-import { getCategories, getSubmissionDetail, editSubmission, resetEditSubmissionState } from '../../../store/actions/submissionActions';
+import { updateObject } from '../../../../utils/utility';
+import {
+    getCategories,
+    getSubmissionDetail
+} from '../../../../store/actions/submissionActions';
+import {
+    authorCreateRevision,
+    resetAuthorRevisionState
+} from '../../../../store/actions/reviewActions';
 import { Link } from 'react-router-dom';
-import ContentHeader from '../Shared/ContentHeader';
+import ContentHeader from '../../Shared/ContentHeader';
 import { toast } from 'react-toastify';
-import { editSubmissionInputControls } from '../../../utils/input-controls';
-import { submitArticleInputChangeHandler } from '../../../utils/input-change';
+import { editSubmissionInputControls } from '../../../../utils/input-controls';
+import { submitArticleInputChangeHandler } from '../../../../utils/input-change';
 
-class EditSubmission extends Component {
+class ReviseSubmission extends Component {
 
     state = {
         step1Active: true,
@@ -41,9 +48,9 @@ class EditSubmission extends Component {
         if (nextProps.submission && nextProps.submission !== this.props.submission) {
             this.initControlValues(nextProps.submission);
         }
-        if (nextProps.isSubmissionEdited) {
-            this.props.resetEditSubmissionState();
-            toast.success("Chỉnh sửa thông tin bài báo thành công!");
+        if (nextProps.isAuthorRevisionCreated) {
+            this.props.resetAuthorRevisionState();
+            toast.success("Nộp bản chỉnh sửa bài báo thành công!");
             this.setState(updateObject(this.state, {
                 step1Active: false,
                 step2Active: true,
@@ -66,12 +73,12 @@ class EditSubmission extends Component {
         formData.append('abstract', this.state.controls.abstract.value);
         formData.append('attachment', this.state.controls.attachment.file);
         formData.append('categoryId', this.state.controls.categoryId.value);
-        this.props.editSubmission(this.props.submission._id, formData);
+        this.props.authorCreateRevision(this.props.submission._id, formData);
     }
 
     cancelHandler = () => {
-        this.props.resetEditSubmissionState();
-        this.props.history.push('/dashboard');
+        this.props.resetAuthorRevisionState();
+        this.props.history.push('/dashboard/submission/' + this.props.submission._id);
     }
 
     render() {
@@ -184,10 +191,10 @@ class EditSubmission extends Component {
                                             </div>
                                             {/* Step 2 Active */}
                                             <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
-                                                <h4>Chỉnh sửa bài báo thành công.</h4>
-                                                <div className="ml-2">Bạn đã chỉnh sửa bài báo trước khi bước vào quá trình thẩm định. Chúng tôi đã
-                                                    tiếp nhận và sẽ tiến hành thẩm định bài báo của bạn trước khi quyết định đăng tải.</div>
-                                                <div className="ml-2 mt-2">Trong quá trình thẩm định, bạn vui lòng kiểm tra email và thông
+                                                <h4>Nộp bản chỉnh sửa bài báo thành công.</h4>
+                                                <div className="ml-2">Bạn đã nộp bản chỉnh sửa bài báo. Biên tập viên sẽ đánh giá lại bài báo và
+                                                gửi kết quả thẩm định cuối cùng lại cho bạn trong thời gian sớm nhất.</div>
+                                                <div className="ml-2 mt-2">Bạn vui lòng kiểm tra email và thông
                                                     báo trên hệ thống thường xuyên để thuận tiện trong việc trao đổi với ban biên tập các vấn đề liên quan.</div>
                                                 <h4 className="mt-3">Bây giờ, bạn có thể:</h4>
                                                 {this.props.submission ? (
@@ -197,16 +204,16 @@ class EditSubmission extends Component {
                                                             {" "}<Link to={`/dashboard/submission/${this.props.submission._id}`} className="text-primary">
                                                                 Xem chi tiết bài báo.
                                                                 </Link>.
-                                                            </div>
+                                                        </div>
                                                         <div className="ml-2">
                                                             <i className="fa fa-edit"></i>
-                                                            {" "}<Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="text-primary">Chỉnh sửa bài báo</Link> (Trước khi bước vào pha Thẩm định).
+                                                            {" "}<Link to={`/dashboard/revise-submission/${this.props.submission._id}`} className="text-primary">Nộp lại bản chỉnh sửa bài báo</Link>
                                                         </div>
                                                     </Aux>
                                                 ) : null}
                                                 <div className="ml-2">
                                                     <i className="fa fa-home"></i>
-                                                    {" "} <Link to="/dashboard" className="text-primary">Trở về trang chủ.</Link>
+                                                    {" "} <Link to="/dashboard/author" className="text-primary">Trở về trang tác giả.</Link>
                                                 </div>
                                             </div>
                                         </div>
@@ -224,7 +231,7 @@ class EditSubmission extends Component {
                 {editArticle}
                 <ConfirmDialog
                     title="Xác nhận"
-                    message="Chỉnh sửa thông tin bài báo?"
+                    message="Nộp bản chỉnh sửa bài báo?"
                     confirm={this.confirmSubmitHandler} />
                 {this.props.error ? toast.error('Error: ' + this.props.error) : null}
             </Aux>
@@ -235,19 +242,19 @@ class EditSubmission extends Component {
 const mapStateToProps = (state) => {
     return {
         categories: state.submission.categories,
-        isSubmissionEdited: state.submission.isSubmissionEdited,
         submission: state.submission.submission,
-        loading: state.submission.loading,
-        fileUploading: state.submission.fileUploading,
-        error: state.submission.error
+        loading: state.review.loading,
+        fileUploading: state.review.fileUploading,
+        error: state.review.error,
+        isAuthorRevisionCreated: state.review.isAuthorRevisionCreated
     };
 };
 
 const mapDispatchToProps = {
     getCategories,
     getSubmissionDetail,
-    editSubmission,
-    resetEditSubmissionState
+    authorCreateRevision,
+    resetAuthorRevisionState
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditSubmission);
+export default connect(mapStateToProps, mapDispatchToProps)(ReviseSubmission);

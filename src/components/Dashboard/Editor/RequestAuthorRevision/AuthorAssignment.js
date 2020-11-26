@@ -13,20 +13,19 @@ const AuthorAssignment = (props) => {
                         {props.authorAssignment.authorRevisionId ? (
                             <Aux>
                                 <span className="decision-success ml-4">
-                                    Tác giả đã gửi bản chỉnh sửa bài báo
+                                    Tác giả đã nộp bản chỉnh sửa bài báo
                                 </span> <br />
                                 <div className="p-1"></div>
                                 <div className="text-primary ml-4" style={{ cursor: 'pointer' }}><u>Xem bản chỉnh sửa</u></div>
                             </Aux>
                         ) : (
                             <span className="decision-danger ml-4">
-                                Tác giả chưa gửi bản chỉnh sửa bài báo
+                                Tác giả chưa nộp bản chỉnh sửa bài báo
                             </span>
                         )}
                     </div>
                     <div className="form-group ml-3">
                         <label>Người gửi</label>
-                        {/* <p className="ml-4">{props.authorAssignment.editorId.lastname} {props.authorAssignment.editorId.firstname}</p> */}
                         <Link to="#">
                             <div className="text-primary ml-3"><i className="fas fa-user text-dark"></i> {" "}
                                 {props.authorAssignment.editorId.lastname} {props.authorAssignment.editorId.firstname}

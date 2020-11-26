@@ -22,7 +22,7 @@ class AssignEditor extends Component {
         selectedEditorName: '',
         dueDate: getDeadlineDate(7),
         messageToEditor: 'Nội dung lời nhắn',
-        emailToEditor: 'Nội dung thông báo',
+        emailToEditor: 'Nội dung email',
     };
 
     componentDidMount() {

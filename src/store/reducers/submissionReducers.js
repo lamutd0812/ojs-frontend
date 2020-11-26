@@ -74,6 +74,7 @@ const createSubmissionSuccess = (state, action) => {
 const resetCreateSubmissionState = (state) => {
     return updateObject(state, {
         isSubmissionCreated: false,
+        fileUploading: false,
         error: null
     })
 };
@@ -90,6 +91,7 @@ const editSubmissionSuccess = (state, action) => {
 const resetEditSubmissionState = (state) => {
     return updateObject(state, {
         isSubmissionEdited: false,
+        fileUploading: false,
         error: null
     })
 };

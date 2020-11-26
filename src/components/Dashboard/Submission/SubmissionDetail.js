@@ -7,16 +7,28 @@ import SubmissionLogs from './SubmissionLogs';
 import DeleteSubmission from '../Author/DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
-import { USER_ROLES, STAGE } from '../../../utils/constant';
-import { updateObject } from '../../../utils/utility';
-import { getSubmissionDetail, deleteSubmission, resetDeleteSubmissionState } from '../../../store/actions/submissionActions';
-import { getEditorAssignmentBySubmission, getReviewerAssignmentsBySubmission } from '../../../store/actions/reviewActions';
+import { checkDueDate, updateObject } from '../../../utils/utility';
+import {
+    getSubmissionDetail,
+    deleteSubmission,
+    resetDeleteSubmissionState
+} from '../../../store/actions/submissionActions';
+import {
+    getEditorAssignmentBySubmission,
+    getAuthorAssignmentBySubmission
+} from '../../../store/actions/reviewActions';
 import { toast } from 'react-toastify';
 import EditorialBoard from './SubmissionInfor/EditorialBoard';
 import SubmissionFutherInfor from './SubmissionInfor/SubmissionFutherInfor';
+import SubmissionActions from './SubmissionActions/SubmissionActions';
+import { USER_ROLES } from '../../../utils/constant';
+import AssignmentInfor from '../Author/AuthorAssignment/AssignmentInfor';
+// import AssignmentInfor from '../Author/AuthorAssignment/AssignmentInfor';
 class SubmissionDetail extends Component {
 
     state = {
+        step1Active: true,
+        step2Active: false,
         deletionConfirmed: false
     }
 
@@ -24,7 +36,7 @@ class SubmissionDetail extends Component {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
-            this.props.getReviewerAssignmentsBySubmission(this.props.match.params.submissionId);
+            this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
         }
     }
 
@@ -42,7 +54,25 @@ class SubmissionDetail extends Component {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
         }
+    }
+
+    step1ActiveHandler = (event) => {
+        event.preventDefault();
+        let newState = updateObject(this.state, {
+            step1Active: true,
+            step2Active: false,
+        });
+        this.setState(newState);
+    }
+
+    step2ActiveHandler = () => {
+        let newState = updateObject(this.state, {
+            step1Active: false,
+            step2Active: true,
+        });
+        this.setState(newState);
     }
 
     confirmDeleteHandler = (event) => {
@@ -78,77 +108,165 @@ class SubmissionDetail extends Component {
                                     </button>
                                 </div>
                             </div>
+
+                            <div className="card-header p-0">
+                                <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                    <li className="nav-item">
+                                        <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}
+                                            onClick={this.step1ActiveHandler}>
+                                            <div className={this.state.step1Active ? 'text-orange' : 'text-secondary'}><b>Thông tin bài báo</b></div>
+                                        </div>
+                                    </li>
+                                    <li className="nav-item">
+                                        <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
+                                            onClick={this.step2ActiveHandler}>
+                                            {this.props.authorAssignment ? (
+                                                <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (1)</b></div>
+                                            ) : (
+                                                <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (0)</b></div>
+                                            )}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
                             {this.props.submission ? (
                                 <div className="card-body">
-                                    {/* Row */}
-                                    <div className="row">
-                                        <div className="p-2 col-lg-12 border rounded">
-                                            <EditorialBoard
-                                                submission={this.props.submission}
-                                                editorAssignment={this.props.editorAssignment}
-                                                reviewerAssignments={this.props.reviewerAssignments} />
-                                        </div>
-                                    </div>
-                                    {/* Row */}
-                                    <div className="row pt-2">
-                                        <div className="p-2 col-lg-8 border rounded">
-                                            <SubmissionInfor submission={this.props.submission} />
-                                        </div>
-                                        <div className="p-2 col-lg-4 border rounded">
-                                            {/* -----------CHIEF EDITOR--------------  */}
-                                            {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
-                                                <Aux>
-                                                    {!this.props.editorAssignment ? (
-                                                        <div className="form-group">
-                                                            <Link to={`/dashboard/chief-editor/assign-editor?submissionId=${this.props.submission._id}`}>
-                                                                <button className="btn btn-outline-primary btn-block">
-                                                                    <i className="fas fa-user"></i> {" "}
+                                    <div className="tab-content" id="custom-tabs-one-tabContent">
+                                        {/* ------------------Tab 1----------------- */}
+                                        <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
+                                            {/* Row */}
+                                            <div className="row pt-2 border rounded">
+                                                <div className="p-2 col-lg-12">
+                                                    {this.props.editorAssignment ? (
+                                                        <EditorialBoard
+                                                            submission={this.props.submission}
+                                                            editorAssignment={this.props.editorAssignment}
+                                                            reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
+                                                    ) : null}
+                                                </div>
+                                            </div>
+                                            {/* Row */}
+                                            <div className="row pt-2">
+                                                <div className="p-2 col-lg-8 border rounded">
+                                                    <SubmissionInfor submission={this.props.submission} />
+                                                </div>
+                                                <div className="p-2 col-lg-4 border rounded">
+                                                    {/* -----------CHIEF EDITOR--------------  */}
+                                                    {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
+                                                        <Aux>
+                                                            {!this.props.editorAssignment ? (
+                                                                <div className="form-group">
+                                                                    <Link to={`/dashboard/chief-editor/assign-editor?submissionId=${this.props.submission._id}`}>
+                                                                        <button className="btn btn-outline-primary btn-block">
+                                                                            <i className="fas fa-user"></i> {" "}
                                                                     Chỉ định biên tập viên
                                                                 </button>
-                                                            </Link>
-                                                        </div>
-                                                    ) : null}
-                                                    <div className="form-group">
-                                                        <button className="btn btn-outline-success btn-block">
-                                                            <i className="fas fa-check"></i> {" "}
+                                                                    </Link>
+                                                                </div>
+                                                            ) : null}
+                                                            <div className="form-group">
+                                                                <button className="btn btn-outline-success btn-block">
+                                                                    <i className="fas fa-check"></i> {" "}
                                                             Chấp nhận bài báo
                                                         </button>
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <button className="btn btn-outline-danger btn-block">
-                                                            <i className="fas fa-times"></i>{" "}
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <button className="btn btn-outline-danger btn-block">
+                                                                    <i className="fas fa-times"></i>{" "}
                                                             Từ chối bài báo
                                                         </button>
-                                                    </div>
-                                                </Aux>
-                                            ) : null}
-
-                                            <SubmissionFutherInfor submission={this.props.submission} />
-
-                                            {this.props.userId === this.props.submission.authorId._id ? (
-                                                <div className="form-group">
-                                                    <label>Chỉnh sửa</label><br />
-                                                    {this.props.submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
-                                                        <Aux>
-                                                            <Link to={`/dashboard/edit-submission/${this.props.submission._id}`} className="btn btn-outline-secondary btn-sm mr-1">
-                                                                <i className="fas fa-pencil-alt"></i> Chỉnh sửa
-                                                            </Link>
-                                                            <button className="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal">
-                                                                <i className="fas fa-trash"></i> Xóa bài báo
-                                                            </button>
+                                                            </div>
                                                         </Aux>
-                                                    ) : (
-                                                            <Aux>
-                                                                <button className="btn btn-outline-secondary btn-sm mr-1 disabled">
-                                                                    <i className="fas fa-pencil-alt"></i> Chỉnh sửa
-                                                                </button>
-                                                                <button className="btn btn-outline-danger btn-sm disabled">
-                                                                    <i className="fas fa-trash"></i> Xóa bài báo
-                                                                </button>
-                                                            </Aux>
-                                                        )}
+                                                    ) : null}
+
+                                                    <SubmissionFutherInfor submission={this.props.submission} />
+
+                                                    <SubmissionActions
+                                                        userId={this.props.userId}
+                                                        submission={this.props.submission}
+                                                        authorAssignment={this.props.authorAssignment} />
                                                 </div>
-                                            ) : null}
+                                            </div>
+                                        </div>
+                                        {/* ------------------Tab 2----------------- */}
+                                        <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
+                                            {/* Row */}
+                                            <div className="row pt-2 border rounded">
+                                                <div className="p-2 col-lg-12">
+                                                    {this.props.editorAssignment ? (
+                                                        <EditorialBoard
+                                                            submission={this.props.submission}
+                                                            editorAssignment={this.props.editorAssignment}
+                                                            reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
+                                                    ) : null}
+                                                </div>
+                                            </div>
+                                            {/* Row */}
+                                            <div className="row mt-2">
+                                                {/* Column */}
+                                                <div className="p-2 col-lg-8 border rounded">
+                                                    {this.props.authorAssignment && !checkDueDate(this.props.authorAssignment.dueDate) ? (
+                                                        <div className="form-group ml-1 text-danger font-weight-bold">
+                                                            <i className="fas fa-times-circle"></i> Yêu cầu chỉnh sửa bài báo đã hết hạn!
+                                                        </div>
+                                                    ) : null}
+                                                    <h6><i className="fas fa-info-circle"></i> THÔNG TIN BẢN CHỈNH SỬA BÀI BÁO</h6>
+                                                    {this.props.authorAssignment && this.props.authorAssignment.authorRevisionId ? (
+                                                        <div>Bạn đã nộp bản chỉnh sửa bài báo.</div>
+                                                    ) : (
+                                                        <div className="form-group ml-3">
+                                                            <div>Bạn chưa nộp bản chỉnh sửa bài báo.</div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                {/* Column */}
+                                                <div className="p-2 col-lg-4 border rounded">
+                                                    <h6><i className="fas fa-stream"></i> TRẠNG THÁI</h6>
+                                                    {this.props.authorAssignment ? (
+                                                        <Aux> {!this.props.authorAssignment.authorRevisionId ? (
+                                                            <Aux>
+                                                                <div className="form-group text-center">
+                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
+                                                                        <i className="fas fa-close"></i> Chưa nộp bản chỉnh sửa bài báo
+                                                                    </div>
+                                                                </div>
+                                                                <div className="form-group">
+                                                                    {checkDueDate(this.props.authorAssignment.dueDate) ? (
+                                                                        <Aux>
+                                                                            <Link  to={`/dashboard/revise-submission/${this.props.submission._id}`}>
+                                                                                <div className="btn btn-outline-primary btn-block">
+                                                                                    <i className="fas fa-edit"></i> Nộp bản chỉnh sửa bài báo
+                                                                                </div>
+                                                                            </Link>
+                                                                        </Aux>
+                                                                    ) : (
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-outline-primary btn-block"
+                                                                            onClick={() => toast.error('Đã hết thời hạn nộp bản chỉnh sửa bài báo!')}>
+                                                                            <i className="fas fa-edit"></i> Nộp bản chỉnh sửa bài báo
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+                                                            </Aux>
+                                                        ) : (
+                                                            <Aux>
+                                                                <div className="form-group">
+                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
+                                                                        <i className="fas fa-check"></i> Đã nộp bản chỉnh sửa bài báo
+                                                                    </div>
+                                                                </div>
+                                                            </Aux>
+                                                        )} </Aux>
+                                                    ) : null}
+                                                    {this.props.authorAssignment && (
+                                                        <AssignmentInfor
+                                                            submission={this.props.submission}
+                                                            authorAssignment={this.props.authorAssignment} />
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -176,16 +294,16 @@ const mapStateToProps = (state) => {
         editors: state.review.editors,
         editorAssignment: state.review.editorAssignment,
         reviewers: state.review.reviewers,
-        reviewerAssignments: state.review.reviewerAssignments
+        authorAssignment: state.review.authorAssignment,
     }
 };
 
 const mapDispatchToProps = {
     getSubmissionDetail,
     getEditorAssignmentBySubmission,
-    getReviewerAssignmentsBySubmission,
     deleteSubmission,
-    resetDeleteSubmissionState
+    resetDeleteSubmissionState,
+    getAuthorAssignmentBySubmission
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionDetail);

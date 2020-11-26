@@ -285,8 +285,8 @@ class ReviewerAssignment extends Component {
                                                     <h6><i className="fas fa-stream"></i> TRẠNG THÁI</h6>
                                                     {this.props.reviewerAssignment.reviewerSubmissionId ? (
                                                         <Aux>
-                                                            <div className="form-group">
-                                                                <div className="btn btn-success btn-block">
+                                                            <div className="form-group text-center">
+                                                                <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
                                                                     <i className="fas fa-check"></i> Đã nộp ý kiến thẩm định
                                                                 </div>
                                                             </div>
@@ -314,8 +314,8 @@ class ReviewerAssignment extends Component {
                                                         </Aux>
                                                     ) : (
                                                         <Aux>
-                                                            <div className="form-group">
-                                                                <div className="btn btn-danger btn-block">
+                                                            <div className="form-group text-center">
+                                                                <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
                                                                     <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
                                                                 </div>
                                                             </div>

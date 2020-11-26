@@ -13,7 +13,6 @@ import EditEditorSubmission from './EditorSubmission/EditEditorSubmission';
 import { getSubmissionDetail, getEditorDecisions } from '../../../store/actions/submissionActions';
 import {
     getEditorAssignmentBySubmission,
-    getReviewerAssignmentsBySubmission,
     createEditorSubmission,
     resetCreateEditorSubmissionState,
     editEditorSubmission,
@@ -47,14 +46,13 @@ class EditorAssignment extends Component {
         canRequestAuthorRevision: false,
         dueDate: getDeadlineDate(7),
         messageToAuthor: 'Nội dung lời nhắn',
-        emailToAuthor: 'Nội dung thông báo',
+        emailToAuthor: 'Nội dung email',
     }
 
     componentDidMount() {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
-            this.props.getReviewerAssignmentsBySubmission(this.props.match.params.submissionId);
             this.props.getEditorDecisions();
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
         }
@@ -95,7 +93,6 @@ class EditorAssignment extends Component {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
-            this.props.getReviewerAssignmentsBySubmission(this.props.match.params.submissionId);
             this.props.getEditorDecisions();
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
         }
@@ -274,7 +271,7 @@ class EditorAssignment extends Component {
                                 </ul>
                             </div>
 
-                            {this.props.submission && this.props.editorAssignment && this.props.reviewerAssignments ? (
+                            {this.props.submission && this.props.editorAssignment ? (
                                 <div className="card-body">
                                     <div className="tab-content" id="custom-tabs-one-tabContent">
                                         {/* ------------------Tab 1----------------- */}
@@ -285,20 +282,20 @@ class EditorAssignment extends Component {
                                                     <EditorialBoard
                                                         submission={this.props.submission}
                                                         editorAssignment={this.props.editorAssignment}
-                                                        reviewerAssignments={this.props.reviewerAssignments} />
+                                                        reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                 </div>
                                             </div>
                                             {/* Row */}
                                             <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-8">
-                                                    <ReviewerSubmissions reviewerAssignments={this.props.reviewerAssignments} />
+                                                    <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                 </div>
                                                 {/* Column */}
-                                                {this.props.reviewerAssignments.length > 0 ? (
+                                                {this.props.editorAssignment.reviewerAssignmentId.length > 0 ? (
                                                     <div className="p-2 col-lg-4">
                                                         <Doughnut
-                                                            data={this.fetchDoughnutData(this.props.reviewerAssignments)}
+                                                            data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
                                                             options={{
                                                                 responsive: true,
                                                                 maintainAspectRatio: false,
@@ -324,7 +321,7 @@ class EditorAssignment extends Component {
                                                 <div className="p-2 col-lg-4 border rounded">
                                                     {checkDueDate(this.props.editorAssignment.dueDate) ? (
                                                         <Aux>
-                                                            {this.props.reviewerAssignments.length < 3 ? (
+                                                            {this.props.editorAssignment.reviewerAssignmentId.length < 3 ? (
                                                                 <Aux>
                                                                     <div className="form-group">
                                                                         <h6><i className="fas fa-user"></i> CHỈ ĐỊNH THẨM ĐỊNH VIÊN</h6>
@@ -364,7 +361,7 @@ class EditorAssignment extends Component {
                                                     <EditorialBoard
                                                         submission={this.props.submission}
                                                         editorAssignment={this.props.editorAssignment}
-                                                        reviewerAssignments={this.props.reviewerAssignments} />
+                                                        reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                 </div>
                                             </div>
                                             {/* Row */}
@@ -413,8 +410,8 @@ class EditorAssignment extends Component {
                                                     <h6><i className="fas fa-stream"></i> TRẠNG THÁI</h6>
                                                     {this.props.editorAssignment.editorSubmissionId ? (
                                                         <Aux>
-                                                            <div className="form-group">
-                                                                <div className="btn btn-success btn-block">
+                                                            <div className="form-group text-center">
+                                                                <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
                                                                     <i className="fas fa-check"></i> Đã nộp ý kiến thẩm định
                                                                 </div>
                                                             </div>
@@ -442,10 +439,10 @@ class EditorAssignment extends Component {
                                                         </Aux>
                                                     ) : (
                                                             <Aux>
-                                                                <div className="form-group">
-                                                                    <div className="btn btn-danger btn-block">
+                                                                <div className="form-group text-center">
+                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
                                                                         <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
-                                                                </div>
+                                                                    </div>
                                                                 </div>
                                                             </Aux>
                                                         )}
@@ -464,7 +461,7 @@ class EditorAssignment extends Component {
                                                     <EditorialBoard
                                                         submission={this.props.submission}
                                                         editorAssignment={this.props.editorAssignment}
-                                                        reviewerAssignments={this.props.reviewerAssignments} />
+                                                        reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                 </div>
                                             </div>
                                             {/* Row */}
@@ -560,7 +557,6 @@ const mapStateToProps = (state) => {
         submission: state.submission.submission,
         loading: state.submission.loading,
         editorAssignment: state.review.editorAssignment,
-        reviewerAssignments: state.review.reviewerAssignments,
         editorDecisions: state.submission.editorDecisions,
         fileUploading: state.review.fileUploading,
         isEditorSubmissionCreated: state.review.isEditorSubmissionCreated,
@@ -574,7 +570,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     getSubmissionDetail,
     getEditorAssignmentBySubmission,
-    getReviewerAssignmentsBySubmission,
     getEditorDecisions,
     createEditorSubmission,
     resetCreateEditorSubmissionState,
