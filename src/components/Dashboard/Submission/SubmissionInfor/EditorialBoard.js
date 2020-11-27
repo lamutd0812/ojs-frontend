@@ -35,7 +35,11 @@ const EditorialBoard = (props) => {
                                     {props.editorAssignment.editorId.lastname} {props.editorAssignment.editorId.firstname}
                                 </div>
                             </Link>
-                        ) : null}
+                        ) : (
+                            <div className="ml-4">
+                                <div>Chưa được chỉ định</div>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="col-lg-4">
@@ -54,10 +58,10 @@ const EditorialBoard = (props) => {
                                         ))}
                                     </div>
                                 ) : (
-                                        <div className="ml-4">
-                                            <div>Chưa được chỉ định</div>
-                                        </div>
-                                    )}
+                                    <div className="ml-4">
+                                        <div>Chưa được chỉ định</div>
+                                    </div>
+                                )}
                             </Aux>
                         ) : props.reviewerAssignment ? (
                             <Aux>
@@ -70,7 +74,14 @@ const EditorialBoard = (props) => {
                                     </Link>
                                 </div>
                             </Aux>
-                        ) : null}
+                        ) : (
+                           <Aux>
+                                <label>Thẩm định viên</label>
+                                <div className="ml-4">
+                                    <div>Chưa được chỉ định</div>
+                                </div>
+                           </Aux>
+                        )}
                     </div>
                 </div>
             </div>

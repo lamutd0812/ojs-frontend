@@ -45,6 +45,9 @@ class ReviseSubmission extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.props.resetAuthorRevisionState();
+        }
         if (nextProps.submission && nextProps.submission !== this.props.submission) {
             this.initControlValues(nextProps.submission);
         }

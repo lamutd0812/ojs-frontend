@@ -23,7 +23,7 @@ const ReviewDetail = (props) => {
                             <i className="fa fa-paperclip fa-lg"></i>
                             <a href="https://ojs.s3-ap-southeast-1.amazonaws.com/1605345202062-Unsupervised-real-time-anomaly-detection-for-streaming-da_2017_Neurocomputin.pdf" className="text-primary" target="_blank" rel="noopener noreferrer">
                                 {" "} nhanxet.pdf
-                        </a>
+                            </a>
                         </p>
                     </div>
                     <div className="form-group ml-3">

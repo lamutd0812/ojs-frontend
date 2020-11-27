@@ -7,7 +7,7 @@ import SubmissionLogs from './SubmissionLogs';
 import DeleteSubmission from '../Author/DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
-import { checkDueDate, updateObject } from '../../../utils/utility';
+import { checkDueDate, getDoughnutData, updateObject } from '../../../utils/utility';
 import {
     getSubmissionDetail,
     deleteSubmission,
@@ -21,9 +21,10 @@ import { toast } from 'react-toastify';
 import EditorialBoard from './SubmissionInfor/EditorialBoard';
 import SubmissionFutherInfor from './SubmissionInfor/SubmissionFutherInfor';
 import SubmissionActions from './SubmissionActions/SubmissionActions';
-import { USER_ROLES } from '../../../utils/constant';
 import AssignmentInfor from '../Author/AuthorAssignment/AssignmentInfor';
-// import AssignmentInfor from '../Author/AuthorAssignment/AssignmentInfor';
+import RevisionDetail from '../Author/AuthorAssignment/RevisionDetail/RevisionDetail';
+import ReviewerSubmissions from '../Editor/ReviewerSubmissions/ReviewerSubmissions';
+import { Doughnut } from 'react-chartjs-2';
 class SubmissionDetail extends Component {
 
     state = {
@@ -56,6 +57,11 @@ class SubmissionDetail extends Component {
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
         }
+    }
+
+    fetchDoughnutData = (reviewerAssignments) => {
+        const data = getDoughnutData(reviewerAssignments);
+        return data;
     }
 
     step1ActiveHandler = (event) => {
@@ -123,8 +129,8 @@ class SubmissionDetail extends Component {
                                             {this.props.authorAssignment ? (
                                                 <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (1)</b></div>
                                             ) : (
-                                                <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (0)</b></div>
-                                            )}
+                                                    <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (0)</b></div>
+                                                )}
                                         </div>
                                     </li>
                                 </ul>
@@ -143,45 +149,26 @@ class SubmissionDetail extends Component {
                                                             submission={this.props.submission}
                                                             editorAssignment={this.props.editorAssignment}
                                                             reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
-                                                    ) : null}
+                                                    ) : (
+                                                        <EditorialBoard
+                                                            submission={this.props.submission} />
+                                                    )}
                                                 </div>
                                             </div>
                                             {/* Row */}
                                             <div className="row pt-2">
                                                 <div className="p-2 col-lg-8 border rounded">
-                                                    <SubmissionInfor submission={this.props.submission} />
+                                                    {this.props.authorAssignment ? (
+                                                        <SubmissionInfor
+                                                            submission={this.props.submission}
+                                                            hasAuthorRevision={this.props.authorAssignment.authorRevisionId ? true : false} />
+                                                    ) : (
+                                                        <SubmissionInfor
+                                                            submission={this.props.submission} />
+                                                    )}
                                                 </div>
                                                 <div className="p-2 col-lg-4 border rounded">
-                                                    {/* -----------CHIEF EDITOR--------------  */}
-                                                    {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
-                                                        <Aux>
-                                                            {!this.props.editorAssignment ? (
-                                                                <div className="form-group">
-                                                                    <Link to={`/dashboard/chief-editor/assign-editor?submissionId=${this.props.submission._id}`}>
-                                                                        <button className="btn btn-outline-primary btn-block">
-                                                                            <i className="fas fa-user"></i> {" "}
-                                                                    Chỉ định biên tập viên
-                                                                </button>
-                                                                    </Link>
-                                                                </div>
-                                                            ) : null}
-                                                            <div className="form-group">
-                                                                <button className="btn btn-outline-success btn-block">
-                                                                    <i className="fas fa-check"></i> {" "}
-                                                            Chấp nhận bài báo
-                                                        </button>
-                                                            </div>
-                                                            <div className="form-group">
-                                                                <button className="btn btn-outline-danger btn-block">
-                                                                    <i className="fas fa-times"></i>{" "}
-                                                            Từ chối bài báo
-                                                        </button>
-                                                            </div>
-                                                        </Aux>
-                                                    ) : null}
-
                                                     <SubmissionFutherInfor submission={this.props.submission} />
-
                                                     <SubmissionActions
                                                         userId={this.props.userId}
                                                         submission={this.props.submission}
@@ -191,82 +178,101 @@ class SubmissionDetail extends Component {
                                         </div>
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            {/* Row */}
-                                            <div className="row pt-2 border rounded">
-                                                <div className="p-2 col-lg-12">
-                                                    {this.props.editorAssignment ? (
-                                                        <EditorialBoard
-                                                            submission={this.props.submission}
-                                                            editorAssignment={this.props.editorAssignment}
-                                                            reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
-                                                    ) : null}
-                                                </div>
-                                            </div>
-                                            {/* Row */}
-                                            <div className="row mt-2">
-                                                {/* Column */}
-                                                <div className="p-2 col-lg-8 border rounded">
-                                                    {this.props.authorAssignment && !checkDueDate(this.props.authorAssignment.dueDate) ? (
-                                                        <div className="form-group ml-1 text-danger font-weight-bold">
-                                                            <i className="fas fa-times-circle"></i> Yêu cầu chỉnh sửa bài báo đã hết hạn!
+                                            {this.props.editorAssignment && this.props.authorAssignment ? (
+                                                <Aux>
+                                                    {/* Row */}
+                                                    <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
+                                                        {/* Column */}
+                                                        <div className="p-2 col-lg-8">
+                                                            <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                         </div>
-                                                    ) : null}
-                                                    <h6><i className="fas fa-info-circle"></i> THÔNG TIN BẢN CHỈNH SỬA BÀI BÁO</h6>
-                                                    {this.props.authorAssignment && this.props.authorAssignment.authorRevisionId ? (
-                                                        <div>Bạn đã nộp bản chỉnh sửa bài báo.</div>
-                                                    ) : (
-                                                        <div className="form-group ml-3">
-                                                            <div>Bạn chưa nộp bản chỉnh sửa bài báo.</div>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                {/* Column */}
-                                                <div className="p-2 col-lg-4 border rounded">
-                                                    <h6><i className="fas fa-stream"></i> TRẠNG THÁI</h6>
-                                                    {this.props.authorAssignment ? (
-                                                        <Aux> {!this.props.authorAssignment.authorRevisionId ? (
-                                                            <Aux>
-                                                                <div className="form-group text-center">
-                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
-                                                                        <i className="fas fa-close"></i> Chưa nộp bản chỉnh sửa bài báo
-                                                                    </div>
+                                                        {/* Column */}
+                                                        {this.props.editorAssignment.reviewerAssignmentId.length > 0 ? (
+                                                            <div className="p-2 col-lg-4">
+                                                                <Doughnut
+                                                                    data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
+                                                                    options={{
+                                                                        responsive: true,
+                                                                        maintainAspectRatio: false,
+                                                                        legend: {
+                                                                            labels: {
+                                                                                fontSize: 12,
+                                                                                fontFamily: 'Roboto Slab'
+                                                                            }
+                                                                        }
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        ) : null}
+                                                    </div>
+                                                    {/* Row */}
+                                                    <div className="row mt-2">
+                                                        {/* Column */}
+                                                        <div className="p-2 col-lg-8 border rounded">
+                                                            {!checkDueDate(this.props.authorAssignment.dueDate) ? (
+                                                                <div className="form-group ml-1 text-danger font-weight-bold">
+                                                                    <i className="fas fa-times-circle"></i> Yêu cầu chỉnh sửa bài báo đã hết hạn!
                                                                 </div>
-                                                                <div className="form-group">
-                                                                    {checkDueDate(this.props.authorAssignment.dueDate) ? (
-                                                                        <Aux>
-                                                                            <Link  to={`/dashboard/revise-submission/${this.props.submission._id}`}>
-                                                                                <div className="btn btn-outline-primary btn-block">
+                                                            ) : null}
+                                                            <h6><i className="fas fa-info-circle"></i> THÔNG TIN BẢN CHỈNH SỬA BÀI BÁO</h6>
+                                                            {this.props.authorAssignment.authorRevisionId ? (
+                                                                <RevisionDetail
+                                                                    authorRevision={this.props.authorAssignment.authorRevisionId}
+                                                                    step1Active={this.step1ActiveHandler} />
+                                                            ) : (
+                                                                    <div className="form-group ml-3">
+                                                                        <div>Bạn chưa nộp bản chỉnh sửa bài báo.</div>
+                                                                    </div>
+                                                                )}
+                                                        </div>
+                                                        {/* Column */}
+                                                        <div className="p-2 col-lg-4 border rounded">
+                                                            <h6><i className="fas fa-stream"></i> TRẠNG THÁI</h6>
+                                                            {!this.props.authorAssignment.authorRevisionId ? (
+                                                                <Aux>
+                                                                    <div className="form-group text-center">
+                                                                        <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
+                                                                            <i className="fas fa-close"></i> Chưa nộp bản chỉnh sửa bài báo
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="form-group">
+                                                                        {checkDueDate(this.props.authorAssignment.dueDate) ? (
+                                                                            <Aux>
+                                                                                <Link to={`/dashboard/revise-submission/${this.props.submission._id}`}>
+                                                                                    <div className="btn btn-outline-primary btn-block">
+                                                                                        <i className="fas fa-edit"></i> Nộp bản chỉnh sửa bài báo
+                                                                                    </div>
+                                                                                </Link>
+                                                                            </Aux>
+                                                                        ) : (
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="btn btn-outline-primary btn-block"
+                                                                                    onClick={() => toast.error('Đã hết thời hạn nộp bản chỉnh sửa bài báo!')}>
                                                                                     <i className="fas fa-edit"></i> Nộp bản chỉnh sửa bài báo
-                                                                                </div>
-                                                                            </Link>
-                                                                        </Aux>
-                                                                    ) : (
-                                                                        <button
-                                                                            type="button"
-                                                                            className="btn btn-outline-primary btn-block"
-                                                                            onClick={() => toast.error('Đã hết thời hạn nộp bản chỉnh sửa bài báo!')}>
-                                                                            <i className="fas fa-edit"></i> Nộp bản chỉnh sửa bài báo
-                                                                        </button>
-                                                                    )}
-                                                                </div>
-                                                            </Aux>
-                                                        ) : (
-                                                            <Aux>
-                                                                <div className="form-group">
-                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
-                                                                        <i className="fas fa-check"></i> Đã nộp bản chỉnh sửa bài báo
+                                                                                </button>
+                                                                            )}
                                                                     </div>
-                                                                </div>
-                                                            </Aux>
-                                                        )} </Aux>
-                                                    ) : null}
-                                                    {this.props.authorAssignment && (
-                                                        <AssignmentInfor
-                                                            submission={this.props.submission}
-                                                            authorAssignment={this.props.authorAssignment} />
-                                                    )}
-                                                </div>
-                                            </div>
+                                                                </Aux>
+                                                            ) : (
+                                                                <Aux>
+                                                                    <div className="form-group">
+                                                                        <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
+                                                                            <i className="fas fa-check"></i> Đã nộp bản chỉnh sửa bài báo
+                                                                        </div>
+                                                                    </div>
+                                                                </Aux>
+                                                            )}
+
+                                                            <AssignmentInfor
+                                                                submission={this.props.submission}
+                                                                authorAssignment={this.props.authorAssignment} />
+                                                        </div>
+                                                    </div>
+                                                </Aux>
+                                            ) : (
+                                                <div>Chưa có yêu cầu chỉnh sửa bài báo từ biên tập viên.</div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

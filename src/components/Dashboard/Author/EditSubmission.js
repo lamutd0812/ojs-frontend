@@ -38,6 +38,9 @@ class EditSubmission extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.error) {
+            this.props.resetEditSubmissionState();
+        }
         if (nextProps.submission && nextProps.submission !== this.props.submission) {
             this.initControlValues(nextProps.submission);
         }

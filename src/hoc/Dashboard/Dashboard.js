@@ -8,6 +8,7 @@ import Sidebar from '../../components/Dashboard/Shared/Sidebar';
 import SubmitArticle from '../../components/Dashboard/Author/SubmitArticle';
 import EditSubmission from '../../components/Dashboard/Author/EditSubmission';
 import SubmissionDetail from '../../components/Dashboard/Submission/SubmissionDetail';
+import SubmissionDetailEditor from '../../components/Dashboard/ChiefEditor/SubmissionDetail';
 import AssignEditor from '../../components/Dashboard/ChiefEditor/AssignEditor';
 import EditorAssignment from '../../components/Dashboard/Editor/EditorAssignment';
 import AssignReviewer from '../../components/Dashboard/Editor/AssignReviewer';
@@ -69,7 +70,7 @@ class Dashboard extends Component {
                 routes = (
                     <Switch>
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
-                        <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
+                        <Route path="/dashboard/submission/:submissionId" component={SubmissionDetailEditor} />
                         <Route path="/dashboard/chief-editor/assign-editor" component={AssignEditor} />
                         <Route exact path="/dashboard" component={ChiefEditorHome} />
                     </Switch>

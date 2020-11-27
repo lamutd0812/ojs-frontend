@@ -286,7 +286,7 @@ class ReviewerAssignment extends Component {
                                                     {this.props.reviewerAssignment.reviewerSubmissionId ? (
                                                         <Aux>
                                                             <div className="form-group text-center">
-                                                                <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
+                                                                <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-5 pl-5" style={{ fontSize:'16px' }}>
                                                                     <i className="fas fa-check"></i> Đã nộp ý kiến thẩm định
                                                                 </div>
                                                             </div>
@@ -315,7 +315,7 @@ class ReviewerAssignment extends Component {
                                                     ) : (
                                                         <Aux>
                                                             <div className="form-group text-center">
-                                                                <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
+                                                                <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-5 pl-5" style={{ fontSize:'16px' }}>
                                                                     <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
                                                                 </div>
                                                             </div>

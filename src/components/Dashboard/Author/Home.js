@@ -96,9 +96,9 @@ class Home extends Component {
                                         <thead>
                                             <tr>
                                                 <th style={{ width: '1%' }}> #</th>
-                                                <th style={{ width: '39%' }}> Bài Báo</th>
+                                                <th style={{ width: '34%' }}> Bài Báo</th>
                                                 <th style={{ width: '20%' }} className="text-center"> Pha</th>
-                                                <th style={{ width: '20%' }} className="text-center"> Trạng thái</th>
+                                                <th style={{ width: '25%' }} className="text-center"> Trạng thái</th>
                                                 <th style={{ width: '20%' }} className="text-center"> Chi tiết</th>
                                             </tr>
                                         </thead>
@@ -108,7 +108,7 @@ class Home extends Component {
                                                     <tr data-toggle="collapse" data-target={`#aaa${submission._id}`} className="accordion-toggle" aria-expanded="true" aria-controls="collapseOne">
                                                         <td style={{ cursor: 'pointer' }}><i className="fas fa-caret-down"></i></td>
                                                         <td>
-                                                            <Link to={`/dashboard/submission/${submission._id}`}>{submission.title}</Link>
+                                                            {submission.title}
                                                             <br />
                                                             <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
                                                         </td>
@@ -116,7 +116,8 @@ class Home extends Component {
                                                             <span className={"badge " + getStageBadgeClassname(submission.submissionStatus.stageId.value)}>{submission.submissionStatus.stageId.name}</span>
                                                         </td>
                                                         <td className="text-center">
-                                                            <span>{submission.submissionStatus.status}</span>
+                                                            {/* <span>{submission.submissionStatus.status}</span> */}
+                                                            <span>{submission.submissionLogs[0].event}</span>
                                                         </td>
                                                         <td className="project-actions text-center">
                                                             <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">

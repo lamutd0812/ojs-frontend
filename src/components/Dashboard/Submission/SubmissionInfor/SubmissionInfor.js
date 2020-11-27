@@ -5,7 +5,10 @@ import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 const SubmissionInfor = (props) => {
     return (
         <Aux>
-            <h6><i className="fas fa-info-circle"></i> THÔNG TIN CHI TIẾT BÀI BÁO</h6>
+            <h6>
+                <i className="fas fa-info-circle"></i> THÔNG TIN CHI TIẾT BÀI BÁO {" "}
+                {props.hasAuthorRevision && <div className="badge-ol badge-ol-secondary badge-outlined mb-1"> Bản chỉnh sửa</div>}
+            </h6>
             <div className="form-group ml-3">
                 <label>Thể loại</label>
                 <Link to="#">
@@ -14,13 +17,13 @@ const SubmissionInfor = (props) => {
             </div>
             <div className="form-group ml-3">
                 <label>Tiêu để</label>
-                <div className="ml-4">{props.submission.title}</div>
+                <p className="ml-4">{props.submission.title}</p>
             </div>
             <div className="form-group ml-3">
                 <label>Tóm tắt</label>
-                <div className="ml-4">
+                <p className="ml-4">
                     {props.submission.abstract}
-                </div>
+                </p>
             </div>
             <div className="form-group ml-3">
                 <label>File đính kèm</label>
