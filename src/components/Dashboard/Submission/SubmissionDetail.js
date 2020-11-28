@@ -256,8 +256,8 @@ class SubmissionDetail extends Component {
                                                                 </Aux>
                                                             ) : (
                                                                 <Aux>
-                                                                    <div className="form-group">
-                                                                        <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
+                                                                    <div className="form-group text-center">
+                                                                        <div className="badge-ol badge-ol-success badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
                                                                             <i className="fas fa-check"></i> Đã nộp bản chỉnh sửa bài báo
                                                                         </div>
                                                                     </div>

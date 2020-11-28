@@ -411,7 +411,7 @@ class EditorAssignment extends Component {
                                                     {this.props.editorAssignment.editorSubmissionId ? (
                                                         <Aux>
                                                             <div className="form-group text-center">
-                                                                <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
+                                                                <div className="badge-ol badge-ol-success badge-outlined p-2 pr-5 pl-5" style={{ fontSize:'16px' }}>
                                                                     <i className="fas fa-check"></i> Đã nộp ý kiến thẩm định
                                                                 </div>
                                                             </div>
@@ -440,7 +440,7 @@ class EditorAssignment extends Component {
                                                     ) : (
                                                             <Aux>
                                                                 <div className="form-group text-center">
-                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
+                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-5 pl-5" style={{ fontSize:'16px' }}>
                                                                         <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
                                                                     </div>
                                                                 </div>
@@ -507,18 +507,26 @@ class EditorAssignment extends Component {
 
                                                     {this.props.authorAssignment ? (
                                                         <Aux>
-                                                            <div className="form-group">
-                                                                <div className="btn btn-success btn-block">
-                                                                    <i className="fas fa-check"></i> Đã gửi yêu cầu đến tác giả
+                                                            {!this.props.authorAssignment.authorRevisionId ? (
+                                                                <div className="form-group text-center">
+                                                                    <div className="badge-ol badge-ol-primary badge-outlined p-2 pr-5 pl-5" style={{ fontSize:'16px' }}>
+                                                                        <i className="fas fa-check"></i> Đã gửi yêu cầu đến tác giả
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            ): (
+                                                                <div className="form-group text-center">
+                                                                    <div className="badge-ol badge-ol-success badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
+                                                                        <i className="fas fa-check"></i> Tác giả đã nộp bản chỉnh sửa
+                                                                    </div>
+                                                                </div>
+                                                            )}
                                                         </Aux>
                                                     ) : (
                                                             <Aux>
-                                                                <div className="form-group">
-                                                                    <div className="btn btn-danger btn-block">
+                                                                <div className="form-group text-center">
+                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-5 pl-5" style={{ fontSize:'16px' }}>
                                                                         <i className="fas fa-close"></i> Chưa gửi yêu cầu đến tác giả
-                                                                </div>
+                                                                    </div>
                                                                 </div>
                                                             </Aux>
                                                         )}

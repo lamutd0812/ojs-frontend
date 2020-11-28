@@ -80,7 +80,13 @@ class Home extends Component {
                                                         </td>
                                                         <td className="text-center">
                                                             {ea.authorAssignmentId ? (
-                                                                <span className="text-danger"><i className="fas fa-edit"></i> Đã yêu cầu tác giả chỉnh sửa</span>
+                                                                <Aux>
+                                                                    {ea.authorAssignmentId.authorRevisionId ? (
+                                                                        <span className="text-dark"><i></i> Tác giả đã nộp bản chỉnh sửa</span>
+                                                                    ) : (
+                                                                        <span className="text-dark"><i></i> Đã yêu cầu tác giả chỉnh sửa</span>
+                                                                    )}
+                                                                </Aux>
                                                             ) : ea.editorSubmissionId ? (
                                                                 <span className="badge bg-success"> Đã nộp ý kiến</span>
                                                             ) : (

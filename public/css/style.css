@@ -1882,70 +1882,79 @@ table.table-bordered > tbody > tr > td{
 }
 
 .badge-ol.badge-ol-default {
-  background-color: #B0BEC5
+  background-color: #343a40;
+}
+
+.badge-ol.badge-ol-dark {
+  background-color: #343a40;
 }
 
 .badge-ol.badge-ol-primary {
-  background-color: #2196F3
+  background-color: #007bff;
 }
 
 .badge-ol.badge-ol-secondary {
-  background-color: #323a45
+  background-color: #6c575d;
 }
 
 .badge-ol.badge-ol-success {
-  background-color: #64DD17
+  background-color: #28a745;
 }
 
 .badge-ol.badge-ol-warning {
-  background-color: #FFD600
+  background-color: #ffc107;
 }
 
 .badge-ol.badge-ol-info {
-  background-color: #29B6F6
+  background-color: #17a2b8;
 }
 
 .badge-ol.badge-ol-danger {
-  background-color: #ef1c1c
+  background-color: #dc3545;
 }
 
 .badge-ol.badge-outlined {
-  background-color: transparent
+  background-color: transparent;
 }
 
 .badge-ol.badge-outlined.badge-ol-default {
-  border-color: #B0BEC5;
-  color: #B0BEC5
+  border-color: #343a40;
+  color: #343a40;
+}
+
+.badge-ol.badge-outlined.badge-ol-dark {
+  border-color: #343a40;
+  color: #343a40;
 }
 
 .badge-ol.badge-outlined.badge-ol-primary {
-  border-color: #2196F3;
-  color: #2196F3
+  border-color: #007bff;
+  color: #007bff
 }
 
 .badge-ol.badge-outlined.badge-ol-secondary {
-  border-color: #323a45;
-  color: #323a45
+  border-color: #6c575d;
+  color: #6c575d;
 }
 
 .badge-ol.badge-outlined.badge-ol-success {
-  border-color: #64DD17;
-  color: #64DD17
+  border-color: #28a745;
+  color: #28a745;
 }
 
 .badge-ol.badge-outlined.badge-ol-warning {
-  border-color: #FFD600;
-  color: #FFD600
+  border-color: #ffc107;
+  color: #ffc107;
 }
 
 .badge-ol.badge-outlined.badge-ol-info {
-  border-color: #29B6F6;
-  color: #29B6F6
+  border-color: #17a2b8;
+  color: #17a2b8;
 }
 
 .badge-ol.badge-outlined.badge-ol-danger {
-  border-color: #ef1c1c;
-  color: #ef1c1c
+  border-color: #dc3545;
+  color: #dc3545;
 }
 
 /* text-purple */
