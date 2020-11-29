@@ -24,12 +24,14 @@ import SubmissionActions from './SubmissionActions/SubmissionActions';
 import AssignmentInfor from '../Author/AuthorAssignment/AssignmentInfor';
 import RevisionDetail from '../Author/AuthorAssignment/RevisionDetail/RevisionDetail';
 import ReviewerSubmissions from '../Editor/ReviewerSubmissions/ReviewerSubmissions';
+import SubmissionProcess from './SubmissionProcess/SubmissionProcess';
 import { Doughnut } from 'react-chartjs-2';
 class SubmissionDetail extends Component {
 
     state = {
         step1Active: true,
         step2Active: false,
+        step3Active: false,
         deletionConfirmed: false
     }
 
@@ -69,6 +71,7 @@ class SubmissionDetail extends Component {
         let newState = updateObject(this.state, {
             step1Active: true,
             step2Active: false,
+            step3Active: false
         });
         this.setState(newState);
     }
@@ -77,6 +80,16 @@ class SubmissionDetail extends Component {
         let newState = updateObject(this.state, {
             step1Active: false,
             step2Active: true,
+            step3Active: false
+        });
+        this.setState(newState);
+    }
+
+    step3ActiveHandler = () => {
+        let newState = updateObject(this.state, {
+            step1Active: false,
+            step2Active: false,
+            step3Active: true
         });
         this.setState(newState);
     }
@@ -126,10 +139,16 @@ class SubmissionDetail extends Component {
                                     <li className="nav-item">
                                         <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step2ActiveHandler}>
+                                            <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Qúa trình thẩm định</b></div>
+                                        </div>
+                                    </li>
+                                    <li className="nav-item">
+                                        <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
+                                            onClick={this.step3ActiveHandler}>
                                             {this.props.authorAssignment ? (
-                                                <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (1)</b></div>
+                                                <div className={this.state.step3Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (1)</b></div>
                                             ) : (
-                                                    <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (0)</b></div>
+                                                    <div className={this.state.step3Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (0)</b></div>
                                                 )}
                                         </div>
                                     </li>
@@ -150,9 +169,9 @@ class SubmissionDetail extends Component {
                                                             editorAssignment={this.props.editorAssignment}
                                                             reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                     ) : (
-                                                        <EditorialBoard
-                                                            submission={this.props.submission} />
-                                                    )}
+                                                            <EditorialBoard
+                                                                submission={this.props.submission} />
+                                                        )}
                                                 </div>
                                             </div>
                                             {/* Row */}
@@ -163,9 +182,9 @@ class SubmissionDetail extends Component {
                                                             submission={this.props.submission}
                                                             hasAuthorRevision={this.props.authorAssignment.authorRevisionId ? true : false} />
                                                     ) : (
-                                                        <SubmissionInfor
-                                                            submission={this.props.submission} />
-                                                    )}
+                                                            <SubmissionInfor
+                                                                submission={this.props.submission} />
+                                                        )}
                                                 </div>
                                                 <div className="p-2 col-lg-4 border rounded">
                                                     <SubmissionFutherInfor submission={this.props.submission} />
@@ -205,6 +224,15 @@ class SubmissionDetail extends Component {
                                                             </div>
                                                         ) : null}
                                                     </div>
+                                                </Aux>
+                                            ) : (
+                                                    <div>Chưa có thông tin thẩm định từ ban biên tập.</div>
+                                                )}
+                                        </div>
+                                        {/* ------------------Tab 3----------------- */}
+                                        <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>
+                                            {this.props.editorAssignment && this.props.authorAssignment ? (
+                                                <Aux>
                                                     {/* Row */}
                                                     <div className="row mt-2">
                                                         {/* Column */}
@@ -255,24 +283,26 @@ class SubmissionDetail extends Component {
                                                                     </div>
                                                                 </Aux>
                                                             ) : (
-                                                                <Aux>
-                                                                    <div className="form-group text-center">
-                                                                        <div className="badge-ol badge-ol-success badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
-                                                                            <i className="fas fa-check"></i> Đã nộp bản chỉnh sửa bài báo
+                                                                    <Aux>
+                                                                        <div className="form-group text-center">
+                                                                            <div className="badge-ol badge-ol-success badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
+                                                                                <i className="fas fa-check"></i> Đã nộp bản chỉnh sửa bài báo
                                                                         </div>
-                                                                    </div>
-                                                                </Aux>
-                                                            )}
+                                                                        </div>
+                                                                    </Aux>
+                                                                )}
 
                                                             <AssignmentInfor
                                                                 submission={this.props.submission}
                                                                 authorAssignment={this.props.authorAssignment} />
+                                                            <SubmissionProcess
+                                                                submission={this.props.submission} />
                                                         </div>
                                                     </div>
                                                 </Aux>
                                             ) : (
-                                                <div>Chưa có yêu cầu chỉnh sửa bài báo từ biên tập viên.</div>
-                                            )}
+                                                    <div>Chưa có yêu cầu chỉnh sửa bài báo từ biên tập viên.</div>
+                                                )}
                                         </div>
                                     </div>
                                 </div>

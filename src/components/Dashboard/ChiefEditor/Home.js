@@ -64,12 +64,12 @@ class Home extends Component {
                                                         <Link to="#" className="text-primary">{submission.authorId.lastname} {submission.authorId.firstname}</Link>
                                                     </td>
                                                     <td className="project-state">
-                                                        <span className={"badge " + getStageBadgeClassname(submission.submissionStatus.stageId.value)}>{submission.submissionStatus.stageId.name}</span>
+                                                        <span className={"badge " + getStageBadgeClassname(submission.stageId.value)}>{submission.stageId.name}</span>
                                                     </td>
                                                     <td className="text-center">
-                                                        {JSON.stringify(submission.submissionStatus.stageId) === JSON.stringify(STAGE.SUBMISSION) ? (
+                                                        {JSON.stringify(submission.stageId) === JSON.stringify(STAGE.SUBMISSION) ? (
                                                             <span><i className="fa fa-exclamation-triangle"></i> Chưa có Biên tập viên</span>) :
-                                                            <span>{submission.submissionStatus.status}</span>}
+                                                            null}
                                                     </td>
                                                     <td className="project-actions text-center">
                                                         <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">

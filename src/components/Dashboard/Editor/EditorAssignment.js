@@ -31,6 +31,7 @@ import { createReviewInputControls, editReviewInputControls } from '../../../uti
 import { createReviewInputChangeHandler, editReviewInnputChangeHandler } from '../../../utils/input-change';
 import RequestRevision from './RequestAuthorRevision/RequestRevision';
 import AuthorAssignment from './RequestAuthorRevision/AuthorAssignment';
+import SubmissionProcess from '../Submission/SubmissionProcess/SubmissionProcess';
 class EditorAssignment extends Component {
 
     state = {
@@ -350,6 +351,8 @@ class EditorAssignment extends Component {
                                                     <AssignmentInfor
                                                         submission={this.props.submission}
                                                         editorAssignment={this.props.editorAssignment} />
+                                                    <SubmissionProcess
+                                                        submission={this.props.submission} />
                                                 </div>
                                             </div>
                                         </div>
@@ -447,9 +450,8 @@ class EditorAssignment extends Component {
                                                             </Aux>
                                                         )}
 
-                                                    <AssignmentInfor
-                                                        submission={this.props.submission}
-                                                        editorAssignment={this.props.editorAssignment} />
+                                                    <SubmissionProcess
+                                                        submission={this.props.submission} />
                                                 </div>
                                             </div>
                                         </div>
@@ -531,9 +533,8 @@ class EditorAssignment extends Component {
                                                             </Aux>
                                                         )}
 
-                                                    <AssignmentInfor
-                                                        submission={this.props.submission}
-                                                        editorAssignment={this.props.editorAssignment} />
+                                                    <SubmissionProcess
+                                                        submission={this.props.submission} />                                                           
                                                 </div>
                                             </div>
                                         </div>

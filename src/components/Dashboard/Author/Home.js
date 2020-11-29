@@ -113,10 +113,9 @@ class Home extends Component {
                                                             <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
                                                         </td>
                                                         <td className="project-state">
-                                                            <span className={"badge " + getStageBadgeClassname(submission.submissionStatus.stageId.value)}>{submission.submissionStatus.stageId.name}</span>
+                                                            <span className={"badge " + getStageBadgeClassname(submission.stageId.value)}>{submission.stageId.name}</span>
                                                         </td>
                                                         <td className="text-center">
-                                                            {/* <span>{submission.submissionStatus.status}</span> */}
                                                             <span>{submission.submissionLogs[0].event}</span>
                                                         </td>
                                                         <td className="project-actions text-center">

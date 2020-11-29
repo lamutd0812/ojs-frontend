@@ -66,7 +66,7 @@ class Home extends Component {
                                                             <b>{ea.submissionId.title}</b>
                                                         </td>
                                                         <td className="project-state">
-                                                            <span className={"badge " + getStageBadgeClassname(ea.submissionId.submissionStatus.stageId.value)}>{ea.submissionId.submissionStatus.stageId.name}</span>
+                                                            <span className={"badge " + getStageBadgeClassname(ea.submissionId.stageId.value)}>{ea.submissionId.stageId.name}</span>
                                                         </td>
                                                         <td className="text-center">
                                                             <i className="fas fa-user"></i> {" "}

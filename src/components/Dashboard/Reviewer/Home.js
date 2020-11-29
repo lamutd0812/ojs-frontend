@@ -59,7 +59,7 @@ class Home extends Component {
                                                             <b>{ra.submissionId.title}</b>
                                                         </td>
                                                         <td className="project-state">
-                                                            <span className={"badge " + getStageBadgeClassname(ra.submissionId.submissionStatus.stageId.value)}>{ra.submissionId.submissionStatus.stageId.name}</span>
+                                                            <span className={"badge " + getStageBadgeClassname(ra.submissionId.stageId.value)}>{ra.submissionId.stageId.name}</span>
                                                         </td>
                                                         <td className="text-center">
                                                             <span>{getFormattedDate(ra.dueDate)}</span>

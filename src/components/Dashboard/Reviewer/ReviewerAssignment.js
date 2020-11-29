@@ -19,6 +19,7 @@ import AssignmentInfor from './AssignmentInfor/AssignmentInfor';
 import CreateReview from './ReviewSubmission/CreateReview';
 import EditReview from './ReviewSubmission/EditReview';
 import ReviewDetail from './ReviewSubmission/ReviewDetail';
+import SubmissionProcess from '../Submission/SubmissionProcess/SubmissionProcess';
 import { toast } from 'react-toastify';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { createReviewInputControls, editReviewInputControls } from '../../../utils/input-controls';
@@ -225,6 +226,8 @@ class ReviewerAssignment extends Component {
                                                     <AssignmentInfor
                                                         submission={this.props.submission}
                                                         reviewerAssignment={this.props.reviewerAssignment} />
+                                                    <SubmissionProcess
+                                                        submission={this.props.submission} />
                                                 </div>
                                             </div>
                                         </div>
@@ -321,9 +324,8 @@ class ReviewerAssignment extends Component {
                                                             </div>
                                                         </Aux>
                                                     )}
-                                                    <AssignmentInfor
-                                                        submission={this.props.submission}
-                                                        reviewerAssignment={this.props.reviewerAssignment} />
+                                                    <SubmissionProcess
+                                                        submission={this.props.submission} />
                                                 </div>
                                             </div>
                                         </div>

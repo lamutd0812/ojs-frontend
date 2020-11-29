@@ -10,7 +10,7 @@ const SubmissionActions = (props) => {
             {props.userId === props.submission.authorId._id ? (
                 <div className="form-group">
                     <label>Chỉnh sửa</label><br />
-                    {props.submission.submissionStatus.stageId.value === STAGE.SUBMISSION.value ? (
+                    {props.submission.stageId.value === STAGE.SUBMISSION.value ? (
                         <Aux>
                             <Link to={`/dashboard/edit-submission/${props.submission._id}`} className="btn btn-outline-secondary btn-sm mr-1">
                                 <i className="fas fa-pencil-alt"></i> Chỉnh sửa
@@ -19,7 +19,7 @@ const SubmissionActions = (props) => {
                                 <i className="fas fa-trash"></i> Xóa bài báo
                             </button>
                         </Aux>
-                    ) : props.submission.submissionStatus.stageId.value === STAGE.REVIEW.value && props.authorAssignment ? (
+                    ) : props.submission.stageId.value === STAGE.REVIEW.value && props.authorAssignment ? (
                         <Aux>
                             <Link to={`/dashboard/revise-submission/${props.submission._id}`} className="btn btn-outline-secondary btn-sm mr-1">
                                 <i className="fas fa-pencil-alt"></i> Nộp bản chỉnh sửa bài báo
