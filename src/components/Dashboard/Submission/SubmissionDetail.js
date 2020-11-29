@@ -197,7 +197,7 @@ class SubmissionDetail extends Component {
                                         </div>
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            {this.props.editorAssignment && this.props.authorAssignment ? (
+                                            {this.props.editorAssignment ? (
                                                 <Aux>
                                                     {/* Row */}
                                                     <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
@@ -226,8 +226,8 @@ class SubmissionDetail extends Component {
                                                     </div>
                                                 </Aux>
                                             ) : (
-                                                    <div>Chưa có thông tin thẩm định từ ban biên tập.</div>
-                                                )}
+                                                <div>Chưa có thông tin thẩm định từ ban biên tập.</div>
+                                            )}
                                         </div>
                                         {/* ------------------Tab 3----------------- */}
                                         <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>
