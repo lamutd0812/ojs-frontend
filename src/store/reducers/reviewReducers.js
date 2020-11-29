@@ -21,7 +21,9 @@ const initialState = {
     isRequestAuthorRevisionCreated: false,
     // isRequestAuthorRevisionEdited: false,
     isAuthorRevisionCreated: false,
-    authorAssignment: null
+    authorAssignment: null,
+    isSubmissionAccepted: false,
+    isSubmissionDeclined: false
 };
 
 const reviewProcessStart = (state) => {
@@ -89,14 +91,6 @@ const getEditorAssignmentBySubmissionSuccess = (state, action) => {
         error: null
     });
 };
-
-// Get Reviewer Assignments By Submission
-// const getReviewerAssignmentsBySubmissionSuccess = (state, action) => {
-//     return updateObject(state, {
-//         reviewerAssignments: action.reviewerAssignments,
-//         error: null
-//     });
-// };
 
 // Editor get my Assignments
 const getMyEditorAssignmentsSuccess = (state, action) => {
@@ -242,6 +236,37 @@ const resetAuthorRevisionState = (state) => {
     })
 };
 
+// Chief Editor Accept or Decline Submission
+const acceptSubmissionSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isSubmissionAccepted: true,
+        error: null
+    });
+};
+
+const resetAcceptSubmissionState = (state) => {
+    return updateObject(state, {
+        isSubmissionAccepted: false,
+        error: null
+    })
+};
+
+const declineSubmissionSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isSubmissionDeclined: true,
+        error: null
+    });
+};
+
+const resetDeclineSubmissionState = (state) => {
+    return updateObject(state, {
+        isSubmissionDeclined: false,
+        error: null
+    })
+};
+
 // Error 
 const reviewProcessError = (state, action) => {
     return updateObject(state, {
@@ -262,7 +287,6 @@ const reviewReducer = (state = initialState, action) => {
         case actionTypes.RESET_EDITOR_ASSIGNMENT_STATE: return resetEditorAssignmentState(state);
 
         case actionTypes.GET_EDITOR_ASSIGNMENT_BY_SUBMISSION_SUCCESS: return getEditorAssignmentBySubmissionSuccess(state, action);
-        // case actionTypes.GET_REVIEWER_ASSIGNMENTS_BY_SUBMISSION_SUCCESS: return getReviewerAssignmentsBySubmissionSuccess(state, action);
         case actionTypes.GET_MY_EDITOR_ASSIGNMENTS_SUCCESS: return getMyEditorAssignmentsSuccess(state, action);
 
         case actionTypes.GET_ALL_REVIEWERS_SUCCESS: return getAllReviewersSuccess(state, action);
@@ -287,6 +311,11 @@ const reviewReducer = (state = initialState, action) => {
         case actionTypes.GET_AUTHOR_ASSIGNMENT_SUCCESS: return getAuthorAssignmentSuccess(state, action);
         case actionTypes.AUTHOR_SUBMIT_REVISION_SUCCESS: return createAuthorRevisionSuccess(state, action);
         case actionTypes.RESET_SUBMIT_REVISION_STATE: return resetAuthorRevisionState(state);
+
+        case actionTypes.ACCEPT_SUBMISSION_SUCCESS: return acceptSubmissionSuccess(state, action);
+        case actionTypes.RESET_ACCEPT_SUBMISSION_STATE: return resetAcceptSubmissionState(state);
+        case actionTypes.DECLINE_SUBMISSION_SUCCESS: return declineSubmissionSuccess(state, action);
+        case actionTypes.RESET_DECLINE_SUBMISSION_STATE: return resetDeclineSubmissionState(state);
 
         default: return state;
     }

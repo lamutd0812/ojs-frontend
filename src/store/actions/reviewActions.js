@@ -125,6 +125,20 @@ const createAuthorRevisionSuccess = (submission) => {
     }
 };
 
+const acceptSubmissionSuccess = (message) => {
+    return {
+        type: actionTypes.ACCEPT_SUBMISSION_SUCCESS,
+        message: message
+    }
+}
+
+const declineSubmissionSuccess = (message) => {
+    return {
+        type: actionTypes.DECLINE_SUBMISSION_SUCCESS,
+        message: message
+    }
+}
+
 // Error
 const reviewProcessError = (error) => {
     return {
@@ -132,6 +146,8 @@ const reviewProcessError = (error) => {
         error: error
     };
 };
+
+// --------------------------------| Axios |-------------------------------------
 
 // Chief Editor get All Editors
 export const getAllEditors = (submissionId) => (dispatch, getState) => {
@@ -235,21 +251,6 @@ export const getEditorAssignmentBySubmission = (submissionId) => (dispatch, getS
         dispatch(reviewProcessError(err.message));
     });
 };
-
-// CE and other roles get Reviewer Assignments by Submission
-// export const getReviewerAssignmentsBySubmission = (submissionId) => (dispatch, getState) => {
-//     ;
-//     const token = getState().auth.token;
-//     axios.get('/reviews/reviewer-assignments/' + submissionId, {
-//         headers: {
-//             'Authorization': `Bearer ${token}`
-//         }
-//     }).then(res => {
-//         dispatch(getReviewerAssignmentsBySubmissionSuccess(res.data.reviewerAssignments));
-//     }).catch(err => {
-//         dispatch(reviewProcessError(err.message));
-//     });
-// };
 
 // Editor get My Assignments
 export const getMyEditorAssignments = () => (dispatch, getState) => {
@@ -436,4 +437,49 @@ export const resetAuthorRevisionState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_SUBMIT_REVISION_STATE
     })
+};
+
+// Chief Editor Accept or Decline Submisison
+export const acceptSubmisison = (submissionId, content) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const reqBody = {
+        content: content
+    };
+    axios.put('/reviews/accept-submission/' + submissionId, reqBody, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(acceptSubmissionSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.response.data.error));
+    });
+};
+
+export const resetAcceptSubmissionState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_ACCEPT_SUBMISSION_STATE
+    });
+};
+
+export const declineSubmisison = (submissionId, content) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const reqBody = {
+        content: content
+    };
+    axios.put('/reviews/decline-submission/' + submissionId, reqBody, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(declineSubmissionSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.response.data.error));
+    });
+};
+
+export const resetDeclineSubmissionState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_DECLINE_SUBMISSION_STATE
+    });
 };

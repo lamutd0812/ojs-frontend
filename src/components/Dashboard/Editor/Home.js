@@ -105,6 +105,7 @@ class Home extends Component {
                                                                 )}
                                                         </td>
                                                     </tr>
+                                                    {/* sub tab */}
                                                     <tr><td colSpan="8" className="hiddenRow">
                                                         <div id={`aaa${ea._id}`} className="accordian-body collapse">
                                                             <div className="col-lg-12">
