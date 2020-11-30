@@ -332,3 +332,32 @@ export const editReviewInputControls = {
         touched: false
     }
 };
+
+export const acceptSubmissionInputControls = {
+    content: {
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Nhận xét của bạn'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 5
+        },
+        valid: false,
+        touched: false
+    },
+    emailToAuthor: {
+        elementConfig: {
+            type: 'email',
+            placeholder: 'Nội dung Email'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 5
+        },
+        valid: false,
+        touched: false
+    }
+};

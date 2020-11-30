@@ -132,3 +132,21 @@ export const editReviewInnputChangeHandler = (event, state) => {
 
     return { updatedControls, formIsValid };
 };
+
+export const acceptSubmissionInputChangeHandler = (event, state) => {
+    let controlName = event.target.name;
+    const updatedControls = updateObject(state.controls, {
+        [controlName]: updateObject(state.controls[controlName], {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, state.controls[controlName].validation),
+            touched: true
+        })
+    });
+
+    let formIsValid = true;
+    for (let controlName in updatedControls) {
+        formIsValid = updatedControls[controlName].valid && formIsValid;
+    }
+
+    return { updatedControls, formIsValid };
+};

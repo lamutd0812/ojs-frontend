@@ -73,16 +73,20 @@ class SubmissionDetail extends Component {
                                                 </div>
                                             ) : null}
                                             <div className="form-group">
-                                                <button className="btn btn-outline-success btn-block">
-                                                    <i className="fas fa-check"></i> {" "}
-                                                    Chấp nhận bài báo
-                                                </button>
+                                                <Link to={`/dashboard/chief-editor/accept-submission/${this.props.submission._id}`}>
+                                                    <button className="btn btn-outline-success btn-block">
+                                                        <i className="fas fa-check"></i> {" "}
+                                                        Chấp nhận bài báo
+                                                    </button>
+                                                </Link>
                                             </div>
                                             <div className="form-group">
-                                                <button className="btn btn-outline-danger btn-block">
-                                                    <i className="fas fa-times"></i>{" "}
-                                                    Từ chối bài báo
-                                                </button>
+                                                <Link to={`/dashboard/chief-editor/decline-submission/${this.props.submission._id}`}>
+                                                    <button className="btn btn-outline-danger btn-block">
+                                                        <i className="fas fa-times"></i>{" "}
+                                                        Từ chối bài báo
+                                                    </button>
+                                                </Link>
                                             </div>
                                             <SubmissionFutherInfor submission={this.props.submission} />
                                         </div>

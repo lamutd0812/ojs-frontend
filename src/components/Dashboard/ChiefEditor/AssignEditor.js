@@ -10,6 +10,7 @@ import { updateObject, getDeadlineDate } from '../../../utils/utility';
 import { connect } from 'react-redux';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getAllEditors, assignEditor, resetEditorAssignmentState } from '../../../store/actions/reviewActions';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
 
 class AssignEditor extends Component {
 
@@ -98,7 +99,7 @@ class AssignEditor extends Component {
 
     render() {
         return (
-            <div>
+            <Aux>
                 <div className="content-wrapper">
                     <section className="content-header">
                         <ContentHeader title="Chỉ định biên tập viên">
@@ -254,7 +255,7 @@ class AssignEditor extends Component {
                     message="Chỉ định biên tập viên cho bài báo?"
                     confirm={this.confirmSubmitHandler} />
                 {this.props.error ? toast.error('Error: ' + this.props.error) : null}
-            </div>
+            </Aux>
         );
     }
 }

@@ -106,6 +106,7 @@ class SubmitArticle extends Component {
                                 </div>
                                 <div className="card-body">
                                     <div className="tab-content" id="custom-tabs-one-tabContent">
+                                        {/* ------------------Tab 1----------------- */}
                                         <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
                                             {/* <div>Chấp nhận điều khoản để tiếp tục</div> */}
                                             <div className="card-body">
@@ -131,6 +132,7 @@ class SubmitArticle extends Component {
                                             </div>
                                             <button className="btn btn-primary" onClick={this.step2ActiveHandler}>Chấp nhận</button>
                                         </div>
+                                        {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
                                             <div className="card-body">
                                                 {this.props.categories ? (
@@ -209,6 +211,7 @@ class SubmitArticle extends Component {
                                                     onClick={this.step1ActiveHandler}>Quay lại</button>
                                             </div>
                                         </div>
+                                        {/* ------------------Tab 3----------------- */}
                                         <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>
                                             <h4>Submit bài báo lên hệ thống thành công.</h4>
                                             <div className="ml-2">Cảm ơn bạn đã đăng tải bài báo lên hệ thống. Chúng tôi đã

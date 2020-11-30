@@ -14,6 +14,8 @@ import EditorAssignment from '../../components/Dashboard/Editor/EditorAssignment
 import AssignReviewer from '../../components/Dashboard/Editor/AssignReviewer';
 import ReviewerAssignment from '../../components/Dashboard/Reviewer/ReviewerAssignment';
 import ReviseSubmission from '../../components/Dashboard/Author/AuthorAssignment/ReviseSubmission';
+import AcceptSubmission from '../../components/Dashboard/ChiefEditor/AcceptSubmission/AcceptSubmission';
+import DeclineSubmission from '../../components/Dashboard/ChiefEditor/DeclineSubmission/DeclineSubmission';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { USER_ROLES } from '../../utils/constant';
@@ -72,6 +74,8 @@ class Dashboard extends Component {
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetailEditor} />
                         <Route path="/dashboard/chief-editor/assign-editor" component={AssignEditor} />
+                        <Route path="/dashboard/chief-editor/accept-submission/:submissionId" component={AcceptSubmission} />
+                        <Route path="/dashboard/chief-editor/decline-submission/:submissionId" component={DeclineSubmission} />
                         <Route exact path="/dashboard" component={ChiefEditorHome} />
                     </Switch>
                 );

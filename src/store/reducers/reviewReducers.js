@@ -19,7 +19,6 @@ const initialState = {
     isEditorSubmissionCreated: false,
     isEditorSubmissionEdited: false,
     isRequestAuthorRevisionCreated: false,
-    // isRequestAuthorRevisionEdited: false,
     isAuthorRevisionCreated: false,
     authorAssignment: null,
     isSubmissionAccepted: false,
