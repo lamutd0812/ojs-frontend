@@ -96,12 +96,12 @@ class AcceptSubmission extends Component {
                             <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                 <li className="nav-item">
                                     <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}>
-                                        <div className={this.state.step1Active ? 'text-orange' : 'text-secondary'}><b>1. Thông tin tới tác giả</b></div>
+                                        <div className={this.state.step1Active ? 'text-custom' : 'text-secondary'}><b>1. Thông tin tới tác giả</b></div>
                                     </div>
                                 </li>
                                 <li className="nav-item">
                                     <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}>
-                                        <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>2. Hoàn thành</b></div>
+                                        <div className={this.state.step2Active ? 'text-custom' : 'text-secondary'}><b>2. Hoàn thành</b></div>
                                     </div>
                                 </li>
                             </ul>
@@ -162,7 +162,7 @@ class AcceptSubmission extends Component {
                                     {this.props.submission ? (
                                         <div className="ml-2">Bài báo <b>{this.props.submission.title}</b> của tác giả {" "}
                                             <Link to="" className="text-primary">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}.</Link>
-                                            đã được xuất bản trên hệ thống.
+                                            {" "}đã được xuất bản trên hệ thống.
                                         </div>
                                     ) : null}
                                     <h4 className="mt-3">Bây giờ, bạn có thể:</h4>

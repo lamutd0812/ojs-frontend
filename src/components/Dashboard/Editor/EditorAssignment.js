@@ -254,19 +254,19 @@ class EditorAssignment extends Component {
                                     <li className="nav-item">
                                         <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step1ActiveHandler}>
-                                            <div className={this.state.step1Active ? 'text-orange' : 'text-secondary'}><b>Chi tiết yêu cầu</b></div>
+                                            <div className={this.state.step1Active ? 'text-custom' : 'text-secondary'}><b>Chi tiết yêu cầu</b></div>
                                         </div>
                                     </li>
                                     <li className="nav-item">
                                         <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step2ActiveHandler}>
-                                            <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Nộp ý kiến thẩm định</b></div>
+                                            <div className={this.state.step2Active ? 'text-custom' : 'text-secondary'}><b>Nộp ý kiến thẩm định</b></div>
                                         </div>
                                     </li>
                                     <li className="nav-item">
                                         <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step3ActiveHandler}>
-                                            <div className={this.state.step3Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu tác giả chỉnh sửa</b></div>
+                                            <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu tác giả chỉnh sửa</b></div>
                                         </div>
                                     </li>
                                 </ul>
@@ -285,31 +285,6 @@ class EditorAssignment extends Component {
                                                         editorAssignment={this.props.editorAssignment}
                                                         reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                 </div>
-                                            </div>
-                                            {/* Row */}
-                                            <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
-                                                {/* Column */}
-                                                <div className="p-2 col-lg-8">
-                                                    <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
-                                                </div>
-                                                {/* Column */}
-                                                {this.props.editorAssignment.reviewerAssignmentId.length > 0 ? (
-                                                    <div className="p-2 col-lg-4">
-                                                        <Doughnut
-                                                            data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
-                                                            options={{
-                                                                responsive: true,
-                                                                maintainAspectRatio: false,
-                                                                legend: {
-                                                                    labels: {
-                                                                        fontSize: 12,
-                                                                        fontFamily: 'Roboto Slab'
-                                                                    }
-                                                                }
-                                                            }}
-                                                        />
-                                                    </div>
-                                                ) : null}
                                             </div>
                                             {/* Row */}
                                             <div className="row pt-2">
@@ -359,13 +334,29 @@ class EditorAssignment extends Component {
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
                                             {/* Row */}
-                                            <div className="row">
-                                                <div className="p-2 col-lg-12 border rounded">
-                                                    <EditorialBoard
-                                                        submission={this.props.submission}
-                                                        editorAssignment={this.props.editorAssignment}
-                                                        reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
+                                            <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
+                                                {/* Column */}
+                                                <div className="p-2 col-lg-8">
+                                                    <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                 </div>
+                                                {/* Column */}
+                                                {this.props.editorAssignment.reviewerAssignmentId.length > 0 ? (
+                                                    <div className="p-2 col-lg-4">
+                                                        <Doughnut
+                                                            data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
+                                                            options={{
+                                                                responsive: true,
+                                                                maintainAspectRatio: false,
+                                                                legend: {
+                                                                    labels: {
+                                                                        fontSize: 12,
+                                                                        fontFamily: 'Roboto Slab'
+                                                                    }
+                                                                }
+                                                            }}
+                                                        />
+                                                    </div>
+                                                ) : null}
                                             </div>
                                             {/* Row */}
                                             <div className="row pt-2">

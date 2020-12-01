@@ -75,7 +75,9 @@ class Home extends Component {
                 {/* <!-- Content Header (Page header) --> */}
                 <section className="content-header">
                     <ContentHeader title="Trang tác giả" />
-                    <button onClick={this.btnNewSubmissonClickHandler} className="btn btn-primary">Submit bài báo </button>
+                    <button onClick={this.btnNewSubmissonClickHandler} className="btn btn-outline-dark">
+                        <i className="fas fa-upload"></i> Submit bài báo
+                    </button>
                 </section>
 
                 {/* <!-- Main content --> */}

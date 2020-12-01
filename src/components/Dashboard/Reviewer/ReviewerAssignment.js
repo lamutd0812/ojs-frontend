@@ -188,13 +188,13 @@ class ReviewerAssignment extends Component {
                                     <li className="nav-item">
                                         <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step1ActiveHandler}>
-                                            <div className={this.state.step1Active ? 'text-orange' : 'text-secondary'}><b>Chi tiết yêu cầu</b></div>
+                                            <div className={this.state.step1Active ? 'text-custom' : 'text-secondary'}><b>Chi tiết yêu cầu</b></div>
                                         </div>
                                     </li>
                                     <li className="nav-item">
                                         <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step2ActiveHandler}>
-                                            <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Ý kiến thẩm định của bạn</b></div>
+                                            <div className={this.state.step2Active ? 'text-custom' : 'text-secondary'}><b>Ý kiến thẩm định của bạn</b></div>
                                         </div>
                                     </li>
                                 </ul>

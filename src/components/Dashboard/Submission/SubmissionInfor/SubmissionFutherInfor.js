@@ -6,7 +6,10 @@ import { getFormattedDate, getStageBadgeClassname } from '../../../../utils/util
 const SubmissionFutherInfor = (props) => {
     return (
         <Aux>
-            <div className="form-group mt-4">
+            <div className="form-group">
+                <h6><i className="far fa-calendar-alt"></i> TIẾN TRÌNH BÀI BÁO</h6>
+            </div>
+            <div className="form-group">
                 <label>Ngày đăng:</label>
                 <p className="ml-4">
                     {getFormattedDate(props.submission.createdAt)}

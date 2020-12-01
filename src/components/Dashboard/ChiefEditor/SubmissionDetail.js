@@ -29,7 +29,7 @@ class SubmissionDetail extends Component {
         return (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader title="Thông tin chi tiết bài báo">
+                    <ContentHeader title="Quản lý bài báo">
                         <li className="breadcrumb-item active">Submission Detail</li>
                     </ContentHeader>
                 </section>
@@ -72,6 +72,7 @@ class SubmissionDetail extends Component {
                                                     </Link>
                                                 </div>
                                             ) : null}
+                                            <h6><i className="fas fa-gavel"></i> QUYẾT ĐỊNH XUẤT BẢN</h6>
                                             <div className="form-group">
                                                 <Link to={`/dashboard/chief-editor/accept-submission/${this.props.submission._id}`}>
                                                     <button className="btn btn-outline-success btn-block">

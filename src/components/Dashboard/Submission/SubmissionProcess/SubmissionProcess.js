@@ -19,12 +19,6 @@ const SubmissionProcess = (props) => {
                     {props.submission.stageId.name}
                 </div>
             </div>
-            <div className="form-group ml-3">
-                <label>Trạng thái</label><br />
-                <div className="ml-3">
-                    {props.submission.status}
-                </div>
-            </div>
         </Aux>
     );
 };

@@ -1957,7 +1957,6 @@ table.table-bordered > tbody > tr > td{
   color: #dc3545;
 }
 
-/* text-purple */
-.text-orange {
-  color: #e56717;
+.text-custom {
+  color: #FF5733;
 }

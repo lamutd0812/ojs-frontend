@@ -133,22 +133,22 @@ class SubmissionDetail extends Component {
                                     <li className="nav-item">
                                         <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step1ActiveHandler}>
-                                            <div className={this.state.step1Active ? 'text-orange' : 'text-secondary'}><b>Thông tin bài báo</b></div>
+                                            <div className={this.state.step1Active ? 'text-custom' : 'text-secondary'}><b>Thông tin bài báo</b></div>
                                         </div>
                                     </li>
                                     <li className="nav-item">
                                         <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step2ActiveHandler}>
-                                            <div className={this.state.step2Active ? 'text-orange' : 'text-secondary'}><b>Qúa trình thẩm định</b></div>
+                                            <div className={this.state.step2Active ? 'text-custom' : 'text-secondary'}><b>Qúa trình thẩm định</b></div>
                                         </div>
                                     </li>
                                     <li className="nav-item">
                                         <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step3ActiveHandler}>
                                             {this.props.authorAssignment ? (
-                                                <div className={this.state.step3Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (1)</b></div>
+                                                <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (1)</b></div>
                                             ) : (
-                                                    <div className={this.state.step3Active ? 'text-orange' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (0)</b></div>
+                                                    <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu chỉnh sửa bài báo (0)</b></div>
                                                 )}
                                         </div>
                                     </li>
