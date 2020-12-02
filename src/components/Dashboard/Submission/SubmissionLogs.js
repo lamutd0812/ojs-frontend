@@ -30,7 +30,6 @@ const SubmissionLogs = (props) => {
                                         </div>
                                     </Aux>
                                 ))}
-
                                 <div>
                                     <i className="fas fa-clock bg-gray"></i>
                                 </div>

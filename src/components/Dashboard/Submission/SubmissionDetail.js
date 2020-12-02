@@ -27,8 +27,8 @@ import RevisionDetail from '../Author/AuthorAssignment/RevisionDetail/RevisionDe
 import ReviewerSubmissions from '../Editor/ReviewerSubmissions/ReviewerSubmissions';
 import SubmissionProcess from './SubmissionProcess/SubmissionProcess';
 import { Doughnut } from 'react-chartjs-2';
-import EditorSubmissionDetail from '../Editor/EditorSubmission/EditorSubmisisonDetail';
-import CESubmissionDetail from '../ChiefEditor/ChiefEditorSubmission/CESubmisisonDetail';
+import EditorSubmissionDetail from '../ChiefEditor/EditorialBoardSubmissions/EditorSubmissionDetail';
+import CESubmissionDetail from '../ChiefEditor/EditorialBoardSubmissions/CESubmisisonDetail';
 class SubmissionDetail extends Component {
 
     state = {
@@ -233,18 +233,20 @@ class SubmissionDetail extends Component {
                                                 )}
                                             </div>
                                             {/* Row */}
-                                            <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
+                                            <div className="row border rounded mt-2">
                                                 <div className="p-2 col-lg-10">
                                                     <h6><i className="fas fa-comment"></i> Ý KIẾN CỦA BIÊN TẬP VIÊN</h6>
                                                     {this.props.editorAssignment && this.props.editorAssignment.editorSubmissionId ? (
-                                                        <EditorSubmissionDetail editorSubmission={this.props.editorAssignment.editorSubmissionId} />
+                                                        <EditorSubmissionDetail
+                                                            editorAssignment={this.props.editorAssignment}
+                                                            editorSubmission={this.props.editorAssignment.editorSubmissionId} />
                                                     ) : (
                                                         <div>Chưa có thông tin thẩm định của biên tập viên.</div>
                                                     )}
                                                 </div>
                                             </div>
                                             {/* Row */}
-                                            <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
+                                            <div className="row border rounded mt-2">
                                                 <div className="p-2 col-lg-10">
                                                     <h6><i className="fas fa-gavel"></i> QUYẾT ĐỊNH CỦA TỔNG BIÊN TẬP</h6>
                                                     {this.props.chiefEditorSubmission ? (

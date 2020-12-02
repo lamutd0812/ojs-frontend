@@ -16,7 +16,7 @@ const ReviewerSubmissions = (props) => {
                         <tr>
                             <th style={{ width: '1%' }}>#</th>
                             <th style={{ width: '30%' }}>Thẩm định viên</th>
-                            <th style={{ width: '25%' }}>Trạng thái</th>
+                            <th style={{ width: '25%' }} className="text-center">Trạng thái</th>
                             <th style={{ width: '25%' }} className="text-center">Quyết định</th>
                             <th style={{ width: '19%' }} className="text-center">Ý kiến</th>
                         </tr>
@@ -26,8 +26,10 @@ const ReviewerSubmissions = (props) => {
                             <Aux key={ra._id}>
                                 <tr>
                                     <td>{stt++}</td>
-                                    <td>{ra.reviewerId.lastname} {ra.reviewerId.firstname}</td>
-                                    <td>{ra.reviewerSubmissionId ? "Đã nộp ý kiến" : "Chưa nộp ý kiến"}</td>
+                                    <td>
+                                        <Link to="#" className="text-primary">{ra.reviewerId.lastname} {ra.reviewerId.firstname}</Link>
+                                    </td>
+                                    <td className="text-center">{ra.reviewerSubmissionId ? "Đã nộp ý kiến" : "Chưa nộp ý kiến"}</td>
                                     <td className="text-center">
                                         {ra.reviewerSubmissionId ? (
                                             <span className={"badge " + getDecisionBadgeClassname2(ra.reviewerSubmissionId.reviewerDecisionId.value) + " p1"}>
