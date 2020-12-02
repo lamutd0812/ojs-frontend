@@ -10,6 +10,8 @@ const initialState = {
     editorAssignment: null,
     reviewerAssignments: [],
     reviewerAssignment: null,
+    authorAssignment: null,
+    chiefEditorSubmission: null,
     message: null,
     error: null,
     loading: false,
@@ -20,9 +22,9 @@ const initialState = {
     isEditorSubmissionEdited: false,
     isRequestAuthorRevisionCreated: false,
     isAuthorRevisionCreated: false,
-    authorAssignment: null,
     isSubmissionAccepted: false,
-    isSubmissionDeclined: false
+    isSubmissionDeclined: false,
+
 };
 
 const reviewProcessStart = (state) => {
@@ -266,6 +268,14 @@ const resetDeclineSubmissionState = (state) => {
     })
 };
 
+// All: Get Cief Editor Submission
+const getChiefEditorSubmissionSuccess = (state, action) => {
+    return updateObject(state, {
+        chiefEditorSubmission: action.chiefEditorSubmission,
+        error: null
+    });
+};
+
 // Error 
 const reviewProcessError = (state, action) => {
     return updateObject(state, {
@@ -315,6 +325,8 @@ const reviewReducer = (state = initialState, action) => {
         case actionTypes.RESET_ACCEPT_SUBMISSION_STATE: return resetAcceptSubmissionState(state);
         case actionTypes.DECLINE_SUBMISSION_SUCCESS: return declineSubmissionSuccess(state, action);
         case actionTypes.RESET_DECLINE_SUBMISSION_STATE: return resetDeclineSubmissionState(state);
+
+        case actionTypes.GET_CE_SUBMISSION_SUCCESS: return getChiefEditorSubmissionSuccess(state, action);
 
         default: return state;
     }

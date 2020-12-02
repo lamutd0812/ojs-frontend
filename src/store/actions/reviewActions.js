@@ -139,6 +139,13 @@ const declineSubmissionSuccess = (message) => {
     }
 }
 
+const getChiefEditorSubmissionSuccess = (chiefEditorSubmission) => {
+    return {
+        type: actionTypes.GET_CE_SUBMISSION_SUCCESS,
+        chiefEditorSubmission: chiefEditorSubmission
+    };
+};
+
 // Error
 const reviewProcessError = (error) => {
     return {
@@ -481,5 +488,20 @@ export const declineSubmisison = (submissionId, content) => (dispatch, getState)
 export const resetDeclineSubmissionState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_DECLINE_SUBMISSION_STATE
+    });
+};
+
+// All: Get Chief Editor Submission
+export const getChiefEditorSubmission = (submissionId) => (dispatch, getState) => {
+    ;
+    const token = getState().auth.token;
+    axios.get('/reviews/chief-editor-submission/' + submissionId, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getChiefEditorSubmissionSuccess(res.data.chiefEditorSubmission));
+    }).catch(err => {
+        dispatch(reviewProcessError(err.message));
     });
 };
