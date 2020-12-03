@@ -11,6 +11,9 @@ import {
     deleteSubmission,
     resetDeleteSubmissionState
 } from '../../../store/actions/submissionActions';
+import {
+    getMyNotifications
+} from '../../../store/actions/authActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { updateObject } from '../../../utils/utility';
 
@@ -42,6 +45,7 @@ class Home extends Component {
 
     refreshHandler = () => {
         this.props.getSubmissionsByAuthor(this.props.userId);
+        this.props.getMyNotifications();
     }
 
     selectSubmissionHandler = (submissionId) => {
@@ -118,7 +122,7 @@ class Home extends Component {
                                                             <span className={"badge " + getStageBadgeClassname(submission.stageId.value)}>{submission.stageId.name}</span>
                                                         </td>
                                                         <td className="text-center">
-                                                            <span>{submission.submissionLogs[0].event}</span>
+                                                            <span>{submission.submissionLogs[submission.submissionLogs.length - 1].event}</span>
                                                         </td>
                                                         <td className="project-actions text-center">
                                                             <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
@@ -176,6 +180,7 @@ const mapDispatchToProps = {
     getSubmissionsByAuthor,
     deleteSubmission,
     resetDeleteSubmissionState,
+    getMyNotifications
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -9,7 +9,8 @@ const initialState = {
     role: localStorage.getItem('role') ? localStorage.getItem('role') : null,
     error: null,
     loading: false,
-    isSignedUp: false
+    isSignedUp: false,
+    notifications: []
 };
 
 const authStart = (state) => {
@@ -59,10 +60,17 @@ const authLogout = (state) => {
         token: null,
         userId: null,
         fullname: null,
-        avatar: null
+        avatar: null,
+        notifications: []
     });
 };
 
+const getMyNotificationsSuccess = (state, action) => {
+    return updateObject(state, {
+        notifications: action.notifications,
+        error: null
+    })
+}
 
 const authReducers = (state = initialState, action) => {
     switch (action.type) {
@@ -72,6 +80,9 @@ const authReducers = (state = initialState, action) => {
         case actionTypes.AUTH_LOGOUT: return authLogout(state, action);
         case actionTypes.REGISTER_SUCCESS: return registerSuccess(state, action);
         case actionTypes.RESET_REGISTER_STATE: return resetRegisterState(state, action);
+
+        case actionTypes.GET_MY_NOTIFICATIONS_SUCCESS: return getMyNotificationsSuccess(state, action);
+
         default: return state;
     }
 };

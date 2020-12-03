@@ -16,7 +16,9 @@ const AuthorAssignment = (props) => {
                                     Tác giả đã nộp bản chỉnh sửa bài báo
                                 </span> <br />
                                 <div className="p-1"></div>
-                                <div className="text-primary ml-4" style={{ cursor: 'pointer' }}><u>Xem bản chỉnh sửa</u></div>
+                                <div className="text-primary ml-4" style={{ cursor: 'pointer' }} onClick={props.step1ActiveHandler}>
+                                    <u>Xem bản chỉnh sửa</u>
+                                </div>
                             </Aux>
                         ) : (
                             <span className="decision-danger ml-4">

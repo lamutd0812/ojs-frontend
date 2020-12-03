@@ -10,6 +10,7 @@ import EditorialBoard from '../Submission/SubmissionInfor/EditorialBoard';
 import EditorSubmissionDetail from './EditorSubmission/EditorSubmisisonDetail';
 import CreateEditorSubmission from './EditorSubmission/CreateEditorSubmisison';
 import EditEditorSubmission from './EditorSubmission/EditEditorSubmission';
+import { getMyNotifications } from '../../../store/actions/authActions';
 import { getSubmissionDetail, getEditorDecisions } from '../../../store/actions/submissionActions';
 import {
     getEditorAssignmentBySubmission,
@@ -96,6 +97,7 @@ class EditorAssignment extends Component {
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getEditorDecisions();
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getMyNotifications();
         }
     }
 
@@ -468,7 +470,9 @@ class EditorAssignment extends Component {
                                                             </div>
                                                             <h6><i className="fas fa-comment"></i> CHI TIẾT YÊU CẦU TÁC GIẢ CHỈNH SỬA</h6>
                                                             {this.props.authorAssignment ? (
-                                                                <AuthorAssignment authorAssignment={this.props.authorAssignment} />
+                                                                <AuthorAssignment
+                                                                    step1ActiveHandler={this.step1ActiveHandler}
+                                                                    authorAssignment={this.props.authorAssignment} />
                                                             ) : (
                                                                     <div className="form-group ml-3">
                                                                         <p className="ml-4">Bạn chưa gửi yêu cầu chỉnh sửa bài báo cho tác giả.</p>
@@ -480,7 +484,9 @@ class EditorAssignment extends Component {
                                                                 {this.props.authorAssignment ? (
                                                                     <Aux>
                                                                         <h6><i className="fas fa-edit"></i> CHI TIẾT YÊU CẦU TÁC GIẢ CHỈNH SỬA</h6>
-                                                                        <AuthorAssignment authorAssignment={this.props.authorAssignment} />
+                                                                        <AuthorAssignment
+                                                                            step1ActiveHandler={this.step1ActiveHandler}
+                                                                            authorAssignment={this.props.authorAssignment} />
                                                                     </Aux>
                                                                 ) : (
                                                                         <RequestRevision
@@ -577,7 +583,8 @@ const mapDispatchToProps = {
     resetEditEditorSubmissionState,
     requestAuthorRevision,
     resetRequestAuthorRevisionState,
-    getAuthorAssignmentBySubmission
+    getAuthorAssignmentBySubmission,
+    getMyNotifications
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditorAssignment);

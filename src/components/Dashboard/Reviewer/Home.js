@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Spinner from '../../UI/Spinner/Spinner';
+import { getMyNotifications } from '../../../store/actions/authActions';
 import { getMyReviewerAssignments } from '../../../store/actions/reviewActions';
 import { Link } from 'react-router-dom';
 import { checkDueDate, getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
@@ -15,6 +16,7 @@ class Home extends Component {
 
     refreshHandler = () => {
         this.props.getMyReviewerAssignments();
+        this.props.getMyNotifications();
     }
 
     render() {
@@ -71,8 +73,8 @@ class Home extends Component {
                                                             {ra.reviewerSubmissionId ? (
                                                                 <span className="badge bg-success"> Đã nộp ý kiến</span>
                                                             ) : (
-                                                                    <span className="badge bg-danger">Chưa nộp ý kiến</span>
-                                                                )}
+                                                                <span className="badge bg-danger">Chưa nộp ý kiến</span>
+                                                            )}
                                                         </td>
                                                         <td className="project-actions text-center">
                                                             {ra.reviewerSubmissionId ? (
@@ -157,7 +159,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-    getMyReviewerAssignments
+    getMyReviewerAssignments,
+    getMyNotifications
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

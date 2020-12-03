@@ -1960,3 +1960,8 @@ table.table-bordered > tbody > tr > td{
 .text-custom {
   color: #FF5733;
 }
+
+/* Dropdown Menu Width */
+.dropdown-menu {
+  min-width: 450px !important;
+}

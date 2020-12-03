@@ -5,6 +5,7 @@ import SubmissionInfor from '../Submission/SubmissionInfor/SubmissionInfor';
 import Spinner from '../../UI/Spinner/Spinner';
 import SubmissionLogs from '../Submission/SubmissionLogs';
 import { checkDueDate, updateObject } from '../../../utils/utility';
+import { getMyNotifications } from '../../../store/actions/authActions';
 import { getSubmissionDetail, getReviewerDecisions } from '../../../store/actions/submissionActions';
 import {
     getMyReviewerAssignmentDetail,
@@ -74,6 +75,7 @@ class ReviewerAssignment extends Component {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getMyReviewerAssignmentDetail(this.props.match.params.submissionId);
             this.props.getReviewerDecisions();
+            this.props.getMyNotifications();
         }
     }
 
@@ -372,7 +374,8 @@ const mapDispatchToProps = {
     createReviewSubmission,
     resetCreateReviewSubmissionState,
     editReviewSubmission,
-    resetEditReviewSubmissionState
+    resetEditReviewSubmissionState,
+    getMyNotifications
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewerAssignment);

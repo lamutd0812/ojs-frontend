@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Spinner from '../../UI/Spinner/Spinner';
+import { getMyNotifications } from '../../../store/actions/authActions';
 import { getMyEditorAssignments } from '../../../store/actions/reviewActions';
 import { Link } from 'react-router-dom';
 import { checkDueDate, getDoughnutData, getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
@@ -16,6 +17,7 @@ class Home extends Component {
 
     refreshHandler = () => {
         this.props.getMyEditorAssignments();
+        this.props.getMyNotifications();
     }
 
     fetchDoughnutData = (reviewerAssignments) => {
@@ -232,7 +234,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-    getMyEditorAssignments
+    getMyEditorAssignments,
+    getMyNotifications
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

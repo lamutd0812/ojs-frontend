@@ -5,6 +5,7 @@ import SubmissionInfor from '../Submission/SubmissionInfor/SubmissionInfor';
 import SubmissionLogs from '../Submission/SubmissionLogs';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
+import { getMyNotifications } from '../../../store/actions/authActions';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getEditorAssignmentBySubmission, getChiefEditorSubmission } from '../../../store/actions/reviewActions';
 import EditorialBoard from '../Submission/SubmissionInfor/EditorialBoard';
@@ -35,6 +36,7 @@ class SubmissionDetail extends Component {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
+            this.props.getMyNotifications();
         }
     }
 
@@ -254,7 +256,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     getSubmissionDetail,
     getEditorAssignmentBySubmission,
-    getChiefEditorSubmission
+    getChiefEditorSubmission,
+    getMyNotifications
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionDetail);

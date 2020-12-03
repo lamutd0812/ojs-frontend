@@ -8,14 +8,20 @@ import Logout from './containers/Auth/Logout';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import { connect } from 'react-redux';
-import { keepAuthState } from './store/actions/authActions';
+import { keepAuthState, getMyNotifications } from './store/actions/authActions';
 import Article from './containers/Article/Article';
 
 class App extends Component {
 
     componentDidMount() {
         // keep auth state
-        this.props.onKeepSigninState();
+        this.props.keepAuthState();
+    }
+
+    componentDidUpdate(prevProps){
+        if(!prevProps.isAuth && this.props.isAuth) {
+            this.props.getMyNotifications();
+        }
     }
 
     render() {
@@ -56,7 +62,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    onKeepSigninState: keepAuthState
+    keepAuthState,
+    getMyNotifications
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

@@ -8,6 +8,7 @@ import DeleteSubmission from '../Author/DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
 import { checkDueDate, getDoughnutData, updateObject } from '../../../utils/utility';
+import { getMyNotifications } from '../../../store/actions/authActions';
 import {
     getSubmissionDetail,
     deleteSubmission,
@@ -63,6 +64,7 @@ class SubmissionDetail extends Component {
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
+            this.props.getMyNotifications();
         }
     }
 
@@ -369,7 +371,8 @@ const mapDispatchToProps = {
     resetDeleteSubmissionState,
     getEditorAssignmentBySubmission,
     getAuthorAssignmentBySubmission,
-    getChiefEditorSubmission
+    getChiefEditorSubmission,
+    getMyNotifications
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmissionDetail);

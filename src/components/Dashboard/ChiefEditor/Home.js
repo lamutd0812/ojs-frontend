@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllSubmissions } from '../../../store/actions/submissionActions';
+import { getMyNotifications } from '../../../store/actions/authActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
@@ -16,6 +17,7 @@ class Home extends Component {
 
     refreshHandler = () => {
         this.props.getAllSubmissions();
+        this.props.getMyNotifications();
     }
 
     render() {
@@ -71,8 +73,8 @@ class Home extends Component {
                                                             {JSON.stringify(submission.stageId) === JSON.stringify(STAGE.SUBMISSION) ? (
                                                                 <span><i className="fa fa-exclamation-triangle"></i> Chưa có Biên tập viên</span>
                                                             ) : (
-                                                                    <span>{submission.submissionLogs[submission.submissionLogs.length - 1].event}</span>
-                                                                )}
+                                                                <span>{submission.submissionLogs[submission.submissionLogs.length - 1].event}</span>
+                                                            )}
                                                         </td>
                                                         <td className="project-actions text-center">
                                                             <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
@@ -120,7 +122,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-    getAllSubmissions
+    getAllSubmissions,
+    getMyNotifications
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
