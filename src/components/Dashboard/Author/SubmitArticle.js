@@ -15,6 +15,10 @@ class SubmitArticle extends Component {
         step1Active: true,
         step2Active: false,
         step3Active: false,
+        requirement1: false,
+        requirement2: false,
+        requirement3: false,
+        requirement4: false,
         controls: submitArticleInputControls,
         formIsValid: false
     }
@@ -66,6 +70,15 @@ class SubmitArticle extends Component {
         this.setState(newState);
     }
 
+    confirmRequirementHandler = (event) => {
+        let name = event.target.name;
+        if (event.target.checked) {
+            this.setState(updateObject(this.state, { [name]: true }));
+        } else {
+            this.setState(updateObject(this.state, { [name]: false }));
+        }
+    }
+
     confirmSubmitHandler = () => {
         const formData = new FormData();
         formData.append('title', this.state.controls.title.value);
@@ -108,29 +121,44 @@ class SubmitArticle extends Component {
                                     <div className="tab-content" id="custom-tabs-one-tabContent">
                                         {/* ------------------Tab 1----------------- */}
                                         <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            {/* <div>Chấp nhận điều khoản để tiếp tục</div> */}
-                                            <div className="card-body">
-                                                <div className="form-group">
-                                                    <h6>Yêu cầu chung</h6>
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" />
-                                                        <label className="form-check-label">Yêu cầu 1</label>
-                                                    </div>
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" />
-                                                        <label className="form-check-label">Yêu cầu 2</label>
-                                                    </div>
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" />
-                                                        <label className="form-check-label">Yêu cầu 3</label>
-                                                    </div>
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox" />
-                                                        <label className="form-check-label">Yêu cầu 4</label>
-                                                    </div>
-                                                </div>
+                                            <h5>Yêu cầu chung</h5>
+                                            <div className="text-secondary mb-1">Bạn cần đọc và chấp nhận các yêu cầu dưới đây
+                                                trước khi tiến hành đăng tải bài báo lên hệ thống.</div>
+                                            <div className="form-check pt-1 pb-1">
+                                                <input className="form-check-input" type="checkbox" name="requirement1"
+                                                    checked={this.state.requirement1} onChange={event => this.confirmRequirementHandler(event)} />
+                                                <label className="form-check-label">
+                                                    Bài báo chưa từng được xuất bản trên hệ thống, cũng như trên các tạp chí khác.
+                                                </label>
                                             </div>
-                                            <button className="btn btn-primary" onClick={this.step2ActiveHandler}>Chấp nhận</button>
+                                            <div className="form-check pt-1 pb-1">
+                                                <input className="form-check-input" type="checkbox" name="requirement2"
+                                                    checked={this.state.requirement2} onChange={event => this.confirmRequirementHandler(event)} />
+                                                <label className="form-check-label">
+                                                    Các tài liệu liên quan như file đính kèm bài báo phải ở dạng doc, docx hoặc pdf.
+                                                </label>
+                                            </div>
+                                            <div className="form-check pt-1 pb-1">
+                                                <input className="form-check-input" type="checkbox" name="requirement3"
+                                                    checked={this.state.requirement3} onChange={event => this.confirmRequirementHandler(event)} />
+                                                <label className="form-check-label">
+                                                    Văn bản có khoảng cách chữ bằng một dấu cách; font chữ 12;
+                                                    sử dụng chữ nghiêng thay vì gạch chân (ngoại trừ các địa chỉ URL);
+                                                    và tất cả các hình minh họa, mô phỏng và bảng biểu được đặt trong văn bản
+                                                    ở những vị trí thích hợp, thay vì ở cuối.
+                                                </label>
+                                            </div>
+                                            <div className="form-check pt-1 pb-1">
+                                                <input className="form-check-input" type="checkbox" name="requirement4"
+                                                    checked={this.state.requirement4} onChange={event => this.confirmRequirementHandler(event)} />
+                                                <label className="form-check-label">
+                                                    Văn bản tuân thủ các yêu cầu về  văn phong của một bài báo khoa học.
+                                                </label>
+                                            </div>
+                                            <button
+                                                className="btn btn-primary mt-2"
+                                                disabled={!(this.state.requirement1 && this.state.requirement2 && this.state.requirement3 && this.state.requirement4)}
+                                                onClick={this.step2ActiveHandler}>Tiếp tục</button>
                                         </div>
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
@@ -205,9 +233,9 @@ class SubmitArticle extends Component {
                                                     className="btn btn-primary"
                                                     data-toggle="modal"
                                                     data-target="#confirmDialogModal"
-                                                    disabled={!this.state.formIsValid}>Submit</button>
+                                                    disabled={!this.state.formIsValid}>Xác nhận</button>
                                                 <button
-                                                    className="btn btn-dark ml-2"
+                                                    className="btn btn-danger ml-2"
                                                     onClick={this.step1ActiveHandler}>Quay lại</button>
                                             </div>
                                         </div>

@@ -24,8 +24,8 @@ const RevisionDetail = (props) => {
                         {props.authorRevision.isAccepted ? (
                             <span className="decision-success ml-4">Biên tập viên đã tiếp nhận</span>
                         ) : (
-                                <span className="decision-danger ml-4">Biên tập viên chưa tiếp nhận</span>
-                            )}
+                            <span className="decision-danger ml-4">Biên tập viên chưa tiếp nhận</span>
+                        )}
                     </div>
                 </Aux>
             ) : null}

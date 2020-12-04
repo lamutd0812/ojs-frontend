@@ -150,9 +150,9 @@ class AcceptSubmission extends Component {
                                             className="btn btn-primary"
                                             data-toggle="modal"
                                             data-target="#confirmDialogModal"
-                                            disabled={!this.state.formIsValid}>Submit</button>
+                                            disabled={!this.state.formIsValid}>Xác nhận</button>
                                         <Link to={`/dashboard/submission/${this.props.match.params.submissionId}`}>
-                                            <button className="btn btn-dark ml-2" >Hủy </button>
+                                            <button className="btn btn-danger ml-2" >Hủy </button>
                                         </Link>
                                     </div>
                                 </div>

@@ -155,8 +155,8 @@ class SubmissionDetail extends Component {
                                             {this.props.authorAssignment ? (
                                                 <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu chỉnh sửa (1)</b></div>
                                             ) : (
-                                                <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu chỉnh sửa (0)</b></div>
-                                            )}
+                                                    <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu chỉnh sửa (0)</b></div>
+                                                )}
                                         </div>
                                     </li>
                                 </ul>
@@ -176,8 +176,8 @@ class SubmissionDetail extends Component {
                                                             editorAssignment={this.props.editorAssignment}
                                                             reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                     ) : (
-                                                        <EditorialBoard submission={this.props.submission} />
-                                                    )}
+                                                            <EditorialBoard submission={this.props.submission} />
+                                                        )}
                                                 </div>
                                             </div>
                                             {/* Row */}
@@ -188,8 +188,8 @@ class SubmissionDetail extends Component {
                                                             submission={this.props.submission}
                                                             hasAuthorRevision={this.props.authorAssignment.authorRevisionId ? true : false} />
                                                     ) : (
-                                                        <SubmissionInfor submission={this.props.submission} />
-                                                    )}
+                                                            <SubmissionInfor submission={this.props.submission} />
+                                                        )}
                                                 </div>
                                                 <div className="p-2 col-lg-4 border rounded">
                                                     <SubmissionFutherInfor submission={this.props.submission} />
@@ -202,38 +202,38 @@ class SubmissionDetail extends Component {
                                         </div>
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            {/* Row */}
-                                            <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
-                                                {this.props.editorAssignment ? (
-                                                    <Aux>
-                                                        {/* Column */}
-                                                        <div className="p-2 col-lg-8">
-                                                            <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
-                                                        </div>
-                                                        {/* Column */}
-                                                        <div className="p-2 col-lg-4">
-                                                            <Doughnut
-                                                                data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
-                                                                options={{
-                                                                    responsive: true,
-                                                                    maintainAspectRatio: false,
-                                                                    legend: {
-                                                                        labels: {
-                                                                            fontSize: 12,
-                                                                            fontFamily: 'Roboto Slab'
-                                                                        }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    </Aux>
-                                                ) : (
+                                            {this.props.editorAssignment ? (
+                                                // Row
+                                                <div className="row border rounded mt-2" style={this.props.editorAssignment.reviewerAssignmentId.length > 0 ? { minHeight: '200px' } : null}>
+                                                    {/* Column */}
                                                     <div className="p-2 col-lg-8">
-                                                        <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
-                                                        <div>Chưa có thông tin thẩm định của thẩm định viên.</div>
+                                                        <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
+                                                    </div>
+                                                    {/* Column */}
+                                                    <div className="p-2 col-lg-4">
+                                                        <Doughnut
+                                                            data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
+                                                            options={{
+                                                                responsive: true,
+                                                                maintainAspectRatio: false,
+                                                                legend: {
+                                                                    labels: {
+                                                                        fontSize: 12,
+                                                                        fontFamily: 'Roboto Slab'
+                                                                    }
+                                                                }
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                    <div className="row border rounded mt-2">
+                                                        <div className="p-2 col-lg-8">
+                                                            <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
+                                                            <div>Chưa có thông tin thẩm định của thẩm định viên.</div>
+                                                        </div>
                                                     </div>
                                                 )}
-                                            </div>
                                             {/* Row */}
                                             <div className="row border rounded mt-2">
                                                 <div className="p-2 col-lg-10">
@@ -243,8 +243,8 @@ class SubmissionDetail extends Component {
                                                             editorAssignment={this.props.editorAssignment}
                                                             editorSubmission={this.props.editorAssignment.editorSubmissionId} />
                                                     ) : (
-                                                        <div>Chưa có thông tin thẩm định của biên tập viên.</div>
-                                                    )}
+                                                            <div>Chưa có thông tin thẩm định của biên tập viên.</div>
+                                                        )}
                                                 </div>
                                             </div>
                                             {/* Row */}
@@ -254,8 +254,8 @@ class SubmissionDetail extends Component {
                                                     {this.props.chiefEditorSubmission ? (
                                                         <CESubmissionDetail chiefEditorSubmission={this.props.chiefEditorSubmission} />
                                                     ) : (
-                                                        <div>Tổng biên tập chưa đưa ra quyết định.</div>
-                                                    )}
+                                                            <div>Tổng biên tập chưa đưa ra quyết định.</div>
+                                                        )}
                                                 </div>
                                             </div>
                                         </div>
@@ -278,10 +278,10 @@ class SubmissionDetail extends Component {
                                                                     authorRevision={this.props.authorAssignment.authorRevisionId}
                                                                     step1Active={this.step1ActiveHandler} />
                                                             ) : (
-                                                                <div className="form-group ml-3">
-                                                                    <div>Bạn chưa nộp bản chỉnh sửa bài báo.</div>
-                                                                </div>
-                                                            )}
+                                                                    <div className="form-group ml-3">
+                                                                        <div>Bạn chưa nộp bản chỉnh sửa bài báo.</div>
+                                                                    </div>
+                                                                )}
                                                         </div>
                                                         {/* Column */}
                                                         <div className="p-2 col-lg-4 border rounded">
@@ -303,24 +303,24 @@ class SubmissionDetail extends Component {
                                                                                 </Link>
                                                                             </Aux>
                                                                         ) : (
-                                                                            <button
-                                                                                type="button"
-                                                                                className="btn btn-outline-primary btn-block"
-                                                                                onClick={() => toast.error('Đã hết thời hạn nộp bản chỉnh sửa bài báo!')}>
-                                                                                <i className="fas fa-edit"></i> Nộp bản chỉnh sửa bài báo
-                                                                            </button>
-                                                                        )}
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="btn btn-outline-primary btn-block"
+                                                                                    onClick={() => toast.error('Đã hết thời hạn nộp bản chỉnh sửa bài báo!')}>
+                                                                                    <i className="fas fa-edit"></i> Nộp bản chỉnh sửa bài báo
+                                                                                </button>
+                                                                            )}
                                                                     </div>
                                                                 </Aux>
                                                             ) : (
-                                                                <Aux>
-                                                                    <div className="form-group text-center">
-                                                                        <div className="badge-ol badge-ol-success badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
-                                                                            <i className="fas fa-check"></i> Đã nộp bản chỉnh sửa bài báo
+                                                                    <Aux>
+                                                                        <div className="form-group text-center">
+                                                                            <div className="badge-ol badge-ol-success badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
+                                                                                <i className="fas fa-check"></i> Đã nộp bản chỉnh sửa bài báo
                                                                         </div>
-                                                                    </div>
-                                                                </Aux>
-                                                            )}
+                                                                        </div>
+                                                                    </Aux>
+                                                                )}
 
                                                             <AssignmentInfor
                                                                 submission={this.props.submission}
@@ -331,8 +331,8 @@ class SubmissionDetail extends Component {
                                                     </div>
                                                 </Aux>
                                             ) : (
-                                                <div>Chưa có yêu cầu chỉnh sửa bài báo từ biên tập viên.</div>
-                                            )}
+                                                    <div>Chưa có yêu cầu chỉnh sửa bài báo từ biên tập viên.</div>
+                                                )}
                                         </div>
                                     </div>
                                 </div>

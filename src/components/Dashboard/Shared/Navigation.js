@@ -38,7 +38,9 @@ class Navigation extends Component {
                                 <span className="badge badge-secondary navbar-badge font-weight-bold" style={{ fontSize: '12px' }}>{this.props.notifications.length}</span>
                             </a>
                             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                <a href="idndex.html" className="dropdown-item dropdown-header">{this.props.notifications.length} thông báo mới</a>
+                                <div className="text-center p-2" style={{ fontSize: '14px' }}>
+                                    {this.props.notifications.length} thông báo mới
+                                </div>
                                 <div className="dropdown-divider"></div>
                                 {this.props.notifications.length > 0 ? (
                                     <Aux>
@@ -62,7 +64,7 @@ class Navigation extends Component {
                                         ))}
                                     </Aux>
                                 ) : null}
-                                <a href="idndex.html" className="dropdown-item dropdown-footer">Xem tất cả thông báo</a>
+                                <Link to="#" className="dropdown-item dropdown-footer">Xem tất cả thông báo</Link>
                             </div>
                         </li>
                         <li className="nav-item">

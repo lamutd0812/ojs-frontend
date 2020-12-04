@@ -180,9 +180,14 @@ class AssignEditor extends Component {
                                                     </div>
                                                 ) : <Spinner />}
                                                 <button
-                                                    className="btn btn-primary"
+                                                    className="btn btn-primary mt-3"
                                                     disabled={this.state.selectedEditorId === ''}
                                                     onClick={this.step2ActiveHandler}>Lựa chọn</button>
+                                                {this.props.submission && (
+                                                    <Link to={`/dashboard/submission/${this.props.submission._id}`}>
+                                                        <button className="btn btn-danger mt-3 ml-2">Hủy</button>
+                                                    </Link>
+                                                )}
                                             </div>
                                             <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
                                                 <div className="form-group">
@@ -217,9 +222,9 @@ class AssignEditor extends Component {
                                                         type="button"
                                                         className="btn btn-primary"
                                                         data-toggle="modal"
-                                                        data-target="#confirmDialogModal">Submit</button>
+                                                        data-target="#confirmDialogModal">Xác nhận</button>
                                                     <button
-                                                        className="btn btn-primary ml-2"
+                                                        className="btn btn-danger ml-2"
                                                         onClick={this.step1ActiveHandler}>Quay lại</button>
                                                 </div>
                                             </div>

@@ -114,10 +114,10 @@ class SubmissionDetail extends Component {
                                                             editorAssignment={this.props.editorAssignment}
                                                             reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                     ) : (
-                                                        <EditorialBoard
-                                                            submission={this.props.submission}
-                                                            editorAssignment={this.props.editorAssignment} />
-                                                    )}
+                                                            <EditorialBoard
+                                                                submission={this.props.submission}
+                                                                editorAssignment={this.props.editorAssignment} />
+                                                        )}
                                                 </div>
                                             </div>
                                             {/* Row */}
@@ -145,40 +145,40 @@ class SubmissionDetail extends Component {
                                                             </span>
                                                         </div>
                                                     ) : (
-                                                        <Aux>
-                                                            <div className="form-group">
-                                                                <Link to={`/dashboard/chief-editor/accept-submission/${this.props.submission._id}`}>
-                                                                    <button className="btn btn-outline-success btn-block">
-                                                                        <i className="fas fa-check"></i> {" "}
+                                                            <Aux>
+                                                                <div className="form-group">
+                                                                    <Link to={`/dashboard/chief-editor/accept-submission/${this.props.submission._id}`}>
+                                                                        <button className="btn btn-outline-success btn-block">
+                                                                            <i className="fas fa-check"></i> {" "}
                                                                         Chấp nhận xuất bản
                                                                     </button>
-                                                                </Link>
-                                                            </div>
-                                                            <div className="form-group">
-                                                                <Link to={`/dashboard/chief-editor/decline-submission/${this.props.submission._id}`}>
-                                                                    <button className="btn btn-outline-danger btn-block">
-                                                                        <i className="fas fa-times"></i>{" "}
+                                                                    </Link>
+                                                                </div>
+                                                                <div className="form-group">
+                                                                    <Link to={`/dashboard/chief-editor/decline-submission/${this.props.submission._id}`}>
+                                                                        <button className="btn btn-outline-danger btn-block">
+                                                                            <i className="fas fa-times"></i>{" "}
                                                                         Từ chối bài báo
                                                                     </button>
-                                                                </Link>
-                                                            </div>
-                                                        </Aux>        
-                                                    )}
+                                                                    </Link>
+                                                                </div>
+                                                            </Aux>
+                                                        )}
                                                     <SubmissionFutherInfor submission={this.props.submission} />
                                                 </div>
                                             </div>
                                         </div>
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            {/* Row */}
-                                            <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
-                                                {this.props.editorAssignment ? (
-                                                    <Aux>
-                                                        {/* Column */}
-                                                        <div className="p-2 col-lg-8">
-                                                            <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
-                                                        </div>
-                                                        {/* Column */}
+                                            {this.props.editorAssignment ? (
+                                                // Row
+                                                <div className="row border rounded mt-2" style={this.props.editorAssignment.reviewerAssignmentId.length > 0 ? { minHeight: '200px' } : null}>
+                                                    {/* Column */}
+                                                    <div className="p-2 col-lg-8">
+                                                        <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
+                                                    </div>
+                                                    {/* Column */}
+                                                    {this.props.editorAssignment.reviewerAssignmentId.length > 0 && (
                                                         <div className="p-2 col-lg-4">
                                                             <Doughnut
                                                                 data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
@@ -194,14 +194,16 @@ class SubmissionDetail extends Component {
                                                                 }}
                                                             />
                                                         </div>
-                                                    </Aux>
-                                                ) : (
-                                                    <div className="p-2 col-lg-8">
-                                                        <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
-                                                        <div>Chưa có thông tin thẩm định của thẩm định viên.</div>
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                    <div className="row border rounded mt-2">
+                                                        <div className="p-2 col-lg-8">
+                                                            <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
+                                                            <div>Chưa có thông tin thẩm định của thẩm định viên.</div>
+                                                        </div>
                                                     </div>
                                                 )}
-                                            </div>
                                             {/* Row */}
                                             <div className="row border rounded mt-2">
                                                 <div className="p-2 col-lg-10">
@@ -211,8 +213,8 @@ class SubmissionDetail extends Component {
                                                             editorAssignment={this.props.editorAssignment}
                                                             editorSubmission={this.props.editorAssignment.editorSubmissionId} />
                                                     ) : (
-                                                        <div>Chưa có thông tin thẩm định của biên tập viên.</div>
-                                                    )}
+                                                            <div>Chưa có thông tin thẩm định của biên tập viên.</div>
+                                                        )}
                                                 </div>
                                             </div>
                                             {/* Row */}
@@ -222,8 +224,8 @@ class SubmissionDetail extends Component {
                                                     {this.props.chiefEditorSubmission ? (
                                                         <CESubmissionDetail chiefEditorSubmission={this.props.chiefEditorSubmission} />
                                                     ) : (
-                                                        <div>Tổng biên tập chưa đưa ra quyết định.</div>
-                                                    )}
+                                                            <div>Tổng biên tập chưa đưa ra quyết định.</div>
+                                                        )}
                                                 </div>
                                             </div>
                                         </div>

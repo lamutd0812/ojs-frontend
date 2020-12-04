@@ -292,8 +292,13 @@ class EditorAssignment extends Component {
                                             <div className="row pt-2">
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-8 border rounded">
-                                                    <SubmissionInfor
-                                                        submission={this.props.submission} />
+                                                    {this.props.authorAssignment ? (
+                                                        <SubmissionInfor
+                                                            submission={this.props.submission}
+                                                            hasAuthorRevision={this.props.authorAssignment.authorRevisionId ? true : false} />
+                                                    ) : (
+                                                        <SubmissionInfor submission={this.props.submission} />
+                                                    )}
                                                 </div>
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-4 border rounded">
@@ -336,7 +341,7 @@ class EditorAssignment extends Component {
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
                                             {/* Row */}
-                                            <div className="row border rounded mt-2" style={{ minHeight: '200px' }}>
+                                            <div className="row border rounded mt-2" style={this.props.editorAssignment.reviewerAssignmentId.length > 0 ? { minHeight: '200px' } : null}>
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-8">
                                                     <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
