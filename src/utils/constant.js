@@ -85,3 +85,5 @@ exports.REVIEWER_DECISION = {
         value: 0
     }
 }
+
+exports.ITEMS_PER_PAGE = 2;

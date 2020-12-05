@@ -58,6 +58,15 @@ const getMyNotificationsSuccess = (notifications) => {
     }
 };
 
+const getAllMyNotificationsSuccess = (data) => {
+    return {
+        type: actionTypes.GET_ALL_MY_NOTIFICATIONS_SUCCESS,
+        notifications: data.notifications,
+        total: data.total,
+        currentPage: data.currentPage
+    }
+};
+
 // ---------------------------------|Axios|------------------------------------------
 export const auth = (username, password) => (dispatch) => {
     dispatch(authStart());
@@ -124,7 +133,7 @@ export const keepAuthState = () => (dispatch) => {
             const fullname = localStorage.getItem('fullname');
             const avatar = localStorage.getItem('avatar');
             const role = JSON.parse(localStorage.getItem('role'));
-            const notifications =  JSON.parse(localStorage.getItem('notifications'));
+            const notifications = JSON.parse(localStorage.getItem('notifications'));
             dispatch(getMyNotificationsSuccess(notifications));
             dispatch(authSuccess(token, userId, fullname, avatar, role));
             dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
@@ -146,3 +155,18 @@ export const getMyNotifications = () => (dispatch, getState) => {
         dispatch(authFailed(err.response.data.error));
     });
 };
+
+export const getAllMyNotifications = (page) => (dispatch, getState) => {
+    dispatch(authStart());
+    const token = getState().auth.token;
+    axios.get('/auth/notifications/my/all?page=' + page, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getAllMyNotificationsSuccess(res.data));
+    }).catch(err => {
+        dispatch(authFailed(err.response.data.error));
+    });
+};
+

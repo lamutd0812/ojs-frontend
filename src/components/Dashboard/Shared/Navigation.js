@@ -64,7 +64,7 @@ class Navigation extends Component {
                                         ))}
                                     </Aux>
                                 ) : null}
-                                <Link to="#" className="dropdown-item dropdown-footer">Xem tất cả thông báo</Link>
+                                <Link to="/dashboard/notifications" className="dropdown-item dropdown-footer">Xem tất cả thông báo</Link>
                             </div>
                         </li>
                         <li className="nav-item">

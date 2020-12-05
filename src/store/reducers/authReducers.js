@@ -10,7 +10,10 @@ const initialState = {
     error: null,
     loading: false,
     isSignedUp: false,
-    notifications: []
+    notifications: [],
+    all_notifications: [],
+    total_items: 0,
+    currentPage: 1
 };
 
 const authStart = (state) => {
@@ -72,6 +75,16 @@ const getMyNotificationsSuccess = (state, action) => {
     })
 }
 
+const getAllMyNotificationsSuccess = (state, action) => {
+    return updateObject(state, {
+        all_notifications: action.notifications,
+        total_items: action.total,
+        currentPage: action.currentPage,
+        loading: false,
+        error: null
+    })
+}
+
 const authReducers = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_START: return authStart(state);
@@ -82,6 +95,7 @@ const authReducers = (state = initialState, action) => {
         case actionTypes.RESET_REGISTER_STATE: return resetRegisterState(state, action);
 
         case actionTypes.GET_MY_NOTIFICATIONS_SUCCESS: return getMyNotificationsSuccess(state, action);
+        case actionTypes.GET_ALL_MY_NOTIFICATIONS_SUCCESS: return getAllMyNotificationsSuccess(state, action);
 
         default: return state;
     }

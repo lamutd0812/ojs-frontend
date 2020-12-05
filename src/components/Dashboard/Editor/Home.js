@@ -213,8 +213,8 @@ class Home extends Component {
                                         </tbody>
                                     </table>
                                 ) : (
-                                        <div className="card-text ml-4">Bạn chưa được phân công chủ trì thẩm định bài báo nào.</div>
-                                    )}
+                                    <div className="card-text ml-4">Bạn chưa được phân công chủ trì thẩm định bài báo nào.</div>
+                                )}
                             </div>
                         </div>
                     ) : <Spinner />}

@@ -16,6 +16,7 @@ import ReviewerAssignment from '../../components/Dashboard/Reviewer/ReviewerAssi
 import ReviseSubmission from '../../components/Dashboard/Author/AuthorAssignment/ReviseSubmission';
 import AcceptSubmission from '../../components/Dashboard/ChiefEditor/AcceptSubmission/AcceptSubmission';
 import DeclineSubmission from '../../components/Dashboard/ChiefEditor/DeclineSubmission/DeclineSubmission';
+import Notifications from '../../components/Notifications/Notifications';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { USER_ROLES } from '../../utils/constant';
@@ -29,6 +30,7 @@ class Dashboard extends Component {
             case USER_ROLES.AUTHOR.roleId:
                 routes = (
                     <Switch>
+                        <Route path="/dashboard/notifications" component={Notifications} />
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
@@ -42,6 +44,7 @@ class Dashboard extends Component {
             case USER_ROLES.REVIEWER.roleId:
                 routes = (
                     <Switch>
+                        <Route path="/dashboard/notifications" component={Notifications} />
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
@@ -56,6 +59,7 @@ class Dashboard extends Component {
             case USER_ROLES.EDITOR.roleId:
                 routes = (
                     <Switch>
+                        <Route path="/dashboard/notifications" component={Notifications} />
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
@@ -71,6 +75,7 @@ class Dashboard extends Component {
             case USER_ROLES.CHIEF_EDITOR.roleId:
                 routes = (
                     <Switch>
+                        <Route path="/dashboard/notifications" component={Notifications} />
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetailEditor} />
                         <Route path="/dashboard/chief-editor/assign-editor" component={AssignEditor} />
