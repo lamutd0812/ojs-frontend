@@ -33,11 +33,11 @@ class Navigation extends Component {
                     <ul className="navbar-nav ml-auto">
                         {/* <!-- Notifications Dropdown Menu --> */}
                         <li className="nav-item dropdown">
-                            <a className="nav-link" data-toggle="dropdown" href="idndex.html">
+                            <a className="nav-link" data-toggle="dropdown" href="#a">
                                 <i className="far fa-bell"></i>
                                 <span className="badge badge-secondary navbar-badge font-weight-bold" style={{ fontSize: '12px' }}>{this.props.notifications.length}</span>
                             </a>
-                            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right" style={{ minWidth: '450px' }}>
                                 <div className="text-center p-2" style={{ fontSize: '14px' }}>
                                     {this.props.notifications.length} thông báo mới
                                 </div>
@@ -68,9 +68,18 @@ class Navigation extends Component {
                             </div>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/logout" className="nav-link" data-widget="fullscreen">
-                                <i className="fa fa-sign-out"></i>Đăng xuất
-                            </NavLink>
+                            <a className="nav-link" data-toggle="dropdown" href="#a">
+                                <i className="fas fa-user"></i> {" "} {this.props.fullname}
+                            </a>
+                            <div className="dropdown-menu dropdown-menu-right mr-2">
+                                <NavLink to="/profile" className="dropdown-item">
+                                    <i className="far fa-id-badge"></i> Trang cá nhân
+                                </NavLink>
+                                <div className="dropdown-divider"></div>
+                                <NavLink to="/logout" className="dropdown-item">
+                                    <i className="fa fa-sign-out"></i> Đăng xuất
+                                </NavLink>
+                            </div>
                         </li>
                     </ul>
                 </nav>
@@ -84,7 +93,7 @@ const mapStateToProps = state => {
     return {
         isAuth: state.auth.token != null,
         userId: state.auth.userId,
-        firstname: state.auth.firstname,
+        fullname: state.auth.fullname,
         notifications: state.auth.notifications
     };
 };

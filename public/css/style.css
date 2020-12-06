@@ -1961,7 +1961,8 @@ table.table-bordered > tbody > tr > td{
   color: #FF5733;
 }
 
-/* Dropdown Menu Width */
-.dropdown-menu {
-  min-width: 450px !important;
+.logo-admin {
+  width: 60%;
+  height: 60%;
+  padding: 0;
 }

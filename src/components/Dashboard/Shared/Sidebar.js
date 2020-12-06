@@ -11,10 +11,11 @@ class Sidebar extends Component {
             <div>
                 {/* <!-- Main Sidebar Container --> */}
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
-                    <div className="brand-link">
+                    <div className="brand-link p-2">
                         <NavLink to="/">
-                            <img src="https://www.4science.it/wp-content/uploads/2017/02/OJS_logo_home.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ 'opacity': .8 }} />
-                            <div style={{ fontSize: '18px', color: 'white' }}>AwesomeOJS</div>
+                            {/* <img src="img/core-img/logo3.png" alt="AdminLTE Logo" className="brand-image elevation-3" style={{ 'opacity': .8 }} />
+                            <div style={{ fontSize: '18px', color: 'white' }}>VNOJS</div> */}
+                            <img src="img/core-img/logo3_admin.png" className="logo-admin" alt="" style={{width:'50%', height:'50%'}}/>
                         </NavLink>
                     </div>
 
