@@ -45,7 +45,11 @@ class ReviewerAssignment extends Component {
         }
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevPops) {
+        if (this.props.match.params.submissionId !== prevPops.match.params.submissionId) {
+            this.props.getSubmissionDetail(this.props.match.params.submissionId);
+            this.props.getMyReviewerAssignmentDetail(this.props.match.params.submissionId);
+        }
         if (this.props.isReviewSubmissionEdited) {
             window.scrollTo(0, 0);
             this.props.resetEditReviewSubmissionState();

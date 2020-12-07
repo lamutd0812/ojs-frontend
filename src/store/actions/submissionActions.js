@@ -34,10 +34,12 @@ const getEditorDecisionsSuccess = (editorDecisions) => {
     }
 };
 
-const getSubmissionsByAuthorSuccess = (submissions) => {
+const getSubmissionsByAuthorSuccess = (data) => {
     return {
         type: actionTypes.GET_SUBMISSIONS_BY_AUTHOR_SUCCESS,
-        submissions: submissions
+        submissions: data.submissions,
+        total: data.total,
+        currentPage: data.currentPage
     }
 };
 
@@ -77,10 +79,12 @@ const submissionErrors = (error) => {
 };
 
 // Chief Editor
-const getAllSubmissionsSuccess = (submissions) => {
+const getAllSubmissionsSuccess = (data) => {
     return {
         type: actionTypes.GET_ALL_SUBMISSIONS_SUCCESS,
-        submissions: submissions
+        submissions: data.submissions,
+        total: data.total,
+        currentPage: data.currentPage
     }
 };
 
@@ -114,15 +118,15 @@ export const getEditorDecisions = () => (dispatch) => {
         });
 };
 
-export const getSubmissionsByAuthor = (authorId) => (dispatch, getState) => {
+export const getSubmissionsByAuthor = (authorId, page) => (dispatch, getState) => {
     const token = getState().auth.token;
     dispatch(submissionStart());
-    axios.get('/submissions/author/' + authorId, {
+    axios.get('/submissions/author/' + authorId + '?page=' + page, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     }).then(res => {
-        dispatch(getSubmissionsByAuthorSuccess(res.data.submissions));
+        dispatch(getSubmissionsByAuthorSuccess(res.data));
     }).catch(err => {
         dispatch(submissionErrors(err.message));
     });
@@ -207,15 +211,15 @@ export const resetDeleteSubmissionState = () => (dispatch) => {
 };
 
 // Chief Editor get All Submissions
-export const getAllSubmissions = () => (dispatch, getState) => {
+export const getAllSubmissions = (page) => (dispatch, getState) => {
     const token = getState().auth.token;
     dispatch(submissionStart());
-    axios.get('/submissions', {
+    axios.get('/submissions?page=' + page, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     }).then(res => {
-        dispatch(getAllSubmissionsSuccess(res.data.submissions));
+        dispatch(getAllSubmissionsSuccess(res.data));
     }).catch(err => {
         dispatch(submissionErrors(err.message));
     });

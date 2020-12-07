@@ -16,7 +16,9 @@ import {
 } from '../../../store/actions/authActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { updateObject } from '../../../utils/utility';
+import Pagination from '../../UI/Pagination/Pagination';
 
+const ITEMS_PER_PAGE = 4;
 class Home extends Component {
 
     state = {
@@ -26,14 +28,28 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.props.getSubmissionsByAuthor(this.props.userId);
+        if (this.props.location.search) {
+            const query = new URLSearchParams(this.props.location.search);
+            const page = query.get('page');
+            if (page) {
+                this.props.getSubmissionsByAuthor(this.props.userId, page);
+            }
+        } else {
+            this.props.getSubmissionsByAuthor(this.props.userId, 1);
+        }
     }
 
-    // componentDidUpdate() {
-    //     if (this.props.submissions.length < 1) {
-    //         this.props.getSubmissionsByAuthor(this.props.userId);
-    //     }
-    // }
+    componentDidUpdate(prevProps) {
+        if (this.props.location.search !== prevProps.location.search) {
+            const prevQuery = new URLSearchParams(prevProps.location.search);
+            const query = new URLSearchParams(this.props.location.search);
+            const prevPage = prevQuery.get('page');
+            const page = query.get('page');
+            if (page !== prevPage) {
+                this.props.getSubmissionsByAuthor(this.props.userId, page);
+            }
+        }
+    }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isSubmissionDeleted) {
@@ -98,59 +114,71 @@ class Home extends Component {
                             </div>
                             <div className="card-body p-0">
                                 {this.props.submissions.length > 0 ? (
-                                    <table className="table table-striped projects">
-                                        <thead>
-                                            <tr>
-                                                <th style={{ width: '1%' }}> #</th>
-                                                <th style={{ width: '34%' }}> Bài Báo</th>
-                                                <th style={{ width: '20%' }} className="text-center"> Pha</th>
-                                                <th style={{ width: '25%' }} className="text-center"> Trạng thái</th>
-                                                <th style={{ width: '20%' }} className="text-center"> Chi tiết</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {this.props.submissions.map(submission => (
-                                                <Aux key={submission._id}>
-                                                    <tr data-toggle="collapse" data-target={`#aaa${submission._id}`} className="accordion-toggle" aria-expanded="true" aria-controls="collapseOne">
-                                                        <td style={{ cursor: 'pointer' }}><i className="fas fa-caret-down"></i></td>
-                                                        <td>
-                                                            {submission.title}
-                                                            <br />
-                                                            <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
-                                                        </td>
-                                                        <td className="project-state">
-                                                            <span className={"badge " + getStageBadgeClassname(submission.stageId.value)}>{submission.stageId.name}</span>
-                                                        </td>
-                                                        <td className="text-center">
-                                                            <span>{submission.submissionLogs[submission.submissionLogs.length - 1].event}</span>
-                                                        </td>
-                                                        <td className="project-actions text-center">
-                                                            <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
-                                                                <i className="fas fa-eye"></i> Xem chi tiết
+                                    <Aux>
+                                        <table className="table table-striped projects">
+                                            <thead>
+                                                <tr>
+                                                    <th style={{ width: '1%' }}> #</th>
+                                                    <th style={{ width: '34%' }}> Bài Báo</th>
+                                                    <th style={{ width: '20%' }} className="text-center"> Pha</th>
+                                                    <th style={{ width: '25%' }} className="text-center"> Trạng thái</th>
+                                                    <th style={{ width: '20%' }} className="text-center"> Chi tiết</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.props.submissions.map(submission => (
+                                                    <Aux key={submission._id}>
+                                                        <tr data-toggle="collapse" data-target={`#aaa${submission._id}`} className="accordion-toggle" aria-expanded="true" aria-controls="collapseOne">
+                                                            <td style={{ cursor: 'pointer' }}><i className="fas fa-caret-down"></i></td>
+                                                            <td>
+                                                                {submission.title}
+                                                                <br />
+                                                                <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
+                                                            </td>
+                                                            <td className="project-state">
+                                                                <span className={"badge " + getStageBadgeClassname(submission.stageId.value)}>{submission.stageId.name}</span>
+                                                            </td>
+                                                            <td className="text-center">
+                                                                <span>{submission.submissionLogs[submission.submissionLogs.length - 1].event}</span>
+                                                            </td>
+                                                            <td className="project-actions text-center">
+                                                                <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
+                                                                    <i className="fas fa-eye"></i> Xem chi tiết
                                                             </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr><td colSpan="6" className="hiddenRow">
-                                                        <div id={`aaa${submission._id}`} className="accordian-body collapse">
-                                                            <div className="col-lg-12">
-                                                                <div className="row pl-5">
-                                                                    <div className="col-lg-4 pt-2">
+                                                            </td>
+                                                        </tr>
+                                                        <tr><td colSpan="6" className="hiddenRow">
+                                                            <div id={`aaa${submission._id}`} className="accordian-body collapse">
+                                                                <div className="col-lg-12">
+                                                                    <div className="row pl-5">
+                                                                        <div className="col-lg-4 pt-2">
 
-                                                                    </div>
-                                                                    <div className="col-lg-4 border rounded pt-2">
+                                                                        </div>
+                                                                        <div className="col-lg-4 border rounded pt-2">
 
-                                                                    </div>
-                                                                    <div className="col-lg-4 border rounded pt-2 pb-2">
+                                                                        </div>
+                                                                        <div className="col-lg-4 border rounded pt-2 pb-2">
 
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td></tr>
-                                                </Aux>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                                        </td></tr>
+                                                    </Aux>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                        <div className="mt-2">
+                                            <Pagination
+                                                currentPage={this.props.currentPage}
+                                                hasNextPage={ITEMS_PER_PAGE * this.props.currentPage < this.props.total}
+                                                hasPrevPage={this.props.currentPage > 1}
+                                                nextPage={this.props.currentPage + 1}
+                                                prevPage={this.props.currentPage - 1}
+                                                lastPage={Math.ceil(this.props.total / ITEMS_PER_PAGE)}
+                                                location={this.props.location} />
+                                        </div>
+                                    </Aux>
                                 ) : (<div className="card-text ml-4">Bạn chưa có bài báo nào được đăng tải lên hệ thống. Click vào<Link className="shop-now" to="/dashboard/new-submission"> đây</Link> để tiến hành đăng bài.</div>)}
                             </div>
                         </div>
@@ -173,6 +201,8 @@ const mapStateToProps = (state) => {
         submissions: state.submission.submissions,
         loading: state.submission.loading,
         isSubmissionDeleted: state.submission.isSubmissionDeleted,
+        total: state.submission.total_items,
+        currentPage: state.submission.currentPage
     }
 };
 

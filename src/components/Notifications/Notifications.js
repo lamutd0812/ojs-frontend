@@ -7,8 +7,8 @@ import { getAllMyNotifications } from '../../store/actions/authActions';
 import { Link } from 'react-router-dom';
 import { getFormattedDate } from '../../utils/utility';
 import Pagination from '../UI/Pagination/Pagination';
-import { ITEMS_PER_PAGE } from '../../utils/constant';
 
+const ITEMS_PER_PAGE = 6;
 class Notifications extends Component {
 
     componentDidMount() {

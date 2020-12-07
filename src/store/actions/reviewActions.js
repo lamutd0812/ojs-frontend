@@ -55,17 +55,21 @@ const getEditorAssignmentBySubmissionSuccess = (editorAssignment) => {
 //     };
 // };
 
-const getMyEditorAssignmentsSuccess = (editorAssignments) => {
+const getMyEditorAssignmentsSuccess = (data) => {
     return {
         type: actionTypes.GET_MY_EDITOR_ASSIGNMENTS_SUCCESS,
-        editorAssignments: editorAssignments
+        editorAssignments: data.editorAssignments,
+        total: data.total,
+        currentPage: data.currentPage
     };
 };
 
-const getMyReviewerAssignmentsSuccess = (reviewerAssignments) => {
+const getMyReviewerAssignmentsSuccess = (data) => {
     return {
         type: actionTypes.GET_MY_REVIEWER_ASSIGNMENTS_SUCCESS,
-        reviewerAssignments: reviewerAssignments
+        reviewerAssignments: data.reviewerAssignments,
+        total: data.total,
+        currentPage: data.currentPage
     };
 };
 
@@ -260,30 +264,30 @@ export const getEditorAssignmentBySubmission = (submissionId) => (dispatch, getS
 };
 
 // Editor get My Assignments
-export const getMyEditorAssignments = () => (dispatch, getState) => {
+export const getMyEditorAssignments = (page) => (dispatch, getState) => {
     dispatch(reviewProcessStart());
     const token = getState().auth.token;
-    axios.get('/reviews/editor-assignments/my/all', {
+    axios.get('/reviews/editor-assignments/my/all?page=' + page, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     }).then(res => {
-        dispatch(getMyEditorAssignmentsSuccess(res.data.editorAssignments));
+        dispatch(getMyEditorAssignmentsSuccess(res.data));
     }).catch(err => {
         dispatch(reviewProcessError(err.message));
     });
 };
 
 // Reviewer get My Assignments
-export const getMyReviewerAssignments = () => (dispatch, getState) => {
+export const getMyReviewerAssignments = (page) => (dispatch, getState) => {
     dispatch(reviewProcessStart());
     const token = getState().auth.token;
-    axios.get('/reviews/reviewer-assignments/my/all', {
+    axios.get('/reviews/reviewer-assignments/my/all?page=' + page, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     }).then(res => {
-        dispatch(getMyReviewerAssignmentsSuccess(res.data.reviewerAssignments));
+        dispatch(getMyReviewerAssignmentsSuccess(res.data));
     }).catch(err => {
         dispatch(reviewProcessError(err.message));
     });

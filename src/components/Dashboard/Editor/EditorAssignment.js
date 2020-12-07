@@ -60,7 +60,12 @@ class EditorAssignment extends Component {
         }
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        if(this.props.match.params.submissionId !== prevProps.match.params.submissionId){
+            this.props.getSubmissionDetail(this.props.match.params.submissionId);
+            this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
+        }
         if (this.props.isEditorSubmissionEdited) {
             window.scrollTo(0, 0);
             this.props.resetEditEditorSubmissionState();

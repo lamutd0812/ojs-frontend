@@ -86,4 +86,4 @@ exports.REVIEWER_DECISION = {
     }
 }
 
-exports.ITEMS_PER_PAGE = 2;
+// exports.ITEMS_PER_PAGE = 2;

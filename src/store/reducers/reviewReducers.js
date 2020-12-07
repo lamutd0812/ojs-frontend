@@ -24,7 +24,8 @@ const initialState = {
     isAuthorRevisionCreated: false,
     isSubmissionAccepted: false,
     isSubmissionDeclined: false,
-
+    total_items: 0,
+    currentPage: 1
 };
 
 const reviewProcessStart = (state) => {
@@ -97,6 +98,8 @@ const getEditorAssignmentBySubmissionSuccess = (state, action) => {
 const getMyEditorAssignmentsSuccess = (state, action) => {
     return updateObject(state, {
         editorAssignments: action.editorAssignments,
+        total_items: action.total,
+        currentPage: action.currentPage,
         loading: false,
         error: null
     });
@@ -106,6 +109,8 @@ const getMyEditorAssignmentsSuccess = (state, action) => {
 const getMyReviewerAssignmentsSuccess = (state, action) => {
     return updateObject(state, {
         reviewerAssignments: action.reviewerAssignments,
+        total_items: action.total,
+        currentPage: action.currentPage,
         loading: false,
         error: null
     });

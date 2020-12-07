@@ -14,7 +14,9 @@ const initialState = {
     error: null,
     reviewerDecisions: [],
     editorDecisions: [],
-    chiefEditorDecisions: []
+    chiefEditorDecisions: [],
+    total_items: 0,
+    currentPage: 1
 };
 
 const submissionStart = (state) => {
@@ -49,6 +51,8 @@ const getEditorDecisionsSuccess = (state, action) => {
 const getSubmissionsByAuthorSuccess = (state, action) => {
     return updateObject(state, {
         submissions: action.submissions,
+        total_items: action.total,
+        currentPage: action.currentPage,
         loading: false,
         error: null
     });
@@ -123,6 +127,8 @@ const fetchSubmissionError = (state, action) => {
 const getAllSubmissionsSuccess = (state, action) => {
     return updateObject(state, {
         submissions: action.submissions,
+        total: action.total,
+        currentPage: action.currentPage,
         loading: false,
         error: null
     });
