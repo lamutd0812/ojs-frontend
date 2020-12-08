@@ -26,7 +26,7 @@ class Navigation extends Component {
                                             <li><NavLink to="/dashboard">Dashboard</NavLink></li>
                                             <li className="cn-dropdown-item has-down">
                                                 <NavLink to="#">Contact</NavLink>
-                                                <ul class="dropdown">
+                                                <ul className="dropdown">
                                                     <li><a href="index.html">Home</a></li>
                                                     <li><a href="archive.html">Archive</a></li>
                                                 </ul>

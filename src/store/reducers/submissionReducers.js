@@ -127,7 +127,7 @@ const fetchSubmissionError = (state, action) => {
 const getAllSubmissionsSuccess = (state, action) => {
     return updateObject(state, {
         submissions: action.submissions,
-        total: action.total,
+        total_items: action.total,
         currentPage: action.currentPage,
         loading: false,
         error: null

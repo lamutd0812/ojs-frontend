@@ -104,19 +104,24 @@ class Home extends Component {
                                                                 ) : null}
                                                             </td>
                                                             <td className="text-center">
-                                                                {ea.authorAssignmentId ? (
+                                                                {ea.editorSubmissionId ? (
+                                                                    <span className="badge bg-success"> Đã nộp ý kiến</span>
+                                                                ) : (
+                                                                    <span className="badge bg-danger">Chưa nộp ý kiến</span>
+                                                                )}
+                                                                {/* {ea.authorAssignmentId ? (
                                                                     <Aux>
                                                                         {ea.authorAssignmentId.authorRevisionId ? (
                                                                             <span className="text-dark"><i></i> Tác giả đã nộp bản chỉnh sửa</span>
                                                                         ) : (
-                                                                                <span className="text-dark"><i></i> Đã yêu cầu tác giả chỉnh sửa</span>
-                                                                            )}
+                                                                            <span className="text-dark"><i></i> Đã yêu cầu tác giả chỉnh sửa</span>
+                                                                        )}
                                                                     </Aux>
                                                                 ) : ea.editorSubmissionId ? (
                                                                     <span className="badge bg-success"> Đã nộp ý kiến</span>
                                                                 ) : (
-                                                                            <span className="badge bg-danger">Chưa nộp ý kiến</span>
-                                                                        )}
+                                                                    <span className="badge bg-danger">Chưa nộp ý kiến</span>
+                                                                )} */}
                                                             </td>
                                                             <td className="project-actions text-center">
                                                                 {!checkDueDate(ea.dueDate) ? (
@@ -246,7 +251,7 @@ class Home extends Component {
                                                 location={this.props.location} />
                                         </div>
                                     </Aux>
-                                ) : ( <div className="card-text ml-4">Bạn chưa được phân công chủ trì thẩm định bài báo nào.</div> )}
+                                ) : (<div className="card-text ml-4">Bạn chưa được phân công chủ trì thẩm định bài báo nào.</div>)}
                             </div>
                         </div>
                     ) : <Spinner />}

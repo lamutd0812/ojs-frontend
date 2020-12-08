@@ -249,7 +249,7 @@ class EditorAssignment extends Component {
                         <div className="card card-primary card-outline card-tabs">
                             <div className="card-header">
                                 {this.props.submission ? <h3 className="card-title">{this.props.submission.title}</h3> : null}
-                                <div className="float-right mr-5">
+                                <div className="float-right">
                                     <button className="btn btn-tool" onClick={this.refreshHandler}>
                                         <i className="fas fa-sync-alt" style={{ fontSize: '20px' }}></i>
                                     </button>

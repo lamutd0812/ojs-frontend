@@ -31,6 +31,14 @@ class SubmissionDetail extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.submissionId !== prevProps.match.params.submissionId) {
+            this.props.getSubmissionDetail(this.props.match.params.submissionId);
+            this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
+        }
+    }
+
     refreshHandler = () => {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
@@ -76,7 +84,7 @@ class SubmissionDetail extends Component {
                         <div className="card">
                             <div className="card-header">
                                 {this.props.submission ? <h3 className="card-title">{this.props.submission.title}</h3> : null}
-                                <div className="float-right mr-5">
+                                <div className="float-right">
                                     <button className="btn btn-tool" onClick={this.refreshHandler}>
                                         <i className="fas fa-sync-alt" style={{ fontSize: '20px' }}></i>
                                     </button>
