@@ -9,7 +9,8 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import { connect } from 'react-redux';
 import { keepAuthState, getMyNotifications } from './store/actions/authActions';
-import Article from './containers/Article/Article';
+import Articles from './containers/Articles/Articles';
+import Article from './containers/Articles/Article/Article';
 
 class App extends Component {
 
@@ -29,7 +30,8 @@ class App extends Component {
             <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <Route path="/single-article" component={Article} />
+                <Route path="/articles" component={Articles} />
+                <Route path="/single-article/:id" component={Article} />
                 <Route exact path="/" component={Layout} />
                 <Redirect to="/login" />
             </Switch>
@@ -40,7 +42,8 @@ class App extends Component {
                 <Switch>
                     <Route path="/logout" component={Logout} />
                     <Route path="/dashboard" component={Dashboard} />
-                    <Route path="/single-article" component={Article} />
+                    <Route path="/articles" component={Articles} />
+                    <Route path="/single-article/:id" component={Article} />
                     <Route exact path="/" component={Layout} />
                     <Redirect to="/" />
                 </Switch>

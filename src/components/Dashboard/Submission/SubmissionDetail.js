@@ -48,6 +48,15 @@ class SubmissionDetail extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.submissionId !== prevProps.match.params.submissionId) {
+            this.props.getSubmissionDetail(this.props.match.params.submissionId);
+            this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
+        }
+    }
+
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.isSubmissionDeleted) {
             this.props.resetDeleteSubmissionState();

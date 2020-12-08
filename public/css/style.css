@@ -458,7 +458,7 @@ input:focus {
     position: relative;
     z-index: 1;
     margin-bottom: 20px; }
-    .hero-blog-post .post-content .post-meta a {
+    .hero-blog-post .post-content .post-meta p {
       position: relative;
       z-index: 1;
       display: inline-block;
@@ -467,15 +467,15 @@ input:focus {
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #ed3974; }
-      .hero-blog-post .post-content .post-meta a:last-child {
+      .hero-blog-post .post-content .post-meta p:last-child {
         margin-left: 20px; }
-        .hero-blog-post .post-content .post-meta a:last-child::after {
+        .hero-blog-post .post-content .post-meta p:last-child::after {
           content: '/';
           position: absolute;
           top: 0;
           left: -15px;
           z-index: 1; }
-      .hero-blog-post .post-content .post-meta a:hover, .hero-blog-post .post-content .post-meta a:focus {
+      .hero-blog-post .post-content .post-meta p:hover, .hero-blog-post .post-content .post-meta p:focus {
         color: #ffffff; }
   .hero-blog-post .post-content .post-title {
     font-size: 45px;
@@ -612,11 +612,11 @@ input:focus {
 
       .single-blog-post .post-content .post-title:hover, .single-blog-post .post-content .post-title:focus {
         color: #ed3974; }
-    .single-blog-post .post-content .post-meta a {
+    .single-blog-post .post-content .post-meta p {
       font-size: 14px;
       color: #777777; }
 
-      .single-blog-post .post-content .post-meta a:hover, .single-blog-post .post-content .post-meta a:focus {
+      .single-blog-post .post-content .post-meta p:hover, .single-blog-post .post-content .post-meta p:focus {
         color: #ed3974; }
   .single-blog-post.style-2 {
     border-bottom-color: #3d3d3d; }
@@ -644,12 +644,12 @@ input:focus {
         font-size: 18px;
         margin-bottom: 15px; }
 
-      .single-blog-post.style-3 .post-content .post-meta a {
+      .single-blog-post.style-3 .post-content .post-meta p {
         font-size: 14px;
         color: #777777;
         margin-right: 20px; }
         
-        .single-blog-post.style-3 .post-content .post-meta a:hover, .single-blog-post.style-3 .post-content .post-meta a:focus {
+        .single-blog-post.style-3 .post-content .post-meta p:hover, .single-blog-post.style-3 .post-content .post-meta p:focus {
           color: #ed3974; }
   .single-blog-post.style-4 .post-thumbnail {
     position: relative;
@@ -695,11 +695,11 @@ input:focus {
       font-size: 22px;
       margin-bottom: 10px; }
       
-    .single-blog-post.style-4 .post-content .post-meta a {
+    .single-blog-post.style-4 .post-content .post-meta p {
       font-size: 14px;
       color: #777777;
       margin-right: 20px; }
-      .single-blog-post.style-4 .post-content .post-meta a:hover, .single-blog-post.style-4 .post-content .post-meta a:focus {
+      .single-blog-post.style-4 .post-content .post-meta p:hover, .single-blog-post.style-4 .post-content .post-meta p:focus {
         color: #ed3974; }
 
 .add-img {
@@ -944,7 +944,7 @@ input:focus {
       position: relative;
       z-index: 1;
       margin-bottom: 15px; }
-      .single-featured-post .post-content .post-meta a {
+      .single-featured-post .post-content .post-meta p {
         position: relative;
         z-index: 1;
         display: inline-block;
@@ -953,15 +953,15 @@ input:focus {
         letter-spacing: 2px;
         text-transform: uppercase;
         color: #ed3974; }
-        .single-featured-post .post-content .post-meta a:last-child {
+        .single-featured-post .post-content .post-meta p:last-child {
           margin-left: 20px; }
-          .single-featured-post .post-content .post-meta a:last-child::after {
+          .single-featured-post .post-content .post-meta p:last-child::after {
             content: '/';
             position: absolute;
             top: 0;
             left: -15px;
             z-index: 1; }
-        .single-featured-post .post-content .post-meta a:hover, .single-featured-post .post-content .post-meta a:focus {
+        .single-featured-post .post-content .post-meta p:hover, .single-featured-post .post-content .post-meta p:focus {
           color: #777777; }
     .single-featured-post .post-content .post-title {
       font-size: 30px;
@@ -978,11 +978,11 @@ input:focus {
     border: 1px solid #ebebeb;
     margin-top: 30px;
     overflow: hidden; }
-    .single-featured-post .post-share-area .post-meta a {
+    .single-featured-post .post-share-area .post-meta p {
       font-size: 14px;
       color: #777777;
       margin-right: 20px; }
-      .single-featured-post .post-share-area .post-meta a:hover, .single-featured-post .post-share-area .post-meta a:focus {
+      .single-featured-post .post-share-area .post-meta p:hover, .single-featured-post .post-share-area .post-meta p:focus {
         color: #ed3974; }
 
     .single-featured-post .post-share-area .share-info {
@@ -1081,10 +1081,10 @@ input:focus {
         background-color: #ed3974; }
   .single-catagory-post .post-content {
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 60%;
-    flex: 0 0 60%;
-    max-width: 60%;
-    width: 60%;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
     position: relative;
     z-index: 1;
     padding-left: 30px; }
@@ -1093,7 +1093,7 @@ input:focus {
       position: relative;
       z-index: 1;
       margin-bottom: 15px; }
-      .single-catagory-post .post-content .post-meta a {
+      .single-catagory-post .post-content .post-meta p {
         position: relative;
         z-index: 1;
         display: inline-block;
@@ -1102,15 +1102,15 @@ input:focus {
         letter-spacing: 2px;
         text-transform: uppercase;
         color: #ed3974; }
-        .single-catagory-post .post-content .post-meta a:last-child {
+        .single-catagory-post .post-content .post-meta p:last-child {
           margin-left: 20px; }
-          .single-catagory-post .post-content .post-meta a:last-child::after {
+          .single-catagory-post .post-content .post-meta p:last-child::after {
             content: '/';
             position: absolute;
             top: 0;
             left: -15px;
             z-index: 1; }
-        .single-catagory-post .post-content .post-meta a:hover, .single-catagory-post .post-content .post-meta a:focus {
+        .single-catagory-post .post-content .post-meta p:hover, .single-catagory-post .post-content .post-meta p:focus {
           color: #404040; }
     .single-catagory-post .post-content .post-title {
       font-size: 22px;
@@ -1140,7 +1140,7 @@ input:focus {
     position: relative;
     z-index: 1;
     margin-bottom: 15px; }
-    .post-details-content .post-meta a {
+    .post-details-content .post-meta p {
       position: relative;
       z-index: 1;
       display: inline-block;
@@ -1149,15 +1149,15 @@ input:focus {
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #ed3974; }
-      .post-details-content .post-meta a:last-child {
+      .post-details-content .post-meta p:last-child {
         margin-left: 20px; }
-        .post-details-content .post-meta a:last-child::after {
+        .post-details-content .post-meta p:last-child::after {
           content: '/';
           position: absolute;
           top: 0;
           left: -15px;
           z-index: 1; }
-      .post-details-content .post-meta a:hover, .post-details-content .post-meta a:focus {
+      .post-details-content .post-meta p:hover, .post-details-content .post-meta p:focus {
         color: #404040; }
   .post-details-content .post-title {
     font-size: 24px;

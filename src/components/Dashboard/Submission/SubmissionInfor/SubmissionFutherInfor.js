@@ -22,6 +22,10 @@ const SubmissionFutherInfor = (props) => {
                 </p>
             </div>
             <div className="form-group">
+                <label>Trạng thái</label><br />
+                <span className="ml-3">{props.submission.submissionLogs[props.submission.submissionLogs.length - 1].event}</span>
+            </div>
+            <div className="form-group">
                 <label>Nhật ký hoạt động</label><br />
                 <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#submissionLogsModal"><u>Xem chi tiết</u></Link>
             </div>

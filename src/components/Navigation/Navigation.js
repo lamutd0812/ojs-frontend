@@ -11,7 +11,7 @@ class Navigation extends Component {
                         <nav className="classy-navbar justify-content-between" id="magNav">
                             <NavLink to="/" className="nav-brand">
                                 {/* <img src="img/core-img/logo.png" alt="" /> */}
-                                <img src="img/core-img/logo3.png" style={{width:'60%', height:'60%'}} alt="" />
+                                <img src={require("../../resources/core-imgs/logo3.png")} style={{width:'60%', height:'60%'}} alt="" />
                             </NavLink>
 
                             <div className="nav-content d-flex align-items-center">
@@ -21,16 +21,17 @@ class Navigation extends Component {
                                     </div>
                                     <div className="classynav">
                                         <ul>
-                                            <li className="active"><Link to="/" >Home</Link></li>
-                                            <li><NavLink to="/single-article">Article</NavLink></li>
+                                            <li className="active"><Link to="/">Trang chủ</Link></li>
+                                            <li><NavLink to="/articles">Bài báo</NavLink></li>
                                             <li><NavLink to="/dashboard">Dashboard</NavLink></li>
-                                            <li className="cn-dropdown-item has-down">
+                                            {/* <li><NavLink to="#">Về chúng tôi</NavLink></li> */}
+                                            {/* <li className="cn-dropdown-item has-down">
                                                 <NavLink to="#">Contact</NavLink>
                                                 <ul className="dropdown">
                                                     <li><a href="index.html">Home</a></li>
                                                     <li><a href="archive.html">Archive</a></li>
                                                 </ul>
-                                            </li>
+                                            </li> */}
                                         </ul>
                                     </div>
                                 </div>
@@ -53,7 +54,7 @@ class Navigation extends Component {
                                                 <NavLink to="#">
                                                     <i className="fa fa-user" aria-hidden="true"></i> {this.props.fullname}
                                                 </NavLink>
-                                                <ul class="dropdown">
+                                                <ul className="dropdown">
                                                     <li>
                                                         <NavLink to="#" style={{ fontSize:'14px', fontWeight:'400' }}>
                                                             <i className="far fa-id-badge"></i> Trang cá nhân

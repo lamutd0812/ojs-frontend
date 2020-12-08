@@ -10,6 +10,10 @@ const SubmissionProcess = (props) => {
                 <h6><i className="far fa-calendar-alt"></i> TIẾN TRÌNH BÀI BÁO</h6>
             </div>
             <div className="form-group ml-3">
+                <label>Trạng thái</label><br />
+                <span className="ml-3">{props.submission.submissionLogs[props.submission.submissionLogs.length - 1].event}</span>
+            </div>
+            <div className="form-group ml-3">
                 <label>Nhật ký hoạt động</label><br />
                 <Link to="#" className="ml-3 text-primary" data-toggle="modal" data-target="#submissionLogsModal"><u>Xem chi tiết</u></Link>
             </div>

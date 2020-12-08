@@ -150,7 +150,7 @@ export const checkDueDate = (dueDateStr) => {
     const curDate = new Date();
     const dueDate = new Date(dueDateStr);
     return curDate < dueDate; // if current date < due date === true
-}
+};
 
 export const getDoughnutData = (reviewerAssignments) => {
     let accept = 0, editRequired = 0, decline = 0, unSent = 0;
@@ -187,6 +187,10 @@ export const getDoughnutData = (reviewerAssignments) => {
         ],
     };
     return data;
+};
+
+export const getShortArticleAbstract = (abstract) => {
+    return abstract.slice(0, 200) + ' ...';
 }
 
 

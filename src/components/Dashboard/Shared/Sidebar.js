@@ -13,9 +13,7 @@ class Sidebar extends Component {
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
                     <div className="brand-link p-2">
                         <NavLink to="/">
-                            {/* <img src="img/core-img/logo3.png" alt="AdminLTE Logo" className="brand-image elevation-3" style={{ 'opacity': .8 }} />
-                            <div style={{ fontSize: '18px', color: 'white' }}>VNOJS</div> */}
-                            <img src="img/core-img/logo3_admin.png" className="logo-admin" alt="" style={{width:'50%', height:'50%'}}/>
+                            <img src={require("../../../resources/core-imgs/logo3_admin.png")} className="logo-admin" alt="" style={{width:'50%', height:'50%'}}/>
                         </NavLink>
                     </div>
 

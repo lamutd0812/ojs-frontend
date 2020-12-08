@@ -1,0 +1,104 @@
+import React, { Component } from 'react';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
+import Navigation from '../../../components/Navigation/Navigation';
+import Footer from '../../../components/Footer/Footer';
+import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
+import RouteBreadcrumb from '../../../components/Breadcrumb/RouteBreadcrumb';
+import Author from './Author';
+import RelatedPost from './RelatedPost';
+import Comments from './Comments';
+import Reply from './Reply';
+import Sidebar from './Sidebar';
+import { connect } from 'react-redux';
+import { getSingleArticle } from '../../../store/actions/articleActions';
+import Spinner from '../../../components/UI/Spinner/Spinner';
+import { getFormattedDateOnly } from '../../../utils/utility';
+
+class Article extends Component {
+
+    componentDidMount() {
+        if (this.props.match.params.id) {
+            this.props.getSingleArticle(this.props.match.params.id);
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.id !== prevProps.match.params.id) {
+            this.props.getSingleArticle(this.props.match.params.id);
+        }
+    }
+
+    render() {
+        return (
+            <Aux>
+                <Navigation />
+                <Breadcrumb
+                    title="Single Article"
+                    imageUrl={`url(${require("../../../resources/imgs/40.jpg")})`} />
+                <RouteBreadcrumb />
+
+                <section className="post-details-area">
+                    <div className="container">
+                        <div className="row justify-content-center">
+                            <div className="col col-9">
+                                <div className="post-details-content bg-white mb-30 p-30 box-shadow">
+                                    {!this.props.loading && this.props.article ? (
+                                        <div className="blog-content">
+                                            <div className="post-meta">
+                                                <p>{getFormattedDateOnly(this.props.article.publishedDate)}</p>
+                                                <p>{this.props.article.submissionId.categoryId.name}</p>
+                                            </div>
+                                            <h4 className="post-title">{this.props.article.submissionId.title}</h4>
+                                            <div className="post-meta-2">
+                                                <a href="a"><i className="fa fa-eye" aria-hidden="true"></i> 1034</a>
+                                                <a href="a"><i className="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
+                                                <a href="a"><i className="fa fa-comments-o" aria-hidden="true"></i> 234</a>
+                                            </div>
+                                            <div className="border border-dark">
+                                                <embed
+                                                    src={this.props.article.submissionId.attachmentUrl}
+                                                    type="application/pdf"
+                                                    frameBorder="0"
+                                                    scrolling="auto"
+                                                    height="800px"
+                                                    width="100%"
+                                                />
+                                            </div>
+                                            <Author author={this.props.article.submissionId.authorId}/>
+                                        </div>
+                                    ) : <Spinner />}
+                                </div>
+                                <RelatedPost />
+                                <div className="comment_area clearfix bg-white mb-30 p-30 box-shadow">
+                                    <Comments />
+                                </div>
+                                <div className="post-a-comment-area bg-white mb-30 p-30 box-shadow clearfix">
+                                    <Reply />
+                                </div>
+                            </div>
+
+                            <div className="col col-3">
+                                <Sidebar />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <Footer />
+            </Aux>
+        );
+    }
+};
+
+const mapStateToProps = state => {
+    return {
+        article: state.article.article,
+        loading: state.article.loading,
+        error: state.article.error
+    };
+};
+
+const mapDispatchToProps = {
+    getSingleArticle
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Article);
