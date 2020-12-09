@@ -45,12 +45,15 @@ class Articles extends Component {
                                                             {article.submissionId.title}
                                                         </Link>
                                                         <div className="post-meta-2">
-                                                            <a href="a"><i className="fa fa-eye" aria-hidden="true"></i> 1034</a>
+                                                            <Link to="#" className="text-dark">
+                                                                <i className="fas fa-user"></i>{" "}
+                                                                {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
+                                                            </Link>
+                                                            {/* <a href="a"><i className="fa fa-eye" aria-hidden="true"></i> 1034</a>
                                                             <a href="a"><i className="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
-                                                            <a href="a"><i className="fa fa-comments-o" aria-hidden="true"></i> 234</a>
+                                                            <a href="a"><i className="fa fa-comments-o" aria-hidden="true"></i> 234</a> */}
                                                         </div>
                                                         <p>{getShortArticleAbstract(article.submissionId.abstract)}</p>
-                                                        <Link to={`/single-article/${article._id}`} className="text-dark"><u>Xem chi tiết</u></Link>
                                                     </div>
                                                 </div>
                                             ))}

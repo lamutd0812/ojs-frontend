@@ -40,6 +40,7 @@ export const logout = () => {
     localStorage.removeItem('avatar');
     localStorage.removeItem('role');
     localStorage.removeItem('expirationDate');
+    localStorage.removeItem('notifications');
     return {
         type: actionTypes.AUTH_LOGOUT
     };

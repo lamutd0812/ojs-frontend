@@ -189,8 +189,13 @@ export const getDoughnutData = (reviewerAssignments) => {
     return data;
 };
 
+export const getShortArticleTitle = (title) => {
+    return title.slice(0, 40) + ' ...';
+}
+
 export const getShortArticleAbstract = (abstract) => {
     return abstract.slice(0, 200) + ' ...';
 }
+
 
 
