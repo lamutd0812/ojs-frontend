@@ -10,6 +10,11 @@ import { connect } from 'react-redux';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
 import { getAllReviewers, assignReviewer, resetReviewerAssignmentState } from '../../../store/actions/reviewActions';
 import "react-datepicker/dist/react-datepicker.css";
+import { EditorState, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import htmlToDraft from 'html-to-draftjs';
+import { assignReviewerTemplate } from '../../../utils/email-template';
 
 class AssignReviewer extends Component {
 
@@ -22,7 +27,8 @@ class AssignReviewer extends Component {
         selectedReviewerName: '',
         dueDate: getDeadlineDate(7),
         messageToReviewer: 'Nội dung lời nhắn',
-        emailToReviewer: 'Nội dung email',
+        // emailToReviewer: 'Nội dung email',
+        editorState: null
     };
 
     componentDidMount() {
@@ -30,9 +36,20 @@ class AssignReviewer extends Component {
             const query = new URLSearchParams(this.props.location.search);
             const submissionId = query.get('submissionId');
             this.props.getAllReviewers(submissionId);
+
+            // Text Editor
+            const contentBlock = htmlToDraft(assignReviewerTemplate('Test Article 2020', 'Nguyễn Hải Hà', 'Nguyễn Văn Dũng'));
+            let editorState = null;
+            if (contentBlock) {
+                const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+                editorState = EditorState.createWithContent(contentState);
+
+            }
             this.setState(updateObject(this.state, {
-                submissionId: submissionId
+                submissionId: submissionId,
+                editorState: editorState
             }));
+
             if (!this.props.submission) {
                 this.props.getSubmissionDetail(submissionId);
             }
@@ -87,14 +104,18 @@ class AssignReviewer extends Component {
         this.setState(updateObject(this.state, { messageToReviewer: event.target.value }));
     }
 
-    setEmailToReviewerHandler = (event) => {
-        this.setState(updateObject(this.state, { emailToReviewer: event.target.value }));
-    }
+    // setEmailToReviewerHandler = (event) => {
+    //     this.setState(updateObject(this.state, { emailToReviewer: event.target.value }));
+    // }
 
     confirmSubmitHandler = () => {
         this.props.assignReviewer(this.state.submissionId, this.state.selectedReviewerId,
             this.state.dueDate, this.state.messageToReviewer);
     }
+
+    onEditorStateChange = (editorState) => {
+        this.setState(updateObject(this.state, { editorState: editorState }));
+    };
 
     render() {
         return (
@@ -200,12 +221,18 @@ class AssignReviewer extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <h6>Gửi Email tới thẩm định viên*</h6>
-                                                    <textarea
+                                                    <Editor
+                                                        editorState={this.state.editorState}
+                                                        wrapperClassName="wrapper-class"
+                                                        editorClassName="form-control"
+                                                        toolbarClassName="toolbar-class"
+                                                        onEditorStateChange={this.onEditorStateChange} />
+                                                    {/* <textarea
                                                         type="text"
                                                         name="noti_and_email"
                                                         className="form-control"
                                                         defaultValue={this.state.emailToReviewer}
-                                                        onChange={this.setEmailToReviewerHandler} />
+                                                        onChange={this.setEmailToReviewerHandler} /> */}
                                                 </div>
                                                 <div className="form-group">
                                                     <h6>Lời nhắn</h6>

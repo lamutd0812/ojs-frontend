@@ -62,41 +62,42 @@ class Notifications extends Component {
                                 </div>
                             </div>
 
-                            {this.props.notifications ? (
-                                <div className="card-body">
-                                    {this.props.notifications.map(noti => (
-                                        <Aux key={noti._id}>
-                                            <Link to={noti.link}>
-                                                <div className="media">
-                                                    <img src={noti.senderAvatar} alt="User Avatar" className="img-size-50 mr-3 img-circle" />
-                                                    <div className="media-body">
-                                                        <h3 className="dropdown-item-title">
-                                                            {noti.title}
-                                                            <span className="float-right text-sm text-danger"><i className="fas fa-star"></i></span>
-                                                        </h3>
-                                                        <p className="text-sm">{noti.content}</p>
-                                                        <p className="text-sm text-muted"><i className="far fa-clock mr-1"></i>{getFormattedDate(noti.createdAt)}</p>
+                            {this.props.notifications.length > 0 ? (
+                                <Aux>
+                                    <div className="card-body">
+                                        {this.props.notifications.map(noti => (
+                                            <Aux key={noti._id}>
+                                                <Link to={noti.link}>
+                                                    <div className="media">
+                                                        <img src={noti.senderAvatar} alt="User Avatar" className="img-size-50 mr-3 img-circle" />
+                                                        <div className="media-body">
+                                                            <h3 className="dropdown-item-title">
+                                                                {noti.title}
+                                                                <span className="float-right text-sm text-danger"><i className="fas fa-star"></i></span>
+                                                            </h3>
+                                                            <p className="text-sm">{noti.content}</p>
+                                                            <p className="text-sm text-muted"><i className="far fa-clock mr-1"></i>{getFormattedDate(noti.createdAt)}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </Link>
-                                            <div className="dropdown-divider"></div>
-                                        </Aux>
-                                    ))}
-                                </div>
+                                                </Link>
+                                                <div className="dropdown-divider"></div>
+                                            </Aux>
+                                        ))}
+                                    </div>
+                                    <Pagination
+                                        currentPage={this.props.currentPage}
+                                        hasNextPage={ITEMS_PER_PAGE * this.props.currentPage < this.props.total}
+                                        hasPrevPage={this.props.currentPage > 1}
+                                        nextPage={this.props.currentPage + 1}
+                                        prevPage={this.props.currentPage - 1}
+                                        lastPage={Math.ceil(this.props.total / ITEMS_PER_PAGE)}
+                                        location={this.props.location} />
+                                </Aux>
                             ) : (
-                                    <div className="card-text p-4">Bạn chưa có thông báo nào.</div>
-                                )}
+                                <div className="card-text p-4">Bạn chưa có thông báo nào.</div>
+                            )}
                         </div>
                     ) : <Spinner />}
-
-                    <Pagination
-                        currentPage={this.props.currentPage}
-                        hasNextPage={ITEMS_PER_PAGE * this.props.currentPage < this.props.total}
-                        hasPrevPage={this.props.currentPage > 1}
-                        nextPage={this.props.currentPage + 1}
-                        prevPage={this.props.currentPage - 1}
-                        lastPage={Math.ceil(this.props.total / ITEMS_PER_PAGE)}
-                        location={this.props.location} />
                 </section>
             </div >
         );

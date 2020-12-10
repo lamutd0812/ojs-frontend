@@ -2,6 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
 import { getDeadlineDate } from '../../../../utils/utility';
+import { Editor } from 'react-draft-wysiwyg';
 
 const RequestRevision = (props) => {
     return (
@@ -9,7 +10,7 @@ const RequestRevision = (props) => {
             <h6><i className="fas fa-paper-plane"></i> YÊU CẦU TÁC GIẢ CHỈNH SỬA BÀI BÁO</h6>
             <div className="card-body">
                 <div className="form-group">
-                    <label>Thời hạn xử lý*</label> <br/>
+                    <label>Thời hạn xử lý*</label> <br />
                     <DatePicker className="form-control"
                         showTimeSelect
                         minDate={getDeadlineDate(7)}
@@ -19,12 +20,18 @@ const RequestRevision = (props) => {
                 </div>
                 <div className="form-group">
                     <label>Gửi Email tới tác giả*</label>
-                    <textarea
+                    <Editor
+                        editorState={props.editorState}
+                        wrapperClassName="wrapper-class"
+                        editorClassName="form-control"
+                        toolbarClassName="toolbar-class"
+                        onEditorStateChange={props.onEditorStateChange} />
+                    {/* <textarea
                         type="text"
                         name="noti_and_email"
                         className="form-control"
                         defaultValue={props.emailToAuthor}
-                        onChange={props.setEmail} />
+                        onChange={props.setEmail} /> */}
                 </div>
                 <div className="form-group">
                     <label>Lời nhắn</label>

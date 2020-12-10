@@ -15,6 +15,11 @@ import {
 import { connect } from 'react-redux';
 import ConfirmDialog from '../../../UI/ConfirmDialog/ConfirmDialog';
 import { toast } from 'react-toastify';
+import { EditorState, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import htmlToDraft from 'html-to-draftjs';
+import { acceptSubmisisonTemplate } from '../../../../utils/email-template';
 
 class DeclineSubmission extends Component {
 
@@ -22,13 +27,25 @@ class DeclineSubmission extends Component {
         step1Active: true,
         step2Active: false,
         controls: acceptSubmissionInputControls,
-        formIsValid: false
+        formIsValid: false,
+        editorState: null
     };
 
     componentDidMount() {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
         }
+        // Text Editor
+        const contentBlock = htmlToDraft(acceptSubmisisonTemplate('Test Article 2020', 'Nguyễn Văn An', 'Nguyễn Hải Hà'));
+        let editorState = null;
+        if (contentBlock) {
+            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+            editorState = EditorState.createWithContent(contentState);
+
+        }
+        this.setState(updateObject(this.state, {
+            editorState: editorState
+        }));
     }
 
     inputChangeHandler = (event) => {
@@ -76,6 +93,10 @@ class DeclineSubmission extends Component {
         // const emailToAuthor = this.state.controls.emailToAuthor.value;
         this.props.declineSubmisison(submissionId, content);
     }
+
+    onEditorStateChange = (editorState) => {
+        this.setState(updateObject(this.state, { editorState: editorState }));
+    };
 
     render() {
         const contentWrapper = (
@@ -133,15 +154,12 @@ class DeclineSubmission extends Component {
                                         </div>
                                         <div className="form-group">
                                             <label>Gửi Email đến tác giả*</label>
-                                            <textarea
-                                                type="text"
-                                                name="emailToAuthor"
-                                                className={!this.state.controls.emailToAuthor.valid && this.state.controls.emailToAuthor.touched ? "form-control-error" : "form-control"}
-                                                placeholder={this.state.controls.emailToAuthor.elementConfig.placeholder}
-                                                defaultValue={this.state.controls.emailToAuthor.value}
-                                                onChange={this.inputChangeHandler} />
-                                            {!this.state.controls.emailToAuthor.valid && this.state.controls.emailToAuthor.touched ?
-                                                <p className="form-control-error-msg">Email không hợp lệ!</p> : null}
+                                            <Editor
+                                                editorState={this.state.editorState}
+                                                wrapperClassName="wrapper-class"
+                                                editorClassName="form-control"
+                                                toolbarClassName="toolbar-class"
+                                                onEditorStateChange={this.onEditorStateChange} />
                                         </div>
                                     </div>
                                     <div className="card-footer">
@@ -162,7 +180,7 @@ class DeclineSubmission extends Component {
                                     {this.props.submission ? (
                                         <div className="ml-2">Bài báo <b>{this.props.submission.title}</b> của tác giả {" "}
                                             <Link to="" className="text-primary">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}.</Link>
-                                            {" "}đã bị từ chối. 
+                                            {" "}đã bị từ chối.
                                         </div>
                                     ) : null}
                                     <h4 className="mt-3">Bây giờ, bạn có thể:</h4>

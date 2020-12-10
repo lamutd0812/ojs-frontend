@@ -33,6 +33,10 @@ import { createReviewInputChangeHandler, editReviewInnputChangeHandler } from '.
 import RequestRevision from './RequestAuthorRevision/RequestRevision';
 import AuthorAssignment from './RequestAuthorRevision/AuthorAssignment';
 import SubmissionProcess from '../Submission/SubmissionProcess/SubmissionProcess';
+import { EditorState, ContentState } from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import htmlToDraft from 'html-to-draftjs';
+import { requestRevisionTemplate } from '../../../utils/email-template';
 class EditorAssignment extends Component {
 
     state = {
@@ -48,7 +52,9 @@ class EditorAssignment extends Component {
         canRequestAuthorRevision: false,
         dueDate: getDeadlineDate(7),
         messageToAuthor: 'Nội dung lời nhắn',
-        emailToAuthor: 'Nội dung email',
+        // emailToAuthor: 'Nội dung email',
+        editorState: null
+
     }
 
     componentDidMount() {
@@ -58,10 +64,21 @@ class EditorAssignment extends Component {
             this.props.getEditorDecisions();
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
         }
+        // Text Editor
+        const contentBlock = htmlToDraft(requestRevisionTemplate('Test Article 2020','/dashboard', 'Nguyễn Hải Hà', 'Nguyễn Lâm'));
+        let editorState = null;
+        if (contentBlock) {
+            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+            editorState = EditorState.createWithContent(contentState);
+
+        }
+        this.setState(updateObject(this.state, {
+            editorState: editorState
+        }));
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.match.params.submissionId !== prevProps.match.params.submissionId){
+        if (this.props.match.params.submissionId !== prevProps.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
@@ -235,6 +252,11 @@ class EditorAssignment extends Component {
         this.setState(updateObject(this.state, { emailToReviewer: event.target.value }));
     }
 
+    // Email Editor
+    onEditorStateChange = (editorState) => {
+        this.setState(updateObject(this.state, { editorState: editorState }));
+    }; 
+
     render() {
         const contentWrapper = (
             <div className="content-wrapper">
@@ -302,8 +324,8 @@ class EditorAssignment extends Component {
                                                             submission={this.props.submission}
                                                             hasAuthorRevision={this.props.authorAssignment.authorRevisionId ? true : false} />
                                                     ) : (
-                                                        <SubmissionInfor submission={this.props.submission} />
-                                                    )}
+                                                            <SubmissionInfor submission={this.props.submission} />
+                                                        )}
                                                 </div>
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-4 border rounded">
@@ -417,7 +439,7 @@ class EditorAssignment extends Component {
                                                     {this.props.editorAssignment.editorSubmissionId ? (
                                                         <Aux>
                                                             <div className="form-group text-center">
-                                                                <div className="badge-ol badge-ol-success badge-outlined p-2 pr-5 pl-5" style={{ fontSize:'16px' }}>
+                                                                <div className="badge-ol badge-ol-success badge-outlined p-2 pr-5 pl-5" style={{ fontSize: '16px' }}>
                                                                     <i className="fas fa-check"></i> Đã nộp ý kiến thẩm định
                                                                 </div>
                                                             </div>
@@ -446,7 +468,7 @@ class EditorAssignment extends Component {
                                                     ) : (
                                                             <Aux>
                                                                 <div className="form-group text-center">
-                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
+                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
                                                                         <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
                                                                     </div>
                                                                 </div>
@@ -501,7 +523,8 @@ class EditorAssignment extends Component {
                                                                 ) : (
                                                                         <RequestRevision
                                                                             dueDate={this.state.dueDate}
-                                                                            emailToAuthor={this.state.emailToAuthor}
+                                                                            editorState={this.state.editorState}
+                                                                            onEditorStateChange={this.onEditorStateChange}
                                                                             messageToAuthor={this.state.messageToAuthor}
                                                                             setDueDate={this.setDueDateHandler}
                                                                             setMessage={this.setMessageToAuthorHandler}
@@ -518,22 +541,22 @@ class EditorAssignment extends Component {
                                                         <Aux>
                                                             {!this.props.authorAssignment.authorRevisionId ? (
                                                                 <div className="form-group text-center">
-                                                                    <div className="badge-ol badge-ol-primary badge-outlined p-2 pr-5 pl-5" style={{ fontSize:'16px' }}>
+                                                                    <div className="badge-ol badge-ol-primary badge-outlined p-2 pr-5 pl-5" style={{ fontSize: '16px' }}>
                                                                         <i className="fas fa-check"></i> Đã gửi yêu cầu đến tác giả
                                                                     </div>
                                                                 </div>
-                                                            ): (
-                                                                <div className="form-group text-center">
-                                                                    <div className="badge-ol badge-ol-success badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
-                                                                        <i className="fas fa-check"></i> Tác giả đã nộp bản chỉnh sửa
+                                                            ) : (
+                                                                    <div className="form-group text-center">
+                                                                        <div className="badge-ol badge-ol-success badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
+                                                                            <i className="fas fa-check"></i> Tác giả đã nộp bản chỉnh sửa
                                                                     </div>
-                                                                </div>
-                                                            )}
+                                                                    </div>
+                                                                )}
                                                         </Aux>
                                                     ) : (
                                                             <Aux>
                                                                 <div className="form-group text-center">
-                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize:'16px' }}>
+                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
                                                                         <i className="fas fa-close"></i> Chưa gửi yêu cầu đến tác giả
                                                                     </div>
                                                                 </div>
@@ -541,7 +564,7 @@ class EditorAssignment extends Component {
                                                         )}
 
                                                     <SubmissionProcess
-                                                        submission={this.props.submission} />                                                           
+                                                        submission={this.props.submission} />
                                                 </div>
                                             </div>
                                         </div>
