@@ -163,7 +163,7 @@ class SubmitArticle extends Component {
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
                                             <div className="card-body">
-                                                {this.props.categories ? (
+                                                {this.props.categories.length > 0 ? (
                                                     <div className="form-group">
                                                         <label>Thể loại*</label>
                                                         <select

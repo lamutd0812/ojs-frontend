@@ -114,7 +114,7 @@ class ReviseSubmission extends Component {
                                             {/* Step 1 Active  */}
                                             <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
                                                 <div className="card-body">
-                                                    {this.props.categories ? (
+                                                    {this.props.categories.length > 0 ? (
                                                         <div className="form-group">
                                                             <label>Thể loại*</label>
                                                             <select

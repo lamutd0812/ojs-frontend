@@ -11,7 +11,7 @@ const LeftSidebar = (props) => {
                 {props.articles.map(article => (
                     <div className="single-blog-post d-flex" key={article._id}>
                         <div className="post-thumbnail">
-                            <img src="img/bg-img/5.jpg" alt="" />
+                            <img src="img/bg-img/22.jpg" alt="" />
                         </div>
                         <div className="post-content">
                             <Link to={`/single-article/${article._id}`} className="post-title">
@@ -28,7 +28,7 @@ const LeftSidebar = (props) => {
                 ))}
             </div>
 
-            {/* <div className="single-sidebar-widget p-30">
+            <div className="single-sidebar-widget p-30">
                 <div className="section-heading">
                     <h5>Mới nhất</h5>
                 </div>
@@ -51,7 +51,7 @@ const LeftSidebar = (props) => {
                         </div>
                     </div>
                 ))}
-            </div> */}
+            </div>
         </div>
     );
 };

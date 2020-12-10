@@ -10,8 +10,7 @@ const RouteBreadcrumb = (props) => {
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
                             <li className="breadcrumb-item"><Link to="/"><i className="fa fa-home" aria-hidden="true"></i> Home</Link></li>
-                            <li className="breadcrumb-item"><Link to="/articles">Articles</Link></li>
-                            <li className="breadcrumb-item active" aria-current="page">ArticleDetail</li>
+                            {props.children}
                         </ol>
                     </nav>
                 </div>

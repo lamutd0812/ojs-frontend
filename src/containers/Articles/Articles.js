@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 class Articles extends Component {
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         this.props.getAllArticles(1);
     }
 
@@ -24,7 +25,9 @@ class Articles extends Component {
                 <Breadcrumb
                     title="Articles"
                     imageUrl={`url(${require("../../resources/imgs/40.jpg")})`} />
-                <RouteBreadcrumb />
+                <RouteBreadcrumb>
+                    <li className="breadcrumb-item active" aria-current="page">Bài báo</li>
+                </RouteBreadcrumb>
 
                 <section className="post-details-area">
                     <div className="container">
@@ -59,8 +62,8 @@ class Articles extends Component {
                                             ))}
                                         </Aux>
                                     ) : (
-                                        <Spinner />
-                                    )}
+                                            <Spinner />
+                                        )}
                                 </div>
                             </div>
                             {/* Col */}

@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../utils/utility';
 
 const initialState = {
-    categories: null,
+    categories: [],
     submissions: [],
     submission: null,
     fileUploading: false,

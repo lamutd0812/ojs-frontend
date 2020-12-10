@@ -13,10 +13,12 @@ import { connect } from 'react-redux';
 import { getSingleArticle } from '../../../store/actions/articleActions';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import { getFormattedDateOnly } from '../../../utils/utility';
+import { Link } from 'react-router-dom';
 
 class Article extends Component {
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if (this.props.match.params.id) {
             this.props.getSingleArticle(this.props.match.params.id);
         }
@@ -35,7 +37,10 @@ class Article extends Component {
                 <Breadcrumb
                     title="Single Article"
                     imageUrl={`url(${require("../../../resources/imgs/40.jpg")})`} />
-                <RouteBreadcrumb />
+                <RouteBreadcrumb>
+                    <li className="breadcrumb-item active" aria-current="page"><Link to="/articles">Bái báo</Link></li>
+                    <li className="breadcrumb-item active" aria-current="page">Chi tiết bài báo</li>
+                </RouteBreadcrumb>
 
                 <section className="post-details-area">
                     <div className="container">
@@ -64,7 +69,7 @@ class Article extends Component {
                                                     width="100%"
                                                 />
                                             </div>
-                                            <Author author={this.props.article.submissionId.authorId}/>
+                                            <Author author={this.props.article.submissionId.authorId} />
                                         </div>
                                     ) : <Spinner />}
                                 </div>

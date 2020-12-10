@@ -2,11 +2,11 @@ import React from 'react';
 import OwlCarousel from 'react-owl-carousel';
 import { Link } from 'react-router-dom';
 import { getShortArticleTitle } from '../../utils/utility';
+import Sports from './Sports';
 
 const MainPosts = (props) => {
     return (
         <div className="mag-posts-content mt-30 mb-30 p-30 box-shadow">
-            {/* Trending Now Posts Area */}
             <div className="trending-now-posts mb-30">
                 <div className="section-heading">
                     <h5>Phổ biến</h5>
@@ -34,6 +34,8 @@ const MainPosts = (props) => {
                     ))}
                 </OwlCarousel>
             </div>
+
+            <Sports articles={props.articles}/>
         </div>
     );
 };

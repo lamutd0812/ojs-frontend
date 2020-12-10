@@ -15,7 +15,7 @@ class Home extends Component {
         if (this.props.articles.length <= 0) {
             this.props.getAllArticles(1);
         }
-        if (!this.props.categories) {
+        if (this.props.categories.length <= 0) {
             this.props.getCategories();
         }
     }
@@ -30,8 +30,10 @@ class Home extends Component {
                     {!this.props.loading && this.props.articles.length > 0 && this.props.categories.length > 0 ? (
                         <Aux>
                             <LeftSidebar articles={this.props.articles} />
-                            <MainPosts articles={this.props.articles}/>
-                            <RightSidebar categories={this.props.categories} />
+                            <MainPosts articles={this.props.articles} />
+                            <RightSidebar
+                                articles={this.props.articles}
+                                categories={this.props.categories} />
                         </Aux>
                     ) : (
                         <Spinner />
