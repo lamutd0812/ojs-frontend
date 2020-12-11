@@ -5,8 +5,8 @@ import { getFormattedDateOnly, getShortArticleAbstract } from '../../utils/utili
 
 const Sports = (props) => {
     return (
-        <div class="sports-videos-area">
-            <div class="section-heading">
+        <div className="sports-videos-area">
+            <div className="section-heading">
                 <h5>Lựa chọn của ban biên tập</h5>
             </div>
 
@@ -19,16 +19,16 @@ const Sports = (props) => {
                 autoplay
                 autoplayTimeout={4000}
                 smartSpeed={1000}
-                navText={['<i class="ti-angle-left"></i>', '<i class="ti-angle-right"></i>']}
+                navText={['<i className="ti-angle-left"></i>', '<i className="ti-angle-right"></i>']}
             >
 
                 {props.articles.map(article => (
-                    <div class="single-featured-post">
-                        <div class="post-thumbnail mb-50">
+                    <div className="single-featured-post" key={article._id}>
+                        <div className="post-thumbnail mb-50">
                             <img src="img/bg-img/35.jpg" alt="" />
                         </div>
-                        <div class="post-content">
-                            <div class="post-meta">
+                        <div className="post-content">
+                            <div className="post-meta">
                                 <p>{getFormattedDateOnly(article.publishedDate)}</p>
                                 <Link to="#"><p>{article.submissionId.categoryId.name}</p></Link>
                                 <br />
@@ -47,66 +47,66 @@ const Sports = (props) => {
                 ))}
             </OwlCarousel>
 
-            <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="single-blog-post d-flex style-3 mb-30">
-                        <div class="post-thumbnail">
+            <div className="row">
+                <div className="col-12 col-lg-6">
+                    <div className="single-blog-post d-flex style-3 mb-30">
+                        <div className="post-thumbnail">
                             <img src="img/bg-img/31.jpg" alt="" />
                         </div>
-                        <div class="post-content">
-                            <Link to="#" class="post-title">From Wetlands To Canals And Dams Amsterdam Is Alive</Link>
-                            <div class="post-meta d-flex">
-                                <Link to="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</Link>
-                                <Link to="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</Link>
-                                <Link to="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</Link>
+                        <div className="post-content">
+                            <Link to="#" className="post-title">From Wetlands To Canals And Dams Amsterdam Is Alive</Link>
+                            <div className="post-meta d-flex">
+                                <Link to="#"><i className="fa fa-eye" aria-hidden="true"></i> 1034</Link>
+                                <Link to="#"><i className="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</Link>
+                                <Link to="#"><i className="fa fa-comments-o" aria-hidden="true"></i> 234</Link>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-6">
-                    <div class="single-blog-post d-flex style-3 mb-30">
-                        <div class="post-thumbnail">
+                <div className="col-12 col-lg-6">
+                    <div className="single-blog-post d-flex style-3 mb-30">
+                        <div className="post-thumbnail">
                             <img src="img/bg-img/32.jpg" alt="" />
                         </div>
-                        <div class="post-content">
-                            <Link to="#" class="post-title">From Wetlands To Canals And Dams Amsterdam Is Alive</Link>
-                            <div class="post-meta d-flex">
-                                <Link to="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</Link>
-                                <Link to="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</Link>
-                                <Link to="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</Link>
+                        <div className="post-content">
+                            <Link to="#" className="post-title">From Wetlands To Canals And Dams Amsterdam Is Alive</Link>
+                            <div className="post-meta d-flex">
+                                <Link to="#"><i className="fa fa-eye" aria-hidden="true"></i> 1034</Link>
+                                <Link to="#"><i className="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</Link>
+                                <Link to="#"><i className="fa fa-comments-o" aria-hidden="true"></i> 234</Link>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-6">
-                    <div class="single-blog-post d-flex style-3 mb-30">
-                        <div class="post-thumbnail">
+                <div className="col-12 col-lg-6">
+                    <div className="single-blog-post d-flex style-3 mb-30">
+                        <div className="post-thumbnail">
                             <img src="img/bg-img/33.jpg" alt="" />
                         </div>
-                        <div class="post-content">
-                            <Link to="#" class="post-title">From Wetlands To Canals And Dams Amsterdam Is Alive</Link>
-                            <div class="post-meta d-flex">
-                                <Link to="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</Link>
-                                <Link to="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</Link>
-                                <Link to="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</Link>
+                        <div className="post-content">
+                            <Link to="#" className="post-title">From Wetlands To Canals And Dams Amsterdam Is Alive</Link>
+                            <div className="post-meta d-flex">
+                                <Link to="#"><i className="fa fa-eye" aria-hidden="true"></i> 1034</Link>
+                                <Link to="#"><i className="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</Link>
+                                <Link to="#"><i className="fa fa-comments-o" aria-hidden="true"></i> 234</Link>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-6">
-                    <div class="single-blog-post d-flex style-3 mb-30">
-                        <div class="post-thumbnail">
+                <div className="col-12 col-lg-6">
+                    <div className="single-blog-post d-flex style-3 mb-30">
+                        <div className="post-thumbnail">
                             <img src="img/bg-img/34.jpg" alt="" />
                         </div>
-                        <div class="post-content">
-                            <Link to="#" class="post-title">From Wetlands To Canals And Dams Amsterdam Is Alive</Link>
-                            <div class="post-meta d-flex">
-                                <Link to="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</Link>
-                                <Link to="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</Link>
-                                <Link to="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</Link>
+                        <div className="post-content">
+                            <Link to="#" className="post-title">From Wetlands To Canals And Dams Amsterdam Is Alive</Link>
+                            <div className="post-meta d-flex">
+                                <Link to="#"><i className="fa fa-eye" aria-hidden="true"></i> 1034</Link>
+                                <Link to="#"><i className="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</Link>
+                                <Link to="#"><i className="fa fa-comments-o" aria-hidden="true"></i> 234</Link>
                             </div>
                         </div>
                     </div>
