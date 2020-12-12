@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import { keepAuthState, getMyNotifications } from './store/actions/authActions';
 import Articles from './containers/Articles/Articles';
 import Article from './containers/Articles/Article/Article';
-
 class App extends Component {
 
     componentDidMount() {

@@ -1348,7 +1348,7 @@ blockquote {
           -webkit-box-flex: 0;
           -ms-flex: 0 0 50%;
           flex: 0 0 50%;
-          max-width: 50%;
+          max-width: 60%;
           width: 50%; }
           .footer-area .footer-widget .footer-widget-nav ul li a {
             display: inline-block;
