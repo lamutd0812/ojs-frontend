@@ -23,8 +23,7 @@ class Navigation extends Component {
                                         <ul>
                                             <li className="active"><Link to="/">Trang chủ</Link></li>
                                             <li><NavLink to="/articles">Bài báo</NavLink></li>
-                                            <li><NavLink to="/dashboard">Dashboard</NavLink></li>
-                                            {/* <li><NavLink to="#">Về chúng tôi</NavLink></li> */}
+                                            <li><NavLink to="#">Về chúng tôi</NavLink></li>
                                             {/* <li className="cn-dropdown-item has-down">
                                                 <NavLink to="#">Contact</NavLink>
                                                 <ul className="dropdown">

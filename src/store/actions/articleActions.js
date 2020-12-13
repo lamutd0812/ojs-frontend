@@ -23,6 +23,12 @@ const getSingleArticleSuccess = (article) => {
     }
 };
 
+const updateDownloadCountSuccess = (data) => {
+    return {
+        type: actionTypes.UPDATE_DOWNLOADED_COUNT_SUCCESS
+    }
+}
+
 const articleError = (error) => {
     return {
         type: actionTypes.ARTICLE_ERROR,
@@ -46,6 +52,15 @@ export const getSingleArticle = (id) => (dispatch) => {
     axios.get('/articles/' + id)
         .then(res => {
             dispatch(getSingleArticleSuccess(res.data.article));
+        }).catch(err => {
+            dispatch(articleError(err));
+        });
+};
+
+export const updateDownloadedCount = (articleId) => (dispatch) => {
+    axios.put('/articles/update-downloaded-count/' + articleId)
+        .then(res => {
+            dispatch(updateDownloadCountSuccess());
         }).catch(err => {
             dispatch(articleError(err));
         });

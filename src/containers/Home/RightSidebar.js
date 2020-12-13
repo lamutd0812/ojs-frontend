@@ -38,10 +38,10 @@ const RightSidebar = (props) => {
                                     {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
                                 </Link>
                                 <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
-                                    <i className="fas fa-eye" aria-hidden="true"></i> 34
+                                    <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
                                 </Link>
                                 <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
-                                    <i className="fas fa-download" aria-hidden="true"></i> 84
+                                    <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                 </Link>
                             </div>
                         </div>

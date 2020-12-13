@@ -4,21 +4,16 @@ import Aux from '../../../hoc/Auxiliary/Auxiliary';
 const Comments = () => {
     return (
         <Aux>
-            {/* <!-- Section Title --> */}
             <div className="section-heading">
-                <h5>COMMENTS</h5>
+                <h5>Bình Luận</h5>
             </div>
 
             <ol>
-                {/* <!-- Single Comment Area --> */}
                 <li className="single_comment_area">
-                    {/* <!-- Comment Content --> */}
                     <div className="comment-content d-flex">
-                        {/* <!-- Comment Author --> */}
                         <div className="comment-author">
                             <img src="img/bg-img/53.jpg" alt="author" />
                         </div>
-                        {/* <!-- Comment Meta --> */}
                         <div className="comment-meta">
                             <a href="a" className="comment-date">27 Aug 2019</a>
                             <h6>Tomas Mandy</h6>
@@ -32,13 +27,10 @@ const Comments = () => {
 
                     <ol className="children">
                         <li className="single_comment_area">
-                            {/* <!-- Comment Content --> */}
                             <div className="comment-content d-flex">
-                                {/* <!-- Comment Author --> */}
                                 <div className="comment-author">
                                     <img src="img/bg-img/54.jpg" alt="author" />
                                 </div>
-                                {/* <!-- Comment Meta --> */}
                                 <div className="comment-meta">
                                     <a href="a" className="comment-date">27 Aug 2019</a>
                                     <h6>Britney Millner</h6>
@@ -53,15 +45,11 @@ const Comments = () => {
                     </ol>
                 </li>
 
-                {/* <!-- Single Comment Area --> */}
                 <li className="single_comment_area">
-                    {/* <!-- Comment Content --> */}
                     <div className="comment-content d-flex">
-                        {/* <!-- Comment Author --> */}
                         <div className="comment-author">
                             <img src="img/bg-img/55.jpg" alt="author" />
                         </div>
-                        {/* <!-- Comment Meta --> */}
                         <div className="comment-meta">
                             <a href="a" className="comment-date">27 Aug 2019</a>
                             <h6>Simon Downey</h6>

@@ -6,7 +6,7 @@ const Reply = () => {
         <Aux>
             {/* <!-- Section Title --> */}
             <div className="section-heading">
-                <h5>LEAVE A REPLY</h5>
+                <h5>Để lại bình luận</h5>
             </div>
 
             {/* <!-- Reply Form --> */}

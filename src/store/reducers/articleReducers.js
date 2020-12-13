@@ -32,6 +32,13 @@ const getSingleArticleSuccess = (state, action) => {
     })
 };
 
+const updateDownloadedCountSuccess = (state) => {
+    return updateObject(state, {
+        loading: false,
+        error: null
+    })
+};
+
 const articleError = (state, action) => {
     return updateObject(state, {
         error: action.error
@@ -45,6 +52,8 @@ const articleReducer = (state = initialState, action) => {
 
         case actionTypes.GET_ALL_ARTICLES_SUCCESS: return getAllArticlesSuccess(state, action);
         case actionTypes.GET_SINGLE_ARTICLE_SUCCESS: return getSingleArticleSuccess(state, action);
+
+        case actionTypes.UPDATE_DOWNLOADED_COUNT_SUCCESS: return updateDownloadedCountSuccess(state);
 
         default: return state;
     }

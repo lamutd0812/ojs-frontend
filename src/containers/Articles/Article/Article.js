@@ -5,12 +5,13 @@ import Footer from '../../../components/Footer/Footer';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import RouteBreadcrumb from '../../../components/Breadcrumb/RouteBreadcrumb';
 import Author from './Author';
-import RelatedPost from './RelatedPost';
+// import RelatedPost from './RelatedPost';
 import Comments from './Comments';
 import Reply from './Reply';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
-import { getSingleArticle } from '../../../store/actions/articleActions';
+import { getSingleArticle, getAllArticles, updateDownloadedCount } from '../../../store/actions/articleActions';
+import { getCategories } from '../../../store/actions/submissionActions';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import { getFormattedDateOnly } from '../../../utils/utility';
 import { Link } from 'react-router-dom';
@@ -22,11 +23,23 @@ class Article extends Component {
         if (this.props.match.params.id) {
             this.props.getSingleArticle(this.props.match.params.id);
         }
+        if (this.props.articles.length <= 0) {
+            this.props.getAllArticles(1);
+        }
+        if (this.props.categories.length <= 0) {
+            this.props.getCategories();
+        }
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.match.params.id !== prevProps.match.params.id) {
             this.props.getSingleArticle(this.props.match.params.id);
+        }
+    }
+
+    updateDownloadedTimes = () => {
+        if (this.props.match.params.id) {
+            this.props.updateDownloadedCount(this.props.match.params.id);
         }
     }
 
@@ -55,9 +68,16 @@ class Article extends Component {
                                             </div>
                                             <h4 className="post-title">{this.props.article.submissionId.title}</h4>
                                             <div className="post-meta-2">
-                                                <a href="a"><i className="fa fa-eye" aria-hidden="true"></i> 1034</a>
-                                                <a href="a"><i className="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
-                                                <a href="a"><i className="fa fa-comments-o" aria-hidden="true"></i> 234</a>
+                                                <Link to="#" className="text-secondary" style={{ fontWeight: '400' }}>
+                                                    <i className="fas fa-user"></i>{" "}
+                                                    {this.props.article.submissionId.authorId.lastname} {this.props.article.submissionId.authorId.firstname}
+                                                </Link>
+                                                <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                                    <i className="fas fa-eye" aria-hidden="true"></i> {this.props.article.views}
+                                                </Link>
+                                                <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                                    <i className="fas fa-download" aria-hidden="true"></i> {this.props.article.downloaded}
+                                                </Link>
                                             </div>
                                             <div className="border border-dark">
                                                 <embed
@@ -73,7 +93,7 @@ class Article extends Component {
                                         </div>
                                     ) : <Spinner />}
                                 </div>
-                                <RelatedPost />
+                                {/* <RelatedPost /> */}
                                 <div className="comment_area clearfix bg-white mb-30 p-30 box-shadow">
                                     <Comments />
                                 </div>
@@ -83,7 +103,13 @@ class Article extends Component {
                             </div>
 
                             <div className="col col-3">
-                                <Sidebar />
+                                {this.props.article && (
+                                    <Sidebar
+                                        articleUrl={this.props.article.submissionId.attachmentUrl}
+                                        articles={this.props.articles}
+                                        categories={this.props.categories}
+                                        updateDownloadedTimes={this.updateDownloadedTimes} />
+                                )}
                             </div>
                         </div>
                     </div>
@@ -98,12 +124,17 @@ const mapStateToProps = state => {
     return {
         article: state.article.article,
         loading: state.article.loading,
-        error: state.article.error
+        error: state.article.error,
+        articles: state.article.articles,
+        categories: state.submission.categories
     };
 };
 
 const mapDispatchToProps = {
-    getSingleArticle
+    getSingleArticle,
+    getAllArticles,
+    getCategories,
+    updateDownloadedCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

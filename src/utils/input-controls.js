@@ -347,17 +347,17 @@ export const acceptSubmissionInputControls = {
         valid: false,
         touched: false
     },
-    emailToAuthor: {
-        elementConfig: {
-            type: 'email',
-            placeholder: 'Nội dung Email'
-        },
-        value: '',
-        validation: {
-            required: true,
-            minLength: 5
-        },
-        valid: false,
-        touched: false
-    }
+    // emailToAuthor: {
+    //     elementConfig: {
+    //         type: 'email',
+    //         placeholder: 'Nội dung Email'
+    //     },
+    //     value: '',
+    //     validation: {
+    //         required: true,
+    //         minLength: 5
+    //     },
+    //     valid: false,
+    //     touched: false
+    // }
 };

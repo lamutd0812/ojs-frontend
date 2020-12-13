@@ -34,10 +34,10 @@ const MainPosts = (props) => {
                                         {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
                                     </Link>
                                     <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
-                                        <i className="fas fa-eye" aria-hidden="true"></i> 341
+                                        <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
                                     </Link>
                                     <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
-                                        <i className="fas fa-download" aria-hidden="true"></i> 845
+                                        <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                     </Link>
                                 </div>
                                 <Link to={`/single-article/${article._id}`} className="post-title" style={{ fontSize: '18px' }}>
@@ -79,10 +79,10 @@ const MainPosts = (props) => {
                                         {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
                                     </Link>
                                     <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
-                                        <i className="fas fa-eye" aria-hidden="true"></i> 341
+                                        <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
                                     </Link>
                                     <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
-                                        <i className="fas fa-download" aria-hidden="true"></i> 845
+                                        <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                     </Link>
                                 </div>
                                 <Link to={`/single-article/${article._id}`} className="post-title" style={{ fontSize: '18px' }}>
@@ -115,31 +115,16 @@ const MainPosts = (props) => {
                                             {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
                                         </Link>
                                         <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
-                                            <i className="fas fa-eye" aria-hidden="true"></i> 341
+                                            <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
                                         </Link>
                                         <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
-                                            <i className="fas fa-download" aria-hidden="true"></i> 845
+                                            <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                         </Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    {/* <div className="col-12 col-lg-6">
-                        <div className="single-blog-post d-flex style-3 mb-30">
-                            <div className="post-thumbnail">
-                                <img src="img/bg-img/31.jpg" alt="" />
-                            </div>
-                            <div className="post-content">
-                                <Link to="#" className="post-title">From Wetlands To Canals And Dams Amsterdam Is Alive</Link>
-                                <div className="post-meta d-flex">
-                                    <Link to="#"><i className="fa fa-eye" aria-hidden="true"></i> 1034</Link>
-                                    <Link to="#"><i className="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</Link>
-                                    <Link to="#"><i className="fa fa-comments-o" aria-hidden="true"></i> 234</Link>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </div>
