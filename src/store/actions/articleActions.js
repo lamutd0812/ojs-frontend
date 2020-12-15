@@ -36,9 +36,9 @@ const articleError = (error) => {
     }
 };
 
-export const getAllArticles = (page) => (dispatch) => {
+export const getAllArticles = (page, limit) => (dispatch) => {
     dispatch(articleStart());
-    axios.get('/articles?page=' + page)
+    axios.get('/articles?page=' + page + '&limit=' + limit)
         .then(res => {
             dispatch(getAllArticlesSuccess(res.data));
         })

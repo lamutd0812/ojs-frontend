@@ -157,10 +157,10 @@ export const getMyNotifications = () => (dispatch, getState) => {
     });
 };
 
-export const getAllMyNotifications = (page) => (dispatch, getState) => {
+export const getAllMyNotifications = (page, limit) => (dispatch, getState) => {
     dispatch(authStart());
     const token = getState().auth.token;
-    axios.get('/auth/notifications/my/all?page=' + page, {
+    axios.get('/auth/notifications/my/all?page=' + page + '&limit=' + limit, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

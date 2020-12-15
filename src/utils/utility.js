@@ -34,6 +34,8 @@ export const checkValidity = (value, rules) => {
 
 export const getStageBadgeClassname = (value) => {
     switch (value) {
+        case 0: 
+            return "badge-danger";
         case 1:
             return "badge-dark";
         case 2:

@@ -285,7 +285,7 @@ export const createReviewInputControls = {
             required: true,
             minLength: 5
         },
-        valid: false,
+        valid: true,
         touched: false
     }
 };

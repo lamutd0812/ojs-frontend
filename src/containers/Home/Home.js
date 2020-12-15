@@ -13,7 +13,7 @@ class Home extends Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         if (this.props.articles.length <= 0) {
-            this.props.getAllArticles(1);
+            this.props.getAllArticles(1, 4);
         }
         if (this.props.categories.length <= 0) {
             this.props.getCategories();
@@ -36,8 +36,8 @@ class Home extends Component {
                                 categories={this.props.categories} />
                         </Aux>
                     ) : (
-                        <Spinner />
-                    )}
+                            <Spinner />
+                        )}
                 </section>
             </div>
         );

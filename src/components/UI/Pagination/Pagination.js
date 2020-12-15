@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import * as queryString from 'query-string';
 import classes from './Pagination.module.css';
-import Aux
-    from '../../../hoc/Auxiliary/Auxiliary';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
 
 const Pagination = (props) => {
     return (
@@ -25,7 +24,7 @@ const Pagination = (props) => {
                                 pathname: props.location.pathname,
                                 search: queryString.stringify(Object.assign({}, queryString.parse(props.location.search), { page: props.prevPage }))
                             }}>
-                            {"<<"}
+                            <i className="fas fa-angle-left"></i>
                         </Link>
                     )}
                     <Link className={classes.item}
@@ -62,7 +61,7 @@ const Pagination = (props) => {
                                 pathname: props.location.pathname,
                                 search: queryString.stringify(Object.assign({}, queryString.parse(props.location.search), { page: props.nextPage }))
                             }}>
-                            {">>"}
+                            <i className="fas fa-angle-right"></i>
                         </Link>
                     )}
                 </Aux>

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { getFormattedDate } from '../../utils/utility';
 import Pagination from '../UI/Pagination/Pagination';
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 8;
 class Notifications extends Component {
 
     componentDidMount() {
@@ -16,10 +16,10 @@ class Notifications extends Component {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getAllMyNotifications(page);
+                this.props.getAllMyNotifications(page, ITEMS_PER_PAGE);
             }
         } else {
-            this.props.getAllMyNotifications(1);
+            this.props.getAllMyNotifications(1, ITEMS_PER_PAGE);
         }
     }
 
@@ -30,7 +30,7 @@ class Notifications extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getAllMyNotifications(page);
+                this.props.getAllMyNotifications(page, ITEMS_PER_PAGE);
             }
         }
     }
@@ -94,8 +94,8 @@ class Notifications extends Component {
                                         location={this.props.location} />
                                 </Aux>
                             ) : (
-                                <div className="card-text p-4">Bạn chưa có thông báo nào.</div>
-                            )}
+                                    <div className="card-text p-4">Bạn chưa có thông báo nào.</div>
+                                )}
                         </div>
                     ) : <Spinner />}
                 </section>

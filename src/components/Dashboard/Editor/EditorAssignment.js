@@ -20,7 +20,8 @@ import {
     resetEditEditorSubmissionState,
     requestAuthorRevision,
     resetRequestAuthorRevisionState,
-    getAuthorAssignmentBySubmission
+    getAuthorAssignmentBySubmission,
+    getChiefEditorSubmission
 } from '../../../store/actions/reviewActions';
 import { Doughnut } from 'react-chartjs-2';
 import AssignmentInfor from './AssigmentInfor/AssignmentInfor';
@@ -37,12 +38,14 @@ import { EditorState, ContentState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
 import { requestRevisionTemplate } from '../../../utils/email-template';
+import CESubmissionDetail from '../ChiefEditor/EditorialBoardSubmissions/CESubmisisonDetail';
 class EditorAssignment extends Component {
 
     state = {
         step1Active: true,
         step2Active: false,
         step3Active: false,
+        step4Active: false,
         controls: createReviewInputControls,
         controls_edit: editReviewInputControls,
         formIsValid: false,
@@ -63,9 +66,10 @@ class EditorAssignment extends Component {
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getEditorDecisions();
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
         }
         // Text Editor
-        const contentBlock = htmlToDraft(requestRevisionTemplate('Test Article 2020','/dashboard', 'Nguyễn Hải Hà', 'Nguyễn Lâm'));
+        const contentBlock = htmlToDraft(requestRevisionTemplate('Test Article 2020', '/dashboard', 'Nguyễn Hải Hà', 'Nguyễn Lâm'));
         let editorState = null;
         if (contentBlock) {
             const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
@@ -82,6 +86,7 @@ class EditorAssignment extends Component {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
         }
         if (this.props.isEditorSubmissionEdited) {
             window.scrollTo(0, 0);
@@ -120,6 +125,7 @@ class EditorAssignment extends Component {
             this.props.getEditorDecisions();
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getMyNotifications();
+            this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
         }
     }
 
@@ -134,6 +140,7 @@ class EditorAssignment extends Component {
             step1Active: true,
             step2Active: false,
             step3Active: false,
+            step4Active: false,
             canRequestAuthorRevision: false
         });
         this.setState(newState);
@@ -144,6 +151,7 @@ class EditorAssignment extends Component {
             step1Active: false,
             step2Active: true,
             step3Active: false,
+            step4Active: false,
             canRequestAuthorRevision: false
         });
         this.setState(newState);
@@ -154,6 +162,18 @@ class EditorAssignment extends Component {
             step1Active: false,
             step2Active: false,
             step3Active: true,
+            step4Active: false,
+            canRequestAuthorRevision: false
+        });
+        this.setState(newState);
+    }
+
+    step4ActiveHandler = () => {
+        let newState = updateObject(this.state, {
+            step1Active: false,
+            step2Active: false,
+            step3Active: false,
+            step4Active: true,
             canRequestAuthorRevision: true
         });
         this.setState(newState);
@@ -255,7 +275,7 @@ class EditorAssignment extends Component {
     // Email Editor
     onEditorStateChange = (editorState) => {
         this.setState(updateObject(this.state, { editorState: editorState }));
-    }; 
+    };
 
     render() {
         const contentWrapper = (
@@ -289,13 +309,19 @@ class EditorAssignment extends Component {
                                     <li className="nav-item">
                                         <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step2ActiveHandler}>
-                                            <div className={this.state.step2Active ? 'text-custom' : 'text-secondary'}><b>Nộp ý kiến thẩm định</b></div>
+                                            <div className={this.state.step2Active ? 'text-custom' : 'text-secondary'}><b>Thông tin thẩm định</b></div>
                                         </div>
                                     </li>
                                     <li className="nav-item">
-                                        <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}
+                                        <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
                                             onClick={this.step3ActiveHandler}>
-                                            <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu tác giả chỉnh sửa</b></div>
+                                            <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Nộp ý kiến thẩm định</b></div>
+                                        </div>
+                                    </li>
+                                    <li className="nav-item">
+                                        <div className={this.state.step4Active ? 'nav-link active' : 'nav-link'}
+                                            onClick={this.step4ActiveHandler}>
+                                            <div className={this.state.step4Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu tác giả chỉnh sửa</b></div>
                                         </div>
                                     </li>
                                 </ul>
@@ -324,8 +350,8 @@ class EditorAssignment extends Component {
                                                             submission={this.props.submission}
                                                             hasAuthorRevision={this.props.authorAssignment.authorRevisionId ? true : false} />
                                                     ) : (
-                                                            <SubmissionInfor submission={this.props.submission} />
-                                                        )}
+                                                        <SubmissionInfor submission={this.props.submission} />
+                                                    )}
                                                 </div>
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-4 border rounded">
@@ -347,15 +373,15 @@ class EditorAssignment extends Component {
                                                             ) : null}
                                                         </Aux>
                                                     ) : (
-                                                            <Aux>
-                                                                <div className="form-group">
-                                                                    <button className="btn btn-danger btn-block">
-                                                                        <i className="fas fa-ban"></i> {" "}
-                                                                        Bài báo đã hết hạn xử lý
-                                                                    </button>
-                                                                </div>
-                                                            </Aux>
-                                                        )}
+                                                        <Aux>
+                                                            <div className="form-group">
+                                                                <button className="btn btn-danger btn-block">
+                                                                    <i className="fas fa-ban"></i> {" "}
+                                                                    Bài báo đã hết hạn xử lý
+                                                                </button>
+                                                            </div>
+                                                        </Aux>      
+                                                    )}
 
                                                     <AssignmentInfor
                                                         submission={this.props.submission}
@@ -367,31 +393,67 @@ class EditorAssignment extends Component {
                                         </div>
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            {/* Row */}
-                                            <div className="row border rounded mt-2" style={this.props.editorAssignment.reviewerAssignmentId.length > 0 ? { minHeight: '200px' } : null}>
-                                                {/* Column */}
-                                                <div className="p-2 col-lg-8">
-                                                    <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
-                                                </div>
-                                                {/* Column */}
-                                                {this.props.editorAssignment.reviewerAssignmentId.length > 0 ? (
-                                                    <div className="p-2 col-lg-4">
-                                                        <Doughnut
-                                                            data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
-                                                            options={{
-                                                                responsive: true,
-                                                                maintainAspectRatio: false,
-                                                                legend: {
-                                                                    labels: {
-                                                                        fontSize: 12,
-                                                                        fontFamily: 'Roboto Slab'
-                                                                    }
-                                                                }
-                                                            }}
-                                                        />
+                                            {this.props.editorAssignment ? (
+                                                // Row
+                                                <div className="row border rounded mt-2" style={this.props.editorAssignment.reviewerAssignmentId.length > 0 ? { minHeight: '200px' } : null}>
+                                                    {/* Column */}
+                                                    <div className="p-2 col-lg-8">
+                                                        <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                     </div>
-                                                ) : null}
+                                                    {/* Column */}
+                                                    {this.props.editorAssignment.reviewerAssignmentId.length > 0 && (
+                                                        <div className="p-2 col-lg-4">
+                                                            <Doughnut
+                                                                data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
+                                                                options={{
+                                                                    responsive: true,
+                                                                    maintainAspectRatio: false,
+                                                                    legend: {
+                                                                        labels: {
+                                                                            fontSize: 12,
+                                                                            fontFamily: 'Roboto Slab'
+                                                                        }
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                <div className="row border rounded mt-2">
+                                                    <div className="p-2 col-lg-8">
+                                                        <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
+                                                        <div>Chưa có thông tin thẩm định của thẩm định viên.</div>
+                                                    </div>
+                                                </div>       
+                                            )}
+                                            {/* Row */}
+                                            <div className="row border rounded mt-2">
+                                                <div className="p-2 col-lg-10">
+                                                    <h6><i className="fas fa-comment"></i> Ý KIẾN CỦA BIÊN TẬP VIÊN</h6>
+                                                    {this.props.editorAssignment && this.props.editorAssignment.editorSubmissionId ? (
+                                                        <EditorSubmissionDetail
+                                                            editorAssignment={this.props.editorAssignment}
+                                                            editorSubmission={this.props.editorAssignment.editorSubmissionId} />
+                                                    ) : (
+                                                        <div>Chưa có thông tin thẩm định của biên tập viên.</div>
+                                                    )}
+                                                </div>
                                             </div>
+                                            {/* Row */}
+                                            <div className="row border rounded mt-2">
+                                                <div className="p-2 col-lg-10">
+                                                    <h6><i className="fas fa-gavel"></i> QUYẾT ĐỊNH CỦA TỔNG BIÊN TẬP</h6>
+                                                    {this.props.chiefEditorSubmission ? (
+                                                        <CESubmissionDetail chiefEditorSubmission={this.props.chiefEditorSubmission} />
+                                                    ) : (
+                                                        <div>Tổng biên tập chưa đưa ra quyết định.</div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* ------------------Tab 3----------------- */}
+                                        <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>
                                             {/* Row */}
                                             <div className="row pt-2">
                                                 {/* Column */}
@@ -405,33 +467,33 @@ class EditorAssignment extends Component {
                                                             <EditorSubmissionDetail editorSubmission={this.props.editorAssignment.editorSubmissionId} />
                                                         </Aux>
                                                     ) : (
-                                                            <Aux>
-                                                                {this.props.editorAssignment.editorSubmissionId ? (
-                                                                    <Aux>
-                                                                        {this.state.canEdit ? (
-                                                                            <EditEditorSubmission
-                                                                                editorSubmission={this.props.editorAssignment.editorSubmissionId}
-                                                                                editorDecisions={this.props.editorDecisions}
-                                                                                inputChangeHandler={this.inputChangeHandler_edit}
-                                                                                controls={this.state.controls_edit}
-                                                                                formIsValid={this.state.formIsValid_edit}
-                                                                                cancelEdit={this.blockEditReviewPageHandler} />
-                                                                        ) : (
-                                                                                <Aux>
-                                                                                    <h6><i className="fas fa-comment"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
-                                                                                    <EditorSubmissionDetail editorSubmission={this.props.editorAssignment.editorSubmissionId} />
-                                                                                </Aux>
-                                                                            )}
-                                                                    </Aux>
-                                                                ) : (
-                                                                        <CreateEditorSubmission
+                                                        <Aux>
+                                                            {this.props.editorAssignment.editorSubmissionId ? (
+                                                                <Aux>
+                                                                    {this.state.canEdit ? (
+                                                                        <EditEditorSubmission
+                                                                            editorSubmission={this.props.editorAssignment.editorSubmissionId}
                                                                             editorDecisions={this.props.editorDecisions}
-                                                                            inputChangeHandler={this.inputChangeHandler}
-                                                                            controls={this.state.controls}
-                                                                            formIsValid={this.state.formIsValid} />
-                                                                    )}
-                                                            </Aux>
-                                                        )}
+                                                                            inputChangeHandler={this.inputChangeHandler_edit}
+                                                                            controls={this.state.controls_edit}
+                                                                            formIsValid={this.state.formIsValid_edit}
+                                                                            cancelEdit={this.blockEditReviewPageHandler} />
+                                                                    ) : (
+                                                                            <Aux>
+                                                                                <h6><i className="fas fa-comment"></i> Ý KIẾN THẨM ĐỊNH CỦA BẠN</h6>
+                                                                                <EditorSubmissionDetail editorSubmission={this.props.editorAssignment.editorSubmissionId} />
+                                                                            </Aux>
+                                                                        )}
+                                                                </Aux>
+                                                            ) : (
+                                                                <CreateEditorSubmission
+                                                                    editorDecisions={this.props.editorDecisions}
+                                                                    inputChangeHandler={this.inputChangeHandler}
+                                                                    controls={this.state.controls}
+                                                                    formIsValid={this.state.formIsValid} />
+                                                            )}
+                                                        </Aux>
+                                                    )}
                                                 </div>
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-4 border rounded">
@@ -456,32 +518,31 @@ class EditorAssignment extends Component {
                                                                         ) : null}
                                                                     </Aux>
                                                                 ) : (
-                                                                        <button
-                                                                            type="button"
-                                                                            className="btn btn-outline-primary btn-block"
-                                                                            onClick={() => toast.error('Bài báo đã hết hạn xử lý!')}>
-                                                                            <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
-                                                                        </button>
-                                                                    )}
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn btn-outline-primary btn-block"
+                                                                        onClick={() => toast.error('Bài báo đã hết hạn xử lý!')}>
+                                                                        <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
+                                                                    </button>
+                                                                )}
                                                             </div>
                                                         </Aux>
                                                     ) : (
-                                                            <Aux>
-                                                                <div className="form-group text-center">
-                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
-                                                                        <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
-                                                                    </div>
+                                                        <Aux>
+                                                            <div className="form-group text-center">
+                                                                <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
+                                                                    <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
                                                                 </div>
-                                                            </Aux>
-                                                        )}
+                                                            </div>
+                                                        </Aux>
+                                                    )}
 
-                                                    <SubmissionProcess
-                                                        submission={this.props.submission} />
+                                                    <SubmissionProcess submission={this.props.submission} />
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* ------------------Tab 3----------------- */}
-                                        <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>
+                                        {/* ------------------Tab 4----------------- */}
+                                        <div className={this.state.step4Active ? 'tab-pane show active' : 'tab-pane'}>
                                             {/* Row */}
                                             <div className="row">
                                                 <div className="p-2 col-lg-12 border rounded">
@@ -506,32 +567,32 @@ class EditorAssignment extends Component {
                                                                     step1ActiveHandler={this.step1ActiveHandler}
                                                                     authorAssignment={this.props.authorAssignment} />
                                                             ) : (
-                                                                    <div className="form-group ml-3">
-                                                                        <p className="ml-4">Bạn chưa gửi yêu cầu chỉnh sửa bài báo cho tác giả.</p>
-                                                                    </div>
-                                                                )}
+                                                                <div className="form-group ml-3">
+                                                                    <p className="ml-4">Bạn chưa gửi yêu cầu chỉnh sửa bài báo cho tác giả.</p>
+                                                                </div>
+                                                            )}
                                                         </Aux>
                                                     ) : (
-                                                            <Aux>
-                                                                {this.props.authorAssignment ? (
-                                                                    <Aux>
-                                                                        <h6><i className="fas fa-edit"></i> CHI TIẾT YÊU CẦU TÁC GIẢ CHỈNH SỬA</h6>
-                                                                        <AuthorAssignment
-                                                                            step1ActiveHandler={this.step1ActiveHandler}
-                                                                            authorAssignment={this.props.authorAssignment} />
-                                                                    </Aux>
-                                                                ) : (
-                                                                        <RequestRevision
-                                                                            dueDate={this.state.dueDate}
-                                                                            editorState={this.state.editorState}
-                                                                            onEditorStateChange={this.onEditorStateChange}
-                                                                            messageToAuthor={this.state.messageToAuthor}
-                                                                            setDueDate={this.setDueDateHandler}
-                                                                            setMessage={this.setMessageToAuthorHandler}
-                                                                            setEmail={this.setEmailToAuthorHandler} />
-                                                                    )}
-                                                            </Aux>
-                                                        )}
+                                                        <Aux>
+                                                            {this.props.authorAssignment ? (
+                                                                <Aux>
+                                                                    <h6><i className="fas fa-edit"></i> CHI TIẾT YÊU CẦU TÁC GIẢ CHỈNH SỬA</h6>
+                                                                    <AuthorAssignment
+                                                                        step1ActiveHandler={this.step1ActiveHandler}
+                                                                        authorAssignment={this.props.authorAssignment} />
+                                                                </Aux>
+                                                            ) : (
+                                                                    <RequestRevision
+                                                                        dueDate={this.state.dueDate}
+                                                                        editorState={this.state.editorState}
+                                                                        onEditorStateChange={this.onEditorStateChange}
+                                                                        messageToAuthor={this.state.messageToAuthor}
+                                                                        setDueDate={this.setDueDateHandler}
+                                                                        setMessage={this.setMessageToAuthorHandler}
+                                                                        setEmail={this.setEmailToAuthorHandler} />
+                                                                )}
+                                                        </Aux>
+                                                    )}
                                                 </div>
                                                 {/* Column */}
                                                 <div className="p-2 col-lg-4 border rounded">
@@ -546,25 +607,24 @@ class EditorAssignment extends Component {
                                                                     </div>
                                                                 </div>
                                                             ) : (
-                                                                    <div className="form-group text-center">
-                                                                        <div className="badge-ol badge-ol-success badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
-                                                                            <i className="fas fa-check"></i> Tác giả đã nộp bản chỉnh sửa
-                                                                    </div>
-                                                                    </div>
-                                                                )}
-                                                        </Aux>
-                                                    ) : (
-                                                            <Aux>
                                                                 <div className="form-group text-center">
-                                                                    <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
-                                                                        <i className="fas fa-close"></i> Chưa gửi yêu cầu đến tác giả
+                                                                    <div className="badge-ol badge-ol-success badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
+                                                                        <i className="fas fa-check"></i> Tác giả đã nộp bản chỉnh sửa
                                                                     </div>
                                                                 </div>
-                                                            </Aux>
-                                                        )}
+                                                            )}
+                                                        </Aux>
+                                                    ) : (
+                                                        <Aux>
+                                                            <div className="form-group text-center">
+                                                                <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
+                                                                    <i className="fas fa-close"></i> Chưa gửi yêu cầu đến tác giả
+                                                                </div>
+                                                            </div>
+                                                        </Aux>
+                                                    )}
 
-                                                    <SubmissionProcess
-                                                        submission={this.props.submission} />
+                                                    <SubmissionProcess submission={this.props.submission} />
                                                 </div>
                                             </div>
                                         </div>
@@ -602,6 +662,7 @@ const mapStateToProps = (state) => {
         isEditorSubmissionEdited: state.review.isEditorSubmissionEdited,
         isRequestAuthorRevisionCreated: state.review.isRequestAuthorRevisionCreated,
         authorAssignment: state.review.authorAssignment,
+        chiefEditorSubmission: state.review.chiefEditorSubmission,
         error: state.review.error
     }
 };
@@ -617,7 +678,8 @@ const mapDispatchToProps = {
     requestAuthorRevision,
     resetRequestAuthorRevisionState,
     getAuthorAssignmentBySubmission,
-    getMyNotifications
+    getMyNotifications,
+    getChiefEditorSubmission
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditorAssignment);

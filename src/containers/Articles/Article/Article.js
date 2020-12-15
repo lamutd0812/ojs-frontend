@@ -24,7 +24,7 @@ class Article extends Component {
             this.props.getSingleArticle(this.props.match.params.id);
         }
         if (this.props.articles.length <= 0) {
-            this.props.getAllArticles(1);
+            this.props.getAllArticles(1,5);
         }
         if (this.props.categories.length <= 0) {
             this.props.getCategories();
@@ -48,7 +48,7 @@ class Article extends Component {
             <Aux>
                 <Navigation />
                 <Breadcrumb
-                    title="Single Article"
+                    title="Chi tiết bài báo"
                     imageUrl={`url(${require("../../../resources/imgs/40.jpg")})`} />
                 <RouteBreadcrumb>
                     <li className="breadcrumb-item active" aria-current="page"><Link to="/articles">Bái báo</Link></li>
