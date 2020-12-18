@@ -16,7 +16,7 @@ class Layout extends Component {
         );
         return (
             <Aux>
-                <Navigation />
+                <Navigation history={this.props.history} />
                 <main>
                     {routes}
                     {this.props.children}

@@ -8,7 +8,7 @@ const initialState = {
     error: false,
     total_items: 0,
     currentPage: 1,
-    submissions: [],
+    articles_search: []
 };
 
 const articleStart = (state) => {
@@ -33,17 +33,9 @@ const getSingleArticleSuccess = (state, action) => {
     })
 };
 
-const searchSubmissionsByKeywordSuccess = (state, action) => {
+const searchArticlesByKeywordSuccess = (state, action) => {
     return updateObject(state, {
-        submissions: action.submissions,
-        loading: false,
-        error: null
-    })
-};
-
-const getArticleBySubmissionSuccess = (state, action) => {
-    return updateObject(state, {
-        article: action.article,
+        articles_search: action.articles,
         loading: false,
         error: null
     })
@@ -72,8 +64,7 @@ const articleReducer = (state = initialState, action) => {
 
         case actionTypes.UPDATE_DOWNLOADED_COUNT_SUCCESS: return updateDownloadedCountSuccess(state);
 
-        case actionTypes.SEARCH_SUBMISSIONS_SUCCESS: return searchSubmissionsByKeywordSuccess(state, action);
-        case actionTypes.GET_ARTICLE_BY_SUBMISSION_SUCCESS: return getArticleBySubmissionSuccess(state, action);
+        case actionTypes.SEARCH_ARTICLES_SUCCESS: return searchArticlesByKeywordSuccess(state, action);
 
         default: return state;
     }

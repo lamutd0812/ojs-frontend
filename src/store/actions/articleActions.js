@@ -29,19 +29,12 @@ const updateDownloadCountSuccess = (data) => {
     }
 };
 
-const searchSubmisisonsSuccess = (submissions) => {
+const searchArticlesSuccess = (articles) => {
     return {
-        type: actionTypes.SEARCH_SUBMISSIONS_SUCCESS,
-        submissions: submissions
+        type: actionTypes.SEARCH_ARTICLES_SUCCESS,
+        articles: articles
     }
 }
-
-const getArticleBySubmissionSuccess = (article) => {
-    return {
-        type: actionTypes.GET_ARTICLE_BY_SUBMISSION_SUCCESS,
-        article: article
-    }
-}; 
 
 const articleError = (error) => {
     return {
@@ -80,20 +73,10 @@ export const updateDownloadedCount = (articleId) => (dispatch) => {
         });
 };
 
-export const searchSubmissionsByKeyword = (keyword) => (dispatch) => {
-    axios.get('/articles/search/submissions?keyword=' + keyword)
+export const searchArticlesByKeyword = (keyword) => (dispatch) => {
+    axios.get('/articles/search/all?keyword=' + keyword)
         .then(res => {
-            dispatch(searchSubmisisonsSuccess(res.data.submissions));
-        }).catch(err => {
-            dispatch(articleError(err));
-        });
-};
-
-export const getArticleBySubmission = (submissionId) => (dispatch) => {
-    dispatch(articleStart());
-    axios.get('/articles/submission/' + submissionId)
-        .then(res => {
-            dispatch(getArticleBySubmissionSuccess(res.data.article));
+            dispatch(searchArticlesSuccess(res.data.articles));
         }).catch(err => {
             dispatch(articleError(err));
         });

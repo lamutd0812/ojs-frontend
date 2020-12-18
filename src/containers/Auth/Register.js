@@ -61,7 +61,7 @@ class Register extends Component {
     render() {
         return (
             <Aux>
-                <Navigation />
+                <Navigation history={this.props.history}/>
                 <Breadcumb
                     title="Đăng ký tài khoản"
                     imageUrl={`url(${require("../../resources/imgs/40.jpg")})`} />

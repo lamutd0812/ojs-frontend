@@ -59,7 +59,7 @@ class Login extends Component {
         return (
             <Aux>
                 {authRedirect}
-                <Navigation />
+                <Navigation history={this.props.history}/>
                 <Breadcrumb
                     title="Trang Đăng Nhập"
                     imageUrl={`url(${require("../../resources/imgs/40.jpg")})`} />

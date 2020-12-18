@@ -46,7 +46,7 @@ class Article extends Component {
     render() {
         return (
             <Aux>
-                <Navigation />
+                <Navigation history={this.props.history}/>
                 <Breadcrumb
                     title="Chi tiết bài báo"
                     imageUrl={`url(${require("../../../resources/imgs/40.jpg")})`} />
