@@ -96,35 +96,42 @@ class Navigation extends Component {
                                                 <li className="active"><Link to="/">Trang chủ</Link></li>
                                                 <li><NavLink to="/articles">Bài báo</NavLink></li>
                                                 <li><NavLink to="/dashboard">Biên tập</NavLink></li>
-                                                <li><NavLink to="#">Về chúng tôi</NavLink></li>
+                                                <li style={{ borderRight: '1px solid #ebebeb' }}><NavLink to="#">Về chúng tôi</NavLink></li>
                                             </ul>
                                         </div>
                                     </div>
 
-                                    <div className="top-meta-data d-flex align-items-center">
+                                    <div className="d-flex align-items-center">
                                         {!this.props.isAuth ? (
                                             <NavLink to="/login" className="login-btn">
                                                 <i className="fa fa-user" aria-hidden="true"></i> Đăng nhập
                                             </NavLink>
                                         ) : (
                                                 <div className="classynav">
-                                                    <ul><li className="cn-dropdown-item has-down mr-1">
-                                                        <NavLink to="#">
-                                                            <i className="fa fa-user" aria-hidden="true"></i> {this.props.fullname}
-                                                        </NavLink>
-                                                        <ul className="dropdown">
-                                                            <li>
-                                                                <NavLink to="#" style={{ fontSize: '14px', fontWeight: '400' }}>
-                                                                    <i className="far fa-id-badge"></i> Trang cá nhân
+                                                    <ul>
+                                                        <li className="cn-dropdown-item has-down text-center">
+                                                            <NavLink to="#" className="login-btn p-2">
+                                                                <img
+                                                                    className="rounded-circle border border-danger mb-3 ml-2"
+                                                                    src={this.props.avatar}
+                                                                    alt="UserImage"
+                                                                    style={{ maxWidth: '50px', maxHeight: '50px' }} />
+                                                                {/* <i className="fa fa-user" aria-hidden="true"></i> {this.props.fullname} */}
                                                             </NavLink>
-                                                            </li>
-                                                            <li>
-                                                                <NavLink to="/logout" style={{ fontSize: '14px', fontWeight: '400' }}>
-                                                                    <i className="fas fa-sign-out-alt"></i> Đăng xuất
-                                                            </NavLink>
-                                                            </li>
-                                                        </ul>
-                                                    </li></ul>
+                                                            <ul className="dropdown text-left">
+                                                                <li>
+                                                                    <NavLink to="#" style={{ fontSize: '14px', fontWeight: '400' }}>
+                                                                        <i className="far fa-id-badge"></i> Trang cá nhân
+                                                                    </NavLink>
+                                                                </li>
+                                                                <li>
+                                                                    <NavLink to="/logout" style={{ fontSize: '14px', fontWeight: '400' }}>
+                                                                        <i className="fas fa-sign-out-alt"></i> Đăng xuất
+                                                                    </NavLink>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
                                                 </div>
                                             )}
 
