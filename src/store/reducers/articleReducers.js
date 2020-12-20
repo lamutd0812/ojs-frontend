@@ -3,12 +3,16 @@ import { updateObject } from '../../utils/utility';
 
 const initialState = {
     articles: [],
+    latest_articles: [],
+    most_viewed_articles: [],
+    most_downloaded_articles: [],
     article: null,
     loading: false,
     error: false,
     total_items: 0,
     currentPage: 1,
-    articles_search: []
+    articles_search: [],
+    related_articles: []
 };
 
 const articleStart = (state) => {
@@ -25,12 +29,44 @@ const getAllArticlesSuccess = (state, action) => {
     });
 };
 
+const getLatestArticlesHomeSuccess = (state, action) => {
+    return updateObject(state, {
+        latest_articles: action.articles,
+        loading: false,
+        error: null
+    });
+};
+
+const getMostViewedArticlesHomeSuccess = (state, action) => {
+    return updateObject(state, {
+        most_viewed_articles: action.articles,
+        loading: false,
+        error: null
+    });
+};
+
+const getMostDownloadedArticlesHomeSuccess = (state, action) => {
+    return updateObject(state, {
+        most_downloaded_articles: action.articles,
+        loading: false,
+        error: null
+    });
+};
+
 const getSingleArticleSuccess = (state, action) => {
     return updateObject(state, {
         article: action.article,
         loading: false,
         error: null
     })
+};
+
+const getRelatedArticlesSuccess = (state, action) => {
+    return updateObject(state, {
+        related_articles: action.relatedArticles,
+        loading: false,
+        error: null
+    });
 };
 
 const searchArticlesByKeywordSuccess = (state, action) => {
@@ -60,7 +96,14 @@ const articleReducer = (state = initialState, action) => {
         case actionTypes.ARTICLE_ERROR: return articleError(state, action);
 
         case actionTypes.GET_ALL_ARTICLES_SUCCESS: return getAllArticlesSuccess(state, action);
+        case actionTypes.GET_LATEST_ARTICLES_SUCCESS: return getLatestArticlesHomeSuccess(state, action);
+        case actionTypes.GET_MOST_VIEWED_ARTICLES_SUCCESS: return getAllArticlesSuccess(state, action);
+        case actionTypes.GET_MOST_VIEWED_ARTICLES_HOME_SUCCESS: return getMostViewedArticlesHomeSuccess(state, action);
+        case actionTypes.GET_MOST_DOWNLOADED_ARTICLES_SUCCESS: return getAllArticlesSuccess(state, action);
+        case actionTypes.GET_MOST_DOWNLOADED_ARTICLES_HOME_SUCCESS: return getMostDownloadedArticlesHomeSuccess(state, action);
+
         case actionTypes.GET_SINGLE_ARTICLE_SUCCESS: return getSingleArticleSuccess(state, action);
+        case actionTypes.GET_RELATED_ARTICLES_SUCCESS: return getRelatedArticlesSuccess(state, action);
 
         case actionTypes.UPDATE_DOWNLOADED_COUNT_SUCCESS: return updateDownloadedCountSuccess(state);
 

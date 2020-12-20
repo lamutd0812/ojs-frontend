@@ -4,7 +4,8 @@ import MainPosts from './MainPosts';
 import RightSidebar from './RightSidebar';
 import Breadcumb from '../../components/Breadcrumb/Breadcrumb';
 import { connect } from 'react-redux';
-import { getAllArticles } from '../../store/actions/articleActions';
+import { getLatestArticlesHome, getMostViewedArticlesHome, getMostDownloadedArticlesHome }
+    from '../../store/actions/articleActions';
 import { getCategories } from '../../store/actions/submissionActions';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -12,8 +13,14 @@ class Home extends Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        if (this.props.articles.length <= 0) {
-            this.props.getAllArticles(1, 4);
+        if (this.props.latest_articles.length <= 0) {
+            this.props.getLatestArticlesHome(1, 5);
+        }
+        if (this.props.most_viewed_articles.length <= 0) {
+            this.props.getMostViewedArticlesHome(1, 4);
+        }
+        if (this.props.most_downloaded_articles.length <= 0) {
+            this.props.getMostDownloadedArticlesHome(1, 4);
         }
         if (this.props.categories.length <= 0) {
             this.props.getCategories();
@@ -27,15 +34,22 @@ class Home extends Component {
                     title="Tạp chí truy cập mở VNOJS"
                     imageUrl={`url(${require("../../resources/imgs/40.jpg")})`} />
                 <section className="mag-posts-area d-flex flex-wrap mt-3">
-                    {!this.props.loading && this.props.articles.length > 0 && this.props.categories.length > 0 ? (
-                        <Aux>
-                            <LeftSidebar articles={this.props.articles} />
-                            <MainPosts articles={this.props.articles} />
-                            <RightSidebar
-                                articles={this.props.articles}
-                                categories={this.props.categories} />
-                        </Aux>
-                    ) : (
+                    {!this.props.loading && this.props.latest_articles.length > 0 &&
+                        this.props.categories.length > 0 && this.props.most_viewed_articles.length > 0 &&
+                        this.props.most_downloaded_articles.length > 0 ? (
+                            <Aux>
+                                <LeftSidebar
+                                    latest_articles={this.props.latest_articles}
+                                    most_viewed_articles={this.props.most_viewed_articles} />
+                                <MainPosts
+                                    latest_articles={this.props.latest_articles}
+                                    most_viewed_articles={this.props.most_viewed_articles}
+                                    most_downloaded_articles={this.props.most_downloaded_articles} />
+                                <RightSidebar
+                                    most_downloaded_articles={this.props.most_downloaded_articles}
+                                    categories={this.props.categories} />
+                            </Aux>
+                        ) : (
                             <Spinner />
                         )}
                 </section>
@@ -46,7 +60,9 @@ class Home extends Component {
 
 const mapStateToProps = state => {
     return {
-        articles: state.article.articles,
+        latest_articles: state.article.latest_articles,
+        most_viewed_articles: state.article.most_viewed_articles,
+        most_downloaded_articles: state.article.most_downloaded_articles,
         loading: state.article.loading,
         error: state.article.error,
         categories: state.submission.categories
@@ -54,7 +70,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    getAllArticles,
+    getLatestArticlesHome,
+    getMostViewedArticlesHome,
+    getMostDownloadedArticlesHome,
     getCategories
 };
 

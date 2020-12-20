@@ -22,7 +22,7 @@ const MainPosts = (props) => {
                     smartSpeed={1000}
                     navText={['<i class="ti-angle-left"></i>', '<i class="ti-angle-right"></i>']}
                 >
-                    {props.articles.map(article => (
+                    {props.most_viewed_articles.map(article => (
                         <div className="single-featured-post" key={article._id}>
                             <div className="post-content">
                                 <div className="post-meta">
@@ -67,7 +67,7 @@ const MainPosts = (props) => {
                     smartSpeed={1000}
                     navText={['<i class="ti-angle-left"></i>', '<i class="ti-angle-right"></i>']}
                 >
-                    {props.articles.map(article => (
+                    {props.most_downloaded_articles.map(article => (
                         <div className="single-featured-post" key={article._id}>
                             <div className="post-content">
                                 <div className="post-meta">
@@ -102,7 +102,7 @@ const MainPosts = (props) => {
                 </div>
 
                 <div className="row">
-                    {props.articles.map(article => (
+                    {props.latest_articles.map(article => (
                         <div className="col-12 col-lg-6" key={article._id}>
                             <div className="single-blog-post d-flex style-3 mb-30" key={article._id}>
                                 <div className="post-content">

@@ -10,7 +10,8 @@ import Comments from './Comments';
 import Reply from './Reply';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
-import { getSingleArticle, getAllArticles, updateDownloadedCount } from '../../../store/actions/articleActions';
+import { getSingleArticle, getRelatedArticles, getMostViewedArticlesHome, updateDownloadedCount } 
+from '../../../store/actions/articleActions';
 import { getCategories } from '../../../store/actions/submissionActions';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import { getFormattedDateOnly } from '../../../utils/utility';
@@ -22,18 +23,22 @@ class Article extends Component {
         window.scrollTo(0, 0);
         if (this.props.match.params.id) {
             this.props.getSingleArticle(this.props.match.params.id);
-        }
-        if (this.props.articles.length <= 0) {
-            this.props.getAllArticles(1,5);
+            if (this.props.related_articles.length <= 0) {
+                this.props.getRelatedArticles(this.props.match.params.id, 1, 5);
+            }
         }
         if (this.props.categories.length <= 0) {
             this.props.getCategories();
+        }
+        if (this.props.most_viewed_articles.length <= 0) {
+            this.props.getMostViewedArticlesHome(1, 4);
         }
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.match.params.id !== prevProps.match.params.id) {
             this.props.getSingleArticle(this.props.match.params.id);
+            this.props.getRelatedArticles(this.props.match.params.id, 1, 5);
         }
     }
 
@@ -46,7 +51,7 @@ class Article extends Component {
     render() {
         return (
             <Aux>
-                <Navigation history={this.props.history}/>
+                <Navigation history={this.props.history} />
                 <Breadcrumb
                     title="Chi tiết bài báo"
                     imageUrl={`url(${require("../../../resources/imgs/40.jpg")})`} />
@@ -106,7 +111,8 @@ class Article extends Component {
                                 {this.props.article && (
                                     <Sidebar
                                         articleUrl={this.props.article.submissionId.attachmentUrl}
-                                        articles={this.props.articles}
+                                        related_articles={this.props.related_articles}
+                                        most_viewed_articles={this.props.most_viewed_articles}
                                         categories={this.props.categories}
                                         updateDownloadedTimes={this.updateDownloadedTimes} />
                                 )}
@@ -123,16 +129,18 @@ class Article extends Component {
 const mapStateToProps = state => {
     return {
         article: state.article.article,
+        related_articles: state.article.related_articles,
+        most_viewed_articles: state.article.most_viewed_articles,
         loading: state.article.loading,
         error: state.article.error,
-        articles: state.article.articles,
         categories: state.submission.categories
     };
 };
 
 const mapDispatchToProps = {
     getSingleArticle,
-    getAllArticles,
+    getRelatedArticles,
+    getMostViewedArticlesHome,
     getCategories,
     updateDownloadedCount
 };

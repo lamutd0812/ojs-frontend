@@ -26,7 +26,7 @@ const RightSidebar = (props) => {
                     <h5>Tải xuống nhiều</h5>
                 </div>
 
-                {props.articles.map(article => (
+                {props.most_downloaded_articles.map(article => (
                     <div className="single-blog-post d-flex" key={article._id}>
                         <div className="post-content">
                             <Link to={`/single-article/${article._id}`} className="post-title">

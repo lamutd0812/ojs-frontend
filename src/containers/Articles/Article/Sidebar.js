@@ -55,7 +55,7 @@ const Sidebar = (props) => {
                     <div className="section-heading" style={{ paddingRight: '10px' }}>
                         <h5>Bài báo liên quan</h5>
                     </div>
-                    {props.articles.map(article => (
+                    {props.related_articles.map(article => (
                         <div className="single-blog-post d-flex" key={article._id}>
                             <div className="post-content">
                                 <Link to={`/single-article/${article._id}`} className="post-title">
@@ -82,7 +82,7 @@ const Sidebar = (props) => {
                     <div className="section-heading" style={{ paddingRight: '10px' }}>
                         <h5>Nổi bật</h5>
                     </div>
-                    {props.articles.map(article => (
+                    {props.most_viewed_articles.map(article => (
                         <div className="single-blog-post d-flex" key={article._id}>
                             <div className="post-content">
                                 <Link to={`/single-article/${article._id}`} className="post-title">

@@ -8,7 +8,7 @@ const LeftSidebar = (props) => {
                 <div className="section-heading">
                     <h5>Xem nhiều nhất</h5>
                 </div>
-                {props.articles.map(article => (
+                {props.most_viewed_articles.map(article => (
                     <div className="single-blog-post d-flex" key={article._id}>
                         <div className="post-content">
                             <Link to={`/single-article/${article._id}`} className="post-title">
@@ -36,7 +36,7 @@ const LeftSidebar = (props) => {
                     <h5>Mới nhất</h5>
                 </div>
 
-                {props.articles.map(article => (
+                {props.latest_articles.map(article => (
                     <div className="single-blog-post d-flex" key={article._id}>
                         <div className="post-content">
                             <Link to={`/single-article/${article._id}`} className="post-title">
