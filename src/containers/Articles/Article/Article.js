@@ -64,7 +64,7 @@ class Article extends Component {
                                         <div className="blog-content">
                                             <div className="post-meta">
                                                 <p>{getFormattedDateOnly(this.props.article.publishedDate)}</p>
-                                                <p>{this.props.article.submissionId.categoryId.name}</p>
+                                                <p>{this.props.article.categoryId.name}</p>
                                             </div>
                                             <h4 className="post-title">{this.props.article.submissionId.title}</h4>
                                             <div className="post-meta-2">

@@ -115,7 +115,7 @@ class Navigation extends Component {
                                                                     className="rounded-circle border border-danger mb-3 ml-2"
                                                                     src={this.props.avatar}
                                                                     alt="UserImage"
-                                                                    style={{ maxWidth: '50px', maxHeight: '50px' }} />
+                                                                    style={{ maxWidth: '40px', maxHeight: '40px' }} />
                                                                 {/* <i className="fa fa-user" aria-hidden="true"></i> {this.props.fullname} */}
                                                             </NavLink>
                                                             <ul className="dropdown text-left">

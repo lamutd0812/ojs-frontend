@@ -27,7 +27,7 @@ const MainPosts = (props) => {
                             <div className="post-content">
                                 <div className="post-meta">
                                     <p>{getFormattedDateOnly(article.publishedDate)}</p>
-                                    <Link to="#"><p>{article.submissionId.categoryId.name}</p></Link>
+                                    <Link to="#"><p>{article.categoryId.name}</p></Link>
                                     <br />
                                     <Link to="#" className="text-secondary" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-user"></i>{" "}
@@ -72,7 +72,7 @@ const MainPosts = (props) => {
                             <div className="post-content">
                                 <div className="post-meta">
                                     <p>{getFormattedDateOnly(article.publishedDate)}</p>
-                                    <Link to="#"><p>{article.submissionId.categoryId.name}</p></Link>
+                                    <Link to="#"><p>{article.categoryId.name}</p></Link>
                                     <br />
                                     <Link to="#" className="text-secondary" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-user"></i>{" "}
