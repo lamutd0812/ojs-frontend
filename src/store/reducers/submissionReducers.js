@@ -159,6 +159,7 @@ const submissionReducer = (state = initialState, action) => {
         case actionTypes.RESET_DELETE_SUBMISSION_STATE: return resetDeleteSubmissionState(state);
 
         case actionTypes.GET_ALL_SUBMISSIONS_SUCCESS: return getAllSubmissionsSuccess(state, action);
+        case actionTypes.SEARCH_SUBMISSIONS_SUCCESS: return getAllSubmissionsSuccess(state, action);
         default: return state;
     }
 };

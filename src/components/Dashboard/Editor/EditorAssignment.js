@@ -122,7 +122,7 @@ class EditorAssignment extends Component {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
-            this.props.getEditorDecisions();
+            // this.props.getEditorDecisions();
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getMyNotifications();
             this.props.getChiefEditorSubmission(this.props.match.params.submissionId);

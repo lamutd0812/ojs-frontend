@@ -10,19 +10,23 @@ import { checkDueDate, getDoughnutData, getFormattedDate, getStageBadgeClassname
 import { Doughnut } from 'react-chartjs-2';
 import Pagination from '../../UI/Pagination/Pagination';
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 8;
 class Home extends Component {
 
-    componentDidMount() {
+    init = () => {
         if (this.props.location.search) {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getMyEditorAssignments(page);
+                this.props.getMyEditorAssignments(page, ITEMS_PER_PAGE);
             }
         } else {
-            this.props.getMyEditorAssignments(1);
+            this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE);
         }
+    }
+
+    componentDidMount() {
+        this.init();
     }
 
     componentDidUpdate(prevProps) {
@@ -32,13 +36,13 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getMyEditorAssignments(page);
+                this.props.getMyEditorAssignments(page, ITEMS_PER_PAGE);
             }
         }
     }
 
     refreshHandler = () => {
-        this.props.getMyEditorAssignments(1);
+        this.init();
         this.props.getMyNotifications();
     }
 
@@ -107,21 +111,8 @@ class Home extends Component {
                                                                 {ea.editorSubmissionId ? (
                                                                     <span className="badge bg-success"> Đã nộp ý kiến</span>
                                                                 ) : (
-                                                                    <span className="badge bg-danger">Chưa nộp ý kiến</span>
-                                                                )}
-                                                                {/* {ea.authorAssignmentId ? (
-                                                                    <Aux>
-                                                                        {ea.authorAssignmentId.authorRevisionId ? (
-                                                                            <span className="text-dark"><i></i> Tác giả đã nộp bản chỉnh sửa</span>
-                                                                        ) : (
-                                                                            <span className="text-dark"><i></i> Đã yêu cầu tác giả chỉnh sửa</span>
-                                                                        )}
-                                                                    </Aux>
-                                                                ) : ea.editorSubmissionId ? (
-                                                                    <span className="badge bg-success"> Đã nộp ý kiến</span>
-                                                                ) : (
-                                                                    <span className="badge bg-danger">Chưa nộp ý kiến</span>
-                                                                )} */}
+                                                                        <span className="badge bg-danger">Chưa nộp ý kiến</span>
+                                                                    )}
                                                             </td>
                                                             <td className="project-actions text-center">
                                                                 {!checkDueDate(ea.dueDate) ? (
@@ -251,7 +242,7 @@ class Home extends Component {
                                                 location={this.props.location} />
                                         </div>
                                     </Aux>
-                                ) : (<div className="card-text ml-4">Bạn chưa được phân công chủ trì thẩm định bài báo nào.</div>)}
+                                ) : (<div className="card-text ml-4">Không tìm thấy bài báo nào.</div>)}
                             </div>
                         </div>
                     ) : <Spinner />}

@@ -9,19 +9,23 @@ import { Link } from 'react-router-dom';
 import { checkDueDate, getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import Pagination from '../../UI/Pagination/Pagination';
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 8;
 class Home extends Component {
 
-    componentDidMount() {
+    init = () => {
         if (this.props.location.search) {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getMyReviewerAssignments(page);
+                this.props.getMyReviewerAssignments(page, ITEMS_PER_PAGE);
             }
         } else {
-            this.props.getMyReviewerAssignments(1);
+            this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE);
         }
+    }
+
+    componentDidMount() {
+        this.init();
     }
 
     componentDidUpdate(prevProps) {
@@ -31,13 +35,13 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getMyReviewerAssignments(page);
+                this.props.getMyReviewerAssignments(page, ITEMS_PER_PAGE);
             }
         }
     }
 
     refreshHandler = () => {
-        this.props.getMyReviewerAssignments();
+        this.init();
         this.props.getMyNotifications();
     }
 
@@ -173,7 +177,7 @@ class Home extends Component {
                                                 location={this.props.location} />
                                         </div>
                                     </Aux>
-                                ) : ( <div className="card-text ml-4">Bạn chưa được phân công chủ trì thẩm định bài báo nào.</div> )}
+                                ) : (<div className="card-text ml-4">Không tìm thấy bài báo nào.</div>)}
                             </div>
                         </div>
                     ) : <Spinner />}

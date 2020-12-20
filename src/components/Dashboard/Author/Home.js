@@ -18,7 +18,7 @@ import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility
 import { updateObject } from '../../../utils/utility';
 import Pagination from '../../UI/Pagination/Pagination';
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 8;
 class Home extends Component {
 
     state = {
@@ -27,16 +27,20 @@ class Home extends Component {
         checked: false
     }
 
-    componentDidMount() {
+    init = () => {
         if (this.props.location.search) {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getSubmissionsByAuthor(this.props.userId, page);
+                this.props.getSubmissionsByAuthor(this.props.userId, page, ITEMS_PER_PAGE);
             }
         } else {
-            this.props.getSubmissionsByAuthor(this.props.userId, 1);
+            this.props.getSubmissionsByAuthor(this.props.userId, 1, ITEMS_PER_PAGE);
         }
+    }
+
+    componentDidMount() {
+        this.init();
     }
 
     componentDidUpdate(prevProps) {
@@ -46,7 +50,7 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getSubmissionsByAuthor(this.props.userId, page);
+                this.props.getSubmissionsByAuthor(this.props.userId, page, ITEMS_PER_PAGE);
             }
         }
     }
@@ -60,7 +64,7 @@ class Home extends Component {
     }
 
     refreshHandler = () => {
-        this.props.getSubmissionsByAuthor(this.props.userId);
+        this.init();
         this.props.getMyNotifications();
     }
 

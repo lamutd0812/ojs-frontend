@@ -32,7 +32,7 @@ class AssignEditor extends Component {
     };
 
     componentDidMount() {
-        if (this.props.location.search) {
+        if (this.props.location.search && this.props.editors.length <= 0) {
             const query = new URLSearchParams(this.props.location.search);
             const submissionId = query.get('submissionId');
             this.props.getAllEditors(submissionId);
@@ -154,7 +154,7 @@ class AssignEditor extends Component {
                                     <div className="card-body">
                                         <div className="tab-content" id="custom-tabs-one-tabContent">
                                             <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
-                                                <div className="input-group input-group-sm mb-2" style={{ width: '150px' }}>
+                                                <div className="input-group input-group-sm mb-2" style={{ width: '300px' }}>
                                                     <input type="text" className="form-control" placeholder="Tìm kiếm" />
                                                     <div className="input-group-append">
                                                         <button type="submit" className="btn btn-default">

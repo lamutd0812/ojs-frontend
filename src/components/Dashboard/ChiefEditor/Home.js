@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getAllSubmissions } from '../../../store/actions/submissionActions';
+import { getAllSubmissions, searchSubmissions } from '../../../store/actions/submissionActions';
 import { getMyNotifications } from '../../../store/actions/authActions';
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import Spinner from '../../UI/Spinner/Spinner';
@@ -9,20 +9,25 @@ import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import { STAGE } from '../../../utils/constant';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Pagination from '../../UI/Pagination/Pagination';
+import Filter from './Filter/Filter';
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 8;
 class Home extends Component {
 
-    componentDidMount() {
+    init = () => {
         if (this.props.location.search) {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getAllSubmissions(page);
+                this.props.getAllSubmissions(page, ITEMS_PER_PAGE);
             }
         } else {
-            this.props.getAllSubmissions(1);
+            this.props.getAllSubmissions(1, ITEMS_PER_PAGE);
         }
+    }
+
+    componentDidMount() {
+        this.init();
     }
 
     componentDidUpdate(prevProps) {
@@ -32,14 +37,20 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getAllSubmissions(page);
+                this.props.getAllSubmissions(page, ITEMS_PER_PAGE);
             }
         }
     }
 
     refreshHandler = () => {
-        this.props.getAllSubmissions(1);
+        this.init();
         this.props.getMyNotifications();
+    }
+
+    searchInputChangeHandler = (event) => {
+        const keyword = event.target.value;
+        console.log(keyword);
+        this.props.searchSubmissions(1, ITEMS_PER_PAGE, keyword);
     }
 
     render() {
@@ -57,12 +68,14 @@ class Home extends Component {
                         <div className="card">
                             <div className="card-header">
                                 <h3 className="card-title">Quản lý bài báo trên hệ thống</h3>
-                                <div className="float-right mr-5">
+                                <div className="float-right">
                                     <button className="btn btn-tool" onClick={this.refreshHandler}>
                                         <i className="fas fa-sync-alt" style={{ fontSize: '20px' }}></i>
                                     </button>
                                 </div>
                             </div>
+                            <Filter
+                                searchInputChangeHandler={this.searchInputChangeHandler} />
                             <div className="card-body p-0">
                                 {this.props.submissions.length > 0 ? (
                                     <Aux>
@@ -139,7 +152,7 @@ class Home extends Component {
                                                 location={this.props.location} />
                                         </div>
                                     </Aux>
-                                ) : (<div className="card-text ml-4">Chưa có bài báo nào được đăng tải lên hệ thống.</div>)}
+                                ) : (<div className="card-text ml-4">Không tìm thấy bài báo nào.</div>)}
                             </div>
                         </div>
                     ) : <Spinner />}
@@ -166,7 +179,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getAllSubmissions,
-    getMyNotifications
+    getMyNotifications,
+    searchSubmissions
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

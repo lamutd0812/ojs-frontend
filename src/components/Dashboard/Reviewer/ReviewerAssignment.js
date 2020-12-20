@@ -78,7 +78,7 @@ class ReviewerAssignment extends Component {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getMyReviewerAssignmentDetail(this.props.match.params.submissionId);
-            this.props.getReviewerDecisions();
+            // this.props.getReviewerDecisions();
             this.props.getMyNotifications();
         }
     }

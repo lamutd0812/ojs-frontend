@@ -71,12 +71,6 @@ const deleteSubmissionSuccess = (message) => {
     }
 };
 
-const submissionErrors = (error) => {
-    return {
-        type: actionTypes.SUBMISSIONS_ERROR,
-        error: error
-    }
-};
 
 // Chief Editor
 const getAllSubmissionsSuccess = (data) => {
@@ -85,6 +79,22 @@ const getAllSubmissionsSuccess = (data) => {
         submissions: data.submissions,
         total: data.total,
         currentPage: data.currentPage
+    }
+};
+
+const searchSubmissionsSuccess = (data) => {
+    return {
+        type: actionTypes.SEARCH_SUBMISSIONS_SUCCESS,
+        submissions: data.submissions,
+        total: data.total,
+        currentPage: data.currentPage
+    }
+};
+
+const submissionErrors = (error) => {
+    return {
+        type: actionTypes.SUBMISSIONS_ERROR,
+        error: error
     }
 };
 
@@ -118,10 +128,10 @@ export const getEditorDecisions = () => (dispatch) => {
         });
 };
 
-export const getSubmissionsByAuthor = (authorId, page) => (dispatch, getState) => {
+export const getSubmissionsByAuthor = (authorId, page, limit) => (dispatch, getState) => {
     const token = getState().auth.token;
     dispatch(submissionStart());
-    axios.get('/submissions/author/' + authorId + '?page=' + page, {
+    axios.get('/submissions/author/' + authorId + '?page=' + page + '&limit=' + limit, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -210,16 +220,30 @@ export const resetDeleteSubmissionState = () => (dispatch) => {
     })
 };
 
-// Chief Editor get All Submissions
-export const getAllSubmissions = (page) => (dispatch, getState) => {
+// Chief Editor Get All Submissions
+export const getAllSubmissions = (page, limit) => (dispatch, getState) => {
     const token = getState().auth.token;
     dispatch(submissionStart());
-    axios.get('/submissions?page=' + page, {
+    axios.get('/submissions?page=' + page + '&limit=' + limit, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     }).then(res => {
         dispatch(getAllSubmissionsSuccess(res.data));
+    }).catch(err => {
+        dispatch(submissionErrors(err.message));
+    });
+};
+
+// Chief Editor Search Submissions
+export const searchSubmissions = (page, limit, keyword) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.get('/submissions/search/all?page=' + page + '&limit=' + limit + '&keyword=' + keyword, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(searchSubmissionsSuccess(res.data));
     }).catch(err => {
         dispatch(submissionErrors(err.message));
     });
