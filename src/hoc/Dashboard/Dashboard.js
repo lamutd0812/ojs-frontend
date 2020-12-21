@@ -16,6 +16,7 @@ import ReviewerAssignment from '../../components/Dashboard/Reviewer/ReviewerAssi
 import ReviseSubmission from '../../components/Dashboard/Author/AuthorAssignment/ReviseSubmission';
 import AcceptSubmission from '../../components/Dashboard/ChiefEditor/AcceptSubmission/AcceptSubmission';
 import DeclineSubmission from '../../components/Dashboard/ChiefEditor/DeclineSubmission/DeclineSubmission';
+import VastStats from '../../components/Dashboard/VAST/VastStats';
 import Notifications from '../../components/Notifications/Notifications';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -81,6 +82,8 @@ class Dashboard extends Component {
                         <Route path="/dashboard/chief-editor/assign-editor" component={AssignEditor} />
                         <Route path="/dashboard/chief-editor/accept-submission/:submissionId" component={AcceptSubmission} />
                         <Route path="/dashboard/chief-editor/decline-submission/:submissionId" component={DeclineSubmission} />
+                        <Route path="/dashboard/vast/statistics" component={VastStats} />
+                        <Route path="/dashboard/chief-editor" component={ChiefEditorHome} />
                         <Route exact path="/dashboard" component={ChiefEditorHome} />
                     </Switch>
                 );

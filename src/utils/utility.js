@@ -34,7 +34,7 @@ export const checkValidity = (value, rules) => {
 
 export const getStageBadgeClassname = (value) => {
     switch (value) {
-        case 0: 
+        case 0:
             return "badge-danger";
         case 1:
             return "badge-dark";
@@ -199,5 +199,16 @@ export const getShortArticleAbstract = (abstract) => {
     return abstract.slice(0, 200) + ' ...';
 }
 
+// VAST Crawler
+export const convertPublishedPrintToDate = (publisherPrint) => {
+    return publisherPrint.toString().split(',').join(' - ');
+};
 
-
+// export const getUrl = (page, limit) => {
+//     let offset = page * limit;
+//     if (offset === 0) {
+//         offset = 1;
+//     }
+//     const url = 'https://api.crossref.org/works?select=publisher,DOI,type,title,author,container-title,published-print,ISSN,subject,link&filter=from-pub-date:2020-12-01,until-pub-date:2021-01-01&query.affiliation=Vietnam%20Academy%20of%20Science%20and%20Technology&offset=' + offset + '&rows=' + limit;
+//     return url;
+// }

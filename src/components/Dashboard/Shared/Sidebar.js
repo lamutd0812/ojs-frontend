@@ -48,9 +48,13 @@ class Sidebar extends Component {
                                     <ul className="nav nav-treeview">
                                         {this.props.roleId === USER_ROLES.CHIEF_EDITOR.roleId ? (
                                             <li className="nav-item">
-                                                <NavLink to="/dashboard/" className="nav-link">
+                                                <NavLink to="/dashboard/chief-editor" className="nav-link">
                                                     <i className="nav-icon fas fa-edit"></i>
                                                     <p>Trang tổng biên tập</p>
+                                                </NavLink>
+                                                <NavLink to="/dashboard/vast/statistics" className="nav-link">
+                                                    <i className="nav-icon fas fa-chart-bar"></i>
+                                                    <p>Thống kê NCKH</p>
                                                 </NavLink>
                                             </li>
                                         ) : this.props.roleId === USER_ROLES.EDITOR.roleId ? (

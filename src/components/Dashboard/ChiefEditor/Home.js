@@ -49,7 +49,6 @@ class Home extends Component {
 
     searchInputChangeHandler = (event) => {
         const keyword = event.target.value;
-        console.log(keyword);
         this.props.searchSubmissions(1, ITEMS_PER_PAGE, keyword);
     }
 

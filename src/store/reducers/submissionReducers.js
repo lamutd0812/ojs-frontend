@@ -134,7 +134,6 @@ const getAllSubmissionsSuccess = (state, action) => {
     });
 };
 
-
 const submissionReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SUBMISSIONS_START: return submissionStart(state);

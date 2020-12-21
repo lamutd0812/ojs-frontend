@@ -58,7 +58,7 @@ const getSingleArticleSuccess = (state, action) => {
         article: action.article,
         loading: false,
         error: null
-    })
+    });
 };
 
 const getRelatedArticlesSuccess = (state, action) => {
@@ -74,14 +74,14 @@ const searchArticlesByKeywordSuccess = (state, action) => {
         articles_search: action.articles,
         loading: false,
         error: null
-    })
+    });
 };
 
 const updateDownloadedCountSuccess = (state) => {
     return updateObject(state, {
         loading: false,
         error: null
-    })
+    });
 };
 
 const articleError = (state, action) => {
