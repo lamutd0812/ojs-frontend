@@ -204,11 +204,15 @@ export const convertPublishedPrintToDate = (publisherPrint) => {
     return publisherPrint.toString().split(',').join(' - ');
 };
 
-// export const getUrl = (page, limit) => {
-//     let offset = page * limit;
-//     if (offset === 0) {
-//         offset = 1;
-//     }
-//     const url = 'https://api.crossref.org/works?select=publisher,DOI,type,title,author,container-title,published-print,ISSN,subject,link&filter=from-pub-date:2020-12-01,until-pub-date:2021-01-01&query.affiliation=Vietnam%20Academy%20of%20Science%20and%20Technology&offset=' + offset + '&rows=' + limit;
-//     return url;
-// }
+export const getFormattedDateVAST = (dateStr) => {
+    let date = new Date(dateStr);
+
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    month = (month < 10 ? "0" : "") + month;
+    day = (day < 10 ? "0" : "") + day;
+
+    const formattedDate = date.getFullYear() + "-" + month + "-" + day;
+    return formattedDate;
+};

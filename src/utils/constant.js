@@ -90,4 +90,20 @@ exports.REVIEWER_DECISION = {
     }
 }
 
-// exports.ITEMS_PER_PAGE = 2;
+exports.orgList = [
+    {
+        value: 'Viện Hàn Lâm Khoa Học và Công Nghệ Việt Nam',
+        name: 'Viện Hàn Lâm Khoa Học và Công Nghệ Việt Nam',
+        engName: 'Vietnam Academy of Science and Technology',
+        memberUnits: [
+            {
+                name: 'Institute of Marine Biochemistry',
+                engName: 'Institute of Marine Biochemistry'
+            },
+            {
+                name: 'Institute of Marine Biochemistry 2',
+                engName: 'Institute of Marine Biochemistry 2'
+            }
+        ]
+    }
+];

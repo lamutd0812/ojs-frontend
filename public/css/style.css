@@ -1859,17 +1859,17 @@ textarea.form-control {
 
 /* Table Border */
 table.table-bordered > thead > tr > th{
-  border:1px solid #28a745;
+  border:1px solid #343a40;
 }
 
 table.table-bordered > tbody > tr > td{
-  border:1px solid #28a745;
+  border:1px solid #343a40;
 }
 
 /* Badge Outline */
 .badge-ol {
   display: inline-block;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
   padding: 3px 6px;
   border: 1px solid transparent;
@@ -2031,4 +2031,18 @@ table.table-bordered > tbody > tr > td{
 .react-autosuggest__suggestion-match {
   color: red;
   font-weight: bold;
+}
+
+.vast-search-btn {
+  border: 1px solid #17a2b8;
+  font-size: 14px;
+  color: blue;
+  padding: 2px 15px 2px 15px;
+  margin-left: 20px;
+  /* margin-bottom: 20px; */
+  cursor: pointer;
+  font-weight: 600;
+} 
+.vast-search-btn:hover {
+  color: red;
 }
