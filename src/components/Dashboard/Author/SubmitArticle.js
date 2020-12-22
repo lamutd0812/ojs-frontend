@@ -92,7 +92,9 @@ class SubmitArticle extends Component {
         const submitArticle = (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader title="Submit bài báo lên hệ thống" />
+                    <ContentHeader title="Submit bài báo lên hệ thống">
+                        <li className="breadcrumb-item active">Submit bài báo</li>
+                    </ContentHeader>
                 </section>
                 <section className="content">
                     <div className="container-fluid">

@@ -11,7 +11,6 @@ const ContentHeader = (props) => {
                 <div className="col-sm-6">
                     <ol className="breadcrumb float-sm-right">
                         <li className="breadcrumb-item"><Link to="/dashboard">Dashboard</Link></li>
-                        <li className="breadcrumb-item">Submissions</li>
                         {props.children}
                     </ol>
                 </div>

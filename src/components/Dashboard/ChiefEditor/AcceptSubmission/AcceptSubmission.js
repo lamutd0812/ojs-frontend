@@ -102,7 +102,7 @@ class AcceptSubmission extends Component {
             <div className="content-wrapper">
                 <section className="content-header">
                     <ContentHeader title="Chấp nhận bài báo">
-                        <li className="breadcrumb-item active">Accept Submission</li>
+                        <li className="breadcrumb-item active">Chấp nhận bài báo</li>
                     </ContentHeader>
                 </section>
 

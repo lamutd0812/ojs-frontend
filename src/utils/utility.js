@@ -200,10 +200,6 @@ export const getShortArticleAbstract = (abstract) => {
 }
 
 // VAST Crawler
-export const convertPublishedPrintToDate = (publisherPrint) => {
-    return publisherPrint.toString().split(',').join(' - ');
-};
-
 export const getFormattedDateVAST = (dateStr) => {
     let date = new Date(dateStr);
 
@@ -227,4 +223,5 @@ export const convertPublishedDate = (publishedDate) => {
         }
     }
     return result;
-}
+};
+

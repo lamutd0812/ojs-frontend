@@ -9,7 +9,7 @@
 	height: 30px;
 	border: 1px solid #b2b2b2;
 	font-size: 14px;
-	color: #343a40;
+	color: #000;
 	font-weight: 400;
 	line-height: 28px;
 	text-align: center;
@@ -22,14 +22,14 @@
 }
 
 .pagination .item:hover {
-	background: #007bff;
-	border-color: #007bff;
+	background: #343a40;
+	border-color: #343a40;
 	color: #ffffff;
 } 
 
 .pagination .active {
-	background: #007bff;
-	border-color: #007bff;
+	background: #343a40;
+	border-color: #343a40;
 	color: #ffffff;
 }
 

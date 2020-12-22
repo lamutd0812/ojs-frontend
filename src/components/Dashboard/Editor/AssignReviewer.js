@@ -123,7 +123,7 @@ class AssignReviewer extends Component {
                 <div className="content-wrapper">
                     <section className="content-header">
                         <ContentHeader title="Chỉ định thẩm định viên">
-                            <li className="breadcrumb-item active">Assign Reviewer</li>
+                            <li className="breadcrumb-item active">Chỉ định thẩm định viên</li>
                         </ContentHeader>
                     </section>
 

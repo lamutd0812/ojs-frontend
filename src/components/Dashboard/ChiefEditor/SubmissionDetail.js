@@ -74,8 +74,8 @@ class SubmissionDetail extends Component {
         return (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader title="Quản lý bài báo">
-                        <li className="breadcrumb-item active">Submission Detail</li>
+                    <ContentHeader title="Thông tin chi tiết bào báo">
+                        <li className="breadcrumb-item active">Thông tin chi tiết bào báo</li>
                     </ContentHeader>
                 </section>
 

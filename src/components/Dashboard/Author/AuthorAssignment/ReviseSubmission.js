@@ -88,7 +88,9 @@ class ReviseSubmission extends Component {
         const editArticle = (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader title="Chỉnh sửa bài báo" />
+                    <ContentHeader title="Chỉnh sửa bài báo">
+                        <li className="breadcrumb-item active">Chỉnh sửa bài báo</li>
+                    </ContentHeader>
                 </section>
                 <section className="content">
                     <div className="container-fluid">

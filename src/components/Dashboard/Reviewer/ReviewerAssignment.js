@@ -172,8 +172,8 @@ class ReviewerAssignment extends Component {
         const contentWrapper = (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader title="Xử lý yêu cầu thẩm định">
-                        <li className="breadcrumb-item active">Submission Detail</li>
+                    <ContentHeader title="Thẩm định bài báo">
+                        <li className="breadcrumb-item active">Thẩm định bài báo</li>
                     </ContentHeader>
                 </section>
 

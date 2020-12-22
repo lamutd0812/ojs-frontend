@@ -50,7 +50,9 @@ class Home extends Component {
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
                 <section className="content-header">
-                    <ContentHeader title="Trang thẩm định viên" />
+                    <ContentHeader title="Trang thẩm định viên">
+                        <li className="breadcrumb-item">Trang thẩm định viên</li>
+                    </ContentHeader>
                 </section>
 
                 {/* <!-- Main content --> */}

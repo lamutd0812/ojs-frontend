@@ -58,7 +58,9 @@ class Home extends Component {
             <div className="content-wrapper">
                 {/* <!-- Content Header (Page header) --> */}
                 <section className="content-header">
-                    <ContentHeader title="Trang tổng biên tập" />
+                    <ContentHeader title="Trang tổng biên tập">
+                        <li className="breadcrumb-item">Trang tổng biên tập</li>
+                    </ContentHeader>
                 </section>
 
                 {/* <!-- Main content --> */}

@@ -5,30 +5,21 @@ import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Spinner from '../../UI/Spinner/Spinner';
 import { vastArticlesCrawl } from '../../../store/actions/vastActions';
 import Pagination from '../../UI/Pagination/Pagination';
-import { getDeadlineDate, updateObject, convertPublishedDate } from '../../../utils/utility';
-// import { convertPublishedPrintToDate } from '../../../utils/utility';
+import { updateObject, convertPublishedDate } from '../../../utils/utility';
 import DatePicker from 'react-datepicker';
 import CustomInput from './CustomInput';
 import Authors from './Authors';
+import { Link } from 'react-router-dom';
 
 const ITEMS_PER_PAGE = 10;
 class VastStats extends Component {
-
     state = {
-        startDate: new Date(),
-        endDate: getDeadlineDate(30)
+        startDate: new Date("2020-12-01"),
+        endDate: new Date("2020-12-31")
     }
 
     init = () => {
-        if (this.props.location.search) {
-            const query = new URLSearchParams(this.props.location.search);
-            const page = query.get('page');
-            if (page) {
-                this.props.vastArticlesCrawl(this.state.startDate, this.state.endDate, page, ITEMS_PER_PAGE);
-            }
-        } else {
-            this.props.vastArticlesCrawl(this.state.startDate, this.state.endDate, 1, ITEMS_PER_PAGE);
-        }
+        this.props.vastArticlesCrawl(this.state.startDate, this.state.endDate, 1, ITEMS_PER_PAGE);
     }
 
     componentDidUpdate(prevProps) {
@@ -62,7 +53,9 @@ class VastStats extends Component {
         const contentWrapper = (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader title="Thống kê nghiên cứu khoa học VAST" />
+                    <ContentHeader title="Thống kê nghiên cứu khoa học VAST">
+                        <li className="breadcrumb-item">Thống kê NCKH</li>
+                    </ContentHeader>
                 </section>
 
                 <section className="content">
@@ -104,9 +97,15 @@ class VastStats extends Component {
                                             dateFormat="dd/MM/yyyy"
                                             customInput={<CustomInput />} />
                                     </div>
-                                    <div className="btn vast-search-btn" onClick={this.searchArticlesHandler}>
+                                    <Link
+                                        to={{
+                                            pathname: this.props.location.pathname,
+                                            search: null
+                                        }}
+                                        className="btn vast-search-btn"
+                                        onClick={this.searchArticlesHandler}>
                                         Tìm kiếm
-                                        </div>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="float-right">
@@ -131,7 +130,7 @@ class VastStats extends Component {
                                                         <th>Năm xuất bản</th>
                                                         <th>Tạp chí</th>
                                                         <th>DOI</th>
-                                                        <th>Đường dẫn bài báo</th>
+                                                        <th>Đường dẫn</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -186,6 +185,9 @@ class VastStats extends Component {
                                             </table>
                                         </div>
                                         <div className="mt-2">
+                                            <div>
+                                                <b>Tổng số bản ghi: </b> {this.props.total}
+                                            </div>
                                             <Pagination
                                                 currentPage={this.props.currentPage}
                                                 hasNextPage={ITEMS_PER_PAGE * this.props.currentPage < this.props.total}

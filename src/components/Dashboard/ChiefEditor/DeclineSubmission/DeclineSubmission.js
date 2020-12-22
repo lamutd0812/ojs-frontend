@@ -102,8 +102,8 @@ class DeclineSubmission extends Component {
         const contentWrapper = (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader title="Chấp nhận bài báo">
-                        <li className="breadcrumb-item active">Accept Submission</li>
+                    <ContentHeader title="Từ chối bài báo">
+                        <li className="breadcrumb-item active">Từ chối bài báo</li>
                     </ContentHeader>
                 </section>
 
