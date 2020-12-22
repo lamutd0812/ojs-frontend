@@ -2036,7 +2036,7 @@ table.table-bordered > tbody > tr > td{
 .vast-search-btn {
   border: 1px solid #17a2b8;
   font-size: 14px;
-  color: blue;
+  color: red;
   padding: 2px 15px 2px 15px;
   margin-left: 20px;
   /* margin-bottom: 20px; */
@@ -2044,5 +2044,10 @@ table.table-bordered > tbody > tr > td{
   font-weight: 600;
 } 
 .vast-search-btn:hover {
-  color: red;
+  color: blue;
+}
+
+.vast-custom-select {
+  color: #dc3545;
+  padding: 2px 5px;
 }

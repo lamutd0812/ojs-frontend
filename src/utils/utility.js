@@ -216,3 +216,15 @@ export const getFormattedDateVAST = (dateStr) => {
     const formattedDate = date.getFullYear() + "-" + month + "-" + day;
     return formattedDate;
 };
+
+export const convertPublishedDate = (publishedDate) => {
+    let result = "";
+    for (const val of publishedDate) {
+        if (publishedDate.indexOf(val) < publishedDate.length - 1) {
+            result += val + "-";
+        } else {
+            result += val;
+        }
+    }
+    return result;
+}

@@ -5,7 +5,7 @@ import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Spinner from '../../UI/Spinner/Spinner';
 import { vastArticlesCrawl } from '../../../store/actions/vastActions';
 import Pagination from '../../UI/Pagination/Pagination';
-import { getDeadlineDate, updateObject } from '../../../utils/utility';
+import { getDeadlineDate, updateObject, convertPublishedDate } from '../../../utils/utility';
 // import { convertPublishedPrintToDate } from '../../../utils/utility';
 import DatePicker from 'react-datepicker';
 import CustomInput from './CustomInput';
@@ -70,13 +70,17 @@ class VastStats extends Component {
                         {/* Card Header */}
                         <div className="card-header">
                             <div className="card-tools float-left">
-                                {/* <div className="input-group input-group-sm p-0" style={{ width: '300px' }}>
-                                        <input type="text" name="table_search" className="form-control float-right" placeholder="Tìm kiếm" />
-                                        <div className="input-group-append">
-                                            <button type="button" className="btn btn-default"><i className="fas fa-search"></i></button>
-                                        </div>
-                                    </div> */}
                                 <div className="row">
+                                    <div>
+                                        <span className="font-weight-bold pr-1">Tổ chức</span>
+                                        <select className="vast-custom-select">
+                                            <option>
+                                                Vietnam Academy of Science and Technology
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="row pt-3">
                                     <div>
                                         <span className="font-weight-bold pr-1">Ngày bắt đầu</span>
                                         <DatePicker
@@ -122,20 +126,13 @@ class VastStats extends Component {
                                                     <tr>
                                                         <th> #</th>
                                                         <th>Tên bài Báo</th>
-                                                        <th className="text-left pl-5 pr-5">Danh sách tác giả</th>
+                                                        <th>Tác giả</th>
                                                         <th>Lĩnh vực</th>
-                                                        <th>Thể loại</th>
                                                         <th>Năm xuất bản</th>
                                                         <th>Tạp chí</th>
+                                                        <th>DOI</th>
                                                         <th>Đường dẫn bài báo</th>
                                                     </tr>
-                                                    {/* <tr>
-                                                        <th colspan="2"></th>
-                                                        <th colspan="2">Tên</th>
-                                                        <th colspan="3">Đơn vị thành viên</th>
-                                                        <th colspan="3">Tổ chức</th>
-                                                        <th colspan="5"></th>
-                                                    </tr> */}
                                                 </thead>
                                                 <tbody>
                                                     {this.props.articles.map(article => {
@@ -148,7 +145,7 @@ class VastStats extends Component {
                                                                 </td>
                                                                 <td className="text-primary text-center" style={{ cursor: 'pointer' }}>
                                                                     <div data-toggle="modal" data-target={"#aaa" + iden}>
-                                                                        <u>Xem chi tiết</u>
+                                                                        <u>Xem</u>
                                                                     </div>
                                                                     <div className="text-dark text-left">
                                                                         <Authors
@@ -164,13 +161,15 @@ class VastStats extends Component {
                                                                     ))}
                                                                 </td>
                                                                 <td>
-                                                                    <span>{article.type}</span>
-                                                                </td>
-                                                                <td>
-                                                                    <span>2020</span>
+                                                                    {article["published-print"] ? (
+                                                                        convertPublishedDate(article["published-print"]["date-parts"][0])
+                                                                    ) : "Not Released Yet"}
                                                                 </td>
                                                                 <td>
                                                                     <span>{article.publisher}</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>{article.DOI}</span>
                                                                 </td>
                                                                 <td>
                                                                     {article.link && article.link.map((url, idx) => (
@@ -197,7 +196,7 @@ class VastStats extends Component {
                                                 location={this.props.location} />
                                         </div>
                                     </Aux>
-                                ) : (<div className="card-text ml-4">Không tìm thấy bài báo nào.</div>)}
+                                ) : (<div className="card-text ml-4">Chọn khoảng thời gian và click Tìm Kiếm</div>)}
                             </div>
                         ) : <Spinner />}
                     </div>

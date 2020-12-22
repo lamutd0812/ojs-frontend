@@ -23,9 +23,6 @@ const articlesCrawlStart = () => {
 };
 
 const articlesCrawlSuccess = (data) => {
-    // console.log(data.message.query["start-index"]);
-    // console.log(data.message["items-per-page"]);
-    console.log(Math.ceil(data.message.query["start-index"] / data.message["items-per-page"]));
     let cur = data.message.query["start-index"] / data.message["items-per-page"];
     if (cur < 1) {
         cur = 1;
