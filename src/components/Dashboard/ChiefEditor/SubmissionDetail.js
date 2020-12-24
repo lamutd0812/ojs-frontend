@@ -134,10 +134,11 @@ class SubmissionDetail extends Component {
                                                     <SubmissionInfor submission={this.props.submission} />
                                                 </div>
                                                 <div className="p-2 col-lg-4 border rounded">
+                                                    <h6><i className="fas fa-user"></i> Chỉ định biên tập viên</h6>
                                                     {!this.props.editorAssignment ? (
                                                         <div className="form-group">
                                                             <Link to={`/dashboard/chief-editor/assign-editor?submissionId=${this.props.submission._id}`}>
-                                                                <button className="btn btn-outline-primary btn-block">
+                                                                <button className="btn btn-outline-dark btn-block">
                                                                     <i className="fas fa-user"></i> {" "}
                                                                     Chỉ định biên tập viên
                                                                 </button>
@@ -156,7 +157,7 @@ class SubmissionDetail extends Component {
                                                             <Aux>
                                                                 <div className="form-group">
                                                                     <Link to={`/dashboard/chief-editor/accept-submission/${this.props.submission._id}`}>
-                                                                        <button className="btn btn-outline-success btn-block">
+                                                                        <button className="btn btn-outline-primary btn-block">
                                                                             <i className="fas fa-check"></i> {" "}
                                                                         Chấp nhận xuất bản
                                                                     </button>

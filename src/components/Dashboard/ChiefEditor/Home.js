@@ -115,7 +115,7 @@ class Home extends Component {
                                                                     )}
                                                             </td>
                                                             <td className="project-actions text-center">
-                                                                <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
+                                                                <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-dark btn-sm mr-1">
                                                                     <i className="fas fa-eye"></i> Xử lý
                                                         </Link>
                                                             </td>

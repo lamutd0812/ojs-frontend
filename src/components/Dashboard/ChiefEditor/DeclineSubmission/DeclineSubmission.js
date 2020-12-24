@@ -165,12 +165,12 @@ class DeclineSubmission extends Component {
                                     <div className="card-footer">
                                         <button
                                             type="button"
-                                            className="btn btn-primary"
+                                            className="btn btn-outline-primary"
                                             data-toggle="modal"
                                             data-target="#confirmDialogModal"
                                             disabled={!this.state.formIsValid}>Xác nhận</button>
                                         <Link to={`/dashboard/submission/${this.props.match.params.submissionId}`}>
-                                            <button className="btn btn-danger ml-2" >Hủy </button>
+                                            <button className="btn btn-outline-danger ml-2" >Hủy </button>
                                         </Link>
                                     </div>
                                 </div>

@@ -158,7 +158,7 @@ class SubmitArticle extends Component {
                                                 </label>
                                             </div>
                                             <button
-                                                className="btn btn-primary mt-2"
+                                                className="btn btn-outline-dark mt-2"
                                                 disabled={!(this.state.requirement1 && this.state.requirement2 && this.state.requirement3 && this.state.requirement4)}
                                                 onClick={this.step2ActiveHandler}>Tiếp tục</button>
                                         </div>
@@ -232,12 +232,12 @@ class SubmitArticle extends Component {
                                             <div className="card-footer">
                                                 <button
                                                     type="button"
-                                                    className="btn btn-primary"
+                                                    className="btn btn-outline-primary"
                                                     data-toggle="modal"
                                                     data-target="#confirmDialogModal"
                                                     disabled={!this.state.formIsValid}>Xác nhận</button>
                                                 <button
-                                                    className="btn btn-danger ml-2"
+                                                    className="btn btn-outline-danger ml-2"
                                                     onClick={this.step1ActiveHandler}>Quay lại</button>
                                             </div>
                                         </div>

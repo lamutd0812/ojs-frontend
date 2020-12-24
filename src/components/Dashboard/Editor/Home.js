@@ -118,11 +118,11 @@ class Home extends Component {
                                                             </td>
                                                             <td className="project-actions text-center">
                                                                 {!checkDueDate(ea.dueDate) ? (
-                                                                    <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-outline-primary btn-sm mr-1">
+                                                                    <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-outline-dark btn-sm mr-1">
                                                                         <i className="fas fa-eye"></i> Xem
                                                                     </Link>
                                                                 ) : (
-                                                                        <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-outline-primary btn-sm mr-1">
+                                                                        <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="btn btn-outline-dark btn-sm mr-1">
                                                                             <i className="fas fa-tasks"></i> Xử lý
                                                                         </Link>
                                                                     )}

@@ -29,13 +29,13 @@ const DeleteSubmission = (props) => {
                         </div>
                         <div className="modal-footer">
                             <button type="button"
-                                className="btn btn-danger"
+                                className="btn btn-outline-primary"
                                 data-dismiss="modal"
                                 disabled={!props.deletionConfirmed}
                                 onClick={props.deleteSubmission}>Xóa bài báo</button>
                             <button
                              type="button"
-                              className="btn btn-info" 
+                              className="btn btn-outline-danger" 
                               data-dismiss="modal"
                               onClick={props.uncheckedHandler}>Hủy</button>
                         </div>

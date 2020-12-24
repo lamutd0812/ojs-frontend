@@ -32,7 +32,7 @@ class AssignEditor extends Component {
     };
 
     componentDidMount() {
-        if (this.props.location.search && this.props.editors.length <= 0) {
+        if (this.props.location.search) {
             const query = new URLSearchParams(this.props.location.search);
             const submissionId = query.get('submissionId');
             this.props.getAllEditors(submissionId);
@@ -131,7 +131,7 @@ class AssignEditor extends Component {
                     <section className="content">
                         <div className="container-fluid">
                             <div className="col-md-12">
-                                <div className="card card-primary card-tabs">
+                                <div className="card card-dark card-tabs">
                                     <div className="card-header p-0 pt-1">
                                         <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                             <li className="nav-item">
@@ -201,12 +201,12 @@ class AssignEditor extends Component {
                                                     </div>
                                                 ) : <Spinner />}
                                                 <button
-                                                    className="btn btn-primary mt-3"
+                                                    className="btn btn-outline-primary mt-3"
                                                     disabled={this.state.selectedEditorId === ''}
                                                     onClick={this.step2ActiveHandler}>Lựa chọn</button>
                                                 {this.props.submission && (
                                                     <Link to={`/dashboard/submission/${this.props.submission._id}`}>
-                                                        <button className="btn btn-danger mt-3 ml-2">Hủy</button>
+                                                        <button className="btn btn-outline-danger mt-3 ml-2">Hủy</button>
                                                     </Link>
                                                 )}
                                             </div>
@@ -247,11 +247,11 @@ class AssignEditor extends Component {
                                                 <div>
                                                     <button
                                                         type="button"
-                                                        className="btn btn-primary"
+                                                        className="btn btn-outline-primary"
                                                         data-toggle="modal"
                                                         data-target="#confirmDialogModal">Xác nhận</button>
                                                     <button
-                                                        className="btn btn-danger ml-2"
+                                                        className="btn btn-outline-danger ml-2"
                                                         onClick={this.step1ActiveHandler}>Quay lại</button>
                                                 </div>
                                             </div>

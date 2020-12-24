@@ -148,7 +148,7 @@ class Home extends Component {
                                                                 <span>{submission.submissionLogs[submission.submissionLogs.length - 1].event}</span>
                                                             </td>
                                                             <td className="project-actions text-center">
-                                                                <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-primary btn-sm mr-1">
+                                                                <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-dark btn-sm mr-1">
                                                                     <i className="fas fa-eye"></i> Xem chi tiết
                                                             </Link>
                                                             </td>
