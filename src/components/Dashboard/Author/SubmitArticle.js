@@ -109,7 +109,7 @@ class SubmitArticle extends Component {
                                         </li>
                                         <li className="nav-item">
                                             <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}>
-                                                2. Đăng bài
+                                                2. Thông tin chi tiết
                                             </div>
                                         </li>
                                         <li className="nav-item">

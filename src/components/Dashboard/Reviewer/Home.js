@@ -6,7 +6,7 @@ import Spinner from '../../UI/Spinner/Spinner';
 import { getMyNotifications } from '../../../store/actions/authActions';
 import { getMyReviewerAssignments } from '../../../store/actions/reviewActions';
 import { Link } from 'react-router-dom';
-import { checkDueDate, getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
+import { checkDueDate, getFormattedDate, getFormattedDateOnly, getStageBadgeClassname } from '../../../utils/utility';
 import Pagination from '../../UI/Pagination/Pagination';
 
 const ITEMS_PER_PAGE = 8;
@@ -70,7 +70,7 @@ class Home extends Component {
                             <div className="card-body p-0">
                                 {this.props.reviewerAssignments.length > 0 ? (
                                     <Aux>
-                                        <table className="table table-striped projects" style={{ borderCollapse: 'collapse' }}>
+                                        <table className="table table-hover projects" style={{ borderCollapse: 'collapse' }}>
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: '1%' }}> #</th>
@@ -93,17 +93,17 @@ class Home extends Component {
                                                                 <span className={"badge " + getStageBadgeClassname(ra.submissionId.stageId.value)}>{ra.submissionId.stageId.name}</span>
                                                             </td>
                                                             <td className="text-center">
-                                                                <span>{getFormattedDate(ra.dueDate)}</span>
+                                                                <span>{getFormattedDateOnly(ra.dueDate)}</span>
                                                                 {!checkDueDate(ra.dueDate) ? (
                                                                     <div className="badge-ol badge-ol-danger mb-1">Hết hạn xử lý</div>
                                                                 ) : null}
                                                             </td>
                                                             <td className="text-center">
                                                                 {ra.reviewerSubmissionId ? (
-                                                                    <span className="badge bg-success"> Đã nộp ý kiến</span>
+                                                                    <span className="badge-ol badge-ol-success badge-outlined pt-2 pb-2 pl-3 pr-3"> Đã nộp ý kiến</span>
                                                                 ) : (
-                                                                        <span className="badge bg-danger">Chưa nộp ý kiến</span>
-                                                                    )}
+                                                                    <span className="badge-ol badge-ol-danger badge-outlined p-2">Chưa nộp ý kiến</span>
+                                                                )}
                                                             </td>
                                                             <td className="project-actions text-center">
                                                                 {ra.reviewerSubmissionId ? (

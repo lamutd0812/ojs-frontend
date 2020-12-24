@@ -121,7 +121,7 @@ class Home extends Component {
                             <div className="card-body p-0">
                                 {this.props.submissions.length > 0 ? (
                                     <Aux>
-                                        <table className="table table-striped projects">
+                                        <table className="table table-hover projects">
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: '1%' }}> #</th>
@@ -141,7 +141,7 @@ class Home extends Component {
                                                                 <br />
                                                                 <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
                                                             </td>
-                                                            <td className="project-state">
+                                                            <td className="project-state text-center">
                                                                 <span className={"badge " + getStageBadgeClassname(submission.stageId.value)}>{submission.stageId.name}</span>
                                                             </td>
                                                             <td className="text-center">

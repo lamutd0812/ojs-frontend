@@ -6,7 +6,7 @@ import Spinner from '../../UI/Spinner/Spinner';
 import { getMyNotifications } from '../../../store/actions/authActions';
 import { getMyEditorAssignments } from '../../../store/actions/reviewActions';
 import { Link } from 'react-router-dom';
-import { checkDueDate, getDoughnutData, getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
+import { checkDueDate, getDoughnutData, getFormattedDate, getFormattedDateOnly, getStageBadgeClassname } from '../../../utils/utility';
 import { Doughnut } from 'react-chartjs-2';
 import Pagination from '../../UI/Pagination/Pagination';
 
@@ -76,14 +76,14 @@ class Home extends Component {
                             <div className="card-body p-0">
                                 {this.props.editorAssignments.length > 0 ? (
                                     <Aux>
-                                        <table className="table table-striped projects" style={{ borderCollapse: 'collapse' }}>
+                                        <table className="table table-hover projects" style={{ borderCollapse: 'collapse' }}>
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: '1%' }}> #</th>
-                                                    <th style={{ width: '25%' }}> Bài Báo</th>
+                                                    <th style={{ width: '30%' }}> Bài Báo</th>
                                                     <th style={{ width: '15%' }} className="text-center"> Pha</th>
                                                     <th style={{ width: '15%' }} className="text-center"> Thẩm định viên</th>
-                                                    <th style={{ width: '15%' }} className="text-center"> Hạn xử lý</th>
+                                                    <th style={{ width: '10%' }} className="text-center"> Hạn xử lý</th>
                                                     <th style={{ width: '15%' }} className="text-center"> Trạng thái</th>
                                                     <th style={{ width: '15%' }} className="text-center"> Xử lý</th>
                                                 </tr>
@@ -104,16 +104,16 @@ class Home extends Component {
                                                                 <span>{ea.reviewerAssignmentId.length}/3</span>
                                                             </td>
                                                             <td className="text-center">
-                                                                <span>{getFormattedDate(ea.dueDate)}</span>
+                                                                <span>{getFormattedDateOnly(ea.dueDate)}</span>
                                                                 {!checkDueDate(ea.dueDate) ? (
                                                                     <div className="badge-ol badge-ol-danger mb-1">Hết hạn xử lý</div>
                                                                 ) : null}
                                                             </td>
                                                             <td className="text-center">
                                                                 {ea.editorSubmissionId ? (
-                                                                    <span className="badge bg-success"> Đã nộp ý kiến</span>
+                                                                    <span className="badge-ol badge-ol-success badge-outlined pt-2 pb-2 pl-3 pr-3"> Đã nộp ý kiến</span>
                                                                 ) : (
-                                                                        <span className="badge bg-danger">Chưa nộp ý kiến</span>
+                                                                        <span className="badge-ol badge-ol-danger badge-outlined p-2">Chưa nộp ý kiến</span>
                                                                     )}
                                                             </td>
                                                             <td className="project-actions text-center">
