@@ -10,14 +10,21 @@ import ContentHeader from '../Shared/ContentHeader';
 import { toast } from 'react-toastify';
 import { editSubmissionInputControls } from '../../../utils/input-controls';
 import { submitArticleInputChangeHandler } from '../../../utils/input-change';
+import AddContributor from './AddContributor/AddContributor';
 
 class EditSubmission extends Component {
 
     state = {
         step1Active: true,
         step2Active: false,
+        step3Active: false,
         controls: editSubmissionInputControls,
-        formIsValid: true
+        formIsValid: true,
+        oldMetadata: [],
+        metadata: [],
+        contributors: [],
+        fullname: '',
+        affiliation: ''
     }
 
     componentDidMount() {
@@ -34,7 +41,13 @@ class EditSubmission extends Component {
             abstract: updateObject(this.state.controls.abstract, { value: submission.abstract }),
             attachment: updateObject(this.state.controls.attachment, { filename: submission.attachmentFile })
         });
-        this.setState(updateObject(this.state, { controls: updatedControls }));
+        const oldMetadata = submission.metadata;
+        const contributors = submission.contributors;
+        this.setState(updateObject(this.state, {
+            controls: updatedControls,
+            oldMetadata: oldMetadata,
+            contributors: contributors
+        }));
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -49,7 +62,8 @@ class EditSubmission extends Component {
             toast.success("Chỉnh sửa thông tin bài báo thành công!");
             this.setState(updateObject(this.state, {
                 step1Active: false,
-                step2Active: true,
+                step2Active: false,
+                step3Active: true,
             }));
         }
     }
@@ -63,12 +77,77 @@ class EditSubmission extends Component {
         });
     };
 
+    metaDataChangeHandler = (event) => {
+        event.preventDefault();
+        let controlName = event.target.name;
+        if (controlName === 'metadata') {
+            let newState = updateObject(this.state, {
+                metadata: event.target.files
+            });
+            this.setState(newState);
+        }
+    }
+
+    contributorInputChangeHandler = (event) => {
+        event.preventDefault();
+        let controlName = event.target.name;
+        if (controlName === 'fullname') {
+            this.setState(updateObject(this.state, { fullname: event.target.value }));
+        } else {
+            this.setState(updateObject(this.state, { affiliation: event.target.value }));
+        }
+    }
+
+    addContributorHandler = () => {
+        const contributor = {
+            fullname: this.state.fullname,
+            affiliation: this.state.affiliation
+        };
+        const contributors = this.state.contributors;
+        contributors.push(contributor);
+        this.setState(updateObject(this.state, {
+            contributors: contributors,
+            fullname: '',
+            affiliation: ''
+        }));
+    }
+
+    removeContributorHandler = (idx) => {
+        const contributors = this.state.contributors;
+        contributors.splice(idx, 1);
+        this.setState(updateObject(this.state, { contributors: contributors }));
+    }
+
+    step1ActiveHandler = (event) => {
+        event.preventDefault();
+        let newState = updateObject(this.state, {
+            step1Active: true,
+            step2Active: false,
+            step3Active: false,
+        });
+        this.setState(newState);
+    }
+
+    step2ActiveHandler = () => {
+        let newState = updateObject(this.state, {
+            step1Active: false,
+            step2Active: true,
+            step3Active: false,
+        });
+        this.setState(newState);
+    }
+
     confirmSubmitHandler = () => {
         const formData = new FormData();
         formData.append('title', this.state.controls.title.value);
         formData.append('abstract', this.state.controls.abstract.value);
         formData.append('attachment', this.state.controls.attachment.file);
         formData.append('categoryId', this.state.controls.categoryId.value);
+        const data = JSON.stringify({ data: this.state.contributors });
+        formData.append('contributors', data);
+        for (const file of this.state.metadata) {
+            formData.append('metadata', file);
+        }
         this.props.editSubmission(this.props.submission._id, formData);
     }
 
@@ -92,19 +171,24 @@ class EditSubmission extends Component {
                                         <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                             <li className="nav-item">
                                                 <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}>
-                                                    1. Thông tin
+                                                    1. Thông tin chi tiết
                                             </div>
                                             </li>
                                             <li className="nav-item">
                                                 <div className={this.state.step2Active ? 'nav-link active' : 'nav-link'}>
-                                                    2. Hoàn thành
+                                                    2. Metadata
+                                            </div>
+                                            </li>
+                                            <li className="nav-item">
+                                                <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}>
+                                                    3. Hoàn thành
                                             </div>
                                             </li>
                                         </ul>
                                     </div>
                                     <div className="card-body">
                                         <div className="tab-content" id="custom-tabs-one-tabContent">
-                                            {/* Step 1 Active  */}
+                                            {/* ------------------Tab 1----------------- */}
                                             <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
                                                 <div className="card-body">
                                                     {this.props.categories.length > 0 ? (
@@ -162,13 +246,101 @@ class EditSubmission extends Component {
                                                                 <label className="custom-file-label" htmlFor="coverImage">{this.state.controls.attachment.filename}</label>
                                                             </div>
                                                         </div>
-                                                        {this.state.controls.attachment.file && this.props.fileUploading ? (
+                                                    </div>
+                                                </div>
+
+                                                <div className="card-footer">
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-outline-primary"
+                                                        disabled={!this.state.formIsValid}
+                                                        onClick={this.step2ActiveHandler}>Tiếp tục</button>
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-outline-danger ml-1"
+                                                        onClick={this.cancelHandler}>Hủy</button>
+                                                </div>
+                                            </div>
+                                            {/* ------------------Tab 2----------------- */}
+                                            <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
+                                                <div className="card-body">
+                                                    <div className="form-group">
+                                                        <label>Tài liệu kèm theo</label>
+                                                        <div className="input-group">
+                                                            <div className="custom-file mb-2">
+                                                                <input
+                                                                    type="file"
+                                                                    name="metadata"
+                                                                    multiple
+                                                                    className="custom-file-input"
+                                                                    onChange={this.metaDataChangeHandler} />
+                                                                <label className="custom-file-label" htmlFor="coverImage">{this.state.metadata.length} file đã chọn</label>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            {this.state.metadata.length > 0 ? (
+                                                                <Aux>
+                                                                    {Array.from(this.state.metadata).map(file => {
+                                                                        const iden = Math.floor(Math.random() * 111111);
+                                                                        return (
+                                                                            <div className="ml-2" key={iden}>
+                                                                                <i className="fa fa-paperclip fa-lg"></i> {" "}
+                                                                                <Link to="#" className="text-primary">{file.name}</Link>
+                                                                            </div>
+                                                                        );
+                                                                    })}
+                                                                </Aux>
+                                                            ) : (
+                                                                    <Aux>
+                                                                        {this.state.oldMetadata.map(file => {
+                                                                            const iden = Math.floor(Math.random() * 111111);
+                                                                            return (
+                                                                                <div className="ml-2" key={iden}>
+                                                                                    <i className="fa fa-paperclip fa-lg"></i>
+                                                                                    <a href={file.url} className="text-primary" target="_blank" rel="noopener noreferrer">
+                                                                                        {" "}{file.filename}
+                                                                                    </a>
+                                                                                </div>
+                                                                            );
+                                                                        })}
+                                                                    </Aux>
+                                                                )}
+                                                        </div>
+                                                        {this.props.fileUploading ? (
                                                             <div className="input-group">
-                                                                <div className="spinner-border text-primary mt-2" role="status" style={{ width: '25px', height: '25px' }}>
-                                                                </div>
+                                                                <div className="spinner-border text-primary mt-2" role="status" style={{ width: '25px', height: '25px' }}></div>
                                                                 <div className="mt-2 ml-2 text-secondary" style={{ fontStyle: 'italic' }}>Đang tải lên...</div>
                                                             </div>
                                                         ) : null}
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label>Đồng tác giả ({this.state.contributors.length})</label><br />
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-outline-dark btn-flat"
+                                                            data-toggle="modal"
+                                                            data-target="#addContributorModal">
+                                                            <i className="fas fa-plus"></i>{" "}Thêm mới
+                                                    </button>
+                                                    </div>
+                                                    <div>
+                                                        {this.state.contributors.length > 0 && (
+                                                            <Aux>
+                                                                {this.state.contributors.map((contributor, idx) => {
+                                                                    const iden = idx;
+                                                                    return (
+                                                                        <div className="ml-2" key={iden}>
+                                                                            <i className="fas fa-user"></i> {" "}
+                                                                            <Link to="#" className="text-primary">{contributor.fullname}</Link>{""}
+                                                                            - <b>{contributor.affiliation}</b>
+                                                                            <i className="far fa-trash-alt text-danger pl-3"
+                                                                                style={{ cursor: 'pointer' }}
+                                                                                onClick={() => this.removeContributorHandler(iden)}></i>
+                                                                        </div>
+                                                                    );
+                                                                })}
+                                                            </Aux>
+                                                        )}
                                                     </div>
                                                 </div>
 
@@ -177,16 +349,14 @@ class EditSubmission extends Component {
                                                         type="button"
                                                         className="btn btn-outline-primary"
                                                         data-toggle="modal"
-                                                        data-target="#confirmDialogModal"
-                                                        disabled={!this.state.formIsValid}>Chỉnh sửa bài báo</button>
+                                                        data-target="#confirmDialogModal">Xác nhận</button>
                                                     <button
-                                                        type="button"
-                                                        className="btn btn-outline-danger ml-1"
-                                                        onClick={this.cancelHandler}>Hủy</button>
+                                                        className="btn btn-outline-danger ml-2"
+                                                        onClick={this.step2ActiveHandler}>Quay lại</button>
                                                 </div>
                                             </div>
-                                            {/* Step 2 Active */}
-                                            <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
+                                            {/* ------------------Tab 3----------------- */}
+                                            <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>
                                                 <h4>Chỉnh sửa bài báo thành công.</h4>
                                                 <div className="ml-2">Bạn đã chỉnh sửa bài báo trước khi bước vào quá trình thẩm định. Chúng tôi đã
                                                     tiếp nhận và sẽ tiến hành thẩm định bài báo của bạn trước khi quyết định đăng tải.</div>
@@ -229,6 +399,12 @@ class EditSubmission extends Component {
                     title="Xác nhận"
                     message="Chỉnh sửa thông tin bài báo?"
                     confirm={this.confirmSubmitHandler} />
+                <AddContributor
+                    title="Thêm đồng tác giả"
+                    fullname={this.state.fullname}
+                    affiliation={this.state.affiliation}
+                    inputChange={this.contributorInputChangeHandler}
+                    confirm={this.addContributorHandler} />
                 {this.props.error ? toast.error('Error: ' + this.props.error) : null}
             </Aux>
         );

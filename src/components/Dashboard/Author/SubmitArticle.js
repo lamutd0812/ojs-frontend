@@ -67,7 +67,6 @@ class SubmitArticle extends Component {
             });
             this.setState(newState);
         }
-        console.log(this.state.metadata);
     }
 
     contributorInputChangeHandler = (event) => {
@@ -150,7 +149,7 @@ class SubmitArticle extends Component {
         formData.append('contributors', data);
         for (const file of this.state.metadata) {
             formData.append('metadata', file);
-          }
+        }
         this.props.createSubmission(formData);
     }
 
@@ -185,7 +184,7 @@ class SubmitArticle extends Component {
                                         </li>
                                         <li className="nav-item">
                                             <div className={this.state.step4Active ? 'nav-link active' : 'nav-link'}>
-                                                . Hoàn thành
+                                                4. Hoàn thành
                                             </div>
                                         </li>
                                     </ul>
@@ -290,22 +289,10 @@ class SubmitArticle extends Component {
                                                             <label className="custom-file-label" htmlFor="coverImage">{this.state.controls.attachment.filename}</label>
                                                         </div>
                                                     </div>
-                                                    {/* {this.props.fileUploading ? (
-                                                        <div className="input-group">
-                                                            <div className="spinner-border text-primary mt-2" role="status" style={{ width: '25px', height: '25px' }}></div>
-                                                            <div className="mt-2 ml-2 text-secondary" style={{ fontStyle: 'italic' }}>Đang tải lên...</div>
-                                                        </div>
-                                                    ) : null} */}
                                                 </div>
                                             </div>
 
                                             <div className="card-footer">
-                                                {/* <button
-                                                    type="button"
-                                                    className="btn btn-outline-primary"
-                                                    data-toggle="modal"
-                                                    data-target="#confirmDialogModal"
-                                                    disabled={!this.state.formIsValid}>Xác nhận</button> */}
                                                 <button
                                                     type="button"
                                                     className="btn btn-outline-primary"
