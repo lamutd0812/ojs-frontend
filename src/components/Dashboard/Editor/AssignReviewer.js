@@ -156,7 +156,7 @@ class AssignReviewer extends Component {
                                                 <div className="input-group input-group-sm mb-2" style={{ width: '300px' }}>
                                                     <input type="text" className="form-control" placeholder="Tìm kiếm" />
                                                     <div className="input-group-append">
-                                                        <button type="submit" className="btn btn-default">
+                                                        <button type="submit" className="btn btn-default btn-flat">
                                                             <i className="fas fa-search"></i>
                                                         </button>
                                                     </div>
@@ -200,12 +200,12 @@ class AssignReviewer extends Component {
                                                     </div>
                                                 ) : <Spinner />}
                                                 <button
-                                                    className="btn btn-outline-primary mt-3"
+                                                    className="btn btn-outline-primary btn-flat mt-3"
                                                     disabled={this.state.selectedReviewerId === ''}
                                                     onClick={this.step2ActiveHandler}>Lựa chọn</button>
                                                 {this.props.submission && (
                                                     <Link to={`/dashboard/editor/assignment/${this.props.submission._id}`}>
-                                                        <button className="btn btn-outline-danger mt-3 ml-2">Hủy</button>
+                                                        <button className="btn btn-outline-danger btn-flat mt-3 ml-2">Hủy</button>
                                                     </Link>
                                                 )}
                                             </div>
@@ -246,11 +246,11 @@ class AssignReviewer extends Component {
                                                 <div>
                                                     <button
                                                         type="button"
-                                                        className="btn btn-outline-primary"
+                                                        className="btn btn-outline-primary btn-flat"
                                                         data-toggle="modal"
                                                         data-target="#confirmDialogModal">Xác nhận</button>
                                                     <button
-                                                        className="btn btn-outline-danger ml-2"
+                                                        className="btn btn-outline-danger btn-flat ml-2"
                                                         onClick={this.step1ActiveHandler}>Quay lại</button>
                                                 </div>
                                             </div>

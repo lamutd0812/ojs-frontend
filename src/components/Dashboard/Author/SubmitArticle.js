@@ -228,7 +228,7 @@ class SubmitArticle extends Component {
                                                 </label>
                                             </div>
                                             <button
-                                                className="btn btn-outline-primary mt-2"
+                                                className="btn btn-outline-primary mt-2 btn-flat"
                                                 disabled={!(this.state.requirement1 && this.state.requirement2 && this.state.requirement3 && this.state.requirement4)}
                                                 onClick={this.step2ActiveHandler}>Tiếp tục</button>
                                         </div>
@@ -295,11 +295,11 @@ class SubmitArticle extends Component {
                                             <div className="card-footer">
                                                 <button
                                                     type="button"
-                                                    className="btn btn-outline-primary"
+                                                    className="btn btn-outline-primary btn-flat"
                                                     disabled={!this.state.formIsValid}
                                                     onClick={this.step3ActiveHandler}>Tiếp tục</button>
                                                 <button
-                                                    className="btn btn-outline-danger ml-2"
+                                                    className="btn btn-outline-danger ml-2 btn-flat"
                                                     onClick={this.step1ActiveHandler}>Quay lại</button>
                                             </div>
                                         </div>
@@ -375,11 +375,11 @@ class SubmitArticle extends Component {
                                             <div className="card-footer">
                                                 <button
                                                     type="button"
-                                                    className="btn btn-outline-primary"
+                                                    className="btn btn-outline-primary btn-flat"
                                                     data-toggle="modal"
                                                     data-target="#confirmDialogModal">Xác nhận</button>
                                                 <button
-                                                    className="btn btn-outline-danger ml-2"
+                                                    className="btn btn-outline-danger ml-2 btn-flat"
                                                     onClick={this.step2ActiveHandler}>Quay lại</button>
                                             </div>
                                         </div>

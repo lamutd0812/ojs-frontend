@@ -21,7 +21,7 @@ class Sidebar extends Component {
                     <div className="sidebar">
                         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                             <div className="image mt-2">
-                                <img src={this.props.avatar} alt="UserImage" />
+                                <img src={this.props.avatar} className="rounded-circle" alt="UserImage" />
                             </div>
                             <div className="info">
                                 <Link to="#" className="d-block">{this.props.fullname}</Link>
@@ -34,7 +34,7 @@ class Sidebar extends Component {
                             <div className="input-group" data-widget="sidebar-search">
                                 <input className="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
                                 <div className="input-group-append">
-                                    <button className="btn btn-sidebar">
+                                    <button className="btn btn-sidebar btn-flat">
                                         <i className="fas fa-search fa-fw"></i>
                                     </button>
                                 </div>

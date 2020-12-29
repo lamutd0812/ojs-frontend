@@ -60,7 +60,7 @@ const CreateEditorSubmisison = (props) => {
             <div className="card-footer">
                 <button
                     type="button"
-                    className="btn btn-outline-primary"
+                    className="btn btn-outline-primary btn-flat"
                     data-toggle="modal"
                     data-target="#confirmDialogModal"
                     disabled={!props.formIsValid}> Nộp ý kiến</button>

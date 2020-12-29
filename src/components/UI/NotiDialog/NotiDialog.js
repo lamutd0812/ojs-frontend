@@ -21,7 +21,7 @@ const NotiDialog = (props) => {
                         <div className="modal-footer justify-content-center">
                             <div className="text-center">
                                 <button type="button"
-                                    className="btn btn-outline-success"
+                                    className="btn btn-outline-success btn-flat"
                                     data-dismiss="modal"
                                     onClick={props.confirm}>Tiếp tục</button>
                             </div>

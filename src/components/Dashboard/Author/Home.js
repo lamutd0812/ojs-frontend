@@ -101,7 +101,7 @@ class Home extends Component {
                     <ContentHeader title="Trang tác giả">
                         <li className="breadcrumb-item">Trang tác giả</li>
                     </ContentHeader>
-                    <button onClick={this.btnNewSubmissonClickHandler} className="btn btn-outline-dark">
+                    <button onClick={this.btnNewSubmissonClickHandler} className="btn btn-outline-dark btn-flat">
                         <i className="fas fa-upload"></i> Submit bài báo
                     </button>
                 </section>
@@ -148,7 +148,7 @@ class Home extends Component {
                                                                 <span>{submission.submissionLogs[submission.submissionLogs.length - 1].event}</span>
                                                             </td>
                                                             <td className="project-actions text-center">
-                                                                <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-dark btn-sm mr-1">
+                                                                <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-dark btn-sm mr-1 btn-flat">
                                                                     <i className="fas fa-eye"></i> Xem chi tiết
                                                             </Link>
                                                             </td>

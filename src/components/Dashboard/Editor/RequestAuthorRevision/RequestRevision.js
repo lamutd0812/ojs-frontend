@@ -45,7 +45,7 @@ const RequestRevision = (props) => {
                 <div>
                     <button
                         type="button"
-                        className="btn btn-outline-primary"
+                        className="btn btn-outline-primary btn-flat"
                         data-toggle="modal"
                         data-target="#confirmDialogModal">Gửi yêu cầu</button>
                 </div>

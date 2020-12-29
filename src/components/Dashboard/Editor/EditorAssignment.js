@@ -365,7 +365,7 @@ class EditorAssignment extends Component {
                                                                     </div>
                                                                     <div className="form-group">
                                                                         <Link to={`/dashboard/editor/assign-reviewer?submissionId=${this.props.submission._id}`}>
-                                                                            <button className="btn btn-outline-dark btn-block">
+                                                                            <button className="btn btn-outline-dark btn-block btn-flat">
                                                                                 <i className="fas fa-user"></i>{" "}Chỉ định thẩm định viên
                                                                             </button>
                                                                         </Link>
@@ -376,7 +376,7 @@ class EditorAssignment extends Component {
                                                     ) : (
                                                             <Aux>
                                                                 <div className="form-group">
-                                                                    <button className="btn btn-danger btn-block">
+                                                                    <button className="btn btn-danger btn-block btn-flat">
                                                                         <i className="fas fa-ban"></i> {" "}
                                                                     Bài báo đã hết hạn xử lý
                                                                 </button>
@@ -514,7 +514,7 @@ class EditorAssignment extends Component {
                                                                         {!this.state.canEdit ? (
                                                                             <button
                                                                                 type="button"
-                                                                                className="btn btn-outline-dark btn-block"
+                                                                                className="btn btn-outline-dark btn-block btn-flat"
                                                                                 onClick={(event) => this.openEditReviewPageHandler(event, this.props.editorAssignment.editorSubmissionId)}>
                                                                                 <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
                                                                             </button>
@@ -523,7 +523,7 @@ class EditorAssignment extends Component {
                                                                 ) : (
                                                                         <button
                                                                             type="button"
-                                                                            className="btn btn-outline-dark btn-block"
+                                                                            className="btn btn-outline-dark btn-block btn-flat"
                                                                             onClick={() => toast.error('Bài báo đã hết hạn xử lý!')}>
                                                                             <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
                                                                         </button>

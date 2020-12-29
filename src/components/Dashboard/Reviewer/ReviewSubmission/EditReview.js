@@ -61,13 +61,13 @@ const EditReview = (props) => {
             <div className="card-footer">
                 <button
                     type="button"
-                    className="btn btn-outline-primary"
+                    className="btn btn-outline-primary btn-flat"
                     data-toggle="modal"
                     data-target="#confirmDialogModal"
                     disabled={!props.formIsValid}> Chỉnh sửa ý kiến</button>
                 <button
                     type="button"
-                    className="btn btn-outline-danger ml-2"
+                    className="btn btn-outline-danger btn-flat ml-2"
                     onClick={props.cancelEdit}>Hủy</button>
             </div>
         </Aux>

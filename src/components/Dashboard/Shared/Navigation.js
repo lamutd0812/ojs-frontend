@@ -22,7 +22,7 @@ class Navigation extends Component {
                         <div className="input-group input-group-sm">
                             <input className="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" />
                             <div className="input-group-append">
-                                <button className="btn btn-navbar" type="submit">
+                                <button className="btn btn-navbar btn-flat" type="submit">
                                     <i className="fas fa-search"></i>
                                 </button>
                             </div>
@@ -72,7 +72,7 @@ class Navigation extends Component {
                                 <i className="fas fa-user"></i> {" "} {this.props.fullname}
                             </a>
                             <div className="dropdown-menu dropdown-menu-right mr-2">
-                                <NavLink to="/profile" className="dropdown-item">
+                                <NavLink to="dashboard/profile" className="dropdown-item">
                                     <i className="far fa-id-badge"></i> Trang cá nhân
                                 </NavLink>
                                 <div className="dropdown-divider"></div>

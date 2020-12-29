@@ -18,6 +18,7 @@ import AcceptSubmission from '../../components/Dashboard/ChiefEditor/AcceptSubmi
 import DeclineSubmission from '../../components/Dashboard/ChiefEditor/DeclineSubmission/DeclineSubmission';
 import VastStats from '../../components/Dashboard/VAST/VastStats';
 import Notifications from '../../components/Notifications/Notifications';
+import Profile from '../../components/Profile/Profile';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { USER_ROLES } from '../../utils/constant';
@@ -37,6 +38,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
                         <Route path="/dashboard/revise-submission/:submissionId" component={ReviseSubmission} />
                         <Route path="/dashboard/author" component={AuthorHome} />
+                        <Route path="/dashboard/profile" component={Profile} />
                         <Route exact path="/dashboard" component={AuthorHome} />
                         <Redirect to="/dashboard" />
                     </Switch>
@@ -52,6 +54,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/reviewer/assignment/:submissionId" component={ReviewerAssignment} />
                         <Route path="/dashboard/reviewer" component={ReviewerHome} />
                         <Route path="/dashboard/author" component={AuthorHome} />
+                        <Route path="/dashboard/profile" component={Profile} />
                         <Route exact path="/dashboard" component={AuthorHome} />
                         <Redirect to="/dashboard" />
                     </Switch>
@@ -68,6 +71,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/editor/assignment/:submissionId" component={EditorAssignment} />
                         <Route path="/dashboard/editor" component={EditorHome} />
                         <Route path="/dashboard/author" component={AuthorHome} />
+                        <Route path="/dashboard/profile" component={Profile} />
                         <Route exact path="/dashboard" component={AuthorHome} />
                         <Redirect to="/dashboard" />
                     </Switch>
@@ -84,6 +88,7 @@ class Dashboard extends Component {
                         <Route path="/dashboard/chief-editor/decline-submission/:submissionId" component={DeclineSubmission} />
                         <Route path="/dashboard/vast/statistics" component={VastStats} />
                         <Route path="/dashboard/chief-editor" component={ChiefEditorHome} />
+                        <Route path="/dashboard/profile" component={Profile} />
                         <Route exact path="/dashboard" component={ChiefEditorHome} />
                     </Switch>
                 );

@@ -197,8 +197,8 @@ class SubmissionDetail extends Component {
                                                             submission={this.props.submission}
                                                             hasAuthorRevision={this.props.authorAssignment.authorRevisionId ? true : false} />
                                                     ) : (
-                                                            <SubmissionInfor submission={this.props.submission} />
-                                                        )}
+                                                        <SubmissionInfor submission={this.props.submission} />
+                                                    )}
                                                 </div>
                                                 <div className="p-2 col-lg-4 border rounded">
                                                     <SubmissionFutherInfor submission={this.props.submission} />
@@ -306,7 +306,7 @@ class SubmissionDetail extends Component {
                                                                         {checkDueDate(this.props.authorAssignment.dueDate) ? (
                                                                             <Aux>
                                                                                 <Link to={`/dashboard/revise-submission/${this.props.submission._id}`}>
-                                                                                    <div className="btn btn-outline-primary btn-block">
+                                                                                    <div className="btn btn-outline-primary btn-block btn-flat">
                                                                                         <i className="fas fa-edit"></i> Nộp bản chỉnh sửa bài báo
                                                                                     </div>
                                                                                 </Link>
@@ -314,7 +314,7 @@ class SubmissionDetail extends Component {
                                                                         ) : (
                                                                                 <button
                                                                                     type="button"
-                                                                                    className="btn btn-outline-primary btn-block"
+                                                                                    className="btn btn-outline-primary btn-block btn-flat"
                                                                                     onClick={() => toast.error('Đã hết thời hạn nộp bản chỉnh sửa bài báo!')}>
                                                                                     <i className="fas fa-edit"></i> Nộp bản chỉnh sửa bài báo
                                                                                 </button>

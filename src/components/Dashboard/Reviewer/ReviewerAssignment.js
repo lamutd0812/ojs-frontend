@@ -302,7 +302,7 @@ class ReviewerAssignment extends Component {
                                                                         {!this.state.canEdit ? (
                                                                             <button
                                                                                 type="button"
-                                                                                className="btn btn-outline-dark btn-block"
+                                                                                className="btn btn-outline-dark btn-block btn-flat"
                                                                                 onClick={(event) => this.openEditReviewPageHandler(event, this.props.reviewerAssignment.reviewerSubmissionId)}>
                                                                                 <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
                                                                             </button>
@@ -311,7 +311,7 @@ class ReviewerAssignment extends Component {
                                                                 ) : (
                                                                         <button
                                                                             type="button"
-                                                                            className="btn btn-outline-dark btn-block"
+                                                                            className="btn btn-outline-dark btn-block btn-flat"
                                                                             onClick={() => toast.error('Bài báo đã hết hạn xử lý!')}>
                                                                             <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
                                                                         </button>

@@ -8,7 +8,7 @@ const Filter = (props) => {
                     <input type="text" name="table_search" className="form-control float-right" placeholder="Tìm kiếm"
                     onChange={props.searchInputChangeHandler} />
                     <div className="input-group-append">
-                        <button type="button" className="btn btn-default"><i className="fas fa-search"></i></button>
+                        <button type="button" className="btn btn-default btn-flat"><i className="fas fa-search"></i></button>
                     </div>
                 </div>
             </div>

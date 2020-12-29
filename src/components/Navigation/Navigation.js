@@ -120,7 +120,7 @@ class Navigation extends Component {
                                                             </NavLink>
                                                             <ul className="dropdown text-left">
                                                                 <li>
-                                                                    <NavLink to="#" style={{ fontSize: '14px', fontWeight: '400' }}>
+                                                                    <NavLink to="dashboard/profile" style={{ fontSize: '14px', fontWeight: '400' }}>
                                                                         <i className="far fa-id-badge"></i> Trang cá nhân
                                                                     </NavLink>
                                                                 </li>

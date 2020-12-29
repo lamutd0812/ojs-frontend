@@ -157,7 +157,7 @@ class AssignEditor extends Component {
                                                 <div className="input-group input-group-sm mb-2" style={{ width: '300px' }}>
                                                     <input type="text" className="form-control" placeholder="Tìm kiếm" />
                                                     <div className="input-group-append">
-                                                        <button type="submit" className="btn btn-default">
+                                                        <button type="submit" className="btn btn-default btn-flat">
                                                             <i className="fas fa-search"></i>
                                                         </button>
                                                     </div>
@@ -201,12 +201,12 @@ class AssignEditor extends Component {
                                                     </div>
                                                 ) : <Spinner />}
                                                 <button
-                                                    className="btn btn-outline-primary mt-3"
+                                                    className="btn btn-outline-primary mt-3 btn-flat"
                                                     disabled={this.state.selectedEditorId === ''}
                                                     onClick={this.step2ActiveHandler}>Lựa chọn</button>
                                                 {this.props.submission && (
                                                     <Link to={`/dashboard/submission/${this.props.submission._id}`}>
-                                                        <button className="btn btn-outline-danger mt-3 ml-2">Hủy</button>
+                                                        <button className="btn btn-outline-danger mt-3 ml-2 btn-flat">Hủy</button>
                                                     </Link>
                                                 )}
                                             </div>
@@ -247,11 +247,11 @@ class AssignEditor extends Component {
                                                 <div>
                                                     <button
                                                         type="button"
-                                                        className="btn btn-outline-primary"
+                                                        className="btn btn-outline-primary btn-flat"
                                                         data-toggle="modal"
                                                         data-target="#confirmDialogModal">Xác nhận</button>
                                                     <button
-                                                        className="btn btn-outline-danger ml-2"
+                                                        className="btn btn-outline-danger ml-2 btn-flat"
                                                         onClick={this.step1ActiveHandler}>Quay lại</button>
                                                 </div>
                                             </div>

@@ -40,8 +40,8 @@ const SubmissionInfor = (props) => {
             </h6>
             <div className="form-group ml-3">
                 <label>Danh sách đồng tác giả</label>
-                {props.submission.contributors.length > 0 ? props.submission.contributors.map(contributor => (
-                    <div className="row">
+                {props.submission.contributors.length > 0 ? props.submission.contributors.map((contributor, idx) => (
+                    <div className="row" key={idx}>
                         <div className="text-primary ml-4 font-weight-bold">
                             <i className="fas fa-user text-dark"></i> {" "}
                             {contributor.fullname} - {" "}
@@ -52,15 +52,13 @@ const SubmissionInfor = (props) => {
                     </div>
                 )) : <div className="ml-4 text-secondary">Không có đồng tác giả nào.</div>}
                 <label className="pt-3">Tài liệu kèm theo</label>
-                {props.submission.metadata.length > 0 ? props.submission.metadata.map(file => (
-                    <Aux>
-                        <div className="ml-4">
-                            <i className="fa fa-paperclip fa-lg"></i>
-                            <a href={file.url} className="text-primary" target="_blank" rel="noopener noreferrer">
-                                {" "}{file.filename}
-                            </a>
-                        </div>
-                    </Aux>
+                {props.submission.metadata.length > 0 ? props.submission.metadata.map((file, idx) => (
+                    <div className="ml-4" key={idx}>
+                        <i className="fa fa-paperclip fa-lg"></i>
+                        <a href={file.url} className="text-primary" target="_blank" rel="noopener noreferrer">
+                            {" "}{file.filename}
+                        </a>
+                    </div>
                 )) : <div className="ml-4 text-secondary">Không có tài liệu kèm theo nào.</div>}
             </div>
         </Aux>

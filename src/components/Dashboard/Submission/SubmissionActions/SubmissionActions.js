@@ -15,7 +15,7 @@ const SubmissionActions = (props) => {
                             <Link to={`/dashboard/edit-submission/${props.submission._id}`} className="btn btn-outline-secondary btn-sm mr-1">
                                 <i className="fas fa-pencil-alt"></i> Chỉnh sửa
                             </Link>
-                            <button className="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal">
+                            <button className="btn btn-outline-danger btn-flat btn-sm" data-toggle="modal" data-target="#deleteSubmissionModal">
                                 <i className="fas fa-trash"></i> Xóa bài báo
                             </button>
                         </Aux>
@@ -27,11 +27,11 @@ const SubmissionActions = (props) => {
                         </Aux>
                     ) : (
                         <Aux>
-                            <button className="btn btn-outline-secondary btn-sm mr-1"
+                            <button className="btn btn-outline-secondary btn-sm mr-1 btn-flat"
                                 onClick={() => toast.error('Không thể chỉnh sửa bài báo khi chưa có yêu cầu.')}>
                                         <i className="fas fa-pencil-alt"></i> Chỉnh sửa
                             </button>
-                            <button className="btn btn-outline-danger btn-sm"
+                            <button className="btn btn-outline-danger btn-sm btn-flat"
                                 onClick={() => toast.error('Không thể xóa bài báo trong thời gian thẩm định.')}>
                                         <i className="fas fa-trash"></i> Xóa bài báo
                             </button>

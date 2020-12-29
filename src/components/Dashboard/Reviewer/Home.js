@@ -107,17 +107,17 @@ class Home extends Component {
                                                             </td>
                                                             <td className="project-actions text-center">
                                                                 {ra.reviewerSubmissionId ? (
-                                                                    <Link to={`/dashboard/reviewer/assignment/${ra.submissionId._id}`} className="btn btn-outline-dark btn-sm mr-1">
+                                                                    <Link to={`/dashboard/reviewer/assignment/${ra.submissionId._id}`} className="btn btn-outline-dark btn-sm mr-1 btn-flat">
                                                                         <i className="fas fa-eye"></i> Xem
                                                                     </Link>
                                                                 ) : (
                                                                         <Aux>
                                                                             {!checkDueDate(ra.dueDate) ? (
-                                                                                <Link to={`/dashboard/reviewer/assignment/${ra.submissionId._id}`} className="btn btn-outline-dark btn-sm mr-1">
+                                                                                <Link to={`/dashboard/reviewer/assignment/${ra.submissionId._id}`} className="btn btn-outline-dark btn-flat btn-sm mr-1">
                                                                                     <i className="fas fa-eye"></i> Xem
                                                                                 </Link>
                                                                             ) : (
-                                                                                    <Link to={`/dashboard/reviewer/assignment/${ra.submissionId._id}`} className="btn btn-outline-dark btn-sm mr-1">
+                                                                                    <Link to={`/dashboard/reviewer/assignment/${ra.submissionId._id}`} className="btn btn-outline-dark btn-flat btn-sm mr-1">
                                                                                         <i className="fas fa-tasks"></i> Xử lý
                                                                                     </Link>
                                                                                 )}

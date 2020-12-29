@@ -7,7 +7,7 @@ import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../Shared/ContentHeader';
 import { getMyNotifications } from '../../../store/actions/authActions';
 import { getSubmissionDetail } from '../../../store/actions/submissionActions';
-import { getEditorAssignmentBySubmission, getChiefEditorSubmission } from '../../../store/actions/reviewActions';
+import { getEditorAssignmentBySubmission, getChiefEditorSubmission, getAuthorAssignmentBySubmission } from '../../../store/actions/reviewActions';
 import EditorialBoard from '../Submission/SubmissionInfor/EditorialBoard';
 import SubmissionFutherInfor from '../Submission/SubmissionInfor/SubmissionFutherInfor';
 import { getDecisionBadgeClassname, getDoughnutData, updateObject } from '../../../utils/utility';
@@ -27,6 +27,7 @@ class SubmissionDetail extends Component {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
         }
     }
@@ -35,6 +36,7 @@ class SubmissionDetail extends Component {
         if (this.props.match.params.submissionId !== prevProps.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
         }
     }
@@ -43,6 +45,7 @@ class SubmissionDetail extends Component {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
             this.props.getMyNotifications();
         }
@@ -131,19 +134,27 @@ class SubmissionDetail extends Component {
                                             {/* Row */}
                                             <div className="row pt-2">
                                                 <div className="p-2 col-lg-8 border rounded">
-                                                    <SubmissionInfor submission={this.props.submission} />
+                                                    {this.props.authorAssignment ? (
+                                                        <SubmissionInfor
+                                                            submission={this.props.submission}
+                                                            hasAuthorRevision={this.props.authorAssignment.authorRevisionId ? true : false} />
+                                                    ) : (
+                                                            <SubmissionInfor submission={this.props.submission} />
+                                                        )}
                                                 </div>
                                                 <div className="p-2 col-lg-4 border rounded">
-                                                    <h6><i className="fas fa-user"></i> Chỉ định biên tập viên</h6>
                                                     {!this.props.editorAssignment ? (
-                                                        <div className="form-group">
-                                                            <Link to={`/dashboard/chief-editor/assign-editor?submissionId=${this.props.submission._id}`}>
-                                                                <button className="btn btn-outline-dark btn-block">
-                                                                    <i className="fas fa-user"></i> {" "}
-                                                                    Chỉ định biên tập viên
-                                                                </button>
-                                                            </Link>
-                                                        </div>
+                                                        <Aux>
+                                                            <h6><i className="fas fa-user"></i> Chỉ định biên tập viên</h6>
+                                                            <div className="form-group">
+                                                                <Link to={`/dashboard/chief-editor/assign-editor?submissionId=${this.props.submission._id}`}>
+                                                                    <button className="btn btn-outline-dark btn-block btn-flat">
+                                                                        <i className="fas fa-user"></i> {" "}
+                                                                        Chỉ định biên tập viên
+                                                                    </button>
+                                                                </Link>
+                                                            </div>
+                                                        </Aux>
                                                     ) : null}
                                                     <h6><i className="fas fa-gavel"></i> QUYẾT ĐỊNH XUẤT BẢN</h6>
                                                     {this.props.chiefEditorSubmission ? (
@@ -157,7 +168,7 @@ class SubmissionDetail extends Component {
                                                             <Aux>
                                                                 <div className="form-group">
                                                                     <Link to={`/dashboard/chief-editor/accept-submission/${this.props.submission._id}`}>
-                                                                        <button className="btn btn-outline-primary btn-block">
+                                                                        <button className="btn btn-outline-primary btn-block btn-flat">
                                                                             <i className="fas fa-check"></i> {" "}
                                                                         Chấp nhận xuất bản
                                                                     </button>
@@ -165,7 +176,7 @@ class SubmissionDetail extends Component {
                                                                 </div>
                                                                 <div className="form-group">
                                                                     <Link to={`/dashboard/chief-editor/decline-submission/${this.props.submission._id}`}>
-                                                                        <button className="btn btn-outline-danger btn-block">
+                                                                        <button className="btn btn-outline-danger btn-block btn-flat">
                                                                             <i className="fas fa-times"></i>{" "}
                                                                         Từ chối bài báo
                                                                     </button>
@@ -260,6 +271,7 @@ const mapStateToProps = (state) => {
         editors: state.review.editors,
         editorAssignment: state.review.editorAssignment,
         reviewers: state.review.reviewers,
+        authorAssignment: state.review.authorAssignment,
         chiefEditorSubmission: state.review.chiefEditorSubmission
     }
 };
@@ -268,6 +280,7 @@ const mapDispatchToProps = {
     getSubmissionDetail,
     getEditorAssignmentBySubmission,
     getChiefEditorSubmission,
+    getAuthorAssignmentBySubmission,
     getMyNotifications
 };
 

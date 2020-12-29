@@ -20,12 +20,12 @@ const ConfirmDialog = (props) => {
                         </div>
                         <div className="modal-footer">
                             <button type="button"
-                                className="btn btn-outline-primary"
+                                className="btn btn-outline-primary btn-flat"
                                 data-dismiss="modal"
                                 onClick={props.confirm}>Đồng ý</button>
                             <button
                                 type="button"
-                                className="btn btn-outline-danger"
+                                className="btn btn-outline-danger btn-flat"
                                 data-dismiss="modal">Hủy</button>
                         </div>
                     </div>
