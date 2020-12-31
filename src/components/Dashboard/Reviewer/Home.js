@@ -74,7 +74,7 @@ class Home extends Component {
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: '1%' }}> #</th>
-                                                    <th style={{ width: '30%' }}> Bài Báo</th>
+                                                    <th style={{ width: '35%' }}> Bài Báo</th>
                                                     <th style={{ width: '15%' }} className="text-center"> Pha</th>
                                                     <th style={{ width: '15%' }} className="text-center"> Hạn xử lý</th>
                                                     <th style={{ width: '10%' }} className="text-center"> Trạng thái</th>
@@ -88,6 +88,8 @@ class Home extends Component {
                                                             <td style={{ cursor: 'pointer' }}><i className="fas fa-caret-down"></i></td>
                                                             <td>
                                                                 <b>{ra.submissionId.title}</b>
+                                                                <br />
+                                                                <small style={{ fontSize: '13px', color: 'red' }}><b className="text-dark">Thể loại:</b> {ra.submissionId.typeId.name}</small>
                                                             </td>
                                                             <td className="project-state">
                                                                 <span className={"badge " + getStageBadgeClassname(ra.submissionId.stageId.value)}>{ra.submissionId.stageId.name}</span>
@@ -102,8 +104,8 @@ class Home extends Component {
                                                                 {ra.reviewerSubmissionId ? (
                                                                     <span className="badge-ol badge-ol-success badge-outlined pt-2 pb-2 pl-3 pr-3"> Đã nộp ý kiến</span>
                                                                 ) : (
-                                                                    <span className="badge-ol badge-ol-danger badge-outlined p-2">Chưa nộp ý kiến</span>
-                                                                )}
+                                                                        <span className="badge-ol badge-ol-danger badge-outlined p-2">Chưa nộp ý kiến</span>
+                                                                    )}
                                                             </td>
                                                             <td className="project-actions text-center">
                                                                 {ra.reviewerSubmissionId ? (

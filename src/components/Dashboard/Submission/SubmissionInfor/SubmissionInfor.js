@@ -10,9 +10,19 @@ const SubmissionInfor = (props) => {
                 {props.hasAuthorRevision && <div className="badge-ol badge-ol-secondary badge-outlined mb-1"> Bản chỉnh sửa</div>}
             </h6>
             <div className="form-group ml-3">
-                <label>Thể loại</label>
+                <label>Loại bài báo</label>
                 <Link to="#">
-                    <div className="ml-4 text-success">{props.submission.categoryId.name}</div>
+                    <div className="ml-4 text-danger">
+                        <div className="badge-ol badge-ol-danger badge-outlined mb-1 pl-3 pr-3 pt-2 pb-2">
+                            {props.submission.typeId.name}
+                        </div>
+                    </div>
+                </Link>
+            </div>
+            <div className="form-group ml-3">
+                <label>Lĩnh vực nghiên cứu</label>
+                <Link to="#">
+                    <div className="ml-4 text-danger">{props.submission.categoryId.name}</div>
                 </Link>
             </div>
             <div className="form-group ml-3">
@@ -26,7 +36,7 @@ const SubmissionInfor = (props) => {
                 </p>
             </div>
             <div className="form-group ml-3">
-                <label>File đính kèm</label>
+                <label>File bài báo</label>
                 <p className="ml-4">
                     <i className="fa fa-paperclip fa-lg"></i>
                     <a href={props.submission.attachmentUrl} className="text-primary" target="_blank" rel="noopener noreferrer">

@@ -140,6 +140,18 @@ export const submitArticleInputControls = {
     categoryId: {
         elementConfig: {
             type: 'text',
+            placeholder: 'Chọn lĩnh vực nghiên cứu'
+        },
+        value: '',
+        validation: {
+            required: true
+        },
+        valid: true,
+        touched: false
+    },
+    typeId: {
+        elementConfig: {
+            type: 'text',
             placeholder: 'Chọn thể loại'
         },
         value: '',
@@ -199,6 +211,19 @@ export const editSubmissionInputControls = {
         },
         value: '',
         categoryName: '',
+        validation: {
+            required: true
+        },
+        valid: true,
+        touched: false
+    },
+    typeId: {
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Chọn thể loại'
+        },
+        value: '',
+        typeName: '',
         validation: {
             required: true
         },

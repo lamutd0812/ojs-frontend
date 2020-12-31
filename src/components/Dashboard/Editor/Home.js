@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { checkDueDate, getDoughnutData, getFormattedDate, getFormattedDateOnly, getStageBadgeClassname } from '../../../utils/utility';
 import { Doughnut } from 'react-chartjs-2';
 import Pagination from '../../UI/Pagination/Pagination';
+import { SUBMISSION_TYPES } from '../../../utils/constant';
 
 const ITEMS_PER_PAGE = 8;
 class Home extends Component {
@@ -80,8 +81,8 @@ class Home extends Component {
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: '1%' }}> #</th>
-                                                    <th style={{ width: '30%' }}> Bài Báo</th>
-                                                    <th style={{ width: '15%' }} className="text-center"> Pha</th>
+                                                    <th style={{ width: '35%' }}> Bài Báo</th>
+                                                    <th style={{ width: '10%' }} className="text-center"> Pha</th>
                                                     <th style={{ width: '15%' }} className="text-center"> Thẩm định viên</th>
                                                     <th style={{ width: '10%' }} className="text-center"> Hạn xử lý</th>
                                                     <th style={{ width: '15%' }} className="text-center"> Trạng thái</th>
@@ -95,13 +96,24 @@ class Home extends Component {
                                                             <td style={{ cursor: 'pointer' }}><i className="fas fa-caret-down"></i></td>
                                                             <td>
                                                                 <b>{ea.submissionId.title}</b>
+                                                                <br />
+                                                                {/* <div className="badge-ol badge-ol-danger badge-outlined mb-1 pt-1 pb-1 pl-2 pr-2">
+                                                                    {ea.submissionId.typeId.name}
+                                                                </div> */}
+                                                                <small style={{ fontSize: '13px', color: 'red' }}><b className="text-dark">Thể loại:</b> {ea.submissionId.typeId.name}</small>
                                                             </td>
                                                             <td className="project-state">
                                                                 <span className={"badge " + getStageBadgeClassname(ea.submissionId.stageId.value)}>{ea.submissionId.stageId.name}</span>
                                                             </td>
                                                             <td className="text-center">
-                                                                <i className="fas fa-user"></i> {" "}
-                                                                <span>{ea.reviewerAssignmentId.length}/3</span>
+                                                                {ea.submissionId.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
+                                                                    <Aux>
+                                                                        <i className="fas fa-user"></i> {" "}
+                                                                        <span>{ea.reviewerAssignmentId.length}/3</span>
+                                                                    </Aux>
+                                                                ) : (
+                                                                        <span>Không yêu cầu</span>
+                                                                    )}
                                                             </td>
                                                             <td className="text-center">
                                                                 <span>{getFormattedDateOnly(ea.dueDate)}</span>
@@ -179,50 +191,70 @@ class Home extends Component {
                                                                                 </div>
                                                                             </div>
                                                                             <div className="form-group">
-                                                                                <label>Thẩm định viên ({ea.reviewerAssignmentId.length}/3)</label>
-                                                                                {ea.reviewerAssignmentId.length > 0 ? (
-                                                                                    <div className="ml-4">
-                                                                                        {ea.reviewerAssignmentId.map(ra => (
-                                                                                            <Link to="#" key={ra._id}>
-                                                                                                <div className="text-primary"><i className="fas fa-user text-dark"></i> {" "}
-                                                                                                    {ra.reviewerId.lastname} {ra.reviewerId.firstname}
+                                                                                {ea.submissionId.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
+                                                                                    <Aux>
+                                                                                        <label>Thẩm định viên ({ea.reviewerAssignmentId.length}/3)</label>
+                                                                                        {ea.reviewerAssignmentId.length > 0 ? (
+                                                                                            <div className="ml-4">
+                                                                                                {ea.reviewerAssignmentId.map(ra => (
+                                                                                                    <Link to="#" key={ra._id}>
+                                                                                                        <div className="text-primary"><i className="fas fa-user text-dark"></i> {" "}
+                                                                                                            {ra.reviewerId.lastname} {ra.reviewerId.firstname}
+                                                                                                        </div>
+                                                                                                    </Link>
+                                                                                                ))}
+                                                                                            </div>
+                                                                                        ) : (
+                                                                                                <div className="ml-4">
+                                                                                                    <div>Thẩm định viên chưa được chỉ định</div>
                                                                                                 </div>
-                                                                                            </Link>
-                                                                                        ))}
-                                                                                    </div>
+                                                                                            )}
+                                                                                    </Aux>
                                                                                 ) : (
-                                                                                        <div className="ml-4">
-                                                                                            <div>Thẩm định viên chưa được chỉ định</div>
-                                                                                        </div>
+                                                                                        <Aux>
+                                                                                            <label>Thẩm định viên</label>
+                                                                                            <div className="ml-4">Khong yêu cầu</div>
+                                                                                        </Aux>
                                                                                     )}
                                                                             </div>
                                                                         </div>
                                                                         <div className="col-lg-4 border rounded pt-2 pb-2">
                                                                             <label>Ý kiến thẩm định viên</label>
                                                                             <div className="form-group">
-                                                                                {ea.reviewerAssignmentId.length > 0 ? (
+                                                                                {ea.submissionId.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
                                                                                     <Aux>
-                                                                                        <Doughnut
-                                                                                            // data={data}
-                                                                                            data={this.fetchDoughnutData(ea.reviewerAssignmentId)}
-                                                                                            options={{
-                                                                                                responsive: true,
-                                                                                                maintainAspectRatio: true,
-                                                                                                legend: {
-                                                                                                    labels: {
-                                                                                                        fontSize: 10,
-                                                                                                        fontFamily: 'Roboto Slab'
-                                                                                                    }
-                                                                                                }
-                                                                                            }}
-                                                                                        />
-                                                                                        <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="text-primary"><u>Xem chi tiết</u></Link>
+                                                                                        {ea.reviewerAssignmentId.length > 0 ? (
+                                                                                            <Aux>
+                                                                                                <Doughnut
+                                                                                                    // data={data}
+                                                                                                    data={this.fetchDoughnutData(ea.reviewerAssignmentId)}
+                                                                                                    options={{
+                                                                                                        responsive: true,
+                                                                                                        maintainAspectRatio: true,
+                                                                                                        legend: {
+                                                                                                            labels: {
+                                                                                                                fontSize: 10,
+                                                                                                                fontFamily: 'Roboto Slab'
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }}
+                                                                                                />
+                                                                                                <Link to={`/dashboard/editor/assignment/${ea.submissionId._id}`} className="text-primary"><u>Xem chi tiết</u></Link>
+                                                                                            </Aux>
+                                                                                        ) : (
+                                                                                                <div className="ml-4">
+                                                                                                    <div>Thẩm định viên chưa được chỉ định</div>
+                                                                                                </div>
+                                                                                            )}
                                                                                     </Aux>
                                                                                 ) : (
+                                                                                    <Aux>
                                                                                         <div className="ml-4">
-                                                                                            <div>Thẩm định viên chưa được chỉ định</div>
+                                                                                            <div>Không yêu cầu</div>
                                                                                         </div>
-                                                                                    )}
+                                                                                    </Aux>
+                                                                                )}
+
                                                                             </div>
                                                                         </div>
                                                                     </div>

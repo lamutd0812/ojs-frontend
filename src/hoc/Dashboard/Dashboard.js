@@ -69,6 +69,8 @@ class Dashboard extends Component {
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
                         <Route path="/dashboard/editor/assign-reviewer" component={AssignReviewer} />
                         <Route path="/dashboard/editor/assignment/:submissionId" component={EditorAssignment} />
+                        <Route path="/dashboard/editor/accept-submission/:submissionId" component={AcceptSubmission} />
+                        <Route path="/dashboard/editor/decline-submission/:submissionId" component={DeclineSubmission} />
                         <Route path="/dashboard/editor" component={EditorHome} />
                         <Route path="/dashboard/author" component={AuthorHome} />
                         <Route path="/dashboard/profile" component={Profile} />

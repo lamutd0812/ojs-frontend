@@ -65,10 +65,6 @@ exports.EDITOR_DECISION = {
         decisionName: 'Chấp nhận bài báo',
         value: 1
     },
-    REVISION_REQUIRED: {
-        decisionName: 'Yêu cầu chỉnh sửa',
-        value: 2
-    },
     DECLINE_SUBMISSION: {
         decisionName: 'Từ chối bài báo',
         value: 0
@@ -107,3 +103,15 @@ exports.orgList = [
         ]
     }
 ];
+
+exports.SUBMISSION_TYPES = {
+    PUBLISHED_RESEARCH: {
+        name: 'Published Research'
+    },
+    PREPRINT: {
+        name: 'Preprint'
+    },
+    PEER_REVIEW_RESEARCH: {
+        name: 'Peer-review Research'
+    }
+};

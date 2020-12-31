@@ -16,6 +16,7 @@ import ReviewerSubmissions from '../Editor/ReviewerSubmissions/ReviewerSubmissio
 import { Doughnut } from 'react-chartjs-2';
 import EditorSubmissionDetail from './EditorialBoardSubmissions/EditorSubmissionDetail';
 import CESubmissionDetail from './EditorialBoardSubmissions/CESubmisisonDetail';
+import { SUBMISSION_TYPES } from '../../../utils/constant';
 class SubmissionDetail extends Component {
 
     state = {
@@ -156,34 +157,38 @@ class SubmissionDetail extends Component {
                                                             </div>
                                                         </Aux>
                                                     ) : null}
-                                                    <h6><i className="fas fa-gavel"></i> QUYẾT ĐỊNH XUẤT BẢN</h6>
-                                                    {this.props.chiefEditorSubmission ? (
-                                                        <div className="form-group ml-3">
-                                                            <span className={getDecisionBadgeClassname(this.props.chiefEditorSubmission.chiefEditorDecisionId.value)}>
-                                                                <i className="fas fa-check"></i> {" "}
-                                                                {this.props.chiefEditorSubmission.chiefEditorDecisionId.decisionName}
-                                                            </span>
-                                                        </div>
-                                                    ) : (
-                                                            <Aux>
-                                                                <div className="form-group">
-                                                                    <Link to={`/dashboard/chief-editor/accept-submission/${this.props.submission._id}`}>
-                                                                        <button className="btn btn-outline-primary btn-block btn-flat">
-                                                                            <i className="fas fa-check"></i> {" "}
-                                                                        Chấp nhận xuất bản
-                                                                    </button>
-                                                                    </Link>
+                                                    {this.props.submission.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
+                                                        <Aux>
+                                                            <h6><i className="fas fa-gavel"></i> QUYẾT ĐỊNH XUẤT BẢN</h6>
+                                                            {this.props.chiefEditorSubmission ? (
+                                                                <div className="form-group ml-3">
+                                                                    <span className={getDecisionBadgeClassname(this.props.chiefEditorSubmission.chiefEditorDecisionId.value)}>
+                                                                        <i className="fas fa-check"></i> {" "}
+                                                                        {this.props.chiefEditorSubmission.chiefEditorDecisionId.decisionName}
+                                                                    </span>
                                                                 </div>
-                                                                <div className="form-group">
-                                                                    <Link to={`/dashboard/chief-editor/decline-submission/${this.props.submission._id}`}>
-                                                                        <button className="btn btn-outline-danger btn-block btn-flat">
-                                                                            <i className="fas fa-times"></i>{" "}
-                                                                        Từ chối bài báo
-                                                                    </button>
-                                                                    </Link>
-                                                                </div>
-                                                            </Aux>
-                                                        )}
+                                                            ) : (
+                                                                <Aux>
+                                                                    <div className="form-group">
+                                                                        <Link to={`/dashboard/chief-editor/accept-submission/${this.props.submission._id}`}>
+                                                                            <button className="btn btn-outline-primary btn-block btn-flat">
+                                                                                <i className="fas fa-check"></i> {" "}
+                                                                                Chấp nhận xuất bản
+                                                                             </button>
+                                                                        </Link>
+                                                                    </div>
+                                                                    <div className="form-group">
+                                                                        <Link to={`/dashboard/chief-editor/decline-submission/${this.props.submission._id}`}>
+                                                                            <button className="btn btn-outline-danger btn-block btn-flat">
+                                                                                <i className="fas fa-times"></i>{" "}
+                                                                                Từ chối bài báo
+                                                                            </button>
+                                                                        </Link>
+                                                                    </div>
+                                                                </Aux>        
+                                                            )}
+                                                        </Aux>
+                                                    ) : null}
                                                     <SubmissionFutherInfor submission={this.props.submission} />
                                                 </div>
                                             </div>

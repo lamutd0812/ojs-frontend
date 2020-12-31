@@ -20,6 +20,13 @@ const getCategoriesSuccess = (categories) => {
     }
 };
 
+const getSubmissionTypesSuccess = (types) => {
+    return {
+        type: actionTypes.GET_SUBMISSION_TYPES_SUCCESS,
+        types: types
+    }
+};
+
 const getReviewerDecisionsSuccess = (reviewerDecisions) => {
     return {
         type: actionTypes.GET_REVIEWER_DECISIONS_SUCCESS,
@@ -102,6 +109,16 @@ export const getCategories = () => (dispatch) => {
     axios.get('/categories')
         .then(res => {
             dispatch(getCategoriesSuccess(res.data.categories));
+        })
+        .catch(err => {
+            dispatch(submissionErrors(err.message));
+        });
+};
+
+export const getSubmissionTypes = () => (dispatch) => {
+    axios.get('/submission-types')
+        .then(res => {
+            dispatch(getSubmissionTypesSuccess(res.data.types));
         })
         .catch(err => {
             dispatch(submissionErrors(err.message));

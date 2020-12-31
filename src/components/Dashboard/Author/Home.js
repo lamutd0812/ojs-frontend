@@ -125,9 +125,10 @@ class Home extends Component {
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: '1%' }}> #</th>
-                                                    <th style={{ width: '34%' }}> Bài Báo</th>
+                                                    <th style={{ width: '29%' }}> Bài Báo</th>
+                                                    <th style={{ width: '15%' }}> Thể loại</th>
                                                     <th style={{ width: '20%' }} className="text-center"> Pha</th>
-                                                    <th style={{ width: '25%' }} className="text-center"> Trạng thái</th>
+                                                    <th style={{ width: '15%' }} className="text-center"> Trạng thái</th>
                                                     <th style={{ width: '20%' }} className="text-center"> Chi tiết</th>
                                                 </tr>
                                             </thead>
@@ -137,9 +138,12 @@ class Home extends Component {
                                                         <tr data-toggle="collapse" data-target={`#aaa${submission._id}`} className="accordion-toggle" aria-expanded="true" aria-controls="collapseOne">
                                                             <td style={{ cursor: 'pointer' }}><i className="fas fa-caret-down"></i></td>
                                                             <td>
-                                                                {submission.title}
+                                                                <Link to="#">{submission.title}</Link>
                                                                 <br />
-                                                                <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
+                                                                <small style={{ fontSize: '12px' }}><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
+                                                            </td>
+                                                            <td className="text-danger">
+                                                                {submission.typeId.name}
                                                             </td>
                                                             <td className="project-state text-center">
                                                                 <span className={"badge " + getStageBadgeClassname(submission.stageId.value)}>{submission.stageId.name}</span>

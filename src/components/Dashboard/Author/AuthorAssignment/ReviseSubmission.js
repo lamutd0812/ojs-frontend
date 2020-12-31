@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { updateObject } from '../../../../utils/utility';
 import {
     getCategories,
+    getSubmissionTypes,
     getSubmissionDetail
 } from '../../../../store/actions/submissionActions';
 import {
@@ -35,6 +36,7 @@ class ReviseSubmission extends Component {
 
     componentDidMount() {
         this.props.getCategories();
+        this.props.getSubmissionTypes();
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
         }
@@ -43,6 +45,7 @@ class ReviseSubmission extends Component {
     initControlValues = (submission) => {
         const updatedControls = updateObject(this.state.controls, {
             categoryId: updateObject(this.state.controls.categoryId, { value: submission.categoryId._id, categoryName: submission.categoryId.name }),
+            typeId: updateObject(this.state.controls.typeId, { value: submission.typeId._id, typeName: submission.typeId.name }),
             title: updateObject(this.state.controls.title, { value: submission.title }),
             abstract: updateObject(this.state.controls.abstract, { value: submission.abstract }),
             attachment: updateObject(this.state.controls.attachment, { filename: submission.attachmentFile })
@@ -149,6 +152,7 @@ class ReviseSubmission extends Component {
         formData.append('abstract', this.state.controls.abstract.value);
         formData.append('attachment', this.state.controls.attachment.file);
         formData.append('categoryId', this.state.controls.categoryId.value);
+        formData.append('typeId', this.state.controls.typeId.value);
         const data = JSON.stringify({ data: this.state.contributors });
         formData.append('contributors', data);
         for (const file of this.state.metadata) {
@@ -199,6 +203,24 @@ class ReviseSubmission extends Component {
                                             {/* ------------------Tab 1----------------- */}
                                             <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
                                                 <div className="card-body">
+                                                    {this.props.types.length > 0 ? (
+                                                        <div className="form-group">
+                                                            <label>Loại bài báo*</label>
+                                                            <select
+                                                                name="typeId"
+                                                                defaultValue={this.value}
+                                                                className="custom-select form-control"
+                                                                onChange={this.inputChangeHandler}
+                                                            >
+                                                                <option value="" hidden>{this.state.controls.typeId.typeName}</option>
+                                                                {this.props.types.map(type => (
+                                                                    <option key={type._id} value={type._id}>
+                                                                        {type.name}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
+                                                    ) : null}
                                                     {this.props.categories.length > 0 ? (
                                                         <div className="form-group">
                                                             <label>Thể loại*</label>
@@ -422,6 +444,7 @@ class ReviseSubmission extends Component {
 const mapStateToProps = (state) => {
     return {
         categories: state.submission.categories,
+        types: state.submission.types,
         submission: state.submission.submission,
         loading: state.review.loading,
         fileUploading: state.review.fileUploading,
@@ -432,6 +455,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getCategories,
+    getSubmissionTypes,
     getSubmissionDetail,
     authorCreateRevision,
     resetAuthorRevisionState

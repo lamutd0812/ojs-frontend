@@ -68,7 +68,7 @@ class Articles extends Component {
                                                             <div className="post-content">
                                                                 <div className="post-meta">
                                                                     <p>{getFormattedDateOnly(article.publishedDate)}</p>
-                                                                    <p>{article.categoryId.name}</p>
+                                                                    <p>{article.submissionId.categoryId.name}</p>
                                                                 </div>
                                                                 <Link to={`/single-article/${article._id}`} className="post-title">
                                                                     {article.submissionId.title}

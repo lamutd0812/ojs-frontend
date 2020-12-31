@@ -4,7 +4,7 @@ import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import Spinner from '../../UI/Spinner/Spinner';
 import { connect } from 'react-redux';
 import { updateObject } from '../../../utils/utility';
-import { getCategories, getSubmissionDetail, editSubmission, resetEditSubmissionState } from '../../../store/actions/submissionActions';
+import { getCategories, getSubmissionTypes, getSubmissionDetail, editSubmission, resetEditSubmissionState } from '../../../store/actions/submissionActions';
 import { Link } from 'react-router-dom';
 import ContentHeader from '../Shared/ContentHeader';
 import { toast } from 'react-toastify';
@@ -29,6 +29,7 @@ class EditSubmission extends Component {
 
     componentDidMount() {
         this.props.getCategories();
+        this.props.getSubmissionTypes();
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
         }
@@ -37,6 +38,7 @@ class EditSubmission extends Component {
     initControlValues = (submission) => {
         const updatedControls = updateObject(this.state.controls, {
             categoryId: updateObject(this.state.controls.categoryId, { value: submission.categoryId._id, categoryName: submission.categoryId.name }),
+            typeId: updateObject(this.state.controls.typeId, { value: submission.typeId._id, typeName: submission.typeId.name }),
             title: updateObject(this.state.controls.title, { value: submission.title }),
             abstract: updateObject(this.state.controls.abstract, { value: submission.abstract }),
             attachment: updateObject(this.state.controls.attachment, { filename: submission.attachmentFile })
@@ -143,6 +145,7 @@ class EditSubmission extends Component {
         formData.append('abstract', this.state.controls.abstract.value);
         formData.append('attachment', this.state.controls.attachment.file);
         formData.append('categoryId', this.state.controls.categoryId.value);
+        formData.append('typeId', this.state.controls.typeId.value);
         const data = JSON.stringify({ data: this.state.contributors });
         formData.append('contributors', data);
         for (const file of this.state.metadata) {
@@ -191,9 +194,27 @@ class EditSubmission extends Component {
                                             {/* ------------------Tab 1----------------- */}
                                             <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
                                                 <div className="card-body">
+                                                    {this.props.types.length > 0 ? (
+                                                        <div className="form-group">
+                                                            <label>Loại bài báo*</label>
+                                                            <select
+                                                                name="typeId"
+                                                                defaultValue={this.value}
+                                                                className="custom-select form-control"
+                                                                onChange={this.inputChangeHandler}
+                                                            >
+                                                                <option value="" hidden>{this.state.controls.typeId.typeName}</option>
+                                                                {this.props.types.map(type => (
+                                                                    <option key={type._id} value={type._id}>
+                                                                        {type.name}
+                                                                    </option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
+                                                    ) : null}
                                                     {this.props.categories.length > 0 ? (
                                                         <div className="form-group">
-                                                            <label>Thể loại*</label>
+                                                            <label>Lĩnh vực nghiên cứu*</label>
                                                             <select
                                                                 name="categoryId"
                                                                 defaultValue={this.value}
@@ -414,6 +435,7 @@ class EditSubmission extends Component {
 const mapStateToProps = (state) => {
     return {
         categories: state.submission.categories,
+        types: state.submission.types,
         isSubmissionEdited: state.submission.isSubmissionEdited,
         submission: state.submission.submission,
         loading: state.submission.loading,
@@ -424,6 +446,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getCategories,
+    getSubmissionTypes,
     getSubmissionDetail,
     editSubmission,
     resetEditSubmissionState

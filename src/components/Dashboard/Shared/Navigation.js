@@ -72,7 +72,7 @@ class Navigation extends Component {
                                 <i className="fas fa-user"></i> {" "} {this.props.fullname}
                             </a>
                             <div className="dropdown-menu dropdown-menu-right mr-2">
-                                <NavLink to="dashboard/profile" className="dropdown-item">
+                                <NavLink to="/dashboard/profile" className="dropdown-item">
                                     <i className="far fa-id-badge"></i> Trang cá nhân
                                 </NavLink>
                                 <div className="dropdown-divider"></div>

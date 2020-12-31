@@ -84,9 +84,10 @@ class Home extends Component {
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: '1%' }}> #</th>
-                                                    <th style={{ width: '25%' }}> Bài Báo</th>
+                                                    <th style={{ width: '30%' }}> Bài Báo</th>
+                                                    <th style={{ width: '15%' }}> Thể loại</th>
                                                     <th style={{ width: '15%' }} className="text-center"> Tác giả</th>
-                                                    <th style={{ width: '15%' }} className="text-center"> Pha</th>
+                                                    <th style={{ width: '10%' }} className="text-center"> Pha</th>
                                                     <th style={{ width: '15%' }} className="text-center"> Trạng thái</th>
                                                     <th style={{ width: '20%' }} className="text-center"> Action</th>
                                                 </tr>
@@ -99,7 +100,10 @@ class Home extends Component {
                                                             <td>
                                                                 <Link to="#">{submission.title}</Link>
                                                                 <br />
-                                                                <small><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
+                                                                <small style={{ fontSize: '12px' }}><b>Ngày đăng:</b> {getFormattedDate(submission.createdAt)}</small>
+                                                            </td>
+                                                            <td className="text-danger">
+                                                                {submission.typeId.name}
                                                             </td>
                                                             <td className="text-center">
                                                                 <Link to="#" className="text-primary">{submission.authorId.lastname} {submission.authorId.firstname}</Link>

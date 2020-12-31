@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { connect } from 'react-redux';
 import { updateObject } from '../../../utils/utility';
-import { getCategories, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submissionActions';
+import { getCategories, getSubmissionTypes, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submissionActions';
 import { submitArticleInputControls } from '../../../utils/input-controls';
 import { submitArticleInputChangeHandler } from '../../../utils/input-change';
 import AddContributor from './AddContributor/AddContributor';
@@ -31,6 +31,7 @@ class SubmitArticle extends Component {
 
     componentDidMount() {
         this.props.getCategories();
+        this.props.getSubmissionTypes();
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -145,6 +146,7 @@ class SubmitArticle extends Component {
         formData.append('abstract', this.state.controls.abstract.value);
         formData.append('attachment', this.state.controls.attachment.file);
         formData.append('categoryId', this.state.controls.categoryId.value);
+        formData.append('typeId', this.state.controls.typeId.value);
         const data = JSON.stringify({ data: this.state.contributors });
         formData.append('contributors', data);
         for (const file of this.state.metadata) {
@@ -235,9 +237,25 @@ class SubmitArticle extends Component {
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
                                             <div className="card-body">
+                                                {this.props.types.length > 0 ? (
+                                                    <div className="form-group">
+                                                        <label>Loại bài báo*</label>
+                                                        <select
+                                                            name="typeId"
+                                                            className="custom-select form-control"
+                                                            onChange={this.inputChangeHandler}
+                                                        >
+                                                            {this.props.types.map(type => (
+                                                                <option key={type._id} value={type._id}>
+                                                                    {type.name}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                ) : null}
                                                 {this.props.categories.length > 0 ? (
                                                     <div className="form-group">
-                                                        <label>Thể loại*</label>
+                                                        <label>Lĩnh vực nghiên cứu*</label>
                                                         <select
                                                             name="categoryId"
                                                             className="custom-select form-control"
@@ -276,7 +294,7 @@ class SubmitArticle extends Component {
                                                         <p className="form-control-error-msg">Mô tả không hợp lệ!</p> : null}
                                                 </div>
                                                 <div className="form-group">
-                                                    <label>File đính kèm*</label>
+                                                    <label>File bài báo*</label>
                                                     <div className="input-group">
                                                         <div className="custom-file">
                                                             <input
@@ -442,6 +460,7 @@ class SubmitArticle extends Component {
 const mapStateToProps = (state) => {
     return {
         categories: state.submission.categories,
+        types: state.submission.types,
         isSubmissionCreated: state.submission.isSubmissionCreated,
         submission: state.submission.submission,
         fileUploading: state.submission.fileUploading,
@@ -451,6 +470,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getCategories,
+    getSubmissionTypes,
     createSubmission,
     resetCreateSubmissionState
 };
