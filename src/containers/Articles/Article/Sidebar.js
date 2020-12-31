@@ -6,15 +6,6 @@ const Sidebar = (props) => {
     return (
         <Aux>
             <div className="post-sidebar-area right-sidebar mt-30 mb-30 box-shadow">
-                {/* <div className="single-sidebar-widget p-30">
-                    <div className="social-followers-info">
-                        <a href="a" className="facebook-fans"><i className="fa fa-facebook"></i> 4,360 <span>Fans</span></a>
-                        <a href="a" className="twitter-followers"><i className="fa fa-twitter"></i> 3,280 <span>Followers</span></a>
-                        <a href="a" className="youtube-subscribers"><i className="fa fa-youtube"></i> 1250 <span>Subscribers</span></a>
-                        <a href="a" className="google-followers"><i className="fa fa-google-plus"></i> 4,230 <span>Followers</span></a>
-                    </div>
-                </div> */}
-
                 <div className="single-sidebar-widget p-30">
                     <div className="section-heading" style={{ paddingRight: '10px' }}>
                         <h5>Tải xuống bài báo</h5>
@@ -62,14 +53,14 @@ const Sidebar = (props) => {
                                     {article.submissionId.title}
                                 </Link>
                                 <div className="post-meta">
-                                    <Link to="#" className="text-secondary" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-user"></i>{" "}
                                         {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
                                     </Link>
-                                    <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
                                     </Link>
-                                    <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                     </Link>
                                 </div>
@@ -89,14 +80,14 @@ const Sidebar = (props) => {
                                     {article.submissionId.title}
                                 </Link>
                                 <div className="post-meta">
-                                    <Link to="#" className="text-secondary" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-user"></i>{" "}
                                         {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
                                     </Link>
-                                    <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
                                     </Link>
-                                    <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                     </Link>
                                 </div>

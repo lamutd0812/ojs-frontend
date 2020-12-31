@@ -126,10 +126,10 @@ class SubmissionDetail extends Component {
                                                             editorAssignment={this.props.editorAssignment}
                                                             reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
                                                     ) : (
-                                                            <EditorialBoard
-                                                                submission={this.props.submission}
-                                                                editorAssignment={this.props.editorAssignment} />
-                                                        )}
+                                                        <EditorialBoard
+                                                            submission={this.props.submission}
+                                                            editorAssignment={this.props.editorAssignment} />
+                                                    )}
                                                 </div>
                                             </div>
                                             {/* Row */}
@@ -163,7 +163,6 @@ class SubmissionDetail extends Component {
                                                             {this.props.chiefEditorSubmission ? (
                                                                 <div className="form-group ml-3">
                                                                     <span className={getDecisionBadgeClassname(this.props.chiefEditorSubmission.chiefEditorDecisionId.value)}>
-                                                                        <i className="fas fa-check"></i> {" "}
                                                                         {this.props.chiefEditorSubmission.chiefEditorDecisionId.decisionName}
                                                                     </span>
                                                                 </div>

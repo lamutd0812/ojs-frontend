@@ -26,17 +26,20 @@ const MainPosts = (props) => {
                         <div className="single-featured-post" key={article._id}>
                             <div className="post-content">
                                 <div className="post-meta">
-                                    <p>{getFormattedDateOnly(article.publishedDate)}</p>
+                                    <p>{article.submissionId.typeId.name}</p>
                                     <Link to="#"><p>{article.submissionId.categoryId.name}</p></Link>
                                     <br />
-                                    <Link to="#" className="text-secondary" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-user"></i>{" "}
                                         {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
                                     </Link>
-                                    <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
+                                        <i className="fas fa-clock" aria-hidden="true"></i> {getFormattedDateOnly(article.publishedDate)}
+                                    </Link>
+                                    <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
                                     </Link>
-                                    <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                     </Link>
                                 </div>
@@ -71,17 +74,20 @@ const MainPosts = (props) => {
                         <div className="single-featured-post" key={article._id}>
                             <div className="post-content">
                                 <div className="post-meta">
-                                    <p>{getFormattedDateOnly(article.publishedDate)}</p>
+                                    <p>{article.submissionId.typeId.name}</p>
                                     <Link to="#"><p>{article.submissionId.categoryId.name}</p></Link>
                                     <br />
-                                    <Link to="#" className="text-secondary" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-user"></i>{" "}
                                         {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
                                     </Link>
-                                    <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
+                                        <i className="fas fa-clock" aria-hidden="true"></i> {getFormattedDateOnly(article.publishedDate)}
+                                    </Link>
+                                    <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
                                     </Link>
-                                    <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                    <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                     </Link>
                                 </div>
@@ -110,14 +116,14 @@ const MainPosts = (props) => {
                                         {article.submissionId.title}
                                     </Link>
                                     <div className="post-meta">
-                                        <Link to="#" className="text-secondary" style={{ fontWeight: '400' }}>
+                                        <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                             <i className="fas fa-user"></i>{" "}
                                             {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
                                         </Link>
-                                        <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                        <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                             <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
                                         </Link>
-                                        <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                        <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                             <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                         </Link>
                                     </div>

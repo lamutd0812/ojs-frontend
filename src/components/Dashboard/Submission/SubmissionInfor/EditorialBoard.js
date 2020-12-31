@@ -45,7 +45,7 @@ const EditorialBoard = (props) => {
                 </div>
                 <div className="col-lg-4">
                     <div className="form-group mr-2">
-                        {props.editorAssignment.submissionId.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
+                        {props.submission.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
                             <Aux>
                                 {props.reviewerAssignments ? (
                                     <Aux>

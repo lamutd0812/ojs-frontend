@@ -25,7 +25,7 @@ import {
 } from '../../../store/actions/reviewActions';
 import { Doughnut } from 'react-chartjs-2';
 import AssignmentInfor from './AssigmentInfor/AssignmentInfor';
-import { checkDueDate, getDeadlineDate, getDoughnutData, updateObject } from '../../../utils/utility';
+import { checkDueDate, getDeadlineDate, getDecisionBadgeClassname, getDoughnutData, updateObject } from '../../../utils/utility';
 import ReviewerSubmissions from './ReviewerSubmissions/ReviewerSubmissions';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { toast } from 'react-toastify';
@@ -314,18 +314,22 @@ class EditorAssignment extends Component {
                                             <div className={this.state.step2Active ? 'text-custom' : 'text-secondary'}><b>Thông tin thẩm định</b></div>
                                         </div>
                                     </li>
-                                    <li className="nav-item">
-                                        <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
-                                            onClick={this.step3ActiveHandler}>
-                                            <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Nộp ý kiến thẩm định</b></div>
-                                        </div>
-                                    </li>
-                                    <li className="nav-item">
-                                        <div className={this.state.step4Active ? 'nav-link active' : 'nav-link'}
-                                            onClick={this.step4ActiveHandler}>
-                                            <div className={this.state.step4Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu tác giả chỉnh sửa</b></div>
-                                        </div>
-                                    </li>
+                                    {this.props.submission && this.props.submission.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
+                                        <Aux>
+                                            <li className="nav-item">
+                                                <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
+                                                    onClick={this.step3ActiveHandler}>
+                                                    <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Nộp ý kiến thẩm định</b></div>
+                                                </div>
+                                            </li>
+                                            <li className="nav-item">
+                                                <div className={this.state.step4Active ? 'nav-link active' : 'nav-link'}
+                                                    onClick={this.step4ActiveHandler}>
+                                                    <div className={this.state.step4Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu tác giả chỉnh sửa</b></div>
+                                                </div>
+                                            </li>
+                                        </Aux>
+                                    ) : null}
                                 </ul>
                             </div>
 
@@ -359,7 +363,7 @@ class EditorAssignment extends Component {
                                                 <div className="p-2 col-lg-4 border rounded">
                                                     {checkDueDate(this.props.editorAssignment.dueDate) ? (
                                                         <Aux>
-                                                            {this.props.editorAssignment.submissionId.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
+                                                            {this.props.submission.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
                                                                 <Aux>
                                                                     {this.props.editorAssignment.reviewerAssignmentId.length < 3 ? (
                                                                         <Aux>
@@ -376,40 +380,48 @@ class EditorAssignment extends Component {
                                                                         </Aux>
                                                                     ) : null}
                                                                 </Aux>
-                                                            ): (
-                                                                <Aux>
-                                                                    <h6><i className="fas fa-gavel"></i> QUYẾT ĐỊNH XUẤT BẢN</h6>
+                                                            ) : (
                                                                     <Aux>
-                                                                        <div className="form-group">
-                                                                            <Link to={`/dashboard/editor/accept-submission/${this.props.submission._id}`}>
-                                                                                <button className="btn btn-outline-primary btn-block btn-flat">
-                                                                                    <i className="fas fa-check"></i> {" "}
+                                                                        <h6><i className="fas fa-gavel"></i> QUYẾT ĐỊNH XUẤT BẢN</h6>
+                                                                        {!this.props.editorAssignment.editorSubmissionId ? (
+                                                                            <Aux>
+                                                                                <div className="form-group">
+                                                                                    <Link to={`/dashboard/editor/accept-submission/${this.props.submission._id}`}>
+                                                                                        <button className="btn btn-outline-primary btn-block btn-flat">
+                                                                                            <i className="fas fa-check"></i> {" "}
                                                                                     Chấp nhận xuất bản
                                                                                 </button>
-                                                                            </Link>
-                                                                        </div>
-                                                                        <div className="form-group">
-                                                                            <Link to={`/dashboard/editor/decline-submission/${this.props.submission._id}`}>
-                                                                                <button className="btn btn-outline-danger btn-block btn-flat">
-                                                                                    <i className="fas fa-times"></i>{" "}
+                                                                                    </Link>
+                                                                                </div>
+                                                                                <div className="form-group">
+                                                                                    <Link to={`/dashboard/editor/decline-submission/${this.props.submission._id}`}>
+                                                                                        <button className="btn btn-outline-danger btn-block btn-flat">
+                                                                                            <i className="fas fa-times"></i>{" "}
                                                                                     Từ chối bài báo
                                                                                 </button>
-                                                                            </Link>
-                                                                        </div>
-                                                                    </Aux> 
-                                                                </Aux>
-                                                            )}
+                                                                                    </Link>
+                                                                                </div>
+                                                                            </Aux>
+                                                                        ) : (
+                                                                                <div className="form-group ml-3">
+                                                                                    <span className={getDecisionBadgeClassname(this.props.editorAssignment.editorSubmissionId.editorDecisionId.value)}>
+                                                                                        {this.props.editorAssignment.editorSubmissionId.editorDecisionId.decisionName}
+                                                                                    </span>
+                                                                                </div>
+                                                                            )}
+                                                                    </Aux>
+                                                                )}
                                                         </Aux>
                                                     ) : (
-                                                        <Aux>
-                                                            <div className="form-group">
-                                                                <button className="btn btn-danger btn-block btn-flat">
-                                                                    <i className="fas fa-ban"></i> {" "}
+                                                            <Aux>
+                                                                <div className="form-group">
+                                                                    <button className="btn btn-danger btn-block btn-flat">
+                                                                        <i className="fas fa-ban"></i> {" "}
                                                                 Bài báo đã hết hạn xử lý
                                                             </button>
-                                                            </div>
-                                                        </Aux>        
-                                                    )}
+                                                                </div>
+                                                            </Aux>
+                                                        )}
 
                                                     <AssignmentInfor
                                                         submission={this.props.submission}

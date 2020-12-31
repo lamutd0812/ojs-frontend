@@ -45,7 +45,7 @@ class Articles extends Component {
     render() {
         const articles = (
             <Aux>
-                <Navigation history={this.props.history}/>
+                <Navigation history={this.props.history} />
                 <Breadcrumb
                     title="Tất cả bài báo"
                     imageUrl={`url(${require("../../resources/imgs/40.jpg")})`} />
@@ -67,7 +67,7 @@ class Articles extends Component {
                                                         <div className="single-catagory-post d-flex flex-wrap" key={article._id}>
                                                             <div className="post-content">
                                                                 <div className="post-meta">
-                                                                    <p>{getFormattedDateOnly(article.publishedDate)}</p>
+                                                                    <p>{article.submissionId.typeId.name}</p>
                                                                     <p>{article.submissionId.categoryId.name}</p>
                                                                 </div>
                                                                 <Link to={`/single-article/${article._id}`} className="post-title">
@@ -77,6 +77,9 @@ class Articles extends Component {
                                                                     <Link to="#" className="text-dark">
                                                                         <i className="fas fa-user"></i>{" "}
                                                                         {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
+                                                                    </Link>
+                                                                    <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
+                                                                        <i className="fas fa-clock" aria-hidden="true"></i> {getFormattedDateOnly(article.publishedDate)}
                                                                     </Link>
                                                                     <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                                                         <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
@@ -102,8 +105,8 @@ class Articles extends Component {
                                             ) : null}
                                         </Aux>
                                     ) : (
-                                        <Spinner />
-                                    )}
+                                            <Spinner />
+                                        )}
                                 </div>
                             </div>
                             {/* Col */}
