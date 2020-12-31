@@ -170,7 +170,8 @@ class AssignReviewer extends Component {
                                                                     <th>Thẩm định viên</th>
                                                                     <th className="text-center">Đã xử lý</th>
                                                                     <th className="text-center">Đang xử lý</th>
-                                                                    <th className="text-center">Ghi chú</th>
+                                                                    <th>Lĩnh vực yêu thích</th>
+                                                                    <th className="text-center">Độ phù hợp</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -190,9 +191,26 @@ class AssignReviewer extends Component {
                                                                         <td>
                                                                             <Link className="text-primary" to="#">{reviewer.lastname} {reviewer.firstname}</Link>
                                                                         </td>
-                                                                        <td className="text-center">5</td>
-                                                                        <td className="text-center">1</td>
-                                                                        <td className="text-center">Available</td>
+                                                                        <td className="text-center">{reviewer.handled}</td>
+                                                                        <td className="text-center">{reviewer.handling}</td>
+                                                                        <td>
+                                                                            {reviewer.preferenceCategories.map((val, idx) => {
+                                                                                const el = <div key={idx} className="text-danger">
+                                                                                    {val}
+                                                                                </div>
+                                                                                return el;
+                                                                            })}
+                                                                        </td>
+                                                                        <td className="project_progress">
+                                                                            <div className="progress progress-sm">
+                                                                                <div className="progress-bar bg-red" role="progressbar"
+                                                                                    aria-valuenow={reviewer.appropriateRate} aria-valuemin="0"
+                                                                                    aria-valuemax="10" style={{ width: `${reviewer.appropriateRate * 10}%` }}></div>
+                                                                            </div>
+                                                                            <small style={{ fontSize: '13.5px' }}>
+                                                                                {reviewer.appropriateRate}/10
+                                                                            </small>
+                                                                        </td>
                                                                     </tr>
                                                                 ))}
                                                             </tbody>
@@ -258,7 +276,7 @@ class AssignReviewer extends Component {
                                                 <h4>Chỉ định biên tập viên thành công.</h4>
                                                 {this.props.submission ? (
                                                     <div className="ml-2">Bạn đã chỉ định thẩm định viên <Link to="#" className="text-primary">{this.state.selectedReviewerName}</Link>
-                                                    {" "}thẩm định bài báo <b>{this.props.submission.title}</b> của tác giả <Link to="" className="text-primary">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}.</Link></div>
+                                                        {" "}thẩm định bài báo <b>{this.props.submission.title}</b> của tác giả <Link to="" className="text-primary">{this.props.submission.authorId.firstname} {this.props.submission.authorId.lastname}.</Link></div>
                                                 ) : null}
                                                 <h4 className="mt-3">Bây giờ, bạn có thể:</h4>
                                                 {this.props.submission ? (

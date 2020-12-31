@@ -25,11 +25,9 @@ import SubmissionFutherInfor from './SubmissionInfor/SubmissionFutherInfor';
 import SubmissionActions from './SubmissionActions/SubmissionActions';
 import AssignmentInfor from '../Author/AuthorAssignment/AssignmentInfor';
 import RevisionDetail from '../Author/AuthorAssignment/RevisionDetail/RevisionDetail';
-import ReviewerSubmissions from '../Editor/ReviewerSubmissions/ReviewerSubmissions';
 import SubmissionProcess from './SubmissionProcess/SubmissionProcess';
-import { Doughnut } from 'react-chartjs-2';
-import EditorSubmissionDetail from '../ChiefEditor/EditorialBoardSubmissions/EditorSubmissionDetail';
-import CESubmissionDetail from '../ChiefEditor/EditorialBoardSubmissions/CESubmisisonDetail';
+import { SUBMISSION_TYPES } from '../../../utils/constant';
+import ReviewProcessInfor from '../ReviewProcess/ReviewProcessInfor';
 class SubmissionDetail extends Component {
 
     state = {
@@ -158,16 +156,18 @@ class SubmissionDetail extends Component {
                                             <div className={this.state.step2Active ? 'text-custom' : 'text-secondary'}><b>Thông tin thẩm định</b></div>
                                         </div>
                                     </li>
-                                    <li className="nav-item">
-                                        <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
-                                            onClick={this.step3ActiveHandler}>
-                                            {this.props.authorAssignment ? (
-                                                <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu chỉnh sửa (1)</b></div>
-                                            ) : (
-                                                    <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu chỉnh sửa (0)</b></div>
-                                                )}
-                                        </div>
-                                    </li>
+                                    {this.props.submission && this.props.submission.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name && (
+                                        <li className="nav-item">
+                                            <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
+                                                onClick={this.step3ActiveHandler}>
+                                                {this.props.authorAssignment ? (
+                                                    <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu chỉnh sửa (1)</b></div>
+                                                ) : (
+                                                        <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Yêu cầu chỉnh sửa (0)</b></div>
+                                                    )}
+                                            </div>
+                                        </li>
+                                    )}
                                 </ul>
                             </div>
 
@@ -197,8 +197,8 @@ class SubmissionDetail extends Component {
                                                             submission={this.props.submission}
                                                             hasAuthorRevision={this.props.authorAssignment.authorRevisionId ? true : false} />
                                                     ) : (
-                                                        <SubmissionInfor submission={this.props.submission} />
-                                                    )}
+                                                            <SubmissionInfor submission={this.props.submission} />
+                                                        )}
                                                 </div>
                                                 <div className="p-2 col-lg-4 border rounded">
                                                     <SubmissionFutherInfor submission={this.props.submission} />
@@ -211,62 +211,11 @@ class SubmissionDetail extends Component {
                                         </div>
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            {this.props.editorAssignment ? (
-                                                // Row
-                                                <div className="row border rounded mt-2" style={this.props.editorAssignment.reviewerAssignmentId.length > 0 ? { minHeight: '200px' } : null}>
-                                                    {/* Column */}
-                                                    <div className="p-2 col-lg-8">
-                                                        <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
-                                                    </div>
-                                                    {/* Column */}
-                                                    <div className="p-2 col-lg-4">
-                                                        <Doughnut
-                                                            data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
-                                                            options={{
-                                                                responsive: true,
-                                                                maintainAspectRatio: false,
-                                                                legend: {
-                                                                    labels: {
-                                                                        fontSize: 12,
-                                                                        fontFamily: 'Roboto Slab'
-                                                                    }
-                                                                }
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                    <div className="row border rounded mt-2">
-                                                        <div className="p-2 col-lg-8">
-                                                            <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
-                                                            <div>Chưa có thông tin thẩm định của thẩm định viên.</div>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            {/* Row */}
-                                            <div className="row border rounded mt-2">
-                                                <div className="p-2 col-lg-10">
-                                                    <h6><i className="fas fa-comment"></i> Ý KIẾN CỦA BIÊN TẬP VIÊN</h6>
-                                                    {this.props.editorAssignment && this.props.editorAssignment.editorSubmissionId ? (
-                                                        <EditorSubmissionDetail
-                                                            editorAssignment={this.props.editorAssignment}
-                                                            editorSubmission={this.props.editorAssignment.editorSubmissionId} />
-                                                    ) : (
-                                                            <div>Chưa có thông tin thẩm định của biên tập viên.</div>
-                                                        )}
-                                                </div>
-                                            </div>
-                                            {/* Row */}
-                                            <div className="row border rounded mt-2">
-                                                <div className="p-2 col-lg-10">
-                                                    <h6><i className="fas fa-gavel"></i> QUYẾT ĐỊNH CỦA TỔNG BIÊN TẬP</h6>
-                                                    {this.props.chiefEditorSubmission ? (
-                                                        <CESubmissionDetail chiefEditorSubmission={this.props.chiefEditorSubmission} />
-                                                    ) : (
-                                                            <div>Tổng biên tập chưa đưa ra quyết định.</div>
-                                                        )}
-                                                </div>
-                                            </div>
+                                            <ReviewProcessInfor
+                                                submission={this.props.submission}
+                                                editorAssignment={this.props.editorAssignment}
+                                                chiefEditorSubmission={this.props.chiefEditorSubmission}
+                                                fetchDoughnutData={this.fetchDoughnutData} />
                                         </div>
                                         {/* ------------------Tab 3----------------- */}
                                         <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>

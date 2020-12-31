@@ -49,6 +49,23 @@ export const getStageBadgeClassname = (value) => {
     };
 };
 
+export const getStageBadgeClassname2 = (value) => {
+    switch (value) {
+        case 0:
+            return "badge-ol-danger";
+        case 1:
+            return "badge-ol-dark";
+        case 2:
+            return "badge-ol-warning";
+        case 3:
+            return "badge-ol-primary";
+        case 4:
+            return "badge-ol-success";
+        default:
+            return "badge-ol-dark";
+    };
+};
+
 export const getDecisionBadgeClassname = (value) => {
     switch (value) {
         case -1:

@@ -36,7 +36,7 @@ class AssignEditor extends Component {
             const query = new URLSearchParams(this.props.location.search);
             const submissionId = query.get('submissionId');
             this.props.getAllEditors(submissionId);
-            
+
             // Text Editor
             const contentBlock = htmlToDraft(assignEditorTemplate('Test Article 2020', 'Nguyễn Văn An', 'Nguyễn Hải Hà'));
             let editorState = null;
@@ -171,7 +171,7 @@ class AssignEditor extends Component {
                                                                     <th>Biên tập viên</th>
                                                                     <th className="text-center">Đã xử lý</th>
                                                                     <th className="text-center">Đang xử lý</th>
-                                                                    <th className="text-center">Ghi chú</th>
+                                                                    <th className="text-center">Độ phù hợp</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -191,9 +191,9 @@ class AssignEditor extends Component {
                                                                         <td>
                                                                             <Link className="text-primary" to="#">{editor.lastname} {editor.firstname}</Link>
                                                                         </td>
-                                                                        <td className="text-center">5</td>
-                                                                        <td className="text-center">1</td>
-                                                                        <td className="text-center">Available</td>
+                                                                        <td className="text-center">{editor.handled}</td>
+                                                                        <td className="text-center">{editor.handling}</td>
+                                                                        <td className="text-center">100%</td>
                                                                     </tr>
                                                                 ))}
                                                             </tbody>

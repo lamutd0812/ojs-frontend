@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
-import { getFormattedDate, getStageBadgeClassname } from '../../../../utils/utility';
+import { getFormattedDate, getStageBadgeClassname2 } from '../../../../utils/utility';
 
 const SubmissionFutherInfor = (props) => {
     return (
@@ -31,7 +31,7 @@ const SubmissionFutherInfor = (props) => {
             </div>
             <div className="form-group">
                 <label>Pha</label><br />
-                <div className={"badge " + getStageBadgeClassname(props.submission.stageId.value) + " ml-3"}>
+                <div className={"badge-ol " + getStageBadgeClassname2(props.submission.stageId.value) + " pt-2 pb-2"} style={{ width: '120px', fontSize: '14px' }}>
                     {props.submission.stageId.name}
                 </div>
             </div>

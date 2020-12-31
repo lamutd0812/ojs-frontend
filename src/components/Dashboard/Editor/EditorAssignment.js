@@ -23,10 +23,8 @@ import {
     getAuthorAssignmentBySubmission,
     getChiefEditorSubmission
 } from '../../../store/actions/reviewActions';
-import { Doughnut } from 'react-chartjs-2';
 import AssignmentInfor from './AssigmentInfor/AssignmentInfor';
 import { checkDueDate, getDeadlineDate, getDecisionBadgeClassname, getDoughnutData, updateObject } from '../../../utils/utility';
-import ReviewerSubmissions from './ReviewerSubmissions/ReviewerSubmissions';
 import ConfirmDialog from '../../UI/ConfirmDialog/ConfirmDialog';
 import { toast } from 'react-toastify';
 import { createReviewInputControls, editReviewInputControls } from '../../../utils/input-controls';
@@ -38,8 +36,8 @@ import { EditorState, ContentState } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
 import { requestRevisionTemplate } from '../../../utils/email-template';
-import CESubmissionDetail from '../ChiefEditor/EditorialBoardSubmissions/CESubmisisonDetail';
 import { SUBMISSION_TYPES } from '../../../utils/constant';
+import ReviewProcessInfor from '../ReviewProcess/ReviewProcessInfor';
 class EditorAssignment extends Component {
 
     state = {
@@ -433,64 +431,11 @@ class EditorAssignment extends Component {
                                         </div>
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            {this.props.editorAssignment ? (
-                                                // Row
-                                                <div className="row border rounded mt-2" style={this.props.editorAssignment.reviewerAssignmentId.length > 0 ? { minHeight: '200px' } : null}>
-                                                    {/* Column */}
-                                                    <div className="p-2 col-lg-8">
-                                                        <ReviewerSubmissions reviewerAssignments={this.props.editorAssignment.reviewerAssignmentId} />
-                                                    </div>
-                                                    {/* Column */}
-                                                    {this.props.editorAssignment.reviewerAssignmentId.length > 0 && (
-                                                        <div className="p-2 col-lg-4">
-                                                            <Doughnut
-                                                                data={this.fetchDoughnutData(this.props.editorAssignment.reviewerAssignmentId)}
-                                                                options={{
-                                                                    responsive: true,
-                                                                    maintainAspectRatio: false,
-                                                                    legend: {
-                                                                        labels: {
-                                                                            fontSize: 12,
-                                                                            fontFamily: 'Roboto Slab'
-                                                                        }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            ) : (
-                                                    <div className="row border rounded mt-2">
-                                                        <div className="p-2 col-lg-8">
-                                                            <h6><i className="fas fa-comments"></i> Ý KIẾN CỦA THẨM ĐỊNH VIÊN</h6>
-                                                            <div>Chưa có thông tin thẩm định của thẩm định viên.</div>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            {/* Row */}
-                                            <div className="row border rounded mt-2">
-                                                <div className="p-2 col-lg-10">
-                                                    <h6><i className="fas fa-comment"></i> Ý KIẾN CỦA BIÊN TẬP VIÊN</h6>
-                                                    {this.props.editorAssignment && this.props.editorAssignment.editorSubmissionId ? (
-                                                        <EditorSubmissionDetail
-                                                            editorAssignment={this.props.editorAssignment}
-                                                            editorSubmission={this.props.editorAssignment.editorSubmissionId} />
-                                                    ) : (
-                                                            <div>Chưa có thông tin thẩm định của biên tập viên.</div>
-                                                        )}
-                                                </div>
-                                            </div>
-                                            {/* Row */}
-                                            <div className="row border rounded mt-2">
-                                                <div className="p-2 col-lg-10">
-                                                    <h6><i className="fas fa-gavel"></i> QUYẾT ĐỊNH CỦA TỔNG BIÊN TẬP</h6>
-                                                    {this.props.chiefEditorSubmission ? (
-                                                        <CESubmissionDetail chiefEditorSubmission={this.props.chiefEditorSubmission} />
-                                                    ) : (
-                                                            <div>Tổng biên tập chưa đưa ra quyết định.</div>
-                                                        )}
-                                                </div>
-                                            </div>
+                                            <ReviewProcessInfor
+                                                submission={this.props.submission}
+                                                editorAssignment={this.props.editorAssignment}
+                                                chiefEditorSubmission={this.props.chiefEditorSubmission}
+                                                fetchDoughnutData={this.fetchDoughnutData} />
                                         </div>
                                         {/* ------------------Tab 3----------------- */}
                                         <div className={this.state.step3Active ? 'tab-pane show active' : 'tab-pane'}>

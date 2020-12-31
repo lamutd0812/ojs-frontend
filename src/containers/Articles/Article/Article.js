@@ -68,19 +68,22 @@ class Article extends Component {
                                     {!this.props.loading && this.props.article ? (
                                         <div className="blog-content">
                                             <div className="post-meta">
-                                                <p>{getFormattedDateOnly(this.props.article.publishedDate)}</p>
+                                                <p>{this.props.article.submissionId.typeId.name}</p>
                                                 <p>{this.props.article.submissionId.categoryId.name}</p>
                                             </div>
                                             <h4 className="post-title">{this.props.article.submissionId.title}</h4>
                                             <div className="post-meta-2">
-                                                <Link to="#" className="text-secondary" style={{ fontWeight: '400' }}>
+                                                <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                                     <i className="fas fa-user"></i>{" "}
                                                     {this.props.article.submissionId.authorId.lastname} {this.props.article.submissionId.authorId.firstname}
                                                 </Link>
-                                                <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                                <Link to="#" className="text-dark ml-1" style={{ fontWeight: '400' }}>
+                                                    <i className="fas fa-clock" aria-hidden="true"></i> {getFormattedDateOnly(this.props.article.publishedDate)}
+                                                </Link>
+                                                <Link to="#" className="text-dark ml-1" style={{ fontWeight: '400' }}>
                                                     <i className="fas fa-eye" aria-hidden="true"></i> {this.props.article.views}
                                                 </Link>
-                                                <Link to="#" className="text-secondary ml-2" style={{ fontWeight: '400' }}>
+                                                <Link to="#" className="text-dark ml-1" style={{ fontWeight: '400' }}>
                                                     <i className="fas fa-download" aria-hidden="true"></i> {this.props.article.downloaded}
                                                 </Link>
                                             </div>
