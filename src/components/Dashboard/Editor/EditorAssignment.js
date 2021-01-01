@@ -634,11 +634,11 @@ class EditorAssignment extends Component {
                         message="Gửi ý kiến thẩm định bài báo cho tổng biên tập?"
                         confirm={this.confirmSubmitHandler} />
                 ) : (
-                        <ConfirmDialog
-                            title="Xác nhận"
-                            message="Gửi yêu cầu chỉnh sửa bài báo tới tác giả?"
-                            confirm={this.confirmSubmitHandler} />
-                    )}
+                    <ConfirmDialog
+                        title="Xác nhận"
+                        message="Gửi yêu cầu chỉnh sửa bài báo tới tác giả?"
+                        confirm={this.confirmSubmitHandler} />
+                )}
                 {this.props.error ? toast.error('Error: ' + this.props.error) : null}
             </Aux>
         );

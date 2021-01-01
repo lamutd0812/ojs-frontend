@@ -8,7 +8,9 @@ const initialState = {
     error: null,
     message: '',
     isUserInforUpdated: false,
-    isPasswordChanged: false
+    isPasswordChanged: false,
+    avatar: null,
+    isAvatarChanged: false
 }
 
 const userStart = (state) => {
@@ -58,6 +60,22 @@ const resetChangePasswordState = (state) => {
     })
 };
 
+const changeAvatarSuccess = (state, action) => {
+    return updateObject(state, {
+        avatar: action.avatar,
+        message: action.message,
+        error: null,
+        isAvatarChanged: true
+    });
+};
+
+const resetChangeAvatarState = (state) => {
+    return updateObject(state, {
+        isAvatarChanged: false,
+        error: null
+    })
+};
+
 // Error
 const userError = (state, action) => {
     return updateObject(state, {
@@ -79,6 +97,9 @@ const userReducer = (state = initialState, action) => {
 
         case actionTypes.CHANGE_PASSWORD_SUCCESS: return changePasswordSuccess(state, action);
         case actionTypes.RESET_CHANGE_PASSWORD_STATE: return resetChangePasswordState(state);
+
+        case actionTypes.CHANGE_AVATAR_SUCCESS: return changeAvatarSuccess(state, action);
+        case actionTypes.RESET_CHANGE_AVATAR_STATE: return resetChangeAvatarState(state);
 
         default: return state;
     }

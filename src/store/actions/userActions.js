@@ -35,6 +35,15 @@ const changePasswordSuccess = (data) => {
     }
 }
 
+const changeAvatarSuccess = (data) => {
+    localStorage.setItem('avatar', data.avatar);
+    return {
+        type: actionTypes.CHANGE_AVATAR_SUCCESS,
+        message: data.message,
+        avatar: data.avatar
+    }
+}
+
 // Error
 const userError = (error) => {
     return {
@@ -92,5 +101,25 @@ export const changePassword = (body) => (dispatch, getState) => {
 export const resetChangePasswordState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_CHANGE_PASSWORD_STATE
+    })
+};
+
+export const changeAvatar = (formData) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.put('users/change-avatar', formData, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(res => {
+        dispatch(changeAvatarSuccess(res.data));
+    }).catch(err => {
+        dispatch(userError(err.response.data.error));
+    });
+};
+
+export const resetChangeAvatarState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_CHANGE_AVATAR_STATE
     })
 };

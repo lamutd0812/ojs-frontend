@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateObject } from '../../utils/utility';
+import { getFormattedDate, updateObject } from '../../utils/utility';
 import ContentHeader from '../Dashboard/Shared/ContentHeader';
 import {
     getMyUserInfor, updateUserInfor, resetUpdateUserInforState,
-    changePassword, resetChangePasswordState
+    changePassword, resetChangePasswordState,
+    changeAvatar, resetChangeAvatarState
 } from '../../store/actions/userActions';
 import Spinner from '../UI/Spinner/Spinner';
 import { updateUserInforInputControls, changePasswordInputControls } from '../../utils/input-controls';
@@ -21,7 +22,7 @@ class Profile extends Component {
         controls_change_pwd: changePasswordInputControls,
         formIsValid: true,
         formIsValid_change_pwd: false,
-        avatar: null
+        avatar: null,
     }
 
     componentDidMount() {
@@ -44,6 +45,7 @@ class Profile extends Component {
         if (nextProps.error) {
             this.props.resetUpdateUserInforState();
             this.props.resetChangePasswordState();
+            this.props.resetChangeAvatarState();
         }
         if (nextProps.user && nextProps.user !== this.props.user) {
             this.initControlValues(nextProps.user);
@@ -55,6 +57,10 @@ class Profile extends Component {
         if (nextProps.isPasswordChanged && !nextProps.error) {
             this.props.resetChangePasswordState();
             toast.success("Thay đổi mật khẩu thành công!");
+        }
+        if (nextProps.isAvatarChanged && !nextProps.error) {
+            this.props.resetChangeAvatarState();
+            toast.success("Cập nhật ảnh đại diện thành công!");
         }
     }
 
@@ -95,14 +101,20 @@ class Profile extends Component {
 
     confirmSubmitHandler = () => {
         if (this.state.step1Active) {
-            const body = {
-                email: this.state.controls.email.value,
-                firstname: this.state.controls.firstname.value,
-                lastname: this.state.controls.lastname.value,
-                affiliation: this.state.controls.affiliation.value,
-                biography: this.state.controls.biography.value
+            if (this.state.avatar) {
+                const formData = new FormData();
+                formData.append('avatar', this.state.avatar);
+                this.props.changeAvatar(formData);
+            } else {
+                const body = {
+                    email: this.state.controls.email.value,
+                    firstname: this.state.controls.firstname.value,
+                    lastname: this.state.controls.lastname.value,
+                    affiliation: this.state.controls.affiliation.value,
+                    biography: this.state.controls.biography.value
+                }
+                this.props.updateUserInfor(body);
             }
-            this.props.updateUserInfor(body);
         } else {
             const body = {
                 oldPassword: this.state.controls_change_pwd.old_password.value,
@@ -132,40 +144,59 @@ class Profile extends Component {
                         <div className="container-fluid">
                             <div className="row">
                                 <div className="col-md-3">
+                                    {/* Card */}
                                     <div className="card card-primary card-outline">
+                                        <div className="card-header">
+                                            <h3 className="card-title" style={{ fontSize: '16px' }}>Ảnh đại diện</h3>
+                                        </div>
                                         <div className="card-body box-profile">
                                             <div className="text-center">
-                                                <img className="profile-user-img img-fluid img-circle"
-                                                    src={this.props.user.avatar}
-                                                    alt="User profile" />
+                                                {!this.state.avatar ? (
+                                                    <img className="profile-user-img img-fluid img-circle"
+                                                        src={this.props.user.avatar}
+                                                        alt="User profile" />
+                                                ) : (
+                                                        <img className="profile-user-img img-fluid img-circle"
+                                                            src={URL.createObjectURL(this.state.avatar)}
+                                                            alt="User profile" />
+                                                    )}
                                             </div>
 
                                             <input type="file"
                                                 ref={(ref) => this.upload = ref}
                                                 style={{ display: 'none' }}
                                                 onChange={this.onAvatarChangeHandler} />
-                                            <div className="text-primary text-center font-weight-bold pt-1"
+                                            <div className="text-danger text-center font-weight-bold pt-1"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => { this.upload.click() }}>
-                                                <u>Chọn file</u>
+                                                <u>Chọn ảnh đại diện</u>
                                             </div>
 
                                             <h3 className="profile-username text-center">{this.props.user.lastname} {this.props.user.firstname}</h3>
                                             <p className="text-muted text-center">{this.props.user.role.name}</p>
                                             <div className="text-center">
-                                                <button className="btn btn-outline-dark btn-flat">Cập nhật ảnh đại diện</button>
+                                                <button
+                                                    className="btn btn-outline-dark btn-flat"
+                                                    data-toggle="modal"
+                                                    data-target="#confirmDialogModal"
+                                                    disabled={!this.state.avatar}>Cập nhật ảnh đại diện</button>
                                             </div>
-                                            <ul className="list-group list-group-unbordered mb-3">
-                                                <li className="list-group-item">
-                                                    <b>Followers</b> <a href="a" className="float-right">1,322</a>
-                                                </li>
-                                                <li className="list-group-item">
-                                                    <b>Following</b> <a href="a" className="float-right">543</a>
-                                                </li>
-                                                <li className="list-group-item">
-                                                    <b>Friends</b> <a href="a" className="float-right">13,287</a>
-                                                </li>
-                                            </ul>
+                                        </div>
+                                    </div>
+                                    {/* Card */}
+                                    <div className="card card-primary card-outline">
+                                        <div className="card-header">
+                                            <h3 className="card-title" style={{ fontSize: '16px' }}>Thông tin cá nhân</h3>
+                                        </div>
+                                        <div className="card-body">
+                                            <strong><i className="fas fa-calendar mr-1"></i> Ngày tham gia</strong>
+                                            <p className="text-muted ml-3">{getFormattedDate(this.props.user.createdAt)}</p>
+
+                                            <strong><i className="fas fa-map mr-1"></i> Tổ chức</strong>
+                                            <p className="text-muted ml-3">{this.props.user.affiliation}</p>
+
+                                            <strong><i className="fas fa-map mr-1"></i> Mô tả bản thân</strong>
+                                            <p className="text-muted ml-3">{this.props.user.biography}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -351,10 +382,17 @@ class Profile extends Component {
         return (
             <Aux>
                 {profile}
-                <ConfirmDialog
-                    title="Xác nhận"
-                    message="Cập nhật thông tin cá nhân?"
-                    confirm={this.confirmSubmitHandler} />
+                {this.state.step1Active ? (
+                    <ConfirmDialog
+                        title="Xác nhận"
+                        message={this.state.avatar ? "Cập nhật ảnh đại diện?" : "Cập nhật thông tin cá nhân?"}
+                        confirm={this.confirmSubmitHandler} />
+                ) : (
+                        <ConfirmDialog
+                            title="Xác nhận"
+                            message="Thay đổi mật khẩu?"
+                            confirm={this.confirmSubmitHandler} />
+                    )}
                 {this.props.error ? toast.error('Error: ' + this.props.error) : null}
             </Aux>
         );
@@ -367,7 +405,8 @@ const mapStateToProps = (state) => {
         loading: state.user.loading,
         error: state.user.error,
         isUserInforUpdated: state.user.isUserInforUpdated,
-        isPasswordChanged: state.user.isPasswordChanged
+        isPasswordChanged: state.user.isPasswordChanged,
+        isAvatarChanged: state.user.isAvatarChanged
     }
 };
 
@@ -376,7 +415,9 @@ const mapDispatchToProps = {
     updateUserInfor,
     resetUpdateUserInforState,
     changePassword,
-    resetChangePasswordState
+    resetChangePasswordState,
+    changeAvatar,
+    resetChangeAvatarState
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

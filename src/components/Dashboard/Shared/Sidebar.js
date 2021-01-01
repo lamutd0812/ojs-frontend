@@ -13,7 +13,7 @@ class Sidebar extends Component {
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
                     <div className="brand-link p-2">
                         <NavLink to="/">
-                            <img src={require("../../../resources/core-imgs/logo3_admin.png")} className="logo-admin" alt="" style={{width:'50%', height:'50%'}}/>
+                            <img src={require("../../../resources/core-imgs/logo3_admin.png")} className="logo-admin" alt="" style={{ width: '50%', height: '50%' }} />
                         </NavLink>
                     </div>
 
@@ -21,7 +21,11 @@ class Sidebar extends Component {
                     <div className="sidebar">
                         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                             <div className="image mt-2">
-                                <img src={this.props.avatar} className="rounded-circle" alt="UserImage" />
+                                {this.props.changed_avatar ? (
+                                    <img src={this.props.changed_avatar} className="rounded-circle" alt="UserImage" />
+                                ) : (
+                                    <img src={this.props.avatar} className="rounded-circle" alt="UserImage" />
+                                )}
                             </div>
                             <div className="info">
                                 <Link to="#" className="d-block">{this.props.fullname}</Link>
@@ -74,28 +78,28 @@ class Sidebar extends Component {
                                             </Aux>
                                         ) : this.props.roleId === USER_ROLES.REVIEWER.roleId ? (
                                             <Aux>
-                                            <li className="nav-item">
-                                                <NavLink to="/dashboard/author" className="nav-link">
-                                                    <i className="nav-icon fas fa-edit"></i>
-                                                    <p>Trang tác giả</p>
-                                                </NavLink>
-                                            </li>
-                                            <li className="nav-item">
-                                                <NavLink to="/dashboard/reviewer" className="nav-link">
-                                                    <i className="nav-icon fas fa-edit"></i>
-                                                    <p>Trang thẩm định viên</p>
-                                                </NavLink>
-                                            </li>
-                                        </Aux>
+                                                <li className="nav-item">
+                                                    <NavLink to="/dashboard/author" className="nav-link">
+                                                        <i className="nav-icon fas fa-edit"></i>
+                                                        <p>Trang tác giả</p>
+                                                    </NavLink>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <NavLink to="/dashboard/reviewer" className="nav-link">
+                                                        <i className="nav-icon fas fa-edit"></i>
+                                                        <p>Trang thẩm định viên</p>
+                                                    </NavLink>
+                                                </li>
+                                            </Aux>
                                         )
-                                         : this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
-                                            <li className="nav-item">
-                                            <NavLink to="/dashboard/author" className="nav-link">
-                                                <i className="nav-icon fas fa-edit"></i>
-                                                <p>Trang tác giả</p>
-                                            </NavLink>
-                                        </li>
-                                        ) : null}
+                                                    : this.props.roleId === USER_ROLES.AUTHOR.roleId ? (
+                                                        <li className="nav-item">
+                                                            <NavLink to="/dashboard/author" className="nav-link">
+                                                                <i className="nav-icon fas fa-edit"></i>
+                                                                <p>Trang tác giả</p>
+                                                            </NavLink>
+                                                        </li>
+                                                    ) : null}
                                     </ul>
                                 </li>
                             </ul>
@@ -116,7 +120,8 @@ const mapStateToProps = state => {
         fullname: state.auth.fullname,
         roleName: state.auth.role.name,
         roleId: state.auth.role._id,
-        avatar: state.auth.avatar
+        avatar: state.auth.avatar,
+        changed_avatar: state.user.avatar
     };
 };
 

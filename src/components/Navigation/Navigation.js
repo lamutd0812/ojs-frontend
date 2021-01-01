@@ -111,12 +111,20 @@ class Navigation extends Component {
                                                     <ul>
                                                         <li className="cn-dropdown-item has-down text-center">
                                                             <NavLink to="#" className="login-btn p-2">
-                                                                <img
-                                                                    className="rounded-circle border border-danger mb-3 ml-2"
-                                                                    src={this.props.avatar}
-                                                                    alt="UserImage"
-                                                                    style={{ maxWidth: '40px', maxHeight: '40px' }} />
-                                                                {/* <i className="fa fa-user" aria-hidden="true"></i> {this.props.fullname} */}
+                                                                {this.props.changed_avatar ? (
+                                                                    <img
+                                                                        className="rounded-circle border border-danger mb-3 ml-2"
+                                                                        src={this.props.changed_avatar}
+                                                                        alt="UserImage"
+                                                                        style={{ maxWidth: '40px', maxHeight: '40px' }} />
+                                                                ) : (
+                                                                    <img
+                                                                        className="rounded-circle border border-danger mb-3 ml-2"
+                                                                        src={this.props.avatar}
+                                                                        alt="UserImage"
+                                                                        style={{ maxWidth: '40px', maxHeight: '40px' }} />
+                                                                )}
+
                                                             </NavLink>
                                                             <ul className="dropdown text-left">
                                                                 <li>
@@ -155,7 +163,8 @@ const mapStateToProps = state => {
         userId: state.auth.userId,
         avatar: state.auth.avatar,
         fullname: state.auth.fullname,
-        articles: state.article.articles_search
+        articles: state.article.articles_search,
+        changed_avatar: state.user.avatar
     };
 };
 
