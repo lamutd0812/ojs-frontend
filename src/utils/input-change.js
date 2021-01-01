@@ -39,7 +39,7 @@ export const registerInputChangeHandler = (event, state) => {
     }
 
     const eq = formIsValid && passwordEquals;
-    return { updatedControls, eq};
+    return { updatedControls, eq };
 };
 
 
@@ -149,4 +149,46 @@ export const acceptSubmissionInputChangeHandler = (event, state) => {
     }
 
     return { updatedControls, formIsValid };
+};
+
+export const updateUserInforInputChangeHandler = (event, state) => {
+    let controlName = event.target.name;
+    const updatedControls = updateObject(state.controls, {
+        [controlName]: updateObject(state.controls[controlName], {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, state.controls[controlName].validation),
+            touched: true
+        })
+    });
+
+    let formIsValid = true;
+    for (let controlName in updatedControls) {
+        formIsValid = updatedControls[controlName].valid && formIsValid;
+    }
+
+    return { updatedControls, formIsValid };
+};
+
+export const changePasswordInputChangeHandler = (event, state) => {
+    let controlName = event.target.name;
+    const updatedControls = updateObject(state.controls_change_pwd, {
+        [controlName]: updateObject(state.controls_change_pwd[controlName], {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, state.controls_change_pwd[controlName].validation),
+            touched: true
+        })
+    });
+
+    let passwordEquals = true;
+    if (updatedControls['new_password'].value !== updatedControls['confirm_password'].value) {
+        passwordEquals = false;
+    }
+
+    let formIsValid = true;
+    for (let controlName in updatedControls) {
+        formIsValid = updatedControls[controlName].valid && formIsValid;
+    }
+
+    const eq = formIsValid && passwordEquals;
+    return { updatedControls, eq };
 };

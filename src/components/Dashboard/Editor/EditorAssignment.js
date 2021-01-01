@@ -192,7 +192,7 @@ class EditorAssignment extends Component {
         const { updatedControls, formIsValid } = editReviewInnputChangeHandler(event, this.state);
         this.setState({
             controls_edit: updatedControls,
-            formIsValid: formIsValid
+            formIsValid_edit: formIsValid
         });
     };
 

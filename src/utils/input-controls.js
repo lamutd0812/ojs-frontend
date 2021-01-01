@@ -371,18 +371,129 @@ export const acceptSubmissionInputControls = {
         },
         valid: false,
         touched: false
+    }
+};
+
+export const updateUserInforInputControls = {
+    username: {
+        elementConfig: {
+            type: 'username',
+            placeholder: 'Tên đăng nhập*'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 3,
+            usernameValid: true
+        },
+        valid: true,
+        touched: false
     },
-    // emailToAuthor: {
-    //     elementConfig: {
-    //         type: 'email',
-    //         placeholder: 'Nội dung Email'
-    //     },
-    //     value: '',
-    //     validation: {
-    //         required: true,
-    //         minLength: 5
-    //     },
-    //     valid: false,
-    //     touched: false
-    // }
+    email: {
+        elementConfig: {
+            type: 'email',
+            placeholder: 'Địa chỉ email*'
+        },
+        value: '',
+        validation: {
+            required: true,
+            isEmail: true
+        },
+        valid: true,
+        touched: false
+    },
+    firstname: {
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Nhập tên của bạn*'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 2
+        },
+        valid: true,
+        touched: false
+    },
+    lastname: {
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Nhập họ của bạn*'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 2
+        },
+        valid: true,
+        touched: false
+    },
+    affiliation: {
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Tổ chức'
+        },
+        value: '',
+        validation: {
+            required: false,
+            maxLength: 255
+        },
+        valid: true,
+        touched: false
+    },
+    biography: {
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Giới thiệu bản thân'
+        },
+        value: '',
+        validation: {
+            required: false,
+            maxLength: 10000
+        },
+        valid: true,
+        touched: false
+    }
+};
+
+export const changePasswordInputControls = {
+    old_password: {
+        elementConfig: {
+            type: 'password',
+            placeholder: 'Mật khẩu cũ*'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 6
+        },
+        valid: false,
+        touched: false
+    },
+    new_password: {
+        elementConfig: {
+            type: 'password',
+            placeholder: 'Mật khẩu mới*'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 6
+        },
+        valid: false,
+        touched: false
+    },
+    confirm_password: {
+        elementConfig: {
+            type: 'password',
+            placeholder: 'Xác nhận mật khẩu*'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 6
+        },
+        valid: false,
+        touched: false
+    },
 };

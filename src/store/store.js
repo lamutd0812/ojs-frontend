@@ -5,6 +5,7 @@ import submissionReducers from './reducers/submissionReducers';
 import reviewReducers from './reducers/reviewReducers';
 import articleReducer from './reducers/articleReducers';
 import vastReducer from './reducers/vastReducers';
+import userReducer from './reducers/userReducers';
 
 //setup redux devtools;
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     submission: submissionReducers,
     review: reviewReducers,
     article: articleReducer,
-    vast: vastReducer
+    vast: vastReducer,
+    user: userReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
