@@ -200,7 +200,37 @@ export const submitArticleInputControls = {
         },
         valid: false,
         touched: false
-    }
+    },
+};
+
+// With Published Research
+export const publishedResearchInputControls = {
+    magazineName: {
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Tên tạp chí'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 5
+        },
+        valid: false,
+        touched: false
+    },
+    DOI: {
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Nhập tiêu đề'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 5
+        },
+        valid: false,
+        touched: false
+    },
 };
 
 export const editSubmissionInputControls = {

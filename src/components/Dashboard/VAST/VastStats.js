@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Spinner from '../../UI/Spinner/Spinner';
-import { vastArticlesCrawl } from '../../../store/actions/vastActions';
+import { vastArticlesCrawl, junmpToPage } from '../../../store/actions/vastActions';
 import Pagination from '../../UI/Pagination/Pagination';
 import { updateObject, convertPublishedDate } from '../../../utils/utility';
 import DatePicker from 'react-datepicker';
@@ -19,7 +19,7 @@ class VastStats extends Component {
     }
 
     init = () => {
-        this.props.vastArticlesCrawl(this.state.startDate, this.state.endDate, 1, ITEMS_PER_PAGE);
+        this.props.vastArticlesCrawl(this.state.startDate, this.state.endDate, 1, 1000);
     }
 
     componentDidUpdate(prevProps) {
@@ -29,7 +29,8 @@ class VastStats extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.vastArticlesCrawl(this.state.startDate, this.state.endDate, page, ITEMS_PER_PAGE);
+                // this.props.vastArticlesCrawl(this.state.startDate, this.state.endDate, page, ITEMS_PER_PAGE);
+                this.props.junmpToPage(page);
             }
         }
     }
@@ -224,7 +225,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-    vastArticlesCrawl
+    vastArticlesCrawl,
+    junmpToPage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VastStats);

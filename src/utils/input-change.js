@@ -2,6 +2,7 @@ import { checkValidity, updateObject } from "./utility";
 
 export const loginInputChangeHandler = (event, state) => {
     let controlName = event.target.name;
+
     const updatedControls = updateObject(state.controls, {
         [controlName]: updateObject(state.controls[controlName], {
             value: event.target.value,
@@ -45,6 +46,7 @@ export const registerInputChangeHandler = (event, state) => {
 
 export const submitArticleInputChangeHandler = (event, state) => {
     let controlName = event.target.name;
+
     let updatedControls = null;
     if (controlName === 'attachment') {
         updatedControls = updateObject(state.controls, {
@@ -64,6 +66,25 @@ export const submitArticleInputChangeHandler = (event, state) => {
             })
         });
     }
+
+    let formIsValid = true;
+    for (let controlName in updatedControls) {
+        formIsValid = updatedControls[controlName].valid && formIsValid;
+    }
+
+    return { updatedControls, formIsValid };
+};
+
+// With Published Research
+export const publishedResearchInputChangeHandler = (event, state) => {
+    let controlName = event.target.name;
+    const updatedControls = updateObject(state.controls_published, {
+        [controlName]: updateObject(state.controls_published[controlName], {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, state.controls_published[controlName].validation),
+            touched: true
+        })
+    });
 
     let formIsValid = true;
     for (let controlName in updatedControls) {

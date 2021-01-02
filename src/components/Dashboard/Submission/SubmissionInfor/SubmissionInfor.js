@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Aux from '../../../../hoc/Auxiliary/Auxiliary';
+import { SUBMISSION_TYPES } from '../../../../utils/constant';
 
 const SubmissionInfor = (props) => {
     return (
@@ -19,6 +20,18 @@ const SubmissionInfor = (props) => {
                     </div>
                 </Link>
             </div>
+            {props.submission.typeId.name === SUBMISSION_TYPES.PUBLISHED_RESEARCH.name && (
+                <Aux>
+                    <div className="form-group ml-3">
+                        <label>Tạp chí xuất bản</label>
+                        <p className="ml-4">{props.submission.magazineName}</p>
+                    </div>
+                    <div className="form-group ml-3">
+                        <label>DOI</label>
+                        <p className="ml-4">{props.submission.DOI}</p>
+                    </div>
+                </Aux>
+            )}
             <div className="form-group ml-3">
                 <label>Lĩnh vực nghiên cứu</label>
                 <Link to="#">
@@ -26,7 +39,7 @@ const SubmissionInfor = (props) => {
                 </Link>
             </div>
             <div className="form-group ml-3">
-                <label>Tiêu để</label>
+                <label>Tiêu đề</label>
                 <p className="ml-4">{props.submission.title}</p>
             </div>
             <div className="form-group ml-3">
