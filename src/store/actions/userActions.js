@@ -66,6 +66,13 @@ export const getMyUserInfor = () => (dispatch, getState) => {
     });
 };
 
+const getPreferenceCategoriesSuccess = (categories) => {
+    return {
+        type: actionTypes.GET_PREFERENCE_CATEGORIES_SUCCESS,
+        categories: categories
+    }
+};
+
 export const updateUserInfor = (body) => (dispatch, getState) => {
     const token = getState().auth.token;
     axios.put('users/update-infor', body, {
@@ -122,4 +129,14 @@ export const resetChangeAvatarState = () => (dispatch) => {
     dispatch({
         type: actionTypes.RESET_CHANGE_AVATAR_STATE
     })
+};
+
+export const getPreferenceCategories = () => (dispatch) => {
+    axios.get('users/all/preference-categories')
+        .then(res => {
+            dispatch(getPreferenceCategoriesSuccess(res.data.categories));
+        })
+        .catch(err => {
+            dispatch(userError(err.message));
+        });
 };

@@ -5,7 +5,7 @@ import ContentHeader from '../Dashboard/Shared/ContentHeader';
 import {
     getMyUserInfor, updateUserInfor, resetUpdateUserInforState,
     changePassword, resetChangePasswordState,
-    changeAvatar, resetChangeAvatarState
+    changeAvatar, resetChangeAvatarState, getPreferenceCategories
 } from '../../store/actions/userActions';
 import Spinner from '../UI/Spinner/Spinner';
 import { updateUserInforInputControls, changePasswordInputControls } from '../../utils/input-controls';
@@ -13,6 +13,7 @@ import { updateUserInforInputChangeHandler, changePasswordInputChangeHandler } f
 import { toast } from 'react-toastify';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import ConfirmDialog from '../UI/ConfirmDialog/ConfirmDialog';
+import Select from 'react-select';
 class Profile extends Component {
 
     state = {
@@ -23,9 +24,11 @@ class Profile extends Component {
         formIsValid: true,
         formIsValid_change_pwd: false,
         avatar: null,
+        preferenceCategories: null
     }
 
     componentDidMount() {
+        this.props.getPreferenceCategories();
         this.props.getMyUserInfor();
     }
 
@@ -38,7 +41,11 @@ class Profile extends Component {
             affiliation: updateObject(this.state.controls.affiliation, { value: user.affiliation }),
             biography: updateObject(this.state.controls.biography, { value: user.biography }),
         });
-        this.setState(updateObject(this.state, { controls: updatedControls }));
+        const preferences = user.preferenceCategoryId.map(c => c.value);
+        this.setState(updateObject(this.state, {
+            controls: updatedControls,
+            preferenceCategories: preferences
+        }));
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -111,7 +118,8 @@ class Profile extends Component {
                     firstname: this.state.controls.firstname.value,
                     lastname: this.state.controls.lastname.value,
                     affiliation: this.state.controls.affiliation.value,
-                    biography: this.state.controls.biography.value
+                    biography: this.state.controls.biography.value,
+                    preferenceCategoryId: this.state.preferenceCategories
                 }
                 this.props.updateUserInfor(body);
             }
@@ -128,6 +136,12 @@ class Profile extends Component {
         event.preventDefault();
         const file = event.target.files[0];
         this.setState({ avatar: file });
+    }
+
+    preferenceChangeHandler = (selectedOption) => {
+        const preference = selectedOption.map(c => c.value);
+        this.setState({ preferenceCategories: preference });
+        console.log(this.state);
     }
 
     render() {
@@ -300,6 +314,35 @@ class Profile extends Component {
                                                                 <p className="form-control-error-msg">Giá trị không hợp lệ!</p> : null}
                                                         </div>
                                                     </div>
+                                                    <div className="form-group row">
+                                                        <label className="col-sm-2 col-form-label">Lĩnh vực yêu thích</label>
+                                                        <div className="col-sm-10">
+                                                            <Select
+                                                                styles={{
+                                                                    menu: (provided, state) => ({
+                                                                        ...provided,
+                                                                        padding: 10,
+                                                                    }),
+                                                                    input: (provided) => ({
+                                                                        ...provided,
+                                                                        height: 35,
+                                                                    }),
+                                                                    placeholder: (provided) => ({
+                                                                        ...provided,
+                                                                        paddingLeft: 20
+                                                                    })
+                                                                }}
+                                                                defaultValue={this.props.user.preferenceCategoryId}
+                                                                isMulti
+                                                                name="preference-categories"
+                                                                options={this.props.categories}
+                                                                className="basic-multi-select"
+                                                                classNamePrefix="select"
+                                                                placeholder="Chọn lĩnh vực yêu thích của bạn"
+                                                                onChange={this.preferenceChangeHandler}
+                                                            />
+                                                        </div>
+                                                    </div>
 
                                                     <div className="form-group row">
                                                         <div className="offset-sm-2 col-sm-10">
@@ -406,7 +449,8 @@ const mapStateToProps = (state) => {
         error: state.user.error,
         isUserInforUpdated: state.user.isUserInforUpdated,
         isPasswordChanged: state.user.isPasswordChanged,
-        isAvatarChanged: state.user.isAvatarChanged
+        isAvatarChanged: state.user.isAvatarChanged,
+        categories: state.user.categories
     }
 };
 
@@ -417,7 +461,8 @@ const mapDispatchToProps = {
     changePassword,
     resetChangePasswordState,
     changeAvatar,
-    resetChangeAvatarState
+    resetChangeAvatarState,
+    getPreferenceCategories
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

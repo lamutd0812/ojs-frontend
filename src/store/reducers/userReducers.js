@@ -10,7 +10,8 @@ const initialState = {
     isUserInforUpdated: false,
     isPasswordChanged: false,
     avatar: null,
-    isAvatarChanged: false
+    isAvatarChanged: false,
+    categories: [],
 }
 
 const userStart = (state) => {
@@ -25,6 +26,13 @@ const getMyUserInforSuccess = (state, action) => {
     return updateObject(state, {
         user: action.user,
         loading: false,
+        error: null
+    });
+};
+
+const getPreferenceCategoriesSuccess = (state, action) => {
+    return updateObject(state, {
+        categories: action.categories,
         error: null
     });
 };
@@ -91,6 +99,8 @@ const userReducer = (state = initialState, action) => {
         case actionTypes.USERS_ERROR: return userError(state, action);
 
         case actionTypes.GET_MY_USER_INFOR_SUCCESS: return getMyUserInforSuccess(state, action);
+
+        case actionTypes.GET_PREFERENCE_CATEGORIES_SUCCESS: return getPreferenceCategoriesSuccess(state, action);
 
         case actionTypes.UPDATE_USER_INFOR_SUCCESS: return updateUserInforSuccess(state, action);
         case actionTypes.RESET_UPDATE_USER_INFOR_STATE: return resetUpdateUserInforState(state);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { register, resetRegisterState } from '../../store/actions/authActions';
+import { getPreferenceCategories } from '../../store/actions/userActions';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Navigation from '../../components/Navigation/Navigation';
 import Footer from '../../components/Footer/Footer';
@@ -11,16 +12,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { registerInputControls } from '../../utils/input-controls';
 import { registerInputChangeHandler } from '../../utils/input-change';
-
+import Select from 'react-select';
 class Register extends Component {
 
     state = {
         controls: registerInputControls,
         toBeReviewer: false,
-        formIsValid: false
+        formIsValid: false,
+        preferenceCategories: null
     }
 
     componentDidMount() {
+        this.props.getPreferenceCategories();
         this.props.onResetRegisterState();
     }
 
@@ -28,7 +31,7 @@ class Register extends Component {
         if (nextProps.error) {
             this.props.onResetRegisterState();
         }
-        if(nextProps.isSignedUp && !nextProps.error) {
+        if (nextProps.isSignedUp && !nextProps.error) {
             this.props.history.push('/login');
         }
     }
@@ -49,19 +52,31 @@ class Register extends Component {
         });
     };
 
+    preferenceChangeHandler = (selectedOption) => {
+        this.setState({ preferenceCategories: selectedOption });
+        console.log(this.state);
+    }
+
     formSubmitHandler = (event) => {
         event.preventDefault();
-        this.props.onRegister(this.state.controls.username.value,
-            this.state.controls.email.value, this.state.controls.password.value,
-            this.state.controls.firstname.value, this.state.controls.lastname.value,
-            this.state.controls.affiliation.value, this.state.controls.biography.value,
-            this.state.toBeReviewer);
+        const body = {
+            username: this.state.controls.username.value,
+            email: this.state.controls.email.value,
+            password: this.state.controls.password.value,
+            firstname: this.state.controls.firstname.value,
+            lastname: this.state.controls.lastname.value,
+            affiliation: this.state.controls.affiliation.value,
+            biography: this.state.controls.biography.value,
+            toBeReviewer: this.state.toBeReviewer,
+            preferenceCategoryId: this.state.preferenceCategories ? this.state.preferenceCategories.map(c => c.value) : null
+        };
+        this.props.onRegister(body);
     };
 
     render() {
         return (
             <Aux>
-                <Navigation history={this.props.history}/>
+                <Navigation history={this.props.history} />
                 <Breadcumb
                     title="Đăng ký tài khoản"
                     imageUrl={`url(${require("../../resources/imgs/40.jpg")})`} />
@@ -166,6 +181,33 @@ class Register extends Component {
                                             <p className="form-control-error-msg">Giới thiệu bản thân tối đa 10000 ký tự!</p> : null}
                                     </div>
                                     <div className="form-group">
+                                        <Select
+                                            styles={{
+                                                menu: (provided, state) => ({
+                                                    ...provided,
+                                                    zIndex: 9999,
+                                                    padding: 10,
+                                                }),
+                                                input: (provided) => ({
+                                                    ...provided,
+                                                    height: 35
+                                                }),
+                                                placeholder: (provided) => ({
+                                                    ...provided,
+                                                    paddingLeft: 20
+                                                }),
+                                            }}
+                                            // defaultValue={this.props.user.preferenceCategoryId}
+                                            isMulti
+                                            name="preference-categories"
+                                            options={this.props.categories}
+                                            className="basic-multi-select"
+                                            classNamePrefix="select"
+                                            placeholder="Chọn lĩnh vực yêu thích của bạn"
+                                            onChange={this.preferenceChangeHandler} />
+                                    </div>
+
+                                    <div className="form-group">
                                         <div className="custom-control custom-checkbox mr-sm-2">
                                             <input
                                                 type="checkbox"
@@ -204,13 +246,15 @@ const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
-        isSignedUp: state.auth.isSignedUp
+        isSignedUp: state.auth.isSignedUp,
+        categories: state.user.categories
     };
 };
 
 const mapDispatchToProps = {
     onRegister: register,
-    onResetRegisterState: resetRegisterState
+    onResetRegisterState: resetRegisterState,
+    getPreferenceCategories
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

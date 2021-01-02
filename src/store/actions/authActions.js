@@ -92,20 +92,9 @@ export const auth = (username, password) => (dispatch) => {
         });
 };
 
-export const register = (username, email, password, firstname,
-    lastname, affiliation, biography, toBeReviewer) => (dispatch) => {
+export const register = (body) => (dispatch) => {
         dispatch(authStart());
-        const registerData = {
-            username: username,
-            email: email,
-            password: password,
-            firstname: firstname,
-            lastname: lastname,
-            affiliation: affiliation,
-            biography: biography,
-            toBeReviewer: toBeReviewer
-        };
-        axios.put('/auth/signup', registerData)
+        axios.put('/auth/signup', body)
             .then(res => {
                 dispatch(registerSuccess(res.data.message));
             })
