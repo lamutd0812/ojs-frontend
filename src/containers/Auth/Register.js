@@ -54,7 +54,6 @@ class Register extends Component {
 
     preferenceChangeHandler = (selectedOption) => {
         this.setState({ preferenceCategories: selectedOption });
-        console.log(this.state);
     }
 
     formSubmitHandler = (event) => {

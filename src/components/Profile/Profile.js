@@ -139,9 +139,10 @@ class Profile extends Component {
     }
 
     preferenceChangeHandler = (selectedOption) => {
-        const preference = selectedOption.map(c => c.value);
-        this.setState({ preferenceCategories: preference });
-        console.log(this.state);
+        if(selectedOption) {
+            const preference = selectedOption.map(c => c.value);
+            this.setState({ preferenceCategories: preference });
+        }
     }
 
     render() {
