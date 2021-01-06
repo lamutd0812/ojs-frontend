@@ -37,7 +37,7 @@ export const requestRevisionTemplate = (submisisonName, url, editorName, authorN
     return email;
 }
 
-export const acceptSubmisisonTemplate = (submisisonName, editorName, authorName) => {
+export const acceptSubmissionTemplate = (submisisonName, editorName, authorName) => {
     const email =
         '<p>Xin chào <strong>' + authorName + '</strong>.</p>' +
         '<p>Ban biên tập tạp chí truy cập mở VNOJS xin trân trọng thông báo rằng bài báo ' +
@@ -50,7 +50,7 @@ export const acceptSubmisisonTemplate = (submisisonName, editorName, authorName)
     return email;
 }
 
-export const declineSubmisisonTemplate = (submisisonName, url, editorName, authorName) => {
+export const declineSubmissionTemplate = (submisisonName, url, editorName, authorName) => {
     const email =
         '<p>Xin chào <strong>' + authorName + '</strong>.</p>' +
         '<p>Ban biên tập tạp chí truy cập mở VNOJS xin thông báo tới bạn rằng bài báo ' +

@@ -67,17 +67,6 @@ class EditorAssignment extends Component {
             this.props.getAuthorAssignmentBySubmission(this.props.match.params.submissionId);
             this.props.getChiefEditorSubmission(this.props.match.params.submissionId);
         }
-        // Text Editor
-        const contentBlock = htmlToDraft(requestRevisionTemplate('Test Article 2020', '/dashboard', 'Nguyễn Hải Hà', 'Nguyễn Lâm'));
-        let editorState = null;
-        if (contentBlock) {
-            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-            editorState = EditorState.createWithContent(contentState);
-
-        }
-        this.setState(updateObject(this.state, {
-            editorState: editorState
-        }));
     }
 
     componentDidUpdate(prevProps) {
@@ -95,6 +84,20 @@ class EditorAssignment extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.submission) {
+            // Text Editor
+            const contentBlock = htmlToDraft(requestRevisionTemplate(nextProps.submission.title, '/dashboard',
+                this.props.editorFullname, nextProps.submission.authorId.lastname + " " + nextProps.submission.authorId.firstname));
+            let editorState = null;
+            if (contentBlock) {
+                const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+                editorState = EditorState.createWithContent(contentState);
+
+            }
+            this.setState(updateObject(this.state, {
+                editorState: editorState
+            }));
+        }
         if (nextProps.error) {
             this.props.resetCreateEditorSubmissionState();
             this.props.resetEditEditorSubmissionState();
@@ -102,12 +105,12 @@ class EditorAssignment extends Component {
         }
         if (nextProps.isEditorSubmissionCreated && !nextProps.error) {
             this.props.resetCreateEditorSubmissionState();
-            toast.success("Gửi ý kiến thẩm định thành công!");
+            toast.success("Gửi kết luận thẩm định thành công!");
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
         }
         if (nextProps.isEditorSubmissionEdited && !nextProps.error) {
             this.props.resetEditEditorSubmissionState();
-            toast.success("Chỉnh sửa ý kiến thẩm định thành công!");
+            toast.success("Chỉnh sửa kết luận thẩm định thành công!");
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
         }
         if (nextProps.isRequestAuthorRevisionCreated && !nextProps.error) {
@@ -317,7 +320,7 @@ class EditorAssignment extends Component {
                                             <li className="nav-item">
                                                 <div className={this.state.step3Active ? 'nav-link active' : 'nav-link'}
                                                     onClick={this.step3ActiveHandler}>
-                                                    <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Nộp ý kiến thẩm định</b></div>
+                                                    <div className={this.state.step3Active ? 'text-custom' : 'text-secondary'}><b>Nộp kết luận thẩm định</b></div>
                                                 </div>
                                             </li>
                                             <li className="nav-item">
@@ -489,7 +492,7 @@ class EditorAssignment extends Component {
                                                         <Aux>
                                                             <div className="form-group text-center">
                                                                 <div className="badge-ol badge-ol-success badge-outlined p-2 pr-5 pl-5" style={{ fontSize: '16px' }}>
-                                                                    <i className="fas fa-check"></i> Đã nộp ý kiến thẩm định
+                                                                    <i className="fas fa-check"></i> Đã nộp kết luận thẩm định
                                                                 </div>
                                                             </div>
                                                             <div className="form-group">
@@ -500,7 +503,7 @@ class EditorAssignment extends Component {
                                                                                 type="button"
                                                                                 className="btn btn-outline-dark btn-block btn-flat"
                                                                                 onClick={(event) => this.openEditReviewPageHandler(event, this.props.editorAssignment.editorSubmissionId)}>
-                                                                                <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
+                                                                                <i className="fas fa-edit"></i> Chỉnh sửa kết luận thẩm định
                                                                             </button>
                                                                         ) : null}
                                                                     </Aux>
@@ -509,7 +512,7 @@ class EditorAssignment extends Component {
                                                                             type="button"
                                                                             className="btn btn-outline-dark btn-block btn-flat"
                                                                             onClick={() => toast.error('Bài báo đã hết hạn xử lý!')}>
-                                                                            <i className="fas fa-edit"></i> Chỉnh sửa ý kiến
+                                                                            <i className="fas fa-edit"></i> Chỉnh sửa kết luận thẩm định
                                                                         </button>
                                                                     )}
                                                             </div>
@@ -518,7 +521,7 @@ class EditorAssignment extends Component {
                                                             <Aux>
                                                                 <div className="form-group text-center">
                                                                     <div className="badge-ol badge-ol-danger badge-outlined p-2 pr-4 pl-4" style={{ fontSize: '16px' }}>
-                                                                        <i className="fas fa-close"></i> Chưa nộp ý kiến thẩm định
+                                                                        <i className="fas fa-close"></i> Chưa nộp kết luận thẩm định
                                                                 </div>
                                                                 </div>
                                                             </Aux>
@@ -631,14 +634,14 @@ class EditorAssignment extends Component {
                 {this.state.step3Active ? (
                     <ConfirmDialog
                         title="Xác nhận"
-                        message="Gửi ý kiến thẩm định bài báo cho tổng biên tập?"
+                        message="Gửi kết luận thẩm định bài báo cho tổng biên tập?"
                         confirm={this.confirmSubmitHandler} />
                 ) : (
-                    <ConfirmDialog
-                        title="Xác nhận"
-                        message="Gửi yêu cầu chỉnh sửa bài báo tới tác giả?"
-                        confirm={this.confirmSubmitHandler} />
-                )}
+                        <ConfirmDialog
+                            title="Xác nhận"
+                            message="Gửi yêu cầu chỉnh sửa bài báo tới tác giả?"
+                            confirm={this.confirmSubmitHandler} />
+                    )}
                 {this.props.error ? toast.error('Error: ' + this.props.error) : null}
             </Aux>
         );
@@ -647,6 +650,7 @@ class EditorAssignment extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        editorFullname: state.auth.fullname,
         submission: state.submission.submission,
         loading: state.submission.loading,
         editorAssignment: state.review.editorAssignment,

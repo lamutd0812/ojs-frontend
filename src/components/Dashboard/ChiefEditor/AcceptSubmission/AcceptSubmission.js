@@ -19,7 +19,7 @@ import { EditorState, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
-import { acceptSubmisisonTemplate } from '../../../../utils/email-template';
+import { acceptSubmissionTemplate} from '../../../../utils/email-template';
 
 class AcceptSubmission extends Component {
     state = {
@@ -34,17 +34,6 @@ class AcceptSubmission extends Component {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
         }
-        // Text Editor
-        const contentBlock = htmlToDraft(acceptSubmisisonTemplate('Test Article 2020', 'Nguyễn Văn An', 'Nguyễn Hải Hà'));
-        let editorState = null;
-        if (contentBlock) {
-            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-            editorState = EditorState.createWithContent(contentState);
-
-        }
-        this.setState(updateObject(this.state, {
-            editorState: editorState
-        }));
     }
 
     inputChangeHandler = (event) => {
@@ -57,6 +46,20 @@ class AcceptSubmission extends Component {
     };
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.submission) {
+            // Text Editor
+            const contentBlock = htmlToDraft(acceptSubmissionTemplate(nextProps.submission.title,
+                this.props.ceFullname, nextProps.submission.authorId.lastname + " " + nextProps.submission.authorId.firstname));
+            let editorState = null;
+            if (contentBlock) {
+                const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+                editorState = EditorState.createWithContent(contentState);
+
+            }
+            this.setState(updateObject(this.state, {
+                editorState: editorState
+            }));
+        }
         if (nextProps.error) {
             this.props.resetAcceptSubmissionState();
         }
@@ -218,6 +221,7 @@ class AcceptSubmission extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        ceFullname: state.auth.fullname,
         submission: state.submission.submission,
         isSubmissionAccepted: state.review.isSubmissionAccepted,
         error: state.review.error

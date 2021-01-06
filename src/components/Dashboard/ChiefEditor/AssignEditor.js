@@ -37,18 +37,7 @@ class AssignEditor extends Component {
             const submissionId = query.get('submissionId');
             this.props.getAllEditors(submissionId);
 
-            // Text Editor
-            const contentBlock = htmlToDraft(assignEditorTemplate('Test Article 2020', 'Nguyễn Văn An', 'Nguyễn Hải Hà'));
-            let editorState = null;
-            if (contentBlock) {
-                const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-                editorState = EditorState.createWithContent(contentState);
-
-            }
-            this.setState(updateObject(this.state, {
-                submissionId: submissionId,
-                editorState: editorState
-            }));
+            this.setState(updateObject(this.state, { submissionId: submissionId }));
 
             if (!this.props.submission) {
                 this.props.getSubmissionDetail(submissionId);
@@ -79,6 +68,7 @@ class AssignEditor extends Component {
         if (nextProps.error) {
             this.props.resetEditorAssignmentState();
         }
+
         if (nextProps.isEditorAssigned && !nextProps.error) {
             this.props.resetEditorAssignmentState();
             toast.success("Chỉ định biên tập viên thành công!");
@@ -91,7 +81,17 @@ class AssignEditor extends Component {
     }
 
     editorSelectedHandler = (event) => {
+        // Text Editor
+        const contentBlock = htmlToDraft(assignEditorTemplate(this.props.submission.title,
+            this.props.ceFullname, event.target.id));
+        let editorState = null;
+        if (contentBlock) {
+            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+            editorState = EditorState.createWithContent(contentState);
+
+        }
         this.setState(updateObject(this.state, {
+            editorState: editorState,
             selectedEditorId: event.target.value,
             selectedEditorName: event.target.id
         }));
@@ -294,6 +294,7 @@ class AssignEditor extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        ceFullname: state.auth.fullname,
         submission: state.submission.submission,
         editors: state.review.editors,
         isEditorAssigned: state.review.isEditorAssigned,

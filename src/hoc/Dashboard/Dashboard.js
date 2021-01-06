@@ -49,7 +49,7 @@ class Dashboard extends Component {
                     <Switch>
                         <Route path="/dashboard/notifications" component={Notifications} />
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
-                        <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
+                        {/* <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} /> */}
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
                         <Route path="/dashboard/reviewer/assignment/:submissionId" component={ReviewerAssignment} />
                         <Route path="/dashboard/reviewer" component={ReviewerHome} />
@@ -65,7 +65,7 @@ class Dashboard extends Component {
                     <Switch>
                         <Route path="/dashboard/notifications" component={Notifications} />
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
-                        <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
+                        {/* <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} /> */}
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
                         <Route path="/dashboard/editor/assign-reviewer" component={AssignReviewer} />
                         <Route path="/dashboard/editor/assignment/:submissionId" component={EditorAssignment} />

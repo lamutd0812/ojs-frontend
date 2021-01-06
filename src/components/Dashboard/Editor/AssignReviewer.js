@@ -37,18 +37,7 @@ class AssignReviewer extends Component {
             const submissionId = query.get('submissionId');
             this.props.getAllReviewers(submissionId);
 
-            // Text Editor
-            const contentBlock = htmlToDraft(assignReviewerTemplate('Test Article 2020', 'Nguyễn Hải Hà', 'Nguyễn Văn Dũng'));
-            let editorState = null;
-            if (contentBlock) {
-                const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-                editorState = EditorState.createWithContent(contentState);
-
-            }
-            this.setState(updateObject(this.state, {
-                submissionId: submissionId,
-                editorState: editorState
-            }));
+            this.setState(updateObject(this.state, { submissionId: submissionId }));
 
             if (!this.props.submission) {
                 this.props.getSubmissionDetail(submissionId);
@@ -90,7 +79,17 @@ class AssignReviewer extends Component {
     }
 
     reviewerSelectedHandler = (event) => {
+        // Text Editor
+        const contentBlock = htmlToDraft(assignReviewerTemplate(this.props.submission.title,
+            this.props.editorFullname, event.target.id));
+        let editorState = null;
+        if (contentBlock) {
+            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+            editorState = EditorState.createWithContent(contentState);
+
+        }
         this.setState(updateObject(this.state, {
+            editorState: editorState,
             selectedReviewerId: event.target.value,
             selectedReviewerName: event.target.id
         }));
@@ -311,6 +310,7 @@ class AssignReviewer extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        editorFullname: state.auth.fullname,
         submission: state.submission.submission,
         reviewers: state.review.reviewers,
         isReviewerAssigned: state.review.isReviewerAssigned,

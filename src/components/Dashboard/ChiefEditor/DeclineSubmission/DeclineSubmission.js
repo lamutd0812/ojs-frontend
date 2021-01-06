@@ -19,7 +19,7 @@ import { EditorState, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
-import { acceptSubmisisonTemplate } from '../../../../utils/email-template';
+import { declineSubmissionTemplate } from '../../../../utils/email-template';
 
 class DeclineSubmission extends Component {
 
@@ -35,17 +35,6 @@ class DeclineSubmission extends Component {
         if (this.props.match.params.submissionId) {
             this.props.getSubmissionDetail(this.props.match.params.submissionId);
         }
-        // Text Editor
-        const contentBlock = htmlToDraft(acceptSubmisisonTemplate('Test Article 2020', 'Nguyễn Văn An', 'Nguyễn Hải Hà'));
-        let editorState = null;
-        if (contentBlock) {
-            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-            editorState = EditorState.createWithContent(contentState);
-
-        }
-        this.setState(updateObject(this.state, {
-            editorState: editorState
-        }));
     }
 
     inputChangeHandler = (event) => {
@@ -58,6 +47,20 @@ class DeclineSubmission extends Component {
     };
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.submission) {
+            // Text Editor
+            const contentBlock = htmlToDraft(declineSubmissionTemplate(nextProps.submission.title, '/dashboard',
+                this.props.ceFullname, nextProps.submission.authorId.lastname + " " + nextProps.submission.authorId.firstname));
+            let editorState = null;
+            if (contentBlock) {
+                const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+                editorState = EditorState.createWithContent(contentState);
+
+            }
+            this.setState(updateObject(this.state, {
+                editorState: editorState
+            }));
+        }
         if (nextProps.error) {
             this.props.resetDeclineSubmissionState();
         }
@@ -219,6 +222,7 @@ class DeclineSubmission extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        ceFullname: state.auth.fullname,
         submission: state.submission.submission,
         isSubmissionDeclined: state.review.isSubmissionDeclined,
         error: state.review.error
