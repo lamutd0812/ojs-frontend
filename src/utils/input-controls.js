@@ -221,7 +221,7 @@ export const publishedResearchInputControls = {
     DOI: {
         elementConfig: {
             type: 'text',
-            placeholder: 'Nhập tiêu đề'
+            placeholder: 'DOI'
         },
         value: '',
         validation: {

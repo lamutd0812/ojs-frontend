@@ -195,7 +195,7 @@ class SubmitArticle extends Component {
                                     <ul className="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                         <li className="nav-item">
                                             <div className={this.state.step1Active ? 'nav-link active' : 'nav-link'}>
-                                                1. Điều khoản
+                                                1. Chọn loại bài báo
                                             </div>
                                         </li>
                                         <li className="nav-item">
@@ -219,64 +219,73 @@ class SubmitArticle extends Component {
                                     <div className="tab-content" id="custom-tabs-one-tabContent">
                                         {/* ------------------Tab 1----------------- */}
                                         <div className={this.state.step1Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            <h5>Yêu cầu chung</h5>
-                                            <div className="text-secondary mb-1">Bạn cần đọc và chấp nhận các yêu cầu dưới đây
-                                                trước khi tiến hành đăng tải bài báo lên hệ thống.</div>
-                                            <div className="form-check pt-1 pb-1">
-                                                <input className="form-check-input" type="checkbox" name="requirement1"
-                                                    checked={this.state.requirement1} onChange={event => this.confirmRequirementHandler(event)} />
-                                                <label className="form-check-label">
-                                                    Bài báo chưa từng được xuất bản trên hệ thống, cũng như trên các tạp chí khác.
-                                                </label>
-                                            </div>
-                                            <div className="form-check pt-1 pb-1">
-                                                <input className="form-check-input" type="checkbox" name="requirement2"
-                                                    checked={this.state.requirement2} onChange={event => this.confirmRequirementHandler(event)} />
-                                                <label className="form-check-label">
-                                                    Các tài liệu liên quan như file đính kèm bài báo phải ở dạng doc, docx hoặc pdf.
-                                                </label>
-                                            </div>
-                                            <div className="form-check pt-1 pb-1">
-                                                <input className="form-check-input" type="checkbox" name="requirement3"
-                                                    checked={this.state.requirement3} onChange={event => this.confirmRequirementHandler(event)} />
-                                                <label className="form-check-label">
-                                                    Văn bản có khoảng cách chữ bằng một dấu cách; font chữ 12;
-                                                    sử dụng chữ nghiêng thay vì gạch chân (ngoại trừ các địa chỉ URL);
-                                                    và tất cả các hình minh họa, mô phỏng và bảng biểu được đặt trong văn bản
-                                                    ở những vị trí thích hợp, thay vì ở cuối.
-                                                </label>
-                                            </div>
-                                            <div className="form-check pt-1 pb-1">
-                                                <input className="form-check-input" type="checkbox" name="requirement4"
-                                                    checked={this.state.requirement4} onChange={event => this.confirmRequirementHandler(event)} />
-                                                <label className="form-check-label">
-                                                    Văn bản tuân thủ các yêu cầu về  văn phong của một bài báo khoa học.
-                                                </label>
-                                            </div>
-                                            <button
-                                                className="btn btn-outline-primary mt-2 btn-flat"
-                                                disabled={!(this.state.requirement1 && this.state.requirement2 && this.state.requirement3 && this.state.requirement4)}
-                                                onClick={this.step2ActiveHandler}>Tiếp tục</button>
+                                            {this.props.types.length > 0 && (
+                                                <div className="form-group">
+                                                    <h6>Loại bài báo*</h6>
+                                                    <select
+                                                        name="typeId"
+                                                        className="custom-select form-control"
+                                                        onChange={this.inputChangeHandler}
+                                                    >
+                                                        {this.props.types.map(type => (
+                                                            <option key={type._id} value={type._id}>
+                                                                {type.name}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                            )}
+
+                                            {this.state.submissionType === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
+                                                <Aux>
+                                                    <h6>Yêu cầu chung</h6>
+                                                    <div className="text-secondary mb-1">Bạn cần đọc và chấp nhận các yêu cầu dưới đây
+                                                    trước khi tiến hành đăng tải bài báo lên hệ thống.
+                                                    </div>
+                                                    <div className="form-check pt-1 pb-1">
+                                                        <input className="form-check-input" type="checkbox" name="requirement1"
+                                                            checked={this.state.requirement1} onChange={event => this.confirmRequirementHandler(event)} />
+                                                        <label className="form-check-label">
+                                                            Bài báo chưa từng được xuất bản trên hệ thống, cũng như trên các tạp chí khác.
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check pt-1 pb-1">
+                                                        <input className="form-check-input" type="checkbox" name="requirement2"
+                                                            checked={this.state.requirement2} onChange={event => this.confirmRequirementHandler(event)} />
+                                                        <label className="form-check-label">
+                                                            Các tài liệu liên quan như file đính kèm bài báo phải ở dạng doc, docx hoặc pdf.
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check pt-1 pb-1">
+                                                        <input className="form-check-input" type="checkbox" name="requirement3"
+                                                            checked={this.state.requirement3} onChange={event => this.confirmRequirementHandler(event)} />
+                                                        <label className="form-check-label">
+                                                            Văn bản có khoảng cách chữ bằng một dấu cách; font chữ 12;
+                                                            sử dụng chữ nghiêng thay vì gạch chân (ngoại trừ các địa chỉ URL);
+                                                            và tất cả các hình minh họa, mô phỏng và bảng biểu được đặt trong văn bản
+                                                            ở những vị trí thích hợp, thay vì ở cuối.
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-check pt-1 pb-1">
+                                                        <input className="form-check-input" type="checkbox" name="requirement4"
+                                                            checked={this.state.requirement4} onChange={event => this.confirmRequirementHandler(event)} />
+                                                        <label className="form-check-label">
+                                                            Văn bản tuân thủ các yêu cầu về  văn phong của một bài báo khoa học.
+                                                        </label>
+                                                    </div>
+                                                    <button
+                                                        className="btn btn-outline-primary mt-2 btn-flat"
+                                                        disabled={!(this.state.requirement1 && this.state.requirement2 && this.state.requirement3 && this.state.requirement4)}
+                                                        onClick={this.step2ActiveHandler}>Tiếp tục</button>
+                                                </Aux>
+                                            ) : (
+                                                <button className="btn btn-outline-primary mt-2 btn-flat"
+                                                    onClick={this.step2ActiveHandler}>Tiếp tục</button>
+                                            )}
                                         </div>
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
                                             <div className="card-body">
-                                                {this.props.types.length > 0 ? (
-                                                    <div className="form-group">
-                                                        <label>Loại bài báo*</label>
-                                                        <select
-                                                            name="typeId"
-                                                            className="custom-select form-control"
-                                                            onChange={this.inputChangeHandler}
-                                                        >
-                                                            {this.props.types.map(type => (
-                                                                <option key={type._id} value={type._id}>
-                                                                    {type.name}
-                                                                </option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
-                                                ) : null}
                                                 {this.props.categories.length > 0 ? (
                                                     <div className="form-group">
                                                         <label>Lĩnh vực nghiên cứu*</label>
@@ -298,18 +307,6 @@ class SubmitArticle extends Component {
                                                 {this.state.submissionType === SUBMISSION_TYPES.PUBLISHED_RESEARCH.name && (
                                                     <Aux>
                                                         <div className="form-group">
-                                                            <label>Tên tạp chí*</label>
-                                                            <input
-                                                                type="text"
-                                                                name="magazineName"
-                                                                className={!this.state.controls_published.magazineName.valid && this.state.controls_published.magazineName.touched ? "form-control-error" : "form-control"}
-                                                                placeholder={this.state.controls_published.magazineName.elementConfig.placeholder}
-                                                                defaultValue={this.state.controls_published.magazineName.value}
-                                                                onChange={this.inputChangeHandler_published} />
-                                                            {!this.state.controls_published.magazineName.valid && this.state.controls_published.magazineName.touched ?
-                                                                <p className="form-control-error-msg">Tên tạp chí không hợp lệ!</p> : null}
-                                                        </div>
-                                                        <div className="form-group">
                                                             <label>DOI*</label>
                                                             <input
                                                                 type="text"
@@ -320,6 +317,18 @@ class SubmitArticle extends Component {
                                                                 onChange={this.inputChangeHandler_published} />
                                                             {!this.state.controls_published.DOI.valid && this.state.controls_published.DOI.touched ?
                                                                 <p className="form-control-error-msg">Giá trị DOI không hợp lệ!</p> : null}
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label>Tên tạp chí*</label>
+                                                            <input
+                                                                type="text"
+                                                                name="magazineName"
+                                                                className={!this.state.controls_published.magazineName.valid && this.state.controls_published.magazineName.touched ? "form-control-error" : "form-control"}
+                                                                placeholder={this.state.controls_published.magazineName.elementConfig.placeholder}
+                                                                defaultValue={this.state.controls_published.magazineName.value}
+                                                                onChange={this.inputChangeHandler_published} />
+                                                            {!this.state.controls_published.magazineName.valid && this.state.controls_published.magazineName.touched ?
+                                                                <p className="form-control-error-msg">Tên tạp chí không hợp lệ!</p> : null}
                                                         </div>
                                                     </Aux>
                                                 )}
