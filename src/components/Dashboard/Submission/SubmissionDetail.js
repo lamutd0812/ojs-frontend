@@ -83,27 +83,21 @@ class SubmissionDetail extends Component {
     step1ActiveHandler = (event) => {
         event.preventDefault();
         let newState = updateObject(this.state, {
-            step1Active: true,
-            step2Active: false,
-            step3Active: false
+            step1Active: true, step2Active: false, step3Active: false
         });
         this.setState(newState);
     }
 
     step2ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: true,
-            step3Active: false
+            step1Active: false, step2Active: true, step3Active: false
         });
         this.setState(newState);
     }
 
     step3ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: false,
-            step3Active: true
+            step1Active: false, step2Active: false, step3Active: true
         });
         this.setState(newState);
     }

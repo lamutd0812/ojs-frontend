@@ -47,18 +47,14 @@ class AssignReviewer extends Component {
 
     step1ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: true,
-            step2Active: false,
-            step3Active: false
+            step1Active: true, step2Active: false, step3Active: false
         });
         this.setState(newState);
     }
 
     step2ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: true,
-            step3Active: false
+            step1Active: false, step2Active: true, step3Active: false
         });
         this.setState(newState);
     }
@@ -71,9 +67,7 @@ class AssignReviewer extends Component {
             this.props.resetReviewerAssignmentState();
             toast.success("Chỉ định thẩm định viên thành công!");
             this.setState(updateObject(this.state, {
-                step1Active: false,
-                step2Active: false,
-                step3Active: true
+                step1Active: false, step2Active: false, step3Active: true
             }));
         }
     }
@@ -102,10 +96,6 @@ class AssignReviewer extends Component {
     setMessageToReviewerHandler = (event) => {
         this.setState(updateObject(this.state, { messageToReviewer: event.target.value }));
     }
-
-    // setEmailToReviewerHandler = (event) => {
-    //     this.setState(updateObject(this.state, { emailToReviewer: event.target.value }));
-    // }
 
     confirmSubmitHandler = () => {
         this.props.assignReviewer(this.state.submissionId, this.state.selectedReviewerId,

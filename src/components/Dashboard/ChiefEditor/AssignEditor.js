@@ -48,18 +48,14 @@ class AssignEditor extends Component {
 
     step1ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: true,
-            step2Active: false,
-            step3Active: false
+            step1Active: true, step2Active: false, step3Active: false
         });
         this.setState(newState);
     }
 
     step2ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: true,
-            step3Active: false
+            step1Active: false, step2Active: true, step3Active: false
         });
         this.setState(newState);
     }
@@ -73,9 +69,7 @@ class AssignEditor extends Component {
             this.props.resetEditorAssignmentState();
             toast.success("Chỉ định biên tập viên thành công!");
             this.setState(updateObject(this.state, {
-                step1Active: false,
-                step2Active: false,
-                step3Active: true
+                step1Active: false, step2Active: false, step3Active: true
             }));
         }
     }
@@ -104,10 +98,6 @@ class AssignEditor extends Component {
     setMessageToEditorHandler = (event) => {
         this.setState(updateObject(this.state, { messageToEditor: event.target.value }));
     }
-
-    // setEmailToEditorHandler = (event) => {
-    //     this.setState(updateObject(this.state, { emailToEditor: event.target.value }));
-    // }
 
     confirmSubmitHandler = () => {
         this.props.assignEditor(this.state.submissionId, this.state.selectedEditorId,

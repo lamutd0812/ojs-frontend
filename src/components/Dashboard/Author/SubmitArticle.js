@@ -40,6 +40,9 @@ class SubmitArticle extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if (!this.props.crawlError && nextProps.crawlError) {
+            toast.error(nextProps.crawlError);
+        }
         if (nextProps.publishedArticle && !nextProps.crawlError) {
             const { updatedControls, formIsValid,
                 updatedControls_published, formIsValid_published } = crawlPublishedArticleHandler(nextProps.publishedArticle, this.state);
@@ -57,10 +60,7 @@ class SubmitArticle extends Component {
             this.props.resetCreateSubmissionState();
             toast.success("Submit bài báo lên hệ thống thành công!");
             this.setState(updateObject(this.state, {
-                step1Active: false,
-                step2Active: false,
-                step3Active: false,
-                step4Active: true
+                step1Active: false, step2Active: false, step3Active: false, step4Active: true
             }));
         }
     }
@@ -132,30 +132,21 @@ class SubmitArticle extends Component {
     step1ActiveHandler = (event) => {
         event.preventDefault();
         let newState = updateObject(this.state, {
-            step1Active: true,
-            step2Active: false,
-            step3Active: false,
-            step4Active: false,
+            step1Active: true, step2Active: false, step3Active: false, step4Active: false,
         });
         this.setState(newState);
     }
 
     step2ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: true,
-            step3Active: false,
-            step4Active: false,
+            step1Active: false, step2Active: true, step3Active: false, step4Active: false,
         });
         this.setState(newState);
     }
 
     step3ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: false,
-            step3Active: true,
-            step4Active: false,
+            step1Active: false, step2Active: false, step3Active: true, step4Active: false,
         });
         this.setState(newState);
     }
@@ -548,7 +539,6 @@ class SubmitArticle extends Component {
                     inputChange={this.contributorInputChangeHandler}
                     confirm={this.addContributorHandler} />
                 {this.props.error ? toast.error('Error: ' + this.props.error) : null}
-                {this.props.crawlError ? toast.error(this.props.crawlError) : null}
             </Aux>
         );
     }

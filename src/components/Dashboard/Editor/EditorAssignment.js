@@ -139,10 +139,7 @@ class EditorAssignment extends Component {
     step1ActiveHandler = (event) => {
         event.preventDefault();
         let newState = updateObject(this.state, {
-            step1Active: true,
-            step2Active: false,
-            step3Active: false,
-            step4Active: false,
+            step1Active: true, step2Active: false, step3Active: false, step4Active: false,
             canRequestAuthorRevision: false
         });
         this.setState(newState);
@@ -150,10 +147,7 @@ class EditorAssignment extends Component {
 
     step2ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: true,
-            step3Active: false,
-            step4Active: false,
+            step1Active: false, step2Active: true, step3Active: false, step4Active: false,
             canRequestAuthorRevision: false
         });
         this.setState(newState);
@@ -161,10 +155,7 @@ class EditorAssignment extends Component {
 
     step3ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: false,
-            step3Active: true,
-            step4Active: false,
+            step1Active: false, step2Active: false, step3Active: true, step4Active: false,
             canRequestAuthorRevision: false
         });
         this.setState(newState);
@@ -172,10 +163,7 @@ class EditorAssignment extends Component {
 
     step4ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: false,
-            step3Active: false,
-            step4Active: true,
+            step1Active: false, step2Active: false, step3Active: false, step4Active: true,
             canRequestAuthorRevision: true
         });
         this.setState(newState);

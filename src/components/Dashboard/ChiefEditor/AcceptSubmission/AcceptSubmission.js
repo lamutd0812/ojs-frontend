@@ -67,24 +67,21 @@ class AcceptSubmission extends Component {
             this.props.resetAcceptSubmissionState();
             toast.success("Chấp nhận xuất bản bài báo trên hệ thống thành công!");
             this.setState(updateObject(this.state, {
-                step1Active: false,
-                step2Active: true
+                step1Active: false, step2Active: true
             }));
         }
     }
 
     step1ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: true,
-            step2Active: false
+            step1Active: true, step2Active: false
         });
         this.setState(newState);
     }
 
     step2ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: true,
+            step1Active: false, step2Active: true,
         });
         this.setState(newState);
     }

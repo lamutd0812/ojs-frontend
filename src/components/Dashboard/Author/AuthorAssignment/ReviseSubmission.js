@@ -70,9 +70,7 @@ class ReviseSubmission extends Component {
             this.props.resetAuthorRevisionState();
             toast.success("Nộp bản chỉnh sửa bài báo thành công!");
             this.setState(updateObject(this.state, {
-                step1Active: false,
-                step2Active: false,
-                step3Active: true,
+                step1Active: false, step2Active: false, step3Active: true
             }));
         }
     }
@@ -130,18 +128,14 @@ class ReviseSubmission extends Component {
     step1ActiveHandler = (event) => {
         event.preventDefault();
         let newState = updateObject(this.state, {
-            step1Active: true,
-            step2Active: false,
-            step3Active: false,
+            step1Active: true, step2Active: false, step3Active: false
         });
         this.setState(newState);
     }
 
     step2ActiveHandler = () => {
         let newState = updateObject(this.state, {
-            step1Active: false,
-            step2Active: true,
-            step3Active: false,
+            step1Active: false, step2Active: true, step3Active: false
         });
         this.setState(newState);
     }
