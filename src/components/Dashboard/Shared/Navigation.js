@@ -48,7 +48,7 @@ class Navigation extends Component {
                                             <Aux key={noti._id}>
                                                 <Link to={noti.link} className="dropdown-item">
                                                     <div className="media">
-                                                        <img src={noti.senderAvatar} alt="User Avatar" className="img-size-50 mr-3 img-circle" />
+                                                        <img src={noti.senderId.avatar} alt="User Avatar" className="img-size-50 mr-3 img-circle" />
                                                         <div className="media-body">
                                                             <h3 className="dropdown-item-title">
                                                                 {noti.title}

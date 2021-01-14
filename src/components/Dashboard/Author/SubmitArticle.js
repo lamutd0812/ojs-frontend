@@ -8,9 +8,10 @@ import { connect } from 'react-redux';
 import { updateObject } from '../../../utils/utility';
 import { getCategories, getSubmissionTypes, createSubmission, resetCreateSubmissionState } from '../../../store/actions/submissionActions';
 import { submitArticleInputControls, publishedResearchInputControls } from '../../../utils/input-controls';
-import { submitArticleInputChangeHandler, publishedResearchInputChangeHandler } from '../../../utils/input-change';
+import { submitArticleInputChangeHandler, publishedResearchInputChangeHandler, crawlPublishedArticleHandler } from '../../../utils/input-change';
 import AddContributor from './AddContributor/AddContributor';
 import { SUBMISSION_TYPES } from '../../../utils/constant';
+import { getPublishedArticle } from '../../../store/actions/vastActions';
 class SubmitArticle extends Component {
 
     state = {
@@ -39,6 +40,16 @@ class SubmitArticle extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.publishedArticle && !nextProps.crawlError) {
+            const { updatedControls, formIsValid,
+                updatedControls_published, formIsValid_published } = crawlPublishedArticleHandler(nextProps.publishedArticle, this.state);
+            this.setState(updateObject(this.state, {
+                controls: updatedControls,
+                controls_published: updatedControls_published,
+                formIsValid: formIsValid,
+                formIsValid_published: formIsValid_published
+            }));
+        }
         if (nextProps.error) {
             this.props.resetCreateSubmissionState();
         }
@@ -179,6 +190,11 @@ class SubmitArticle extends Component {
         this.props.createSubmission(formData);
     }
 
+    fetchPublishedArticle = () => {
+        const DOI = this.state.controls_published.DOI.value;
+        this.props.getPublishedArticle(DOI);
+    }
+
     render() {
         const submitArticle = (
             <div className="content-wrapper">
@@ -279,13 +295,57 @@ class SubmitArticle extends Component {
                                                         onClick={this.step2ActiveHandler}>Tiếp tục</button>
                                                 </Aux>
                                             ) : (
-                                                <button className="btn btn-outline-primary mt-2 btn-flat"
-                                                    onClick={this.step2ActiveHandler}>Tiếp tục</button>
-                                            )}
+                                                    <button className="btn btn-outline-primary mt-2 btn-flat"
+                                                        onClick={this.step2ActiveHandler}>Tiếp tục</button>
+                                                )}
                                         </div>
                                         {/* ------------------Tab 2----------------- */}
                                         <div className={this.state.step2Active ? 'tab-pane show active' : 'tab-pane'}>
                                             <div className="card-body">
+
+                                                {/* With Published Research */}
+                                                {this.state.submissionType === SUBMISSION_TYPES.PUBLISHED_RESEARCH.name && (
+                                                    <Aux>
+                                                        <div className="form-group">
+                                                            <label>DOI*</label>
+                                                            <input
+                                                                type="text"
+                                                                name="DOI"
+                                                                className={!this.state.controls_published.DOI.valid && this.state.controls_published.DOI.touched ? "form-control-error" : "form-control"}
+                                                                placeholder={this.state.controls_published.DOI.elementConfig.placeholder}
+                                                                defaultValue={this.state.controls_published.DOI.value}
+                                                                onChange={this.inputChangeHandler_published} />
+                                                            {!this.state.controls_published.DOI.valid && this.state.controls_published.DOI.touched ?
+                                                                <p className="form-control-error-msg">Giá trị DOI không hợp lệ!</p> : null}
+
+                                                            <div className="row pl-2">
+                                                                <button
+                                                                    className="btn btn-dark btn-flat btn-sm"
+                                                                    disabled={this.state.controls_published.DOI.value === ''}
+                                                                    onClick={this.fetchPublishedArticle}>Kiểm tra</button>
+                                                                {this.props.crawlLoading ? (
+                                                                    <div className="spinner-border text-primary ml-2 mt-1" role="status" style={{ width: '25px', height: '25px' }}></div>
+                                                                ) : null}
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div className="form-group">
+                                                            <label>Tên tạp chí*</label>
+                                                            <input
+                                                                type="text"
+                                                                name="magazineName"
+                                                                className={!this.state.controls_published.magazineName.valid && this.state.controls_published.magazineName.touched ? "form-control-error" : "form-control"}
+                                                                placeholder={this.state.controls_published.magazineName.elementConfig.placeholder}
+                                                                defaultValue={this.state.controls_published.magazineName.value}
+                                                                onChange={this.inputChangeHandler_published} />
+                                                            {!this.state.controls_published.magazineName.valid && this.state.controls_published.magazineName.touched ?
+                                                                <p className="form-control-error-msg">Tên tạp chí không hợp lệ!</p> : null}
+                                                        </div>
+                                                    </Aux>
+                                                )}
+
                                                 {this.props.categories.length > 0 ? (
                                                     <div className="form-group">
                                                         <label>Lĩnh vực nghiên cứu*</label>
@@ -302,36 +362,6 @@ class SubmitArticle extends Component {
                                                         </select>
                                                     </div>
                                                 ) : null}
-
-                                                {/* With Published Research */}
-                                                {this.state.submissionType === SUBMISSION_TYPES.PUBLISHED_RESEARCH.name && (
-                                                    <Aux>
-                                                        <div className="form-group">
-                                                            <label>DOI*</label>
-                                                            <input
-                                                                type="text"
-                                                                name="DOI"
-                                                                className={!this.state.controls_published.DOI.valid && this.state.controls_published.DOI.touched ? "form-control-error" : "form-control"}
-                                                                placeholder={this.state.controls_published.DOI.elementConfig.placeholder}
-                                                                defaultValue={this.state.controls_published.DOI.value}
-                                                                onChange={this.inputChangeHandler_published} />
-                                                            {!this.state.controls_published.DOI.valid && this.state.controls_published.DOI.touched ?
-                                                                <p className="form-control-error-msg">Giá trị DOI không hợp lệ!</p> : null}
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>Tên tạp chí*</label>
-                                                            <input
-                                                                type="text"
-                                                                name="magazineName"
-                                                                className={!this.state.controls_published.magazineName.valid && this.state.controls_published.magazineName.touched ? "form-control-error" : "form-control"}
-                                                                placeholder={this.state.controls_published.magazineName.elementConfig.placeholder}
-                                                                defaultValue={this.state.controls_published.magazineName.value}
-                                                                onChange={this.inputChangeHandler_published} />
-                                                            {!this.state.controls_published.magazineName.valid && this.state.controls_published.magazineName.touched ?
-                                                                <p className="form-control-error-msg">Tên tạp chí không hợp lệ!</p> : null}
-                                                        </div>
-                                                    </Aux>
-                                                )}
 
                                                 <div className="form-group">
                                                     <label>Tiêu để*</label>
@@ -518,6 +548,7 @@ class SubmitArticle extends Component {
                     inputChange={this.contributorInputChangeHandler}
                     confirm={this.addContributorHandler} />
                 {this.props.error ? toast.error('Error: ' + this.props.error) : null}
+                {this.props.crawlError ? toast.error(this.props.crawlError) : null}
             </Aux>
         );
     }
@@ -530,7 +561,10 @@ const mapStateToProps = (state) => {
         isSubmissionCreated: state.submission.isSubmissionCreated,
         submission: state.submission.submission,
         fileUploading: state.submission.fileUploading,
-        error: state.submission.error
+        error: state.submission.error,
+        crawlError: state.vast.error,
+        crawlLoading: state.vast.loading,
+        publishedArticle: state.vast.publishedArticle
     };
 };
 
@@ -538,7 +572,8 @@ const mapDispatchToProps = {
     getCategories,
     getSubmissionTypes,
     createSubmission,
-    resetCreateSubmissionState
+    resetCreateSubmissionState,
+    getPublishedArticle
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubmitArticle);

@@ -15,28 +15,11 @@ const getUrl = (startDate, endDate, page, limit) => {
     return url;
 }
 
-// case;
-
 const articlesCrawlStart = () => {
     return {
         type: actionTypes.ARTICLES_CRAWL_START
     };
 };
-
-// const articlesCrawlSuccess = (data) => {
-//     let cur = data.message.query["start-index"] / data.message["items-per-page"];
-//     if (cur < 1) {
-//         cur = 1;
-//     } else {
-//         cur = Math.ceil(cur) + 1;
-//     }
-//     return {
-//         type: actionTypes.ARTICLES_CRAWL_SUCCESS,
-//         articles: data.message.items,
-//         total: data.message["total-results"],
-//         currentPage: cur,
-//     }
-// };
 
 const articlesCrawlSuccess = (data) => {
     const affiliation = 'Vietnam Academy of Science and Technology';
@@ -67,10 +50,24 @@ const articlesCrawlSuccess = (data) => {
     }
 };
 
+const getPublishedArticleByDOISuccess = (data) => {
+    const publishedArticle = {
+        magazineName: data.message.publisher || "",
+        title: data.message.title[0] || "",
+        abstract: data.message.abstract || "",
+        // link: data.message.link[0] || ""
+    };
+    return {
+        type: actionTypes.GET_PUBLISHED_ARTICLE_BY_DOI_SUCCESS,
+        publishedArticle: publishedArticle
+    }
+};
+
 const articlesCrawlError = (error) => {
     return {
         type: actionTypes.ARTICLES_CRAWL_ERROR,
-        error: error
+        error: error,
+        publishedArticle: null
     }
 };
 
@@ -94,3 +91,14 @@ export const junmpToPage = (page) => (dispatch) => {
         currentPage: page
     });
 }
+
+export const getPublishedArticle = (DOI) => (dispatch) => {
+    dispatch(articlesCrawlStart());
+    axios.get("https://api.crossref.org/works/" + DOI)
+        .then(res => {
+            dispatch(getPublishedArticleByDOISuccess(res.data));
+        })
+        .catch(err => {
+            dispatch(articlesCrawlError("Không tìm thấy bài báo ứng với DOI này!"));
+        });
+};

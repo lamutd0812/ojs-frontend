@@ -94,6 +94,41 @@ export const publishedResearchInputChangeHandler = (event, state) => {
     return { updatedControls, formIsValid };
 };
 
+// Seek Published Article Update Controls
+export const crawlPublishedArticleHandler = (publishedArticle, state) => {
+    const updatedControls = updateObject(state.controls, {
+        title: updateObject(state.controls.title, {
+            value: publishedArticle.title,
+            valid: publishedArticle.title !== '' ? true : false,
+            touched: true
+        }),
+        abstract: updateObject(state.controls.abstract, {
+            value: publishedArticle.abstract,
+            valid: publishedArticle.abstract !== '' ? true : false,
+            touched: true
+        }),
+    });
+    const updatedControls_published = updateObject(state.controls_published, {
+        magazineName: updateObject(state.controls_published.magazineName, {
+            value: publishedArticle.magazineName,
+            valid: publishedArticle.magazineName !== '' ? true : false,
+            touched: true
+        })
+    });
+
+    let formIsValid = true;
+    for (let controlName in updatedControls) {
+        formIsValid = updatedControls[controlName].valid && formIsValid;
+    }
+
+    let formIsValid_published = true;
+    for (let controlName in updatedControls_published) {
+        formIsValid = updatedControls_published[controlName].valid && formIsValid_published;
+    }
+
+    return { updatedControls, formIsValid, updatedControls_published, formIsValid_published };
+};
+
 export const createReviewInputChangeHandler = (event, state) => {
     let controlName = event.target.name;
     let updatedControls = null;

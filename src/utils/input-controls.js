@@ -231,6 +231,19 @@ export const publishedResearchInputControls = {
         valid: false,
         touched: false
     },
+    url: {
+        elementConfig: {
+            type: 'text',
+            placeholder: 'url'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 5
+        },
+        valid: false,
+        touched: false
+    },
 };
 
 export const editSubmissionInputControls = {

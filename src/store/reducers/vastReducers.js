@@ -8,6 +8,7 @@ const initialState = {
     error: false,
     total: 0,
     currentPage: 1,
+    publishedArticle: null
 };
 
 const articlesCrawlStart = (state) => {
@@ -37,9 +38,18 @@ const jumpToAnotherPageSuccess = (state, action) => {
     })
 }
 
+const getPublishedArticleByDOISuccess = (state, action) => {
+    return updateObject(state, {
+        publishedArticle: action.publishedArticle,
+        loading: false,
+        error: null
+    });
+};
+
 const articlesCrawlError = (state, action) => {
     return updateObject(state, {
-        error: action.error
+        error: action.error,
+        loading: false
     });
 };
 
@@ -49,6 +59,8 @@ const vastReducer = (state = initialState, action) => {
         case actionTypes.ARTICLES_CRAWL_ERROR: return articlesCrawlError(state, action);
         case actionTypes.ARTICLES_CRAWL_SUCCESS: return articlesCrawlSuccess(state, action);
         case actionTypes.JUMP_TO_PAGE_SUCCESS: return jumpToAnotherPageSuccess(state, action);
+
+        case actionTypes.GET_PUBLISHED_ARTICLE_BY_DOI_SUCCESS: return getPublishedArticleByDOISuccess(state, action);
 
         default: return state;
     }
