@@ -15,6 +15,7 @@ import { EditorState, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
+import { stateToHTML } from 'draft-js-export-html';
 import { assignEditorTemplate } from '../../../utils/email-template';
 class AssignEditor extends Component {
 
@@ -25,9 +26,9 @@ class AssignEditor extends Component {
         submissionId: '',
         selectedEditorId: '',
         selectedEditorName: '',
+        selectedEditorEmail: '',
         dueDate: getDeadlineDate(7),
         messageToEditor: 'Nội dung lời nhắn',
-        // emailToEditor: 'Nội dung email',
         editorState: null
     };
 
@@ -84,10 +85,16 @@ class AssignEditor extends Component {
             editorState = EditorState.createWithContent(contentState);
 
         }
+        const nameAndEmail = event.target.id;
+        const fileds = nameAndEmail.split("|");
+        const fullname = fileds[0];
+        const email = fileds[1];
+
         this.setState(updateObject(this.state, {
             editorState: editorState,
             selectedEditorId: event.target.value,
-            selectedEditorName: event.target.id
+            selectedEditorName: fullname,
+            selectedEditorEmail: email
         }));
     }
 
@@ -100,8 +107,16 @@ class AssignEditor extends Component {
     }
 
     confirmSubmitHandler = () => {
-        this.props.assignEditor(this.state.submissionId, this.state.selectedEditorId,
-            this.state.dueDate, this.state.messageToEditor);
+        const htmlContent = stateToHTML(this.state.editorState.getCurrentContent());
+        const reqBody = {
+            submissionId: this.state.submissionId,
+            editorId: this.state.selectedEditorId,
+            dueDate: this.state.dueDate,
+            message: this.state.messageToEditor,
+            editorEmail: this.state.selectedEditorEmail,
+            htmlContent: htmlContent
+        };
+        this.props.assignEditor(reqBody);
     }
 
     onEditorStateChange = (editorState) => {
@@ -173,7 +188,7 @@ class AssignEditor extends Component {
                                                                                     <input
                                                                                         value={editor._id}
                                                                                         type="radio"
-                                                                                        id={editor.lastname + " " + editor.firstname}
+                                                                                        id={editor.lastname + " " + editor.firstname + "|" + editor.email}
                                                                                         name="editor" />
                                                                                 </label>
                                                                             </div>
@@ -212,6 +227,7 @@ class AssignEditor extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <h6>Gửi Email tới biên tập viên*</h6>
+                                                    <p>To: {this.state.selectedEditorEmail}</p>
                                                     <Editor
                                                         editorState={this.state.editorState}
                                                         wrapperClassName="wrapper-class"

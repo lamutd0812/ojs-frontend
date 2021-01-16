@@ -197,14 +197,8 @@ export const getAllReviewers = (submissionId) => (dispatch, getState) => {
 };
 
 // Chief Editor assign Editor
-export const assignEditor = (submissionId, editorId, dueDate, message) => (dispatch, getState) => {
+export const assignEditor = (reqBody) => (dispatch, getState) => {
     const token = getState().auth.token;
-    const reqBody = {
-        submissionId: submissionId,
-        editorId: editorId,
-        dueDate: dueDate,
-        message: message
-    };
     axios.put('/reviews/assign-editor', reqBody, {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -217,14 +211,8 @@ export const assignEditor = (submissionId, editorId, dueDate, message) => (dispa
 };
 
 // Editor assign Reviewer
-export const assignReviewer = (submissionId, reviewerId, dueDate, message) => (dispatch, getState) => {
+export const assignReviewer = (reqBody) => (dispatch, getState) => {
     const token = getState().auth.token;
-    const reqBody = {
-        submissionId: submissionId,
-        reviewerId: reviewerId,
-        dueDate: dueDate,
-        message: message
-    };
     axios.put('/reviews/assign-reviewer', reqBody, {
         headers: {
             'Authorization': `Bearer ${token}`
