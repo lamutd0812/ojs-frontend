@@ -63,7 +63,7 @@ const CreateEditorSubmisison = (props) => {
                     className="btn btn-outline-primary btn-flat"
                     data-toggle="modal"
                     data-target="#confirmDialogModal"
-                    disabled={!props.formIsValid}> Nộp ý kiến</button>
+                    disabled={!props.formIsValid}> Nộp kết luận</button>
             </div>
         </Aux>
     );

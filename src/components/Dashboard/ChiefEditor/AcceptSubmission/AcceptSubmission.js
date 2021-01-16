@@ -20,6 +20,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
 import { acceptSubmissionTemplate} from '../../../../utils/email-template';
+import { stateToHTML } from 'draft-js-export-html';
 
 class AcceptSubmission extends Component {
     state = {
@@ -87,10 +88,13 @@ class AcceptSubmission extends Component {
     }
 
     confirmSubmitHandler = () => {
+        const htmlContent = stateToHTML(this.state.editorState.getCurrentContent());
+        const authorEmail = this.props.submission.authorId.email;
+
         const submissionId = this.props.submission._id;
         const content = this.state.controls.content.value;
-        // const emailToAuthor = this.state.controls.emailToAuthor.value;
-        this.props.acceptSubmisison(submissionId, content);
+        
+        this.props.acceptSubmisison(submissionId, content, authorEmail, htmlContent);
     }
 
     onEditorStateChange = (editorState) => {
@@ -153,6 +157,7 @@ class AcceptSubmission extends Component {
                                         </div>
                                         <div className="form-group">
                                             <label>Gửi Email đến tác giả*</label>
+                                            <p><span className="text-dark">Địa chỉ email:</span> {this.props.submission ? this.props.submission.authorId.email : ""}</p>
                                             <Editor
                                                 editorState={this.state.editorState}
                                                 wrapperClassName="wrapper-class"

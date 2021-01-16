@@ -102,7 +102,7 @@ class Home extends Component {
                         <li className="breadcrumb-item">Trang tác giả</li>
                     </ContentHeader>
                     <button onClick={this.btnNewSubmissonClickHandler} className="btn btn-outline-dark btn-flat">
-                        <i className="fas fa-upload"></i> Submit bài báo
+                        <i className="fas fa-upload"></i> Đăng tải bài báo
                     </button>
                 </section>
 

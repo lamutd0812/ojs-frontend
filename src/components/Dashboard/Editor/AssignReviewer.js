@@ -14,6 +14,7 @@ import { EditorState, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
+import { stateToHTML } from 'draft-js-export-html';
 import { assignReviewerTemplate } from '../../../utils/email-template';
 
 class AssignReviewer extends Component {
@@ -25,9 +26,9 @@ class AssignReviewer extends Component {
         submissionId: '',
         selectedReviewerId: '',
         selectedReviewerName: '',
+        selectedReviewerEmail: '',
         dueDate: getDeadlineDate(7),
         messageToReviewer: 'Nội dung lời nhắn',
-        // emailToReviewer: 'Nội dung email',
         editorState: null
     };
 
@@ -82,10 +83,16 @@ class AssignReviewer extends Component {
             editorState = EditorState.createWithContent(contentState);
 
         }
+        const nameAndEmail = event.target.id;
+        const fileds = nameAndEmail.split("|");
+        const fullname = fileds[0];
+        const email = fileds[1];
+
         this.setState(updateObject(this.state, {
             editorState: editorState,
             selectedReviewerId: event.target.value,
-            selectedReviewerName: event.target.id
+            selectedReviewerName: fullname,
+            selectedReviewerEmail: email,
         }));
     }
 
@@ -98,8 +105,16 @@ class AssignReviewer extends Component {
     }
 
     confirmSubmitHandler = () => {
-        this.props.assignReviewer(this.state.submissionId, this.state.selectedReviewerId,
-            this.state.dueDate, this.state.messageToReviewer);
+        const htmlContent = stateToHTML(this.state.editorState.getCurrentContent());
+        const reqBody = {
+            submissionId: this.state.submissionId,
+            reviewerId: this.state.selectedReviewerId,
+            dueDate: this.state.dueDate,
+            message: this.state.messageToReviewer,
+            reviewerEmail: this.state.selectedReviewerEmail,
+            htmlContent: htmlContent
+        };
+        this.props.assignReviewer(reqBody);
     }
 
     onEditorStateChange = (editorState) => {
@@ -172,7 +187,7 @@ class AssignReviewer extends Component {
                                                                                     <input
                                                                                         value={reviewer._id}
                                                                                         type="radio"
-                                                                                        id={reviewer.lastname + " " + reviewer.firstname}
+                                                                                        id={reviewer.lastname + " " + reviewer.firstname + "|" + reviewer.email}
                                                                                         name="reviewer" />
                                                                                 </label>
                                                                             </div>
@@ -228,6 +243,7 @@ class AssignReviewer extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <h6>Gửi Email tới thẩm định viên*</h6>
+                                                    <p><span className="text-dark">Địa chỉ email:</span> {this.state.selectedReviewerEmail}</p>
                                                     <Editor
                                                         editorState={this.state.editorState}
                                                         wrapperClassName="wrapper-class"

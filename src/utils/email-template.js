@@ -19,7 +19,7 @@ export const assignEditorTemplate = (submisisonName, chiefEditorName, editorName
 
 export const assignReviewerTemplate = (submisisonName, editorName, reviewerName) => {
     const email =
-        '<p>Xin chào <strong>' + reviewerName + '</strong>.</p>' +
+        '<p>Xin chào <strong>' + getNameFromNameAndEmail(reviewerName) + '</strong>.</p>' +
         '<p>Ban biên tập tạp chí truy cập mở VNOJS xin được thông báo rằng bạn đã được chỉ định ' +
         'vào vị trí thẩm định viên cho bài báo <strong>' + submisisonName + '</strong></>' +
         '. Bạn vui lòng truy cập vào hệ thống để xem chi tiết yêu cầu và chủ trì quá trình thẩm định. Tiến' +

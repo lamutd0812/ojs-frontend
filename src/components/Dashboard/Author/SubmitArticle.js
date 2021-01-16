@@ -58,7 +58,7 @@ class SubmitArticle extends Component {
         }
         if (nextProps.isSubmissionCreated && !nextProps.error) {
             this.props.resetCreateSubmissionState();
-            toast.success("Submit bài báo lên hệ thống thành công!");
+            toast.success("Đăng tải bài báo lên hệ thống thành công!");
             this.setState(updateObject(this.state, {
                 step1Active: false, step2Active: false, step3Active: false, step4Active: true
             }));
@@ -190,8 +190,8 @@ class SubmitArticle extends Component {
         const submitArticle = (
             <div className="content-wrapper">
                 <section className="content-header">
-                    <ContentHeader title="Submit bài báo lên hệ thống">
-                        <li className="breadcrumb-item active">Submit bài báo</li>
+                    <ContentHeader title="Đăng tải bài báo lên hệ thống">
+                        <li className="breadcrumb-item active">Đăng tải bài báo</li>
                     </ContentHeader>
                 </section>
                 <section className="content">
@@ -490,7 +490,7 @@ class SubmitArticle extends Component {
                                         </div>
                                         {/* ------------------Tab 4----------------- */}
                                         <div className={this.state.step4Active ? 'tab-pane show active' : 'tab-pane'}>
-                                            <h4>Submit bài báo lên hệ thống thành công.</h4>
+                                            <h4>Đăng tải bài báo lên hệ thống thành công.</h4>
                                             <div className="ml-2">Cảm ơn bạn đã đăng tải bài báo lên hệ thống. Chúng tôi đã
                                             tiếp nhận và sẽ tiến hành thẩm định bài báo của bạn trước khi quyết định đăng tải.</div>
                                             <div className="ml-2 mt-2">Trong quá trình thẩm định, bạn vui lòng kiểm tra email và thông

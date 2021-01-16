@@ -439,10 +439,12 @@ export const resetAuthorRevisionState = () => (dispatch) => {
 };
 
 // Chief Editor Accept or Decline Submisison
-export const acceptSubmisison = (submissionId, content) => (dispatch, getState) => {
+export const acceptSubmisison = (submissionId, content, authorEmail, htmlContent) => (dispatch, getState) => {
     const token = getState().auth.token;
     const reqBody = {
-        content: content
+        content: content,
+        authorEmail: authorEmail,
+        htmlContent: htmlContent
     };
     axios.put('/reviews/accept-submission/' + submissionId, reqBody, {
         headers: {
@@ -461,10 +463,12 @@ export const resetAcceptSubmissionState = () => (dispatch) => {
     });
 };
 
-export const declineSubmisison = (submissionId, content) => (dispatch, getState) => {
+export const declineSubmisison = (submissionId, content, authorEmail, htmlContent) => (dispatch, getState) => {
     const token = getState().auth.token;
     const reqBody = {
-        content: content
+        content: content,
+        authorEmail: authorEmail,
+        htmlContent: htmlContent
     };
     axios.put('/reviews/decline-submission/' + submissionId, reqBody, {
         headers: {

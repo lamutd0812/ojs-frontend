@@ -219,6 +219,8 @@ class Home extends Component {
                                                                             </div>
                                                                         </div>
                                                                         <div className="col-lg-4 border rounded pt-2 pb-2">
+                                                                            <label>Trạng thái bài báo</label>
+                                                                            <div className="form-group ml-4">{ea.submissionId ? ea.submissionId.submissionLogs[ea.submissionId.submissionLogs.length - 1].event : ""}</div>
                                                                             <label>Ý kiến thẩm định viên</label>
                                                                             <div className="form-group">
                                                                                 {ea.submissionId.typeId.name === SUBMISSION_TYPES.PEER_REVIEW_RESEARCH.name ? (
@@ -248,12 +250,12 @@ class Home extends Component {
                                                                                             )}
                                                                                     </Aux>
                                                                                 ) : (
-                                                                                    <Aux>
-                                                                                        <div className="ml-4">
-                                                                                            <div>Không yêu cầu</div>
-                                                                                        </div>
-                                                                                    </Aux>
-                                                                                )}
+                                                                                        <Aux>
+                                                                                            <div className="ml-4">
+                                                                                                <div>Không yêu cầu</div>
+                                                                                            </div>
+                                                                                        </Aux>
+                                                                                    )}
 
                                                                             </div>
                                                                         </div>

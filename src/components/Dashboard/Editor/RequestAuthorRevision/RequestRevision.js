@@ -20,18 +20,13 @@ const RequestRevision = (props) => {
                 </div>
                 <div className="form-group">
                     <label>Gửi Email tới tác giả*</label>
+                    <p><span className="text-dark">Địa chỉ email:</span> {props.authorEmail}</p>
                     <Editor
                         editorState={props.editorState}
                         wrapperClassName="wrapper-class"
                         editorClassName="form-control"
                         toolbarClassName="toolbar-class"
                         onEditorStateChange={props.onEditorStateChange} />
-                    {/* <textarea
-                        type="text"
-                        name="noti_and_email"
-                        className="form-control"
-                        defaultValue={props.emailToAuthor}
-                        onChange={props.setEmail} /> */}
                 </div>
                 <div className="form-group">
                     <label>Lời nhắn</label>

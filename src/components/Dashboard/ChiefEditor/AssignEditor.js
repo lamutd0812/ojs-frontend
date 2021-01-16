@@ -227,7 +227,7 @@ class AssignEditor extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <h6>Gửi Email tới biên tập viên*</h6>
-                                                    <p>To: {this.state.selectedEditorEmail}</p>
+                                                    <p><span className="text-dark">Địa chỉ email:</span> {this.state.selectedEditorEmail}</p>
                                                     <Editor
                                                         editorState={this.state.editorState}
                                                         wrapperClassName="wrapper-class"

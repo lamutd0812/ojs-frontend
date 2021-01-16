@@ -38,6 +38,7 @@ import htmlToDraft from 'html-to-draftjs';
 import { requestRevisionTemplate } from '../../../utils/email-template';
 import { SUBMISSION_TYPES } from '../../../utils/constant';
 import ReviewProcessInfor from '../ReviewProcess/ReviewProcessInfor';
+import { stateToHTML } from 'draft-js-export-html';
 class EditorAssignment extends Component {
 
     state = {
@@ -54,7 +55,6 @@ class EditorAssignment extends Component {
         canRequestAuthorRevision: false,
         dueDate: getDeadlineDate(7),
         messageToAuthor: 'Nội dung lời nhắn',
-        // emailToAuthor: 'Nội dung email',
         editorState: null
 
     }
@@ -86,7 +86,8 @@ class EditorAssignment extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.submission) {
             // Text Editor
-            const contentBlock = htmlToDraft(requestRevisionTemplate(nextProps.submission.title, '/dashboard',
+            const url = "https://vnojs.online/dashboard/submission/" + nextProps.submission._id;
+            const contentBlock = htmlToDraft(requestRevisionTemplate(nextProps.submission.title, url,
                 this.props.editorFullname, nextProps.submission.authorId.lastname + " " + nextProps.submission.authorId.firstname));
             let editorState = null;
             if (contentBlock) {
@@ -219,9 +220,12 @@ class EditorAssignment extends Component {
                 toast.error('Bạn đã nộp quyết định cho tổng biên tập trước đó!');
             } else {
                 // request author revision
+                const htmlContent = stateToHTML(this.state.editorState.getCurrentContent());
                 const reqBody = {
                     dueDate: this.state.dueDate,
-                    message: this.state.messageToAuthor
+                    message: this.state.messageToAuthor,
+                    authorEmail: this.props.submission.authorId.email,
+                    htmlContent: htmlContent
                 }
                 this.props.requestAuthorRevision(submissionId, reqBody);
             }
@@ -256,11 +260,6 @@ class EditorAssignment extends Component {
     setMessageToAuthorHandler = (event) => {
         event.preventDefault();
         this.setState(updateObject(this.state, { messageToReviewer: event.target.value }));
-    }
-
-    setEmailToAuthorHandler = (event) => {
-        event.preventDefault();
-        this.setState(updateObject(this.state, { emailToReviewer: event.target.value }));
     }
 
     // Email Editor
@@ -565,9 +564,9 @@ class EditorAssignment extends Component {
                                                                             editorState={this.state.editorState}
                                                                             onEditorStateChange={this.onEditorStateChange}
                                                                             messageToAuthor={this.state.messageToAuthor}
+                                                                            authorEmail={this.props.submission ? this.props.submission.authorId.email : ""}
                                                                             setDueDate={this.setDueDateHandler}
-                                                                            setMessage={this.setMessageToAuthorHandler}
-                                                                            setEmail={this.setEmailToAuthorHandler} />
+                                                                            setMessage={this.setMessageToAuthorHandler} />
                                                                     )}
                                                             </Aux>
                                                         )}

@@ -20,6 +20,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
 import { declineSubmissionTemplate } from '../../../../utils/email-template';
+import { stateToHTML } from 'draft-js-export-html';
 
 class DeclineSubmission extends Component {
 
@@ -49,7 +50,8 @@ class DeclineSubmission extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.submission) {
             // Text Editor
-            const contentBlock = htmlToDraft(declineSubmissionTemplate(nextProps.submission.title, '/dashboard',
+            const url = "https://vnojs.online/dashboard/submission/" + nextProps.submission._id;
+            const contentBlock = htmlToDraft(declineSubmissionTemplate(nextProps.submission.title, url,
                 this.props.ceFullname, nextProps.submission.authorId.lastname + " " + nextProps.submission.authorId.firstname));
             let editorState = null;
             if (contentBlock) {
@@ -89,10 +91,13 @@ class DeclineSubmission extends Component {
     }
 
     confirmSubmitHandler = () => {
+        const htmlContent = stateToHTML(this.state.editorState.getCurrentContent());
+        const authorEmail = this.props.submission.authorId.email;
+
         const submissionId = this.props.submission._id;
         const content = this.state.controls.content.value;
-        // const emailToAuthor = this.state.controls.emailToAuthor.value;
-        this.props.declineSubmisison(submissionId, content);
+
+        this.props.declineSubmisison(submissionId, content, authorEmail, htmlContent);
     }
 
     onEditorStateChange = (editorState) => {
@@ -155,6 +160,7 @@ class DeclineSubmission extends Component {
                                         </div>
                                         <div className="form-group">
                                             <label>Gửi Email đến tác giả*</label>
+                                            <p><span className="text-dark">Địa chỉ email:</span> {this.props.submission ? this.props.submission.authorId.email : ""}</p>
                                             <Editor
                                                 editorState={this.state.editorState}
                                                 wrapperClassName="wrapper-class"

@@ -25,6 +25,7 @@ class Footer extends Component {
                                     <Link to="#" className="twitter"><i className="fa fa-twitter"></i></Link>
                                     <Link to="#" className="linkedin"><i className="fa fa-linkedin"></i></Link>
                                 </div>
+                                <p className="pt-3">Contact: lamutd0812@gmail.com</p>
                             </div>
                         </div>
 
