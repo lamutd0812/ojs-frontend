@@ -215,9 +215,9 @@ export const resetPostCommentState = () => (dispatch) => {
     });
 };
 
-export const replyACommentOfArticle = (commentId, comment) => (dispatch, getState) => {
+export const replyACommentOfArticle = (commentId, reply) => (dispatch, getState) => {
     const token = getState().auth.token;
-    const body = { content: comment };
+    const body = { content: reply };
     axios.post('/articles/replies/' + commentId, body, {
         headers: {
             'Authorization': `Bearer ${token}`

@@ -1483,6 +1483,7 @@ blockquote {
     .comment_area .comment-content .comment-meta .reply {
       font-size: 13px;
       font-weight: 400;
+      cursor: pointer;
       text-transform: uppercase;
       height: 30px;
       padding: 0 20px;

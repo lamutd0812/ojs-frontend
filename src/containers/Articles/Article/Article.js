@@ -26,29 +26,11 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import { checkValidity, getFormattedDateOnly, updateObject } from '../../../utils/utility';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { commentAndReplyInput } from '../../../utils/input-controls';
 
 class Article extends Component {
 
-    state = {
-        comment: {
-            value: '',
-            validation: {
-                required: true,
-                minLength: 10,
-            },
-            valid: false,
-            touched: false
-        },
-        reply: {
-            value: '',
-            validation: {
-                required: true,
-                minLength: 10,
-            },
-            valid: false,
-            touched: false
-        }
-    }
+    state = commentAndReplyInput;
 
     componentDidMount() {
         window.scrollTo(0, 0);
@@ -71,6 +53,11 @@ class Article extends Component {
         if (nextProps.isCommentPosted && !nextProps.error) {
             this.props.resetPostCommentState();
             toast.success("Đăng tải bình luận thành công!");
+            this.props.getCommentsOfArticle(this.props.match.params.id);
+        }
+        if (nextProps.isReplyPosted && !nextProps.error) {
+            this.props.resetReplyACommentState();
+            toast.success("Trả lời bình luận thành công!");
             this.props.getCommentsOfArticle(this.props.match.params.id);
         }
     }
@@ -102,6 +89,29 @@ class Article extends Component {
         if (this.props.match.params.id) {
             this.props.postCommentOfArticle(this.props.match.params.id, this.state.comment.value);
         }
+        this.setState(updateObject(this.state, commentAndReplyInput));
+    }
+
+    selectCommentToReplyHandler = (commentId) => {
+        this.setState(updateObject(this.state, { commentToReplyId: commentId }));
+    }
+
+    replyInputChangeHandler = (event) => {
+        const updatedReply = updateObject(this.state.reply, {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, this.state.reply.validation),
+            touched: true
+        })
+        this.setState(updateObject(this.state, { reply: updatedReply }));
+    }
+
+    postReplyACommentHandler = (commentId) => {
+        this.props.replyACommentOfArticle(commentId, this.state.reply.value);
+        this.setState(updateObject(this.state, commentAndReplyInput));
+    }
+
+    cancelReplyHandler = () => {
+        this.setState(updateObject(this.state, { commentToReplyId: "" }));
     }
 
     render() {
@@ -160,7 +170,16 @@ class Article extends Component {
                                 {/* <RelatedPost /> */}
                                 <div className="comment_area clearfix bg-white mb-30 p-30 box-shadow">
                                     {this.props.comments.length > 0 ? (
-                                        <Comments comments={this.props.comments} />
+                                        <Comments
+                                            isAuth={this.props.isAuth}
+                                            comments={this.props.comments}
+                                            reply={this.state.reply}
+                                            commentToReplyId={this.state.commentToReplyId}
+                                            selectCommentToReplyHandler={this.selectCommentToReplyHandler}
+                                            replyInputChangeHandler={this.replyInputChangeHandler}
+                                            postReplyACommentHandler={this.postReplyACommentHandler}
+                                            cancelReplyHandler={this.cancelReplyHandler}
+                                        />
                                     ) : (
                                             <Aux>
                                                 <div className="section-heading">
@@ -172,9 +191,11 @@ class Article extends Component {
                                 </div>
                                 <div className="post-a-comment-area bg-white mb-30 p-30 box-shadow clearfix">
                                     <PostComment
+                                        isAuth={this.props.isAuth}
                                         comment={this.state.comment}
                                         commentInputChangeHandler={this.commentInputChangeHandler}
-                                        postCommentHandler={this.postCommentHandler} />
+                                        postCommentHandler={this.postCommentHandler}
+                                    />
                                 </div>
                             </div>
 
@@ -200,6 +221,7 @@ class Article extends Component {
 
 const mapStateToProps = state => {
     return {
+        isAuth: state.auth.token != null,
         article: state.article.article,
         comments: state.article.comments,
         related_articles: state.article.related_articles,

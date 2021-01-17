@@ -540,3 +540,25 @@ export const changePasswordInputControls = {
         touched: false
     },
 };
+
+export const commentAndReplyInput = {
+    comment: {
+        value: '',
+        validation: {
+            required: true,
+            minLength: 10,
+        },
+        valid: false,
+        touched: false
+    },
+    reply: {
+        value: '',
+        validation: {
+            required: true,
+            minLength: 10,
+        },
+        valid: false,
+        touched: false
+    },
+    commentToReplyId: ''
+};

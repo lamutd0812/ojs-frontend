@@ -17,9 +17,10 @@ const PostComment = (props) => {
                                 className={!props.comment.valid && props.comment.touched ? "form-control-error" : "form-control"}
                                 id="comment"
                                 defaultValue={props.comment.value}
+                                disabled={!props.isAuth}
                                 cols="30"
                                 rows="10"
-                                placeholder="Nội dung bình luận"
+                                placeholder={props.isAuth ? "Nội dung bình luận" : "Đăng nhập để bình luận"}
                                 onChange={props.commentInputChangeHandler} />
                             {!props.comment.valid && props.comment.touched ?
                                 <p className="form-control-error-msg">Bình luận phải dài ít nhất 10 ký tự!</p> : null}
