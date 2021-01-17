@@ -12,7 +12,11 @@ const initialState = {
     total_items: 0,
     currentPage: 1,
     articles_search: [],
-    related_articles: []
+    related_articles: [],
+    comments: [],
+    message: '',
+    isCommentPosted: false,
+    isReplyPosted: false
 };
 
 const articleStart = (state) => {
@@ -61,6 +65,38 @@ const getSingleArticleSuccess = (state, action) => {
     });
 };
 
+const getCommentsOfArticleSuccess = (state, action) => {
+    return updateObject(state, {
+        comments: action.comments
+    });
+};
+
+const postCommentSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isCommentPosted: true,
+    });
+};
+
+const resetPostCommentState = state => {
+    return updateObject(state, {
+        isCommentPosted: false
+    });
+}
+
+const replyACommentSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isReplyPosted: true
+    });
+};
+
+const resetreplyACommentState = state => {
+    return updateObject(state, {
+        isReplyPosted: false
+    });
+}
+
 const getRelatedArticlesSuccess = (state, action) => {
     return updateObject(state, {
         related_articles: action.relatedArticles,
@@ -80,13 +116,15 @@ const searchArticlesByKeywordSuccess = (state, action) => {
 const updateDownloadedCountSuccess = (state) => {
     return updateObject(state, {
         loading: false,
-        error: null
+        error: null,
     });
 };
 
 const articleError = (state, action) => {
     return updateObject(state, {
-        error: action.error
+        error: action.error,
+        isCommentPosted: false,
+        isReplyPosted: false
     });
 };
 
@@ -103,6 +141,13 @@ const articleReducer = (state = initialState, action) => {
         case actionTypes.GET_MOST_DOWNLOADED_ARTICLES_HOME_SUCCESS: return getMostDownloadedArticlesHomeSuccess(state, action);
 
         case actionTypes.GET_SINGLE_ARTICLE_SUCCESS: return getSingleArticleSuccess(state, action);
+        case actionTypes.GET_COMMENTS_SUCCESS: return getCommentsOfArticleSuccess(state, action);
+
+        case actionTypes.POST_COMMENTS_SUCCESS: return postCommentSuccess(state, action);
+        case actionTypes.RESET_POST_COMMENTS_STATE: return resetPostCommentState(state);
+        case actionTypes.REPLY_A_COMMENT_SUCCESS: return replyACommentSuccess(state, action);
+        case actionTypes.RESET_REPLY_A_COMMENT_STATE: return resetreplyACommentState(state, action);
+
         case actionTypes.GET_RELATED_ARTICLES_SUCCESS: return getRelatedArticlesSuccess(state, action);
 
         case actionTypes.UPDATE_DOWNLOADED_COUNT_SUCCESS: return updateDownloadedCountSuccess(state);

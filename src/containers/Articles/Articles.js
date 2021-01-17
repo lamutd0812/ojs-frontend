@@ -105,8 +105,8 @@ class Articles extends Component {
                                             ) : null}
                                         </Aux>
                                     ) : (
-                                            <Spinner />
-                                        )}
+                                        <Spinner />
+                                    )}
                                 </div>
                             </div>
                             {/* Col */}

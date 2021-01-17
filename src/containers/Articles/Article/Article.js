@@ -5,24 +5,56 @@ import Footer from '../../../components/Footer/Footer';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import RouteBreadcrumb from '../../../components/Breadcrumb/RouteBreadcrumb';
 import Author from './Author';
-// import RelatedPost from './RelatedPost';
 import Comments from './Comments';
-import Reply from './Reply';
+import PostComment from './PostComment';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
-import { getSingleArticle, getRelatedArticles, getMostViewedArticlesHome, updateDownloadedCount } 
-from '../../../store/actions/articleActions';
+import {
+    getSingleArticle,
+    getRelatedArticles,
+    getMostViewedArticlesHome,
+    updateDownloadedCount,
+    getCommentsOfArticle,
+    postCommentOfArticle,
+    replyACommentOfArticle,
+    resetPostCommentState,
+    resetReplyACommentState
+}
+    from '../../../store/actions/articleActions';
 import { getCategories } from '../../../store/actions/submissionActions';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-import { getFormattedDateOnly } from '../../../utils/utility';
+import { checkValidity, getFormattedDateOnly, updateObject } from '../../../utils/utility';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 class Article extends Component {
+
+    state = {
+        comment: {
+            value: '',
+            validation: {
+                required: true,
+                minLength: 10,
+            },
+            valid: false,
+            touched: false
+        },
+        reply: {
+            value: '',
+            validation: {
+                required: true,
+                minLength: 10,
+            },
+            valid: false,
+            touched: false
+        }
+    }
 
     componentDidMount() {
         window.scrollTo(0, 0);
         if (this.props.match.params.id) {
             this.props.getSingleArticle(this.props.match.params.id);
+            this.props.getCommentsOfArticle(this.props.match.params.id);
             if (this.props.related_articles.length <= 0) {
                 this.props.getRelatedArticles(this.props.match.params.id, 1, 5);
             }
@@ -35,9 +67,18 @@ class Article extends Component {
         }
     }
 
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.isCommentPosted && !nextProps.error) {
+            this.props.resetPostCommentState();
+            toast.success("Đăng tải bình luận thành công!");
+            this.props.getCommentsOfArticle(this.props.match.params.id);
+        }
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.match.params.id !== prevProps.match.params.id) {
             this.props.getSingleArticle(this.props.match.params.id);
+            this.props.getCommentsOfArticle(this.props.match.params.id);
             this.props.getRelatedArticles(this.props.match.params.id, 1, 5);
         }
     }
@@ -45,6 +86,21 @@ class Article extends Component {
     updateDownloadedTimes = () => {
         if (this.props.match.params.id) {
             this.props.updateDownloadedCount(this.props.match.params.id);
+        }
+    }
+
+    commentInputChangeHandler = (event) => {
+        const updatedComment = updateObject(this.state.comment, {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, this.state.comment.validation),
+            touched: true
+        })
+        this.setState(updateObject(this.state, { comment: updatedComment }));
+    }
+
+    postCommentHandler = () => {
+        if (this.props.match.params.id) {
+            this.props.postCommentOfArticle(this.props.match.params.id, this.state.comment.value);
         }
     }
 
@@ -103,10 +159,22 @@ class Article extends Component {
                                 </div>
                                 {/* <RelatedPost /> */}
                                 <div className="comment_area clearfix bg-white mb-30 p-30 box-shadow">
-                                    <Comments />
+                                    {this.props.comments.length > 0 ? (
+                                        <Comments comments={this.props.comments} />
+                                    ) : (
+                                            <Aux>
+                                                <div className="section-heading">
+                                                    <h5>Bình Luận</h5>
+                                                </div>
+                                                <div>Chưa có bình luận nào</div>
+                                            </Aux>
+                                        )}
                                 </div>
                                 <div className="post-a-comment-area bg-white mb-30 p-30 box-shadow clearfix">
-                                    <Reply />
+                                    <PostComment
+                                        comment={this.state.comment}
+                                        commentInputChangeHandler={this.commentInputChangeHandler}
+                                        postCommentHandler={this.postCommentHandler} />
                                 </div>
                             </div>
 
@@ -124,6 +192,7 @@ class Article extends Component {
                     </div>
                 </section>
                 <Footer />
+                <ToastContainer autoClose={2000} />
             </Aux>
         );
     }
@@ -132,20 +201,28 @@ class Article extends Component {
 const mapStateToProps = state => {
     return {
         article: state.article.article,
+        comments: state.article.comments,
         related_articles: state.article.related_articles,
         most_viewed_articles: state.article.most_viewed_articles,
         loading: state.article.loading,
         error: state.article.error,
-        categories: state.submission.categories
+        categories: state.submission.categories,
+        isCommentPosted: state.article.isCommentPosted,
+        isReplyPosted: state.article.isReplyPosted
     };
 };
 
 const mapDispatchToProps = {
     getSingleArticle,
+    getCommentsOfArticle,
     getRelatedArticles,
     getMostViewedArticlesHome,
     getCategories,
-    updateDownloadedCount
+    updateDownloadedCount,
+    postCommentOfArticle,
+    replyACommentOfArticle,
+    resetPostCommentState,
+    resetReplyACommentState
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Article);

@@ -62,6 +62,27 @@ const getSingleArticleSuccess = (article) => {
     }
 };
 
+const getCommentsOfArticleSuccess = (comments) => {
+    return {
+        type: actionTypes.GET_COMMENTS_SUCCESS,
+        comments: comments
+    }
+};
+
+const postCommentOfArticleSuccess = (message) => {
+    return {
+        type: actionTypes.POST_COMMENTS_SUCCESS,
+        message: message
+    }
+};
+
+const replyACommentSuccess = (message) => {
+    return {
+        type: actionTypes.REPLY_A_COMMENT_SUCCESS,
+        message: message
+    }
+};
+
 const getRelatedArticlesSuccess = (data) => {
     return {
         type: actionTypes.GET_RELATED_ARTICLES_SUCCESS,
@@ -163,6 +184,55 @@ export const getSingleArticle = (id) => (dispatch) => {
         }).catch(err => {
             dispatch(articleError(err));
         });
+};
+
+export const getCommentsOfArticle = (articleId) => (dispatch) => {
+    axios.get('/articles/comments/' + articleId)
+        .then(res => {
+            dispatch(getCommentsOfArticleSuccess(res.data.comments));
+        }).catch(err => {
+            dispatch(articleError(err));
+        });
+};
+
+export const postCommentOfArticle = (articleId, comment) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const body = { content: comment };
+    axios.post('/articles/comments/' + articleId, body, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(postCommentOfArticleSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(articleError(err));
+    });
+};
+
+export const resetPostCommentState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_POST_COMMENTS_STATE
+    });
+};
+
+export const replyACommentOfArticle = (commentId, comment) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const body = { content: comment };
+    axios.post('/articles/replies/' + commentId, body, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(replyACommentSuccess(res.data.message));
+    }).catch(err => {
+        dispatch(articleError(err));
+    });
+};
+
+export const resetReplyACommentState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_REPLY_A_COMMENT_STATE
+    });
 };
 
 export const getRelatedArticles = (articleId, page, limit) => (dispatch) => {
