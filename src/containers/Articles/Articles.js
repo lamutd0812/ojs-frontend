@@ -89,6 +89,8 @@ class Articles extends Component {
                                                                     </Link>
                                                                 </div>
                                                                 <p>{getShortArticleAbstract(article.submissionId.abstract)}</p>
+                                                                <div className="badge-ol badge-ol-dark badge-outlined mt-2">{article.submissionId.typeId.name}</div>
+                                                                <div className="badge-ol badge-ol-dark badge-outlined ml-1 mt-2">{article.submissionId.categoryId.name}</div>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -105,8 +107,8 @@ class Articles extends Component {
                                             ) : null}
                                         </Aux>
                                     ) : (
-                                        <Spinner />
-                                    )}
+                                            <Spinner />
+                                        )}
                                 </div>
                             </div>
                             {/* Col */}

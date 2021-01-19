@@ -163,6 +163,11 @@ class Article extends Component {
                                                     width="100%"
                                                 />
                                             </div>
+                                            <div className="row mt-4">
+                                                <div><b>Tag: </b></div>
+                                                <div className="badge-ol badge-ol-dark badge-outlined ml-2">{this.props.article.submissionId.typeId.name}</div>
+                                                <div className="badge-ol badge-ol-dark badge-outlined ml-1">{this.props.article.submissionId.categoryId.name}</div>
+                                            </div>
                                             <Author author={this.props.article.submissionId.authorId} />
                                         </div>
                                     ) : <Spinner />}

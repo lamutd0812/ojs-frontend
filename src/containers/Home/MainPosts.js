@@ -26,9 +26,9 @@ const MainPosts = (props) => {
                         <div className="single-featured-post" key={article._id}>
                             <div className="post-content">
                                 <div className="post-meta">
-                                    <p>{article.submissionId.typeId.name}</p>
+                                    {/* <p>{article.submissionId.typeId.name}</p>
                                     <Link to="#"><p>{article.submissionId.categoryId.name}</p></Link>
-                                    <br />
+                                    <br /> */}
                                     <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-user"></i>{" "}
                                         {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
@@ -48,6 +48,8 @@ const MainPosts = (props) => {
                                 </Link>
 
                                 <p>{getShortArticleAbstract(article.submissionId.abstract)}</p>
+                                <div className="badge-ol badge-ol-dark badge-outlined">{article.submissionId.typeId.name}</div>
+                                <div className="badge-ol badge-ol-dark badge-outlined ml-1">{article.submissionId.categoryId.name}</div>
                             </div>
                         </div>
                     ))}
@@ -74,9 +76,6 @@ const MainPosts = (props) => {
                         <div className="single-featured-post" key={article._id}>
                             <div className="post-content">
                                 <div className="post-meta">
-                                    <p>{article.submissionId.typeId.name}</p>
-                                    <Link to="#"><p>{article.submissionId.categoryId.name}</p></Link>
-                                    <br />
                                     <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                         <i className="fas fa-user"></i>{" "}
                                         {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
@@ -96,6 +95,8 @@ const MainPosts = (props) => {
                                 </Link>
 
                                 <p>{getShortArticleAbstract(article.submissionId.abstract)}</p>
+                                <div className="badge-ol badge-ol-dark badge-outlined">{article.submissionId.typeId.name}</div>
+                                <div className="badge-ol badge-ol-dark badge-outlined ml-1">{article.submissionId.categoryId.name}</div>
                             </div>
                         </div>
                     ))}
@@ -127,6 +128,8 @@ const MainPosts = (props) => {
                                             <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                         </Link>
                                     </div>
+                                    <div className="badge-ol badge-ol-dark badge-outlined mt-1" style={{ fontSize: '12px' }}>{article.submissionId.typeId.name}</div>
+                                    <div className="badge-ol badge-ol-dark badge-outlined ml-1 mt-1" style={{ fontSize: '12px' }}>{article.submissionId.categoryId.name}</div>
                                 </div>
                             </div>
                         </div>
