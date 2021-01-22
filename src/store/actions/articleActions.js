@@ -105,6 +105,15 @@ const searchArticlesSuccess = (articles) => {
     }
 }
 
+const getMyArticlesSuccess = (data) => {
+    return {
+        type: actionTypes.GET_MY_ARTICLES_SUCCESS,
+        articles: data.articles,
+        total: data.total,
+        currentPage: data.currentPage,
+    }
+};
+
 const articleError = (error) => {
     return {
         type: actionTypes.ARTICLE_ERROR,
@@ -112,6 +121,7 @@ const articleError = (error) => {
     }
 };
 
+// Functions
 export const getAllArticles = (page, limit) => (dispatch) => {
     dispatch(articleStart());
     axios.get('/articles?page=' + page + '&limit=' + limit)
@@ -261,4 +271,18 @@ export const searchArticlesByKeyword = (keyword) => (dispatch) => {
         }).catch(err => {
             dispatch(articleError(err));
         });
+};
+
+export const getMyArticles = (page, limit) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    dispatch(articleStart());
+    axios.get('/articles/my/all?page=' + page + '&limit=' + limit, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getMyArticlesSuccess(res.data));
+    }).catch(err => {
+        dispatch(articleError(err.message));
+    });
 };

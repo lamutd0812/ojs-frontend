@@ -403,7 +403,7 @@ class ReviseSubmission extends Component {
                                                 ) : null}
                                                 <div className="ml-2">
                                                     <i className="fa fa-home"></i>
-                                                    {" "} <Link to="/dashboard/author" className="text-primary">Trở về trang tác giả.</Link>
+                                                    {" "} <Link to="/dashboard/home" className="text-primary">Trở về trang tác giả.</Link>
                                                 </div>
                                             </div>
                                         </div>

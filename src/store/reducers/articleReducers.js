@@ -16,7 +16,10 @@ const initialState = {
     comments: [],
     message: '',
     isCommentPosted: false,
-    isReplyPosted: false
+    isReplyPosted: false,
+    my_articles: [],
+    my_articles_total: 0,
+    my_articles_cur_page: 1
 };
 
 const articleStart = (state) => {
@@ -120,6 +123,16 @@ const updateDownloadedCountSuccess = (state) => {
     });
 };
 
+const getMyArticlesSuccess = (state, action) => {
+    return updateObject(state, {
+        my_articles: action.articles,
+        my_articles_total: action.total,
+        my_articles_cur_page: action.currentPage,
+        loading: false,
+        error: null
+    });
+};
+
 const articleError = (state, action) => {
     return updateObject(state, {
         error: action.error,
@@ -139,6 +152,7 @@ const articleReducer = (state = initialState, action) => {
         case actionTypes.GET_MOST_VIEWED_ARTICLES_HOME_SUCCESS: return getMostViewedArticlesHomeSuccess(state, action);
         case actionTypes.GET_MOST_DOWNLOADED_ARTICLES_SUCCESS: return getAllArticlesSuccess(state, action);
         case actionTypes.GET_MOST_DOWNLOADED_ARTICLES_HOME_SUCCESS: return getMostDownloadedArticlesHomeSuccess(state, action);
+        case actionTypes.GET_MY_ARTICLES_SUCCESS: return getMyArticlesSuccess(state, action);
 
         case actionTypes.GET_SINGLE_ARTICLE_SUCCESS: return getSingleArticleSuccess(state, action);
         case actionTypes.GET_COMMENTS_SUCCESS: return getCommentsOfArticleSuccess(state, action);

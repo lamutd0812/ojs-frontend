@@ -17,10 +17,10 @@ class Home extends Component {
             this.props.getLatestArticlesHome(1, 5);
         }
         if (this.props.most_viewed_articles.length <= 0) {
-            this.props.getMostViewedArticlesHome(1, 4);
+            this.props.getMostViewedArticlesHome(1, 5);
         }
         if (this.props.most_downloaded_articles.length <= 0) {
-            this.props.getMostDownloadedArticlesHome(1, 4);
+            this.props.getMostDownloadedArticlesHome(1, 8);
         }
         if (this.props.categories.length <= 0) {
             this.props.getCategories();

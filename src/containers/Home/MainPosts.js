@@ -109,6 +109,31 @@ const MainPosts = (props) => {
                 </div>
 
                 <div className="row">
+                    {props.most_viewed_articles.map(article => (
+                        <div className="col-12 col-lg-6" key={article._id}>
+                            <div className="single-blog-post d-flex style-3 mb-30" key={article._id}>
+                                <div className="post-content">
+                                    <Link to={`/single-article/${article._id}`} className="post-title">
+                                        {article.submissionId.title}
+                                    </Link>
+                                    <div className="post-meta">
+                                        <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
+                                            <i className="fas fa-user"></i>{" "}
+                                            {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
+                                        </Link>
+                                        <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
+                                            <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
+                                        </Link>
+                                        <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
+                                            <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
+                                        </Link>
+                                    </div>
+                                    <div className="badge-ol badge-ol-dark badge-outlined mt-1" style={{ fontSize: '12px' }}>{article.submissionId.typeId.name}</div>
+                                    <div className="badge-ol badge-ol-dark badge-outlined ml-1 mt-1" style={{ fontSize: '12px' }}>{article.submissionId.categoryId.name}</div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                     {props.latest_articles.map(article => (
                         <div className="col-12 col-lg-6" key={article._id}>
                             <div className="single-blog-post d-flex style-3 mb-30" key={article._id}>

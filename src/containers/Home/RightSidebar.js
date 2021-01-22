@@ -51,7 +51,7 @@ const RightSidebar = (props) => {
                 ))}
             </div>
 
-            <div className="single-sidebar-widget p-30">
+            {/* <div className="single-sidebar-widget p-30">
                 <div className="section-heading">
                     <h5>Hòm thư</h5>
                 </div>
@@ -62,7 +62,7 @@ const RightSidebar = (props) => {
                         <button type="submit" className="btn mag-btn w-100">Theo dõi</button>
                     </form>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

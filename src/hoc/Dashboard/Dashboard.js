@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AuthorMain from '../../components/Dashboard/Author/Main';
 import AuthorHome from '../../components/Dashboard/Author/Home';
 import ReviewerHome from '../../components/Dashboard/Reviewer/Home';
 import EditorHome from '../../components/Dashboard/Editor/Home';
@@ -37,9 +38,10 @@ class Dashboard extends Component {
                         <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} />
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
                         <Route path="/dashboard/revise-submission/:submissionId" component={ReviseSubmission} />
-                        <Route path="/dashboard/author" component={AuthorHome} />
+                        <Route path="/dashboard/home" component={AuthorHome} />
+                        <Route exact path="/dashboard/author" component={AuthorMain} />
                         <Route path="/dashboard/profile" component={Profile} />
-                        <Route exact path="/dashboard" component={AuthorHome} />
+                        <Route exact path="/dashboard" component={AuthorMain} />
                         <Redirect to="/dashboard" />
                     </Switch>
                 );
@@ -49,7 +51,6 @@ class Dashboard extends Component {
                     <Switch>
                         <Route path="/dashboard/notifications" component={Notifications} />
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
-                        {/* <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} /> */}
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
                         <Route path="/dashboard/reviewer/assignment/:submissionId" component={ReviewerAssignment} />
                         <Route path="/dashboard/reviewer" component={ReviewerHome} />
@@ -65,7 +66,6 @@ class Dashboard extends Component {
                     <Switch>
                         <Route path="/dashboard/notifications" component={Notifications} />
                         <Route path="/dashboard/new-submission" component={SubmitArticle} />
-                        {/* <Route path="/dashboard/submission/:submissionId" component={SubmissionDetail} /> */}
                         <Route path="/dashboard/edit-submission/:submissionId" component={EditSubmission} />
                         <Route path="/dashboard/editor/assign-reviewer" component={AssignReviewer} />
                         <Route path="/dashboard/editor/assignment/:submissionId" component={EditorAssignment} />
