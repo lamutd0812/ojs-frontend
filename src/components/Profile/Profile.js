@@ -316,7 +316,7 @@ class Profile extends Component {
                                                         </div>
                                                     </div>
                                                     <div className="form-group row">
-                                                        <label className="col-sm-2 col-form-label">Lĩnh vực yêu thích</label>
+                                                        <label className="col-sm-2 col-form-label">Lĩnh vực nghiên cứu</label>
                                                         <div className="col-sm-10">
                                                             <Select
                                                                 styles={{
@@ -339,7 +339,7 @@ class Profile extends Component {
                                                                 options={this.props.categories}
                                                                 className="basic-multi-select"
                                                                 classNamePrefix="select"
-                                                                placeholder="Chọn lĩnh vực yêu thích của bạn"
+                                                                placeholder="Chọn lĩnh vực nghiên cứu của bạn"
                                                                 onChange={this.preferenceChangeHandler}
                                                             />
                                                         </div>

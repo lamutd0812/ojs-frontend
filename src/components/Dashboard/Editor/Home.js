@@ -4,29 +4,40 @@ import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Spinner from '../../UI/Spinner/Spinner';
 import { getMyNotifications } from '../../../store/actions/authActions';
+import { searchSubmissions, getCategories, getStages, getSubmissionTypes } from '../../../store/actions/submissionActions';
 import { getMyEditorAssignments } from '../../../store/actions/reviewActions';
 import { Link } from 'react-router-dom';
-import { checkDueDate, getDoughnutData, getFormattedDate, getFormattedDateOnly, getStageBadgeClassname } from '../../../utils/utility';
+import { checkDueDate, getDoughnutData, getFormattedDate, getFormattedDateOnly, getStageBadgeClassname, updateObject } from '../../../utils/utility';
 import { Doughnut } from 'react-chartjs-2';
 import Pagination from '../../UI/Pagination/Pagination';
 import { SUBMISSION_TYPES } from '../../../utils/constant';
+import Filter from '../Filter/Filter';
 
 const ITEMS_PER_PAGE = 8;
 class Home extends Component {
+
+    state = {
+        selectedCategoryId: '',
+        selectedStageId: '',
+        selectedTypeId: ''
+    }
 
     init = () => {
         if (this.props.location.search) {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getMyEditorAssignments(page, ITEMS_PER_PAGE);
+                this.props.getMyEditorAssignments(page, ITEMS_PER_PAGE, "", "","");
             }
         } else {
-            this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE);
+            this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, "", "","");
         }
     }
 
     componentDidMount() {
+        this.props.getCategories();
+        this.props.getStages();
+        this.props.getSubmissionTypes();
         this.init();
     }
 
@@ -37,7 +48,7 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getMyEditorAssignments(page, ITEMS_PER_PAGE);
+                this.props.getMyEditorAssignments(page, ITEMS_PER_PAGE, "", "","");
             }
         }
     }
@@ -50,6 +61,26 @@ class Home extends Component {
     fetchDoughnutData = (reviewerAssignments) => {
         const data = getDoughnutData(reviewerAssignments);
         return data;
+    }
+
+    searchInputChangeHandler = (event) => {
+        const keyword = event.target.value;
+        this.props.searchSubmissions(1, ITEMS_PER_PAGE, keyword);
+    }
+
+    categoryFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedCategoryId: event.target.value }));
+        this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, event.target.value, this.state.selectedStageId, this.state.selectedTypeId);
+    }
+
+    stageFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedStageId: event.target.value }));
+        this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, event.target.value, this.state.selectedTypeId);
+    }
+
+    typeFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedTypeId: event.target.value }));
+        this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, event.target.value);
     }
 
     render() {
@@ -74,6 +105,14 @@ class Home extends Component {
                                     </button>
                                 </div>
                             </div>
+                            <Filter
+                                categories={this.props.categories.length > 0 ? this.props.categories : []}
+                                stages={this.props.stages.length > 0 ? this.props.stages : []}
+                                types={this.props.types.length > 0 ? this.props.types : []}
+                                typeFilterHandler={this.typeFilterHandler}
+                                categoryFilterHandler={this.categoryFilterHandler}
+                                stageFilterHandler={this.stageFilterHandler}
+                                searchInputChangeHandler={this.searchInputChangeHandler} />
                             <div className="card-body p-0">
                                 {this.props.editorAssignments.length > 0 ? (
                                     <Aux>
@@ -291,6 +330,9 @@ class Home extends Component {
 const mapStateToProps = (state) => {
     return {
         token: state.auth.token,
+        categories: state.submission.categories,
+        types: state.submission.types,
+        stages: state.submission.stages,
         editorAssignments: state.review.editorAssignments,
         loading: state.review.loading,
         error: state.review.error,
@@ -300,6 +342,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+    getCategories,
+    getStages,
+    getSubmissionTypes,
+    searchSubmissions,
     getMyEditorAssignments,
     getMyNotifications
 };

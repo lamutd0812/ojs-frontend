@@ -20,6 +20,13 @@ const getCategoriesSuccess = (categories) => {
     }
 };
 
+const getStagesSuccess = (stages) => {
+    return {
+        type: actionTypes.GET_STAGES_SUCCESS,
+        stages: stages
+    }
+};
+
 const getSubmissionTypesSuccess = (types) => {
     return {
         type: actionTypes.GET_SUBMISSION_TYPES_SUCCESS,
@@ -109,6 +116,16 @@ export const getCategories = () => (dispatch) => {
     axios.get('/categories')
         .then(res => {
             dispatch(getCategoriesSuccess(res.data.categories));
+        })
+        .catch(err => {
+            dispatch(submissionErrors(err.message));
+        });
+};
+
+export const getStages = () => (dispatch) => {
+    axios.get('/stages')
+        .then(res => {
+            dispatch(getStagesSuccess(res.data.stages));
         })
         .catch(err => {
             dispatch(submissionErrors(err.message));
@@ -238,10 +255,12 @@ export const resetDeleteSubmissionState = () => (dispatch) => {
 };
 
 // Chief Editor Get All Submissions
-export const getAllSubmissions = (page, limit) => (dispatch, getState) => {
+export const getAllSubmissions = (page, limit, categoryId, stageId, typeId) => (dispatch, getState) => {
     const token = getState().auth.token;
-    dispatch(submissionStart());
-    axios.get('/submissions?page=' + page + '&limit=' + limit, {
+    if (typeId === "" && categoryId === "" && stageId === "") {
+        dispatch(submissionStart());
+    }
+    axios.get(`/submissions?page=${page}&limit=${limit}&categoryId=${categoryId}&stageId=${stageId}&typeId=${typeId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

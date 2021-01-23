@@ -202,7 +202,7 @@ class Register extends Component {
                                             options={this.props.categories}
                                             className="basic-multi-select"
                                             classNamePrefix="select"
-                                            placeholder="Chọn lĩnh vực yêu thích của bạn"
+                                            placeholder="Chọn lĩnh vực nghiên cứu của bạn"
                                             onChange={this.preferenceChangeHandler} />
                                     </div>
 

@@ -3,6 +3,7 @@ import { updateObject } from '../../utils/utility';
 
 const initialState = {
     categories: [],
+    stages: [],
     types: [],
     submissions: [],
     submission: null,
@@ -31,6 +32,13 @@ const uploadStart = (state) => {
 const getCategoriesSuccess = (state, action) => {
     return updateObject(state, {
         categories: action.categories,
+        error: null
+    });
+};
+
+const getStagesSuccess = (state, action) => {
+    return updateObject(state, {
+        stages: action.stages,
         error: null
     });
 };
@@ -149,6 +157,7 @@ const submissionReducer = (state = initialState, action) => {
         case actionTypes.SUBMISSIONS_ERROR: return fetchSubmissionError(state, action);
 
         case actionTypes.GET_CATEGORIES_SUCCESS: return getCategoriesSuccess(state, action);
+        case actionTypes.GET_STAGES_SUCCESS: return getStagesSuccess(state, action);
         case actionTypes.GET_SUBMISSION_TYPES_SUCCESS: return getSubmissionTypesSuccess(state, action);
         case actionTypes.GET_REVIEWER_DECISIONS_SUCCESS: return getReviewerDecisionsSuccess(state, action);
         case actionTypes.GET_EDITOR_DECISIONS_SUCCESS: return getEditorDecisionsSuccess(state, action);

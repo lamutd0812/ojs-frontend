@@ -1,32 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getAllSubmissions, searchSubmissions } from '../../../store/actions/submissionActions';
+import { getAllSubmissions, searchSubmissions, getStages, getCategories, getSubmissionTypes } from '../../../store/actions/submissionActions';
 import { getMyNotifications } from '../../../store/actions/authActions';
-import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
+import { getFormattedDate, getStageBadgeClassname, updateObject } from '../../../utils/utility';
 import Spinner from '../../UI/Spinner/Spinner';
 import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import { STAGE } from '../../../utils/constant';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Pagination from '../../UI/Pagination/Pagination';
-import Filter from './Filter/Filter';
+import Filter from '../Filter/Filter';
 
 const ITEMS_PER_PAGE = 8;
 class Home extends Component {
+
+    state = {
+        selectedCategoryId: '',
+        selectedStageId: '',
+        selectedTypeId: ''
+    }
 
     init = () => {
         if (this.props.location.search) {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getAllSubmissions(page, ITEMS_PER_PAGE);
+                this.props.getAllSubmissions(page, ITEMS_PER_PAGE, "", "", "");
             }
         } else {
-            this.props.getAllSubmissions(1, ITEMS_PER_PAGE);
+            this.props.getAllSubmissions(1, ITEMS_PER_PAGE, "", "", "");
         }
     }
 
     componentDidMount() {
+        this.props.getCategories();
+        this.props.getStages();
+        this.props.getSubmissionTypes();
         this.init();
     }
 
@@ -37,7 +46,7 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getAllSubmissions(page, ITEMS_PER_PAGE);
+                this.props.getAllSubmissions(page, ITEMS_PER_PAGE, "", "", "");
             }
         }
     }
@@ -50,6 +59,21 @@ class Home extends Component {
     searchInputChangeHandler = (event) => {
         const keyword = event.target.value;
         this.props.searchSubmissions(1, ITEMS_PER_PAGE, keyword);
+    }
+
+    categoryFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedCategoryId: event.target.value }));
+        this.props.getAllSubmissions(1, ITEMS_PER_PAGE, event.target.value, this.state.selectedStageId, this.state.selectedTypeId);
+    }
+
+    stageFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedStageId: event.target.value }));
+        this.props.getAllSubmissions(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, event.target.value, this.state.selectedTypeId);
+    }
+
+    typeFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedTypeId: event.target.value }));
+        this.props.getAllSubmissions(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, event.target.value);
     }
 
     render() {
@@ -76,6 +100,12 @@ class Home extends Component {
                                 </div>
                             </div>
                             <Filter
+                                categories={this.props.categories.length > 0 ? this.props.categories : []}
+                                stages={this.props.stages.length > 0 ? this.props.stages : []}
+                                types={this.props.types.length > 0 ? this.props.types : []}
+                                categoryFilterHandler={this.categoryFilterHandler}
+                                typeFilterHandler={this.typeFilterHandler}
+                                stageFilterHandler={this.stageFilterHandler}
                                 searchInputChangeHandler={this.searchInputChangeHandler} />
                             <div className="card-body p-0">
                                 {this.props.submissions.length > 0 ? (
@@ -175,17 +205,23 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        categories: state.submission.categories,
+        stages: state.submission.stages,
+        types: state.submission.types,
         submissions: state.submission.submissions,
         loading: state.submission.loading,
         total: state.submission.total_items,
-        currentPage: state.submission.currentPage
+        currentPage: state.submission.currentPage,
     }
 };
 
 const mapDispatchToProps = {
     getAllSubmissions,
     getMyNotifications,
-    searchSubmissions
+    searchSubmissions,
+    getCategories,
+    getStages,
+    getSubmissionTypes
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

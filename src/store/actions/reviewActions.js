@@ -252,10 +252,12 @@ export const getEditorAssignmentBySubmission = (submissionId) => (dispatch, getS
 };
 
 // Editor get My Assignments
-export const getMyEditorAssignments = (page, limit) => (dispatch, getState) => {
-    dispatch(reviewProcessStart());
+export const getMyEditorAssignments = (page, limit, categoryId, stageId, typeId) => (dispatch, getState) => {
+    if (typeId === "" && categoryId === "" && stageId === "") {
+        dispatch(reviewProcessStart());
+    }
     const token = getState().auth.token;
-    axios.get('/reviews/editor-assignments/my/all?page=' + page + '&limit=' + limit, {
+    axios.get(`/reviews/editor-assignments/my/all?page=${page}&limit=${limit}&categoryId=${categoryId}&stageId=${stageId}&typeId=${typeId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

@@ -174,7 +174,7 @@ class AssignReviewer extends Component {
                                                                     <th>Thẩm định viên</th>
                                                                     <th className="text-center">Đã xử lý</th>
                                                                     <th className="text-center">Đang xử lý</th>
-                                                                    <th>Lĩnh vực yêu thích</th>
+                                                                    <th>Lĩnh vực nghiên cứu</th>
                                                                     <th className="text-center">Độ phù hợp</th>
                                                                 </tr>
                                                             </thead>
