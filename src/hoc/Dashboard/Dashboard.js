@@ -4,6 +4,7 @@ import AuthorHome from '../../components/Dashboard/Author/Home';
 import ReviewerHome from '../../components/Dashboard/Reviewer/Home';
 import EditorHome from '../../components/Dashboard/Editor/Home';
 import ChiefEditorHome from '../../components/Dashboard/ChiefEditor/Home';
+import AdminHome from '../../components/Dashboard/Admin/Home';
 import Navigation from '../../components/Dashboard/Shared/Navigation';
 import Sidebar from '../../components/Dashboard/Shared/Sidebar';
 import SubmitArticle from '../../components/Dashboard/Author/SubmitArticle';
@@ -20,6 +21,7 @@ import DeclineSubmission from '../../components/Dashboard/ChiefEditor/DeclineSub
 import VastStats from '../../components/Dashboard/VAST/VastStats';
 import Notifications from '../../components/Notifications/Notifications';
 import Profile from '../../components/Profile/Profile';
+import UserInfor from '../../components/Dashboard/Admin/UserInfor';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { USER_ROLES } from '../../utils/constant';
@@ -92,6 +94,19 @@ class Dashboard extends Component {
                         <Route path="/dashboard/chief-editor" component={ChiefEditorHome} />
                         <Route path="/dashboard/profile" component={Profile} />
                         <Route exact path="/dashboard" component={ChiefEditorHome} />
+                    </Switch>
+                );
+                break;
+            case USER_ROLES.ADMIN.roleId:
+                routes = (
+                    <Switch>
+                        <Route path="/dashboard/notifications" component={Notifications} />
+                        <Route path="/dashboard/profile" component={Profile} />
+                        <Route path="/dashboard/vast/statistics" component={VastStats} />
+                        <Route path="/dashboard/users/:userId" component={UserInfor} />
+                        <Route path="/dashboard/admin" component={AdminHome} />
+                        <Route exact path="/dashboard" component={AdminHome} />
+                        <Redirect to="/dashboard" />
                     </Switch>
                 );
                 break;

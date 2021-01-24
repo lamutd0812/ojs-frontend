@@ -102,6 +102,17 @@ class Sidebar extends Component {
                                                     <p>Quản lý bài báo</p>
                                                 </NavLink>
                                             </li>
+                                        ) : this.props.roleId === USER_ROLES.ADMIN.roleId ? (
+                                            <li className="nav-item">
+                                                <NavLink to="/dashboard/admin" className="nav-link">
+                                                    <i className="nav-icon fas fa-edit"></i>
+                                                    <p>Trang quản trị viên</p>
+                                                </NavLink>
+                                                <NavLink to="/dashboard/vast/statistics" className="nav-link">
+                                                    <i className="nav-icon fas fa-chart-bar"></i>
+                                                    <p>Thống kê NCKH</p>
+                                                </NavLink>
+                                            </li>
                                         ) : null}
                                     </ul>
                                 </li>

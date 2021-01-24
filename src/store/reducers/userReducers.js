@@ -12,6 +12,12 @@ const initialState = {
     avatar: null,
     isAvatarChanged: false,
     categories: [],
+    users: [],
+    user_infor: null,
+    total_items: 0,
+    currentPage: 1,
+    roles: [],
+    isUserRoleChanged: false
 }
 
 const userStart = (state) => {
@@ -81,7 +87,48 @@ const resetChangeAvatarState = (state) => {
     return updateObject(state, {
         isAvatarChanged: false,
         error: null
-    })
+    });
+};
+
+// Admin
+const getAllUserInforSuccess = (state, action) => {
+    return updateObject(state, {
+        users: action.users,
+        total_items: action.total,
+        currentPage: action.currentPage,
+        error: null,
+        loading: false
+    });
+};
+
+const getUserInforSuccess = (state, action) => {
+    return updateObject(state, {
+        user_infor: action.user,
+        loading: false,
+        error: null
+    });
+};
+
+const getAllUserRoleSuccess = (state, action) => {
+    return updateObject(state, {
+        roles: action.roles,
+        error: null
+    });
+};
+
+const changeUserRoleSuccess = (state, action) => {
+    return updateObject(state, {
+        message: action.message,
+        isUserRoleChanged: true,
+        error: null
+    });
+};
+
+const resetChangeUserRoleState = (state, action) => {
+    return updateObject(state, {
+        isUserRoleChanged: false,
+        error: null
+    });
 };
 
 // Error
@@ -110,6 +157,12 @@ const userReducer = (state = initialState, action) => {
 
         case actionTypes.CHANGE_AVATAR_SUCCESS: return changeAvatarSuccess(state, action);
         case actionTypes.RESET_CHANGE_AVATAR_STATE: return resetChangeAvatarState(state);
+
+        case actionTypes.GET_ALL_USERS_INFOR_SUCCESS: return getAllUserInforSuccess(state, action);
+        case actionTypes.GET_USER_INFOR_SUCCESS: return getUserInforSuccess(state, action);
+        case actionTypes.GET_ALL_USER_ROLES_SUCCESS: return getAllUserRoleSuccess(state, action);
+        case actionTypes.CHANGE_USER_ROLE_SUCCESS: return changeUserRoleSuccess(state, action);
+        case actionTypes.RESET_CHANGE_USER_ROLE_STATE: return resetChangeUserRoleState(state, action);
 
         default: return state;
     }

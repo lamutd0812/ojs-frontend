@@ -151,27 +151,29 @@ class Home extends Component {
                                                             <td className="project-actions text-center">
                                                                 <Link to={`/dashboard/submission/${submission._id}`} className="btn btn-outline-dark btn-sm mr-1 btn-flat">
                                                                     <i className="fas fa-eye"></i> Xử lý
-                                                        </Link>
+                                                                </Link>
                                                             </td>
                                                         </tr>
                                                         {/* sub tab */}
-                                                        <tr><td colSpan="8" className="hiddenRow">
-                                                            <div id={`aaa${submission._id}`} className="accordian-body collapse">
-                                                                <div className="col-lg-12">
-                                                                    <div className="row pl-5">
-                                                                        <div className="col-lg-4 pt-2">
+                                                        <tr>
+                                                            <td colSpan="8" className="hiddenRow">
+                                                                <div id={`aaa${submission._id}`} className="accordian-body collapse">
+                                                                    <div className="col-lg-12">
+                                                                        <div className="row pl-5">
+                                                                            <div className="col-lg-4 pt-2">
 
-                                                                        </div>
-                                                                        <div className="col-lg-4 border rounded pt-2">
+                                                                            </div>
+                                                                            <div className="col-lg-4 border rounded pt-2">
 
-                                                                        </div>
-                                                                        <div className="col-lg-4 border rounded pt-2 pb-2">
+                                                                            </div>
+                                                                            <div className="col-lg-4 border rounded pt-2 pb-2">
 
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </td></tr>
+                                                            </td>
+                                                        </tr>
                                                     </Aux>
                                                 ))}
                                             </tbody>

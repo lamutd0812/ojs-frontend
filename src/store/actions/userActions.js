@@ -44,6 +44,38 @@ const changeAvatarSuccess = (data) => {
     }
 }
 
+// Admin
+const getAllUserInforSuccess = (data) => {
+    return {
+        type: actionTypes.GET_ALL_USERS_INFOR_SUCCESS,
+        users: data.users,
+        total: data.total,
+        currentPage: data.currentPage
+    }
+};
+
+const getUserInforSuccess = (data) => {
+    return {
+        type: actionTypes.GET_USER_INFOR_SUCCESS,
+        user: data.user
+    }
+};
+
+const getAllUserRoleSuccess = (data) => {
+    return {
+        type: actionTypes.GET_ALL_USER_ROLES_SUCCESS,
+        roles: data.roles
+    }
+};
+
+const changeUserRoleSuccess = (data) => {
+    return {
+        type: actionTypes.CHANGE_USER_ROLE_SUCCESS,
+        // user: data.updatedUser,
+        message: data.message
+    }
+};
+
 // Error
 const userError = (error) => {
     return {
@@ -139,4 +171,65 @@ export const getPreferenceCategories = () => (dispatch) => {
         .catch(err => {
             dispatch(userError(err.message));
         });
+};
+
+// Admin
+export const getAllUsers = (page = 1, limit = 8) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    dispatch(userStart());
+    axios.get(`users/infor/all?page=${page}&limit=${limit}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getAllUserInforSuccess(res.data));
+    }).catch(err => {
+        dispatch(userError(err.message));
+    });
+};
+
+export const getUserInfor = (userId) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    dispatch(userStart());
+    axios.get(`users/${userId}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getUserInforSuccess(res.data));
+    }).catch(err => {
+        dispatch(userError(err.message));
+    });
+};
+
+export const getAllRoles = () => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.get('roles', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(getAllUserRoleSuccess(res.data));
+    }).catch(err => {
+        dispatch(userError(err.message));
+    });
+};
+
+export const changeUserRole = (userId, roleId) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    axios.put(`users/role/${userId}`, { roleId: roleId }, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then(res => {
+        dispatch(changeUserRoleSuccess(res.data));
+    }).catch(err => {
+        dispatch(userError(err.message));
+    });
+};
+
+export const resetchangeUserRoleState = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.RESET_CHANGE_USER_ROLE_STATE
+    })
 };

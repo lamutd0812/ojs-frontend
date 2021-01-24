@@ -290,7 +290,7 @@ class Profile extends Component {
                                                         </div>
                                                     </div>
                                                     <div className="form-group row">
-                                                        <label className="col-sm-2 col-form-label">Tổ chức</label>
+                                                        <label className="col-sm-2 col-form-label">Đơn vị công tác</label>
                                                         <div className="col-sm-10">
                                                             <input
                                                                 type="text"
@@ -303,7 +303,7 @@ class Profile extends Component {
                                                         </div>
                                                     </div>
                                                     <div className="form-group row">
-                                                        <label className="col-sm-2 col-form-label">Giới thiệu</label>
+                                                        <label className="col-sm-2 col-form-label">Tiểu sử</label>
                                                         <div className="col-sm-10">
                                                             <input
                                                                 type="text"
