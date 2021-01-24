@@ -23,7 +23,7 @@ import {
     from '../../../store/actions/articleActions';
 import { getCategories } from '../../../store/actions/submissionActions';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-import { checkValidity, getFormattedDateOnly, updateObject } from '../../../utils/utility';
+import { checkValidity, getFormattedDateOnly, getListContributors, updateObject } from '../../../utils/utility';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { commentAndReplyInput } from '../../../utils/input-controls';
@@ -141,7 +141,8 @@ class Article extends Component {
                                             <div className="post-meta-2">
                                                 <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                                     <i className="fas fa-user"></i>{" "}
-                                                    {this.props.article.submissionId.authorId.lastname} {this.props.article.submissionId.authorId.firstname}
+                                                    {this.props.article.submissionId.authorId.lastname} {this.props.article.submissionId.authorId.firstname} {", "}
+                                                    {this.props.article.submissionId.contributors.length > 0 && getListContributors(this.props.article.submissionId.contributors)}
                                                 </Link>
                                                 <Link to="#" className="text-dark ml-1" style={{ fontWeight: '400' }}>
                                                     <i className="fas fa-clock" aria-hidden="true"></i> {getFormattedDateOnly(this.props.article.publishedDate)}

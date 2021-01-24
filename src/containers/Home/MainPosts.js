@@ -1,7 +1,7 @@
 import React from 'react';
 import OwlCarousel from 'react-owl-carousel';
 import { Link } from 'react-router-dom';
-import { getFormattedDateOnly, getShortArticleAbstract } from '../../utils/utility';
+import { getFormattedDateOnly, getListContributors, getShortArticleAbstract } from '../../utils/utility';
 
 const MainPosts = (props) => {
     return (
@@ -120,6 +120,7 @@ const MainPosts = (props) => {
                                         <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                             <i className="fas fa-user"></i>{" "}
                                             {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
+                                            {article.submissionId.contributors.length > 0 && ", " + getListContributors(article.submissionId.contributors)}
                                         </Link>
                                         <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                             <i className="fas fa-eye" aria-hidden="true"></i> {article.views}
@@ -145,6 +146,7 @@ const MainPosts = (props) => {
                                         <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                             <i className="fas fa-user"></i>{" "}
                                             {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
+                                            {article.submissionId.contributors.length > 0 && ", " + getListContributors(article.submissionId.contributors)}
                                         </Link>
                                         <Link to="#" className="text-dark ml-2" style={{ fontWeight: '400' }}>
                                             <i className="fas fa-eye" aria-hidden="true"></i> {article.views}

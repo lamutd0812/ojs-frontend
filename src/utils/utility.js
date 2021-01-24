@@ -242,3 +242,15 @@ export const convertPublishedDate = (publishedDate) => {
     return result;
 };
 
+export const getListContributors = (contributors) => {
+    let res = "";
+    for (let c of contributors) {
+        if (contributors.indexOf(c) === contributors.length - 1) {
+            res += c.fullname;
+        } else {
+            res += c.fullname + ", ";
+        }
+    }
+    return res;
+}
+

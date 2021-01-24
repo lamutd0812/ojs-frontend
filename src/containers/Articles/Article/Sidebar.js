@@ -64,6 +64,8 @@ const Sidebar = (props) => {
                                         <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                     </Link>
                                 </div>
+                                <div className="badge-ol badge-ol-dark badge-outlined mt-1" style={{ fontSize: '12px' }}>{article.submissionId.typeId.name}</div>
+                                <div className="badge-ol badge-ol-dark badge-outlined ml-1 mt-1" style={{ fontSize: '12px' }}>{article.submissionId.categoryId.name}</div>
                             </div>
                         </div>
                     ))}
@@ -91,6 +93,8 @@ const Sidebar = (props) => {
                                         <i className="fas fa-download" aria-hidden="true"></i> {article.downloaded}
                                     </Link>
                                 </div>
+                                <div className="badge-ol badge-ol-dark badge-outlined mt-1" style={{ fontSize: '12px' }}>{article.submissionId.typeId.name}</div>
+                                <div className="badge-ol badge-ol-dark badge-outlined ml-1 mt-1" style={{ fontSize: '12px' }}>{article.submissionId.categoryId.name}</div>
                             </div>
                         </div>
                     ))}

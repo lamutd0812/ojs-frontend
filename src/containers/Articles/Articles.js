@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { getAllArticles } from '../../store/actions/articleActions';
 import { getCategories, getStages, getSubmissionTypes } from '../../store/actions/submissionActions';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { getFormattedDateOnly, getShortArticleAbstract, updateObject } from '../../utils/utility';
+import { getFormattedDateOnly, getListContributors, getShortArticleAbstract, updateObject } from '../../utils/utility';
 import { Link } from 'react-router-dom';
 import Pagination from './Pagination';
 import Filter from './Filter/Filter';
@@ -30,10 +30,10 @@ class Articles extends Component {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getAllArticles(page, ITEMS_PER_PAGE);
+                this.props.getAllArticles(page, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedTypeId);
             }
         } else {
-            this.props.getAllArticles(1, ITEMS_PER_PAGE);
+            this.props.getAllArticles(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedTypeId);
         }
     }
 
@@ -45,7 +45,7 @@ class Articles extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getAllArticles(page, ITEMS_PER_PAGE);
+                this.props.getAllArticles(page, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedTypeId);
             }
         }
     }
@@ -90,10 +90,10 @@ class Articles extends Component {
                                                     {this.props.articles.map(article => (
                                                         <div className="single-catagory-post d-flex flex-wrap" key={article._id}>
                                                             <div className="post-content">
-                                                                <div className="post-meta">
+                                                                {/* <div className="post-meta">
                                                                     <p>{article.submissionId.typeId.name}</p>
                                                                     <p>{article.submissionId.categoryId.name}</p>
-                                                                </div>
+                                                                </div> */}
                                                                 <Link to={`/single-article/${article._id}`} className="post-title">
                                                                     {article.submissionId.title}
                                                                 </Link>
@@ -101,6 +101,7 @@ class Articles extends Component {
                                                                     <Link to="#" className="text-dark">
                                                                         <i className="fas fa-user"></i>{" "}
                                                                         {article.submissionId.authorId.lastname} {article.submissionId.authorId.firstname}
+                                                                        {article.submissionId.contributors.length > 0 && ", " + getListContributors(article.submissionId.contributors)}
                                                                     </Link>
                                                                     <Link to="#" className="text-dark" style={{ fontWeight: '400' }}>
                                                                         <i className="fas fa-clock" aria-hidden="true"></i> {getFormattedDateOnly(article.publishedDate)}

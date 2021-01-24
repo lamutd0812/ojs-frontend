@@ -26,10 +26,10 @@ class Home extends Component {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getMyReviewerAssignments(page, ITEMS_PER_PAGE, "", "", "");
+                this.props.getMyReviewerAssignments(page, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, this.state.selectedTypeId);
             }
         } else {
-            this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE, "", "", "");
+            this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, this.state.selectedTypeId);
         }
     }
 
@@ -47,7 +47,7 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getMyReviewerAssignments(page, ITEMS_PER_PAGE, "", "", "");
+                this.props.getMyReviewerAssignments(page, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, this.state.selectedTypeId);
             }
         }
     }
@@ -60,7 +60,7 @@ class Home extends Component {
     searchInputChangeHandler = (event) => {
         const keyword = event.target.value;
         this.setState(updateObject(this.state, { keyword }));
-        this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE, "", "", "", keyword);
+        this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, this.state.selectedTypeId, keyword);
     }
 
     categoryFilterHandler = (event) => {

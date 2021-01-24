@@ -25,10 +25,10 @@ class Home extends Component {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getAllSubmissions(page, ITEMS_PER_PAGE, "", "", "");
+                this.props.getAllSubmissions(page, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, this.state.selectedTypeId);
             }
         } else {
-            this.props.getAllSubmissions(1, ITEMS_PER_PAGE, "", "", "");
+            this.props.getAllSubmissions(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, this.state.selectedTypeId);
         }
     }
 
@@ -46,7 +46,7 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getAllSubmissions(page, ITEMS_PER_PAGE, "", "", "");
+                this.props.getAllSubmissions(page, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, this.state.selectedTypeId);
             }
         }
     }

@@ -14,7 +14,7 @@ const RightSidebar = (props) => {
                         <li key={category._id}>
                             <Link to="#">
                                 <span><i className="fa fa-angle-double-right" aria-hidden="true"></i> {category.name}</span>
-                                <span>{Math.floor(Math.random() * 10) + 5}</span>
+                                <span>{category.numberOfArticles}</span>
                             </Link>
                         </li>
                     ))}
