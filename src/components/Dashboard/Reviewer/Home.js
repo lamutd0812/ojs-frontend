@@ -4,27 +4,39 @@ import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Spinner from '../../UI/Spinner/Spinner';
 import { getMyNotifications } from '../../../store/actions/authActions';
+import { getCategories, getStages, getSubmissionTypes } from '../../../store/actions/submissionActions';
 import { getMyReviewerAssignments } from '../../../store/actions/reviewActions';
 import { Link } from 'react-router-dom';
-import { checkDueDate, getFormattedDate, getFormattedDateOnly, getStageBadgeClassname } from '../../../utils/utility';
+import { checkDueDate, getFormattedDate, getFormattedDateOnly, getStageBadgeClassname, updateObject } from '../../../utils/utility';
 import Pagination from '../../UI/Pagination/Pagination';
+import Filter from '../Filter/Filter';
 
 const ITEMS_PER_PAGE = 8;
 class Home extends Component {
+
+    state = {
+        selectedCategoryId: '',
+        selectedStageId: '',
+        selectedTypeId: '',
+        keyword: ''
+    }
 
     init = () => {
         if (this.props.location.search) {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getMyReviewerAssignments(page, ITEMS_PER_PAGE);
+                this.props.getMyReviewerAssignments(page, ITEMS_PER_PAGE, "", "", "");
             }
         } else {
-            this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE);
+            this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE, "", "", "");
         }
     }
 
     componentDidMount() {
+        this.props.getCategories();
+        this.props.getStages();
+        this.props.getSubmissionTypes();
         this.init();
     }
 
@@ -35,7 +47,7 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getMyReviewerAssignments(page, ITEMS_PER_PAGE);
+                this.props.getMyReviewerAssignments(page, ITEMS_PER_PAGE, "", "", "");
             }
         }
     }
@@ -43,6 +55,27 @@ class Home extends Component {
     refreshHandler = () => {
         this.init();
         this.props.getMyNotifications();
+    }
+
+    searchInputChangeHandler = (event) => {
+        const keyword = event.target.value;
+        this.setState(updateObject(this.state, { keyword }));
+        this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE, "", "", "", keyword);
+    }
+
+    categoryFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedCategoryId: event.target.value }));
+        this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE, event.target.value, this.state.selectedStageId, this.state.selectedTypeId, this.state.keyword);
+    }
+
+    stageFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedStageId: event.target.value }));
+        this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, event.target.value, this.state.selectedTypeId, this.state.keyword);
+    }
+
+    typeFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedTypeId: event.target.value }));
+        this.props.getMyReviewerAssignments(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, event.target.value, this.state.keyword);
     }
 
     render() {
@@ -67,6 +100,14 @@ class Home extends Component {
                                     </button>
                                 </div>
                             </div>
+                            <Filter
+                                categories={this.props.categories.length > 0 ? this.props.categories : []}
+                                stages={this.props.stages.length > 0 ? this.props.stages : []}
+                                types={this.props.types.length > 0 ? this.props.types : []}
+                                typeFilterHandler={this.typeFilterHandler}
+                                categoryFilterHandler={this.categoryFilterHandler}
+                                stageFilterHandler={this.stageFilterHandler}
+                                searchInputChangeHandler={this.searchInputChangeHandler} />
                             <div className="card-body p-0">
                                 {this.props.reviewerAssignments.length > 0 ? (
                                     <Aux>
@@ -193,6 +234,9 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        categories: state.submission.categories,
+        types: state.submission.types,
+        stages: state.submission.stages,
         reviewerAssignments: state.review.reviewerAssignments,
         loading: state.review.loading,
         error: state.review.error,
@@ -202,6 +246,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+    getCategories,
+    getStages,
+    getSubmissionTypes,
     getMyReviewerAssignments,
     getMyNotifications
 };

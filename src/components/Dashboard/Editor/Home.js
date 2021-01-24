@@ -4,7 +4,7 @@ import ContentHeader from '../../Dashboard/Shared/ContentHeader';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Spinner from '../../UI/Spinner/Spinner';
 import { getMyNotifications } from '../../../store/actions/authActions';
-import { searchSubmissions, getCategories, getStages, getSubmissionTypes } from '../../../store/actions/submissionActions';
+import { getCategories, getStages, getSubmissionTypes } from '../../../store/actions/submissionActions';
 import { getMyEditorAssignments } from '../../../store/actions/reviewActions';
 import { Link } from 'react-router-dom';
 import { checkDueDate, getDoughnutData, getFormattedDate, getFormattedDateOnly, getStageBadgeClassname, updateObject } from '../../../utils/utility';
@@ -19,7 +19,8 @@ class Home extends Component {
     state = {
         selectedCategoryId: '',
         selectedStageId: '',
-        selectedTypeId: ''
+        selectedTypeId: '',
+        keyword: ''
     }
 
     init = () => {
@@ -27,10 +28,10 @@ class Home extends Component {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getMyEditorAssignments(page, ITEMS_PER_PAGE, "", "","");
+                this.props.getMyEditorAssignments(page, ITEMS_PER_PAGE, "", "", "");
             }
         } else {
-            this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, "", "","");
+            this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, "", "", "");
         }
     }
 
@@ -48,7 +49,7 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getMyEditorAssignments(page, ITEMS_PER_PAGE, "", "","");
+                this.props.getMyEditorAssignments(page, ITEMS_PER_PAGE, "", "", "");
             }
         }
     }
@@ -65,22 +66,23 @@ class Home extends Component {
 
     searchInputChangeHandler = (event) => {
         const keyword = event.target.value;
-        this.props.searchSubmissions(1, ITEMS_PER_PAGE, keyword);
+        this.setState(updateObject(this.state, { keyword }));
+        this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, "", "", "", keyword);
     }
 
     categoryFilterHandler = (event) => {
         this.setState(updateObject(this.state, { selectedCategoryId: event.target.value }));
-        this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, event.target.value, this.state.selectedStageId, this.state.selectedTypeId);
+        this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, event.target.value, this.state.selectedStageId, this.state.selectedTypeId, this.state.keyword);
     }
 
     stageFilterHandler = (event) => {
         this.setState(updateObject(this.state, { selectedStageId: event.target.value }));
-        this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, event.target.value, this.state.selectedTypeId);
+        this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, event.target.value, this.state.selectedTypeId, this.state.keyword);
     }
 
     typeFilterHandler = (event) => {
         this.setState(updateObject(this.state, { selectedTypeId: event.target.value }));
-        this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, event.target.value);
+        this.props.getMyEditorAssignments(1, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, event.target.value, this.state.keyword);
     }
 
     render() {
@@ -345,7 +347,6 @@ const mapDispatchToProps = {
     getCategories,
     getStages,
     getSubmissionTypes,
-    searchSubmissions,
     getMyEditorAssignments,
     getMyNotifications
 };

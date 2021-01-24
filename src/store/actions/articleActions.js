@@ -122,9 +122,11 @@ const articleError = (error) => {
 };
 
 // Functions
-export const getAllArticles = (page, limit) => (dispatch) => {
-    dispatch(articleStart());
-    axios.get('/articles?page=' + page + '&limit=' + limit)
+export const getAllArticles = (page, limit, categoryId = "", typeId = "") => (dispatch) => {
+    if (typeId === "" && categoryId === "") {
+        dispatch(articleStart());
+    }
+    axios.get(`/articles?page=${page}&limit=${limit}&categoryId=${categoryId}&typeId=${typeId}`)
         .then(res => {
             dispatch(getAllArticlesSuccess(res.data));
         })

@@ -252,12 +252,12 @@ export const getEditorAssignmentBySubmission = (submissionId) => (dispatch, getS
 };
 
 // Editor get My Assignments
-export const getMyEditorAssignments = (page, limit, categoryId, stageId, typeId) => (dispatch, getState) => {
-    if (typeId === "" && categoryId === "" && stageId === "") {
+export const getMyEditorAssignments = (page, limit, categoryId, stageId, typeId, keyword = "") => (dispatch, getState) => {
+    if (typeId === "" && categoryId === "" && stageId === "" && keyword === "") {
         dispatch(reviewProcessStart());
     }
     const token = getState().auth.token;
-    axios.get(`/reviews/editor-assignments/my/all?page=${page}&limit=${limit}&categoryId=${categoryId}&stageId=${stageId}&typeId=${typeId}`, {
+    axios.get(`/reviews/editor-assignments/my/all?page=${page}&limit=${limit}&categoryId=${categoryId}&stageId=${stageId}&typeId=${typeId}&keyword=${keyword}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -269,10 +269,12 @@ export const getMyEditorAssignments = (page, limit, categoryId, stageId, typeId)
 };
 
 // Reviewer get My Assignments
-export const getMyReviewerAssignments = (page, limit) => (dispatch, getState) => {
-    dispatch(reviewProcessStart());
+export const getMyReviewerAssignments = (page, limit, categoryId, stageId, typeId, keyword = "") => (dispatch, getState) => {
     const token = getState().auth.token;
-    axios.get('/reviews/reviewer-assignments/my/all?page=' + page + '&limit=' + limit, {
+    if (typeId === "" && categoryId === "" && stageId === "" && keyword === "") {
+        dispatch(reviewProcessStart());
+    }
+    axios.get(`/reviews/reviewer-assignments/my/all?page=${page}&limit=${limit}&categoryId=${categoryId}&stageId=${stageId}&typeId=${typeId}&keyword=${keyword}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

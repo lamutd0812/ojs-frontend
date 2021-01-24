@@ -162,10 +162,12 @@ export const getEditorDecisions = () => (dispatch) => {
         });
 };
 
-export const getSubmissionsByAuthor = (authorId, page, limit) => (dispatch, getState) => {
+export const getSubmissionsByAuthor = (authorId, page, limit, categoryId, stageId, typeId) => (dispatch, getState) => {
     const token = getState().auth.token;
-    dispatch(submissionStart());
-    axios.get('/submissions/author/' + authorId + '?page=' + page + '&limit=' + limit, {
+    if (typeId === "" && categoryId === "" && stageId === "") {
+        dispatch(submissionStart());
+    }
+    axios.get(`/submissions/author/${authorId}?page=${page}&limit=${limit}&categoryId=${categoryId}&stageId=${stageId}&typeId=${typeId}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }

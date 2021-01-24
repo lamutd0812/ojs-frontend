@@ -7,6 +7,10 @@ import DeleteSubmission from '../Author/DeleteSubmission';
 import Spinner from '../../UI/Spinner/Spinner';
 import { toast } from 'react-toastify';
 import {
+    searchSubmissions,
+    getCategories,
+    getStages,
+    getSubmissionTypes,
     getSubmissionsByAuthor,
     deleteSubmission,
     resetDeleteSubmissionState
@@ -17,11 +21,15 @@ import {
 import { getFormattedDate, getStageBadgeClassname } from '../../../utils/utility';
 import { updateObject } from '../../../utils/utility';
 import Pagination from '../../UI/Pagination/Pagination';
+import Filter from '../Filter/Filter';
 
 const ITEMS_PER_PAGE = 8;
 class Home extends Component {
 
     state = {
+        selectedCategoryId: '',
+        selectedStageId: '',
+        selectedTypeId: '',
         submissionId: '',
         deletionConfirmed: false,
         checked: false
@@ -32,14 +40,17 @@ class Home extends Component {
             const query = new URLSearchParams(this.props.location.search);
             const page = query.get('page');
             if (page) {
-                this.props.getSubmissionsByAuthor(this.props.userId, page, ITEMS_PER_PAGE);
+                this.props.getSubmissionsByAuthor(this.props.userId, page, ITEMS_PER_PAGE, "", "", "");
             }
         } else {
-            this.props.getSubmissionsByAuthor(this.props.userId, 1, ITEMS_PER_PAGE);
+            this.props.getSubmissionsByAuthor(this.props.userId, 1, ITEMS_PER_PAGE, "", "", "");
         }
     }
 
     componentDidMount() {
+        this.props.getCategories();
+        this.props.getStages();
+        this.props.getSubmissionTypes();
         this.init();
     }
 
@@ -50,7 +61,7 @@ class Home extends Component {
             const prevPage = prevQuery.get('page');
             const page = query.get('page');
             if (page !== prevPage) {
-                this.props.getSubmissionsByAuthor(this.props.userId, page, ITEMS_PER_PAGE);
+                this.props.getSubmissionsByAuthor(this.props.userId, page, ITEMS_PER_PAGE, "", "", "");
             }
         }
     }
@@ -93,6 +104,27 @@ class Home extends Component {
         this.props.deleteSubmission(submissionId);
     }
 
+    // filter handler
+    searchInputChangeHandler = (event) => {
+        const keyword = event.target.value;
+        this.props.searchSubmissions(1, ITEMS_PER_PAGE, keyword);
+    }
+
+    categoryFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedCategoryId: event.target.value }));
+        this.props.getSubmissionsByAuthor(this.props.userId, 1, ITEMS_PER_PAGE, event.target.value, this.state.selectedStageId, this.state.selectedTypeId);
+    }
+
+    stageFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedStageId: event.target.value }));
+        this.props.getSubmissionsByAuthor(this.props.userId, 1, ITEMS_PER_PAGE, this.state.selectedCategoryId, event.target.value, this.state.selectedTypeId);
+    }
+
+    typeFilterHandler = (event) => {
+        this.setState(updateObject(this.state, { selectedTypeId: event.target.value }));
+        this.props.getSubmissionsByAuthor(this.props.userId, 1, ITEMS_PER_PAGE, this.state.selectedCategoryId, this.state.selectedStageId, event.target.value);
+    }
+
     render() {
         return (
             <div className="content-wrapper">
@@ -115,6 +147,14 @@ class Home extends Component {
                                     </button>
                                 </div>
                             </div>
+                            <Filter
+                                categories={this.props.categories.length > 0 ? this.props.categories : []}
+                                stages={this.props.stages.length > 0 ? this.props.stages : []}
+                                types={this.props.types.length > 0 ? this.props.types : []}
+                                typeFilterHandler={this.typeFilterHandler}
+                                categoryFilterHandler={this.categoryFilterHandler}
+                                stageFilterHandler={this.stageFilterHandler}
+                                searchInputChangeHandler={this.searchInputChangeHandler} />
                             <div className="card-body p-0">
                                 {this.props.submissions.length > 0 ? (
                                     <Aux>
@@ -205,6 +245,9 @@ class Home extends Component {
 const mapStateToProps = (state) => {
     return {
         userId: state.auth.userId,
+        categories: state.submission.categories,
+        types: state.submission.types,
+        stages: state.submission.stages,
         submissions: state.submission.submissions,
         loading: state.submission.loading,
         isSubmissionDeleted: state.submission.isSubmissionDeleted,
@@ -214,6 +257,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+    searchSubmissions,
+    getCategories,
+    getStages,
+    getSubmissionTypes,
     getSubmissionsByAuthor,
     deleteSubmission,
     resetDeleteSubmissionState,
