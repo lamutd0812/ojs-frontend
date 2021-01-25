@@ -113,6 +113,7 @@ class EditorAssignment extends Component {
             this.props.resetEditEditorSubmissionState();
             toast.success("Chỉnh sửa kết luận thẩm định thành công!");
             this.props.getEditorAssignmentBySubmission(this.props.match.params.submissionId);
+            this.setState(updateObject(this.state, { canEdit: false }));
         }
         if (nextProps.isRequestAuthorRevisionCreated && !nextProps.error) {
             this.props.resetRequestAuthorRevisionState();

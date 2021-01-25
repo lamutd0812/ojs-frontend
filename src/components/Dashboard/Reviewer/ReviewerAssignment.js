@@ -71,6 +71,7 @@ class ReviewerAssignment extends Component {
             this.props.resetEditReviewSubmissionState();
             toast.success("Chỉnh sửa ý kiến thẩm định thành công!");
             this.props.getMyReviewerAssignmentDetail(this.props.match.params.submissionId);
+            this.setState(updateObject(this.state, { canEdit: false }));
         }
     }
 
