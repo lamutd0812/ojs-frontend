@@ -6,11 +6,25 @@ import ContentHeader from '../Shared/ContentHeader';
 import Spinner from '../../UI/Spinner/Spinner';
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import { Link } from 'react-router-dom';
+import Pagination from '../../UI/Pagination/Pagination';
 
+const ITEMS_PER_PAGE = 8;
 class Home extends Component {
 
     componentDidMount() {
         this.props.getAllUsers();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.location.search !== prevProps.location.search) {
+            const prevQuery = new URLSearchParams(prevProps.location.search);
+            const query = new URLSearchParams(this.props.location.search);
+            const prevPage = prevQuery.get('page');
+            const page = query.get('page');
+            if (page !== prevPage) {
+                this.props.getAllUsers(page, ITEMS_PER_PAGE);
+            }
+        }
     }
 
     refreshHandler = () => {
@@ -93,6 +107,16 @@ class Home extends Component {
                                                 ))}
                                             </tbody>
                                         </table>
+                                        <div className="mt-2">
+                                            <Pagination
+                                                currentPage={this.props.currentPage}
+                                                hasNextPage={ITEMS_PER_PAGE * this.props.currentPage < this.props.total}
+                                                hasPrevPage={this.props.currentPage > 1}
+                                                nextPage={this.props.currentPage + 1}
+                                                prevPage={this.props.currentPage - 1}
+                                                lastPage={Math.ceil(this.props.total / ITEMS_PER_PAGE)}
+                                                location={this.props.location} />
+                                        </div>
                                     </Aux>
                                 ) : <div>Không tìm thấy thông tin người dùng.</div>}
                             </div>
@@ -110,6 +134,8 @@ const mapStateToProps = state => {
         roles: state.user.roles,
         loading: state.user.loading,
         error: state.user.error,
+        total: state.user.total_items,
+        currentPage: state.user.currentPage,
     };
 };
 
