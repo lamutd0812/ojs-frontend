@@ -11,15 +11,27 @@ import { connect } from 'react-redux';
 import { keepAuthState, getMyNotifications } from './store/actions/authActions';
 import Articles from './containers/Articles/Articles';
 import Article from './containers/Articles/Article/Article';
+import { ToastContainer, toast } from 'react-toastify';
+import openSocket from 'socket.io-client';
 class App extends Component {
 
     componentDidMount() {
         // keep auth state
         this.props.keepAuthState();
+
+        const socket = openSocket('http://localhost:5000');
+        socket.on('noti', data => {
+            if (this.props.isAuth && data.action === 'push-noti') {
+                console.log(data);
+                if (this.props.userId === data.noti.receiverId) {
+                    toast.success(data.noti.content);
+                }
+            }
+        });
     }
 
-    componentDidUpdate(prevProps){
-        if(!prevProps.isAuth && this.props.isAuth) {
+    componentDidUpdate(prevProps) {
+        if (!prevProps.isAuth && this.props.isAuth) {
             this.props.getMyNotifications();
         }
     }
@@ -52,6 +64,7 @@ class App extends Component {
         return (
             <div>
                 {routes}
+                <ToastContainer autoClose={2000} />
             </div>
         );
     }
@@ -59,7 +72,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
     return {
-        isAuth: state.auth.token != null
+        isAuth: state.auth.token != null,
+        userId: state.auth.userId
     };
 };
 
